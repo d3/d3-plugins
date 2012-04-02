@@ -30,3 +30,12 @@ for us in conjunction with selection.attr and selection.style:
 d3.select("body")
     .style("background", d3.cie.lab(51.48, -55.52, 52.88));
 ```
+
+This plugin also lets you interpolates in L\*a\*b\* space. For example:
+
+```js
+var x = d3.scale.linear()
+    .domain([0, 100])
+    .range(["brown", "steelblue"])
+    .interpolate(d3.cie.interpolateLab);
+```

@@ -20,12 +20,24 @@ To a list of links:
 
 ```js
   graph.links();
+  /*
+  [
+    {"source":0,"target":0,"value":0},{"source":0,"target":1,"value":1},{"source":0,"target":2,"value":0},
+    {"source":1,"target":0,"value":1},{"source":1,"target":1,"value":0},{"source":1,"target":2,"value":0},
+    {"source":2,"target":0,"value":1},{"source":2,"target":1,"value":1},{"source":2,"target":2,"value":1}
+  ]
+  */
 ```
 
 Or back to a matrix:
 
 ```js
   graph.matrix();
+  /*
+    [0,1,0],
+    [1,0,0],
+    [1,1,1]
+  */
 ```
 
 Nodes are accessible , but do not currently respond to matrix input:
@@ -33,4 +45,3 @@ Nodes are accessible , but do not currently respond to matrix input:
 ```js
   graph.nodes(['red', 'purple', 'orange']);
 ```
-

@@ -31,6 +31,6 @@ Or back to a matrix:
 Nodes are accessible , but do not currently respond to matrix input:
 
 ```js
-  graph.nodes();
+  graph.nodes(['red', 'purple', 'orange']);
 ```
 

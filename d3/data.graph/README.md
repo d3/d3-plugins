@@ -1,4 +1,4 @@
-# d3.graph
+# d3.data.graph
 
 A plugin for manipulating graph data structures.
 

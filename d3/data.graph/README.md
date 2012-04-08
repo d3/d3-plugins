@@ -2,7 +2,7 @@
 
 A plugin for manipulating graph data structures.
 
-```
+```js
   var graph = d3.data.graph();
 ```
 

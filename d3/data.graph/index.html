@@ -1,0 +1,15 @@
+<script src="http://mbostock.github.com/d3/d3.v2.js"></script>
+<script src="data.graph.js"></script>
+<script>
+  var g = d3.data.graph();
+
+  g.matrix([
+    [0,1,0],
+    [1,0,0],
+    [1,1,1]
+  ]);
+
+  console.log('nodes', g.nodes() );
+  console.log('links', g.links() );
+  console.log('matrix', g.matrix() );
+</script>

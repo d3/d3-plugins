@@ -6,7 +6,7 @@ A plugin for manipulating graph data structures.
   var graph = d3.data.graph();
 ```
 
-Currently can convert from a matrix:
+Currently can convert from a matrix
 
 ```js
   graph.matrix([
@@ -16,7 +16,7 @@ Currently can convert from a matrix:
   ]);
 ```
 
-To a list of links:
+To a list of links
 
 ```js
   graph.links();
@@ -29,7 +29,7 @@ To a list of links:
   */
 ```
 
-Or back to a matrix:
+Or back to a matrix
 
 ```js
   graph.matrix();
@@ -40,8 +40,15 @@ Or back to a matrix:
   */
 ```
 
-Nodes are accessible , but do not currently respond to matrix input:
+Nodes are accessible as well
 
 ```js
   graph.nodes(['red', 'purple', 'orange']);
+```
+
+Human readable description
+
+```js
+  graph.description();
+  // "d3.data.graph with 3 nodes and 9 links"
 ```

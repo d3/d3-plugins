@@ -12,6 +12,13 @@ d3.graph.toList.matrix([
     [1,0,0],
     [1,1,1]
   ])
+/*
+[
+  {"source":0,"target":0,"value":0},{"source":0,"target":1,"value":1},{"source":0,"target":2,"value":0},
+  {"source":1,"target":0,"value":1},{"source":1,"target":1,"value":0},{"source":1,"target":2,"value":0},
+  {"source":2,"target":0,"value":1},{"source":2,"target":1,"value":1},{"source":2,"target":2,"value":1}
+]
+*/
 ```
 
 Convert list to matrix
@@ -24,6 +31,11 @@ d3.graph.fromList.matrix([
     {"source":2,"target":1,"value":1},
     {"source":2,"target":2,"value":1}
   ])
+/*
+  [0,1,0],
+  [1,0,0],
+  [1,1,1]
+*/
 ```
 
 ## Stateful Use
@@ -46,24 +58,12 @@ Get the graph as list of links
 
 ```js
 graph.links();
-/*
-[
-  {"source":0,"target":0,"value":0},{"source":0,"target":1,"value":1},{"source":0,"target":2,"value":0},
-  {"source":1,"target":0,"value":1},{"source":1,"target":1,"value":0},{"source":1,"target":2,"value":0},
-  {"source":2,"target":0,"value":1},{"source":2,"target":1,"value":1},{"source":2,"target":2,"value":1}
-]
-*/
 ```
 
 Get the graph as matrix
 
 ```js
 graph.matrix();
-/*
-  [0,1,0],
-  [1,0,0],
-  [1,1,1]
-*/
 ```
 
 Nodes and links can be modified by passing in a value. This will overwrite existing data.

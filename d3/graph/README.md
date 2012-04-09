@@ -1,10 +1,10 @@
 # d3.graph
 
-A plugin for manipulating [graph data structures](http://opendatastructures.org/versions/edition-0.1d/ods-java/node59.html).
+A plugin for manipulating [graph data structures](http://opendatastructures.org/ods-cpp/12_Graphs.html).
 
 ## Basics
 
-Convert [matrix](http://en.wikipedia.org/wiki/Adjacency_matrix) to list
+Convert [matrix](http://en.wikipedia.org/wiki/Adjacency_matrix) to [list](http://opendatastructures.org/ods-cpp/12_2_Graph_as_Collection_Li.html)
 
 ```js
 d3.graph.matrixToList([

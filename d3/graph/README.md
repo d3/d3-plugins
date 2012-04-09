@@ -1,6 +1,6 @@
 # d3.graph
 
-A plugin for manipulating [graph data structures](http://opendatastructures.org/ods-cpp/12_Graphs.html).
+A plugin for manipulating [graph data structures](http://opendatastructures.org/ods-cpp/12_Graphs.html). This plugin is unstable and in development.
 
 ## Basics
 

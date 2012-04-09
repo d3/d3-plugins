@@ -1,10 +1,10 @@
 # d3.graph
 
-A plugin for manipulating graph data structures.
+A plugin for manipulating [graph data structures](http://opendatastructures.org/versions/edition-0.1d/ods-java/node59.html).
 
 ## Basics
 
-Convert matrix to list
+Convert [matrix](http://en.wikipedia.org/wiki/Adjacency_matrix) to list
 
 ```js
 d3.graph.toList.matrix([
@@ -32,7 +32,7 @@ d3.graph.fromList.matrix([
 var graph = d3.graph();
 ```
 
-Currently can convert from a matrix
+Load a matrix
 
 ```js
 graph.matrix([
@@ -42,7 +42,7 @@ graph.matrix([
 ]);
 ```
 
-To a list of links
+Get the graph as list of links
 
 ```js
 graph.links();
@@ -55,7 +55,7 @@ graph.links();
 */
 ```
 
-Or back to a matrix
+Get the graph as matrix
 
 ```js
 graph.matrix();
@@ -66,13 +66,14 @@ graph.matrix();
 */
 ```
 
-Nodes and links can be modified directly
+Nodes and links can be modified by passing in a value. This will overwrite existing data.
 
 ```js
 graph.nodes(['red', 'purple', 'orange']);
+graph.links([{"source":0,"target":0,"value":0},{"source":0,"target":1,"value":1},{"source":0,"target":2,"value":0}]);
 ```
 
-Human readable description
+Get a description of the graph
 
 ```js
 graph.description();

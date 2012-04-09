@@ -1,13 +1,11 @@
 (function(d3) {
-  d3.data = d3.data || {};
-
   d3.graph = function (graph) {
     var graph = graph ? graph : {},
         nodes = [],
         links = [];
 
     graph.description = function() {
-      return "d3.data.graph with " + nodes.length + " nodes and " + links.length + " links";
+      return "d3.graph with " + nodes.length + " nodes and " + links.length + " links";
     };
 
     graph.nodes = function(x) {

@@ -8,10 +8,10 @@ Convert [matrix](http://en.wikipedia.org/wiki/Adjacency_matrix) to list
 
 ```js
 d3.graph.toList.matrix([
-    [0,1,0],
-    [1,0,0],
-    [1,1,1]
-  ])
+  [0,1,0],
+  [1,0,0],
+  [1,1,1]
+])
 /*
 [
   {"source":0,"target":0,"value":0},{"source":0,"target":1,"value":1},{"source":0,"target":2,"value":0},
@@ -25,12 +25,12 @@ Convert list to matrix
 
 ```js
 d3.graph.fromList.matrix([
-    {"source":0,"target":1,"value":1},
-    {"source":1,"target":0,"value":1},
-    {"source":2,"target":0,"value":1},
-    {"source":2,"target":1,"value":1},
-    {"source":2,"target":2,"value":1}
-  ])
+{"source":0,"target":1,"value":1},
+  {"source":1,"target":0,"value":1},
+  {"source":2,"target":0,"value":1},
+  {"source":2,"target":1,"value":1},
+  {"source":2,"target":2,"value":1}
+])
 /*
   [0,1,0],
   [1,0,0],

@@ -36,18 +36,21 @@
           return [xv, yv];
         });
 
-        // Compute the new x- and y-scales.
+        // Compute the new x- and y-scales, and transform.
         var x1 = d3.scale.linear().domain([xMin, xMax]).range([0, w]),
-            y1 = d3.scale.linear().domain([0, yMax]).range([0, h * bands]);
+            y1 = d3.scale.linear().domain([0, yMax]).range([0, h * bands]),
+            t1 = d3_horizonTransform(bands, h, mode);
 
         // Retrieve the old scales, if this is an update.
         if (this.__chart__) {
           x0 = this.__chart__.x;
           y0 = this.__chart__.y;
+          t0 = this.__chart__.t;
           id = this.__chart__.id;
         } else {
-          x0 = d3.scale.linear().domain([0, Infinity]).range(x1.range());
-          y0 = d3.scale.linear().domain([0, Infinity]).range(y1.range());
+          x0 = x1.copy();
+          y0 = y1.copy();
+          t0 = t1;
           id = ++d3_horizonId;
         }
 
@@ -73,11 +76,6 @@
           .enter().append("g")
             .attr("clip-path", "url(#d3_horizon_clip" + id + ")");
 
-        // Define the transform function based on the mode.
-        var transform = mode == "offset"
-            ? function(d) { return "translate(0," + (d + (d < 0) - bands) * h + ")"; }
-            : function(d) { return (d < 0 ? "scale(1,-1)" : "") + "translate(0," + (d - bands) * h + ")"; };
-
         // Instantiate each copy of the path with different transforms.
         var path = g.select("g").selectAll("path")
             .data(d3.range(-1, -bands - 1, -1).concat(d3.range(1, bands + 1)), Number);
@@ -96,23 +94,23 @@
 
         path.enter().append("path")
             .style("fill", color)
-            .attr("transform", function(d) { return transform(d + (d > 0 ? 1 : -1)); })
+            .attr("transform", t0)
             .attr("d", d0);
 
         path.transition()
             .duration(duration)
             .style("fill", color)
-            .attr("transform", transform)
+            .attr("transform", t1)
             .attr("d", d1);
 
         path.exit().transition()
             .duration(duration)
-            .attr("transform", transform)
+            .attr("transform", t1)
             .attr("d", d1)
             .remove();
 
         // Stash the new scales.
-        this.__chart__ = {x: x1, y: y1, id: id};
+        this.__chart__ = {x: x1, y: y1, t: t1, id: id};
       });
       d3.timer.flush();
     }
@@ -184,5 +182,11 @@
 
   function d3_horizonY(d) {
     return d[1];
+  }
+
+  function d3_horizonTransform(bands, h, mode) {
+    return mode == "offset"
+        ? function(d) { return "translate(0," + (d + (d < 0) - bands) * h + ")"; }
+        : function(d) { return (d < 0 ? "scale(1,-1)" : "") + "translate(0," + (d - bands) * h + ")"; };
   }
 })();

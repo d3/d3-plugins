@@ -62,6 +62,58 @@
     return graph;
   };
 
+  // http://opendatastructures.org/ods-cpp/12_1_Representing_Graph_Mat.html
+  d3.graph.matrix = function(matrix) {
+    var matrixObj = {},
+        matrix = matrix ? matrix : [];
+
+    matrixObj.description = function() {
+      return "A " + matrix.length +
+             " by " + matrix.length +
+             " adjacency matrix";
+    };
+
+    matrixObj.data = matrixObj.matrix = function(x) {
+      if (!arguments.length) return matrix;
+      matrix = x;
+      return this;
+    };
+
+    matrixObj.addEdge = function(i,j,value) {
+      matrix[i][j] = value ? value : 1;
+      return this;
+    };
+
+    matrixObj.removeEdge = function(i,j) {
+      matrix[i][j] = 0;
+      return this;
+    };
+
+    matrixObj.hasEdge = function(i,j) {
+      return !!matrix[i][j];
+    };
+
+    matrixObj.outEdges = function(i) {
+      var edges = [],
+          n = matrix.length;
+      var j = -1; while (++j < n) {
+        if (matrix[i][j]) edges.push(j);
+      }
+      return edges;
+    };
+
+    matrixObj.inEdges = function(i) {
+      var edges = [],
+          n = matrix.length;
+      var j = -1; while (++j < n) {
+        if (matrix[j][i]) edges.push(j);
+      }
+      return edges;
+    };
+
+    return matrixObj;
+  };
+
   d3.graph.listToMatrix = function(links) {
     var matrix = [],
         n = links.length,

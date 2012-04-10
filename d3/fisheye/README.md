@@ -2,7 +2,7 @@
 
 Demo: <http://bost.ocks.org/mike/fisheye/>
 
-Implements a fisheye distortion for two-dimensional layouts. Based on Sarkar and Brown’s [Graphical Fisheye Views of Graphs](http://dl.acm.org/citation.cfm?id=142763), CHI '92, as well as [Flare](http://flare.prefuse.org/)'s [FisheyeDistortion](http://flare.prefuse.org/api/flare/vis/operator/distortion/FisheyeDistortion.html) and [sigma.js](http://sigmajs.org/)'s [fisheye example](http://sigmajs.org/examples/a_plugin_example_advanced.html).
+Implements a fisheye distortion for two-dimensional layouts. Based on Sarkar and Brown’s [Graphical Fisheye Views of Graphs](http://dl.acm.org/citation.cfm?id=142763) (CHI '92), as well as [Flare](http://flare.prefuse.org/)'s [FisheyeDistortion](http://flare.prefuse.org/api/flare/vis/operator/distortion/FisheyeDistortion.html) and [sigma.js](http://sigmajs.org/)'s [fisheye example](http://sigmajs.org/examples/a_plugin_example_advanced.html).
 
 When constructing a fisheye distortion, you can specify the radius and power:
 
@@ -12,7 +12,7 @@ var fisheye = d3.fisheye()
     .power(2);
 ```
 
-Typically, you then update the center (the focal point) of the fisheye distortion on a mousemove event. For example:
+Typically, you then update the center (the focal point) of the distortion on mousemove:
 
 ```js
 svg.on("mousemove", function() {
@@ -20,9 +20,9 @@ svg.on("mousemove", function() {
 });
 ```
 
-The distortion operator takes as input an object with `x` and `y` attributes, and returns a new object with `x`, `y` and `z` attributes. The returned object represents the distorted position of the input object. The returned `z` property indicates a scaling factor, so that you can optionally increase the size of distorted elements.
+The distortion operator takes as input an object with `x` and `y` attributes, and returns a new object with `x`, `y` and `z` attributes. The returned object represents the distorted position of the input object; the `z` property is a scaling factor so that you can optionally distort the size of elements as well.
 
-For example, to apply fisheye distortion to a force layout, you can stash the distorted positions in a `display` property on each node, and then use the distorted positions to update the nodes and links:
+For example, to apply fisheye distortion to a force layout, stash the distorted positions in a `display` property on each node, and then use the distorted positions to update the nodes and links:
 
 ```js
 svg.on("mousemove", function() {

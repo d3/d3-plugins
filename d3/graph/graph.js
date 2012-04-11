@@ -82,21 +82,21 @@
       return this;
     };
 
-    matrixObj.addEdge = function(i,j,value) {
+    matrixObj.set = matrixObj.addEdge = function(i,j,value) {
       matrix[i][j] = value ? value : 1;
       return this;
     };
 
-    matrixObj.removeEdge = function(i,j) {
+    matrixObj.remove = matrixObj.removeEdge = function(i,j) {
       matrix[i][j] = 0;
       return this;
     };
 
-    matrixObj.hasEdge = function(i,j) {
+    matrixObj.has = matrixObj.hasEdge = function(i,j) {
       return !!matrix[i][j];
     };
 
-    matrixObj.outEdges = function(i) {
+    matrixObj.outE = matrixObj.outEdges = function(i) {
       var edges = [],
           n = matrix.length;
       var j = -1; while (++j < n) {
@@ -105,7 +105,7 @@
       return edges;
     };
 
-    matrixObj.inEdges = function(i) {
+    matrixObj.inE =  matrixObj.inEdges = function(i) {
       var edges = [],
           n = matrix.length;
       var j = -1; while (++j < n) {

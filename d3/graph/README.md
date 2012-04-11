@@ -23,8 +23,37 @@ Create a matrix
 Get an edge value
 
 ```js
-matrix(2,0)
-// 2
+matrix(i,j)
+```
+
+Check if edge exists (non-zero)
+
+```js
+matrix.has(i,j)
+```
+
+Set an edge value
+
+```js
+matrix.set(i,j,value)
+```
+
+Remove an edge
+
+```js
+matrix.remove(i,j)
+```
+
+Get outgoing edge indices
+
+```js
+matrix.outE(i)
+```
+
+Get incoming edge indices
+
+```js
+matrix.inE(i)
 ```
 
 ### todo

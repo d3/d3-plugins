@@ -2,6 +2,36 @@
 
 A plugin for manipulating [graph data structures](http://opendatastructures.org/ods-cpp/12_Graphs.html). This plugin is unstable and in development.
 
+## todo
+
+* adjacency list
+* graph traversal
+* hypergraph
+
+## Matrix
+
+Create a matrix
+
+```js
+  var matrix = d3.graph.matrix([
+    [1,1,0],
+    [0,0,0],
+    [2,1,1]
+  ]);
+```
+
+Get an edge value
+
+```js
+matrix(2,0)
+// 2
+```
+
+### todo
+
+* documentation
+* changing size
+
 ## Basics
 
 Convert [matrix](http://en.wikipedia.org/wiki/Adjacency_matrix) to [list](http://opendatastructures.org/ods-cpp/12_2_Graph_as_Collection_Li.html)

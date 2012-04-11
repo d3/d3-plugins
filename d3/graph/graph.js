@@ -64,8 +64,11 @@
 
   // http://opendatastructures.org/ods-cpp/12_1_Representing_Graph_Mat.html
   d3.graph.matrix = function(matrix) {
-    var matrixObj = {},
-        matrix = matrix ? matrix : [];
+    var matrix = matrix ? matrix : [];
+    
+    var matrixObj = function(i,j) {
+      return matrix[i][j];
+    };
 
     matrixObj.description = function() {
       return "A " + matrix.length +

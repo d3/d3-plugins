@@ -2,7 +2,9 @@
 
 A plugin for manipulating [graph data structures](http://opendatastructures.org/ods-cpp/12_Graphs.html). This plugin is unstable and in development.
 
-## todo
+## Todo
+
+* link nodes by name. see this [discussion on the force layout](https://groups.google.com/forum/?fromgroups#!topic/d3-js/LWuhBeEipz4)
 
 * adjacency list
 * graph traversal

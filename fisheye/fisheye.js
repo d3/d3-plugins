@@ -10,7 +10,7 @@
       var dx = d.x - center[0],
           dy = d.y - center[1],
           dd = Math.sqrt(dx * dx + dy * dy);
-      if (dd >= radius) return {x: d.x, y: d.y, z: 1};
+      if (!dd || dd >= radius) return {x: d.x, y: d.y, z: 1};
       var k = k0 * (1 - Math.exp(-dd * k1)) / dd * .75 + .25;
       return {x: center[0] + dx * k, y: center[1] + dy * k, z: Math.min(k, 10)};
     }

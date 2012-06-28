@@ -25,6 +25,8 @@ To convert from Lab (or LCH) to RGB, simply stringify the color. For example, yo
 d3.select("body").style("background", d3.cie.lab(46.23, -51.70, 49.90));
 ```
 
+The Lab and LCH color classes support custom [brighter](/mbostock/d3/wiki/Colors#wiki-rgb_brighter) and [darker](/mbostock/d3/wiki/Colors#wiki-rgb_brighter) implementations that only modify the L (*lightness*) channel. This tends to produce better results than the RGB or HSL equivalents.
+
 The d3.cie plugin also lets you interpolates in Lab or LCH space. For example:
 
 ```js

@@ -1,16 +1,17 @@
 # d3.cie
 
-A plugin for CIE L\*a\*b\* and L\*c\*h\* color spaces.
+A plugin for CIE Lab and LCH color spaces. For an example, see
 
-To create a L\*a\*b\* color, use the `d3.cie.lab` constructor:
+* http://bl.ocks.org/3014589
+
+To create a Lab color, use the `d3.cie.lab` constructor. To create an LCH color, use the `d3.cie.lch` constructor. For example, here are two ugly colors:
 
 ```js
 var green = d3.cie.lab(46.23, -51.70, 49.90),
     blue = d3.cie.lch(32.30, 133.81, -53.72);
 ```
 
-Likewise, to convert from RGB to L\*a\*b\* or L\*c\*h\*, simply specify an RGB
-color. These are all equivalent:
+To convert from RGB to Lab (or LCH), simply specify an RGB color to the constructor. You can use the same technique to convert from HSV; D3 first converts the HSV color to RGB, and then then d3.cie plugin converts from RGB to Lab or LCH. The following three statements are equivalent:
 
 ```js
 var color = d3.cie.lab("#048F07");
@@ -18,16 +19,13 @@ var color = d3.cie.lab("rgb(4,143,7)");
 var color = d3.cie.lab(d3.rgb(4, 143, 7));
 ```
 
-To convert back to RGB, you can simply toString the object; thus, it is suitable
-for us in conjunction with selection.attr and selection.style:
+To convert from Lab (or LCH) to RGB, simply stringify the color. For example, you can pass a Lab color to [selection.attr](/mbostock/d3/wiki/Selections#wiki-attr) and [selection.style](/mbostock/d3/wiki/Selections#wiki-attr):
 
 ```js
-d3.select("body")
-    .style("background", d3.cie.lab(51.48, -55.52, 52.88));
+d3.select("body").style("background", d3.cie.lab(46.23, -51.70, 49.90));
 ```
 
-This plugin also lets you interpolates in L\*a\*b\* or L\*c\*h\* space. For
-example:
+The d3.cie plugin also lets you interpolates in Lab or LCH space. For example:
 
 ```js
 var x = d3.scale.linear()
@@ -35,6 +33,8 @@ var x = d3.scale.linear()
     .range(["brown", "steelblue"])
     .interpolate(d3.cie.interpolateLab);
 ```
+
+The d3.cie plugin does not support parsing CSS3-style color names for Lab and LCH, so you can't say `d3.rgb("lch(32, 133, -53")`; you must use the d3.cie.lab or d3.cie.lch constructors.
 
 ## Thank You
 

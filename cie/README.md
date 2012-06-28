@@ -44,3 +44,5 @@ Various people contributed and helped in implementing this plugin.
 * [Justin Cormack](/justincormack)
 * [Alex Gaynor](/alex)
 * [Jacob Rus](/jrus)
+
+If you like this, you might also like [Gregor Aisch](/gka)’s [Chroma.js](/gka/chroma.js).

@@ -2,46 +2,93 @@
   var cie = d3.cie = {};
 
   cie.lab = function(l, a, b) {
-    // TODO
-  };
-
-  cie.lch = function(l, c, h) {
-    // TODO
+    return arguments.length == 1
+        ? (l instanceof Lab ? lab(l.l, l.a, l.b)
+        : rgb_lab((l = d3.rgb(l)).r, l.g, l.b))
+        : lab(+l, +a, +b);
   };
 
   cie.interpolateLab = function(a, b) {
-    // TODO
+    a = cie.lab(a);
+    b = cie.lab(b);
+    var al = a.l,
+        aa = a.a,
+        ab = a.b,
+        bl = b.l - al,
+        ba = b.a - aa,
+        bb = b.b - ab;
+    return function(t) {
+      return lab_rgb(al + bl * t, aa + ba * t, ab + bb * t) + "";
+    };
   };
 
-  cie.interpolateLch = function(a, b) {
-    // TODO
-  };
+  function lab(l, a, b) {
+    return new Lab(l, a, b);
+  }
 
-  function cie_Lab(l, a, b) {
+  function Lab(l, a, b) {
     this.l = l;
     this.a = a;
     this.b = b;
   }
 
-  cie_Lab.prototype.rgb = function() {
-    // TODO
+  Lab.prototype.brighter = function(k) {
+    return lab(Math.min(100, this.l + K * (arguments.length ? k : 1)), this.a, this.b);
   };
 
-  cie_Lab.prototype.toString = function() {
-    // TODO
+  Lab.prototype.darker = function(k) {
+    return lab(Math.max(0, this.l - K * (arguments.length ? k : 1)), this.a, this.b);
   };
 
-  function cie_Lcb(l, c, h) {
-    this.l = l;
-    this.c = c;
-    this.h = h;
+  Lab.prototype.rgb = function() {
+    return lab_rgb(this.l, this.a, this.b);
+  };
+
+  Lab.prototype.toString = function() {
+    return this.rgb() + "";
+  };
+
+  // Corresponds roughly to RGB brighter/darker
+  var K = 18;
+
+  // D65 standard referent
+  var X = 0.950470, Y = 1, Z = 1.088830;
+
+  function lab_rgb(l, a, b) {
+    var y = (l + 16) / 116, x = y + a / 500, z = y - b / 200;
+    x = lab_xyz(x) * X;
+    y = lab_xyz(y) * Y;
+    z = lab_xyz(z) * Z;
+    return d3.rgb(
+      xyz_rgb( 3.2404542 * x - 1.5371385 * y - 0.4985314 * z),
+      xyz_rgb(-0.9692660 * x + 1.8760108 * y + 0.0415560 * z),
+      xyz_rgb( 0.0556434 * x - 0.2040259 * y + 1.0572252 * z)
+    );
   }
 
-  cie_Lch.prototype.rgb = function() {
-    // TODO
-  };
+  function rgb_lab(r, g, b) {
+    r = rgb_xyz(r);
+    g = rgb_xyz(g);
+    b = rgb_xyz(b);
+    var x = xyz_lab((0.4124564 * r + 0.3575761 * g + 0.1804375 * b) / X),
+        y = xyz_lab((0.2126729 * r + 0.7151522 * g + 0.0721750 * b) / Y),
+        z = xyz_lab((0.0193339 * r + 0.1191920 * g + 0.9503041 * b) / Z);
+    return lab(116 * y - 16, 500 * (x - y), 200 * (y - z));
+  }
 
-  cie_Lch.prototype.toString = function() {
-    // TODO
-  };
+  function lab_xyz(x) {
+    return x > 0.206893034 ? x * x * x : (x - 4 / 29) / 7.787037;
+  }
+
+  function xyz_lab(x) {
+    return x > 0.008856 ? Math.pow(x, 1 / 3) : 7.787037 * x + 4 / 29;
+  }
+
+  function xyz_rgb(r) {
+    return Math.round(255 * (r <= 0.00304 ? 12.92 * r : 1.055 * Math.pow(r, 1 / 2.4) - 0.055));
+  }
+
+  function rgb_xyz(r) {
+    return (r /= 255) <= 0.04045 ? r / 12.92 : Math.pow((r + 0.055) / 1.055, 2.4);
+  }
 })(d3);

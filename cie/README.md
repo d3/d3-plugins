@@ -1,6 +1,6 @@
 # d3.cie
 
-A plugin for CIE L\*a\*b\* support.
+A plugin for CIE L\*a\*b\* color space.
 
 To create a L\*a\*b\* color, use the `d3.cie.lab` constructor:
 
@@ -8,14 +8,8 @@ To create a L\*a\*b\* color, use the `d3.cie.lab` constructor:
 var color = d3.cie.lab(51.48, -55.52, 52.88);
 ```
 
-The constructor might also parse a CSS3 string, for convenience:
-
-```js
-var color = d3.cie.lab("lab(51.48,-55.52,52.88)");
-```
-
-Likewise, to convert from RGB to L\*a\*b\*, simply specify an RGB color. These are
-all equivalent:
+Likewise, to convert from RGB to L\*a\*b\*, simply specify an RGB color. These
+are all equivalent:
 
 ```js
 var color = d3.cie.lab("#048F07");
@@ -37,5 +31,13 @@ This plugin also lets you interpolates in L\*a\*b\* space. For example:
 var x = d3.scale.linear()
     .domain([0, 100])
     .range(["brown", "steelblue"])
-    .interpolate(d3.cie.interpolateLab);
+    .interpolate(d3.cie.lab.interpolate);
 ```
+
+## Thank You
+
+Various people contributed and helped in implementing this plugin.
+
+* [Jeffery Heer](/jheer)
+* [Alex Gaynor](/alex)
+* [Jacob Rus](/jrus)

@@ -40,6 +40,7 @@
         bl = b.l - al,
         bc = b.c - ac,
         bh = b.h - ah;
+    if (bh > 180) bh -= 360; else if (bh < -180) bh += 360; // shortest path
     return function(t) {
       return lch_lab(al + bl * t, ac + bc * t, ah + bh * t) + "";
     };

@@ -19,15 +19,24 @@
     });
   });
 
-  d3.geodesic = function(s) {
-    return {
-      type: "MultiPolygon",
-      coordinates: geodesic(Math.round(s)).map(function(triangle) {
+  d3.geodesic = {
+    multipolygon: function(n) {
+      return {
+        type: "MultiPolygon",
+        coordinates: geodesic(~~n).map(function(triangle) {
+          triangle = triangle.map(project);
+          triangle.push(triangle[2]);
+          return [triangle];
+        })
+      };
+    },
+    polygons: function(n) {
+      return geodesic(~~n).map(function(triangle) {
         triangle = triangle.map(project);
         triangle.push(triangle[2]);
-        return [triangle];
-      })
-    };
+        return {type: "Polygon", coordinates: [triangle]};
+      });
+    }
   };
 
   function geodesic(n) {
@@ -49,6 +58,13 @@
           triangles.push([
             i1(j / i),
             i2(j / (i + 1)),
+            i2((j + 1) / (i + 1))
+          ]);
+        }
+        for (var j = 0; j < i; ++j) {
+          triangles.push([
+            i1(j / i),
+            i1((j + 1) / i),
             i2((j + 1) / (i + 1))
           ]);
         }

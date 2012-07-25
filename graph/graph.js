@@ -134,7 +134,7 @@
 
     i = -1; while (++i < n) {
       matrix[ links[i].source ][ links[i].target ] = links[i].value;
-    };
+    }
     
     return matrix;
   };
@@ -153,7 +153,7 @@
       }
     }
 
-    return links
+    return links;
   };
 
 

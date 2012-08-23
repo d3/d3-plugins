@@ -9,9 +9,9 @@ At each tick the following occurs:
   - Center of each object (anchor position) is determined by the SVG Bounding Box of that object and stored in object ```anchorPos``` under x,y
   - The position of the label element is determined by a force layout where anchors are fixed nodes and labels are floating.  New position for each label is stored in object ```labelPos``` under x,y
 
-Both the in the ```anchorPos``` and ```labelPos``` are inserted in the ```__data__``` variable of the object being labeled.  This allows easy access when drawing the labels and connectors.
+Both the ```anchorPos``` and ```labelPos``` are inserted in the ```__data__``` variable of the object being labeled.  This allows easy access when drawing the labels and connectors.
 
-In the demo the label and link between label and anchor are created as svg objects on the same data selection as the anchors.  As the position information is embedded in __data__ the redraw function is simply:
+In the demo the label and link are created as svg objects on the same data selection as the anchors.  As the position information is embedded in ```__data__``` the redraw function is simply:
 
 ```js
 function redrawLabels() {

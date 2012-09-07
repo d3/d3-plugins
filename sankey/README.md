@@ -1,5 +1,7 @@
 # Sankey Diagrams
 
+Demo: <http://bost.ocks.org/mike/sankey/>
+
 ```js
 var sankey = d3.sankey()
     .size([width, height])

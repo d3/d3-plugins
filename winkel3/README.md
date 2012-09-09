@@ -1,6 +1,7 @@
 # Winkel Tripel and Aitoff Projections
 
 * [Winkel Tripel Demo](http://bl.ocks.org/3664041)
+* [Winkel Tripel Demo 2](http://bl.ocks.org/3682676)
 * [Winkel Tripel Grid](http://bl.ocks.org/3664049)
 * [Aitoff Demo](http://bl.ocks.org/3664044)
 * [Aitoff Grid](http://bl.ocks.org/3664045)

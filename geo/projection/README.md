@@ -5,8 +5,7 @@
 * [Kavrayskiy VII Demo](http://bl.ocks.org/3710082)
 * [Robinson Demo](http://bl.ocks.org/3710566)
 * [Wagner VI Demo](http://bl.ocks.org/3710148)
-* [Winkel Tripel Demo 1](http://bl.ocks.org/3664041)
-* [Winkel Tripel Demo 2](http://bl.ocks.org/3682676)
+* [Winkel Tripel Demo](http://bl.ocks.org/3682676)
 * [Winkel Tripel Graticule](http://bl.ocks.org/3664049)
 
 Defines the following extensions

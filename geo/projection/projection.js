@@ -1,6 +1,5 @@
 (function() {
-  var radians = Math.PI / 180,
-      twoOverPi = 2 / Math.PI,
+  var π = Math.PI,
       defaultProjection = d3.geo.path().projection();
 
   function sinci(x) {
@@ -19,8 +18,15 @@
   function winkel3(λ, φ) {
     var coordinates = aitoff(λ, φ);
     return [
-      (coordinates[0] + λ * twoOverPi) / 2,
+      (coordinates[0] + λ * 2 / π) / 2,
       (coordinates[1] + φ) / 2
+    ];
+  }
+
+  function kavrayskiy7(λ, φ) {
+    return [
+      3 * λ / (2 * π) * Math.sqrt(π * π / 3 - φ * φ),
+      φ
     ];
   }
 
@@ -30,7 +36,7 @@
           translate = [480, 250];
 
       function projection(coordinates) {
-        coordinates = project(coordinates[0] * radians, coordinates[1] * radians);
+        coordinates = project(coordinates[0] * π / 180, coordinates[1] * π / 180);
         return [
           coordinates[0] * scale + translate[0],
           translate[1] - coordinates[1] * scale
@@ -144,5 +150,6 @@
 
   d3.geo.aitoff = projection(aitoff);
   d3.geo.winkel3 = projection(winkel3);
+  d3.geo.kavrayskiy7 = projection(kavrayskiy7);
   d3.geo.projection = projection;
 })();

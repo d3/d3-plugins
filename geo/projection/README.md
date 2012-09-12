@@ -1,16 +1,14 @@
 # Extended Geographic Projections
 
-* [Aitoff Demo](http://bl.ocks.org/3664044)
-* [Aitoff Graticule](http://bl.ocks.org/3664045)
+* [Aitoff Demo](http://bl.ocks.org/3682698)
 * [Kavrayskiy VII Demo](http://bl.ocks.org/3710082)
 * [Robinson Demo](http://bl.ocks.org/3710566)
 * [Wagner VI Demo](http://bl.ocks.org/3710148)
 * [Winkel Tripel Demo](http://bl.ocks.org/3682676)
-* [Winkel Tripel Graticule](http://bl.ocks.org/3664049)
 
 Defines the following extensions
 
-* d3.geo.graticule
+* d3.geo.graticule ([demo](http://bl.ocks.org/3664049))
 * d3.geo.projection
 
 And the following projections

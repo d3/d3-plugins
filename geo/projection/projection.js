@@ -30,6 +30,13 @@
     ];
   }
 
+  function wagner6(λ, φ) {
+    return [
+      λ * Math.sqrt(1 - 3 * φ * φ / (π * π)),
+      φ
+    ];
+  }
+
   function projection(project) {
     return function() {
       var scale = 150,
@@ -148,8 +155,10 @@
     return graticule;
   };
 
-  d3.geo.aitoff = projection(aitoff);
-  d3.geo.winkel3 = projection(winkel3);
-  d3.geo.kavrayskiy7 = projection(kavrayskiy7);
   d3.geo.projection = projection;
+
+  d3.geo.aitoff = projection(aitoff);
+  d3.geo.kavrayskiy7 = projection(kavrayskiy7);
+  d3.geo.wagner6 = projection(wagner6);
+  d3.geo.winkel3 = projection(winkel3);
 })();

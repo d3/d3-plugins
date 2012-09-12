@@ -1,25 +1,17 @@
 # Extended Geographic Projections
 
-Projection demos:
+Projections:
 
-* [Aitoff](http://bl.ocks.org/3682698)
-* [Kavrayskiy VII](http://bl.ocks.org/3710082)
-* [Robinson](http://bl.ocks.org/3710566)
-* [Wagner VI](http://bl.ocks.org/3710148)
-* [Winkel Tripel](http://bl.ocks.org/3682676)
+* [d3.geo.aitoff](http://bl.ocks.org/3682698) - Aitoff
+* [d3.geo.kavrayskiy7](http://bl.ocks.org/3710082) - Kavrayskiy VII
+* [d3.geo.robinson](http://bl.ocks.org/3710566) - Robinson
+* [d3.geo.wagner6](http://bl.ocks.org/3710148) - Wagner VI
+* [d3.geo.winkel3](http://bl.ocks.org/3682676) - Winkel Tripel
 
-Defines the following extensions
+Also defines the following utilities:
 
-* d3.geo.graticule ([demo](http://bl.ocks.org/3664049))
-* d3.geo.projection
-
-And the following projections
-
-* d3.geo.aitoff
-* d3.geo.kavrayskiy7
-* d3.geo.robinson
-* d3.geo.wagner6
-* d3.geo.winkel3
+* [d3.geo.graticule](http://bl.ocks.org/3664049) - generates an SVG graticule (similar to d3.svg.axis)
+* d3.geo.projection - abstract base class for defining new projections
 
 There are also several built-in projections in core D3:
 

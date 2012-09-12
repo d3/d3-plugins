@@ -1,10 +1,12 @@
 # Extended Geographic Projections
 
-* [Aitoff Demo](http://bl.ocks.org/3682698)
-* [Kavrayskiy VII Demo](http://bl.ocks.org/3710082)
-* [Robinson Demo](http://bl.ocks.org/3710566)
-* [Wagner VI Demo](http://bl.ocks.org/3710148)
-* [Winkel Tripel Demo](http://bl.ocks.org/3682676)
+Projection demos:
+
+* [Aitoff](http://bl.ocks.org/3682698)
+* [Kavrayskiy VII](http://bl.ocks.org/3710082)
+* [Robinson](http://bl.ocks.org/3710566)
+* [Wagner VI](http://bl.ocks.org/3710148)
+* [Winkel Tripel](http://bl.ocks.org/3682676)
 
 Defines the following extensions
 

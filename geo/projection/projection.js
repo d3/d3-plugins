@@ -143,10 +143,37 @@
     ];
   }
 
+  function eckert4(λ, φ) {
+    var ε = 1e-6,
+        k = (2 + π / 2) * Math.sin(φ),
+    φ /= 2;
+    for (var i = 0, δ = Infinity; i < 10 && Math.abs(δ) > ε; i++) {
+      var cosφ = Math.cos(φ);
+      φ -= δ = (φ + Math.sin(φ) * (cosφ + 2) - k) / (2 * cosφ * (1 + cosφ));
+    }
+    return [
+      2 / Math.sqrt(π * (4 + π)) * λ * (1 + Math.cos(φ)),
+      2 * Math.sqrt(π / (4 + π)) * Math.sin(φ))
+    ];
+  }
+
   function eckert5(λ, φ) {
     return [
       λ * (1 + Math.cos(φ)) / Math.sqrt(2 + π),
       2 * φ / Math.sqrt(2 + π)
+    ];
+  }
+
+  function eckert6(λ, φ) {
+    var ε = 1e-6,
+        k = (1 + π / 2) * Math.sin(φ),
+    for (var i = 0, δ = Infinity; i < 10 && Math.abs(δ) > ε; i++) {
+      φ -= δ = (φ + Math.sin(φ) - k) / (1 + Math.cos(φ));
+    }
+    k = Math.sqrt(2 + π);
+    return [
+      λ * (1 + Math.cos(φ)) / k,
+      2 * φ / k
     ];
   }
 
@@ -257,7 +284,9 @@
   d3.geo.eckert1 = function() { return projection(eckert1); };
   d3.geo.eckert2 = function() { return projection(eckert2); };
   d3.geo.eckert3 = function() { return projection(eckert3); };
+  d3.geo.eckert4 = function() { return projection(eckert4); };
   d3.geo.eckert5 = function() { return projection(eckert5); };
+  d3.geo.eckert6 = function() { return projection(eckert6); };
   d3.geo.hammer = function() { return projection(hammer); };
   d3.geo.homolosine = function() { return projection(homolosine); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };

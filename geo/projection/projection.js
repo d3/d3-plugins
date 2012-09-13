@@ -116,11 +116,13 @@
   }
 
   function mollweide(λ, φ) {
-    var k = π / 2 * Math.sin(φ);
-    for (var i = 0, δ, ε = 1e-6; i < 10; i++) {
-      δ = (φ + Math.sin(2 * φ) / 2 - k) / (1 + Math.cos(2 * φ));
-      if (Math.abs(δ) < ε) break;
-      φ -= δ;
+    if (Math.abs(φ) !== π / 2) {
+      var k = π / 2 * Math.sin(φ);
+      for (var i = 0, δ, ε = 1e-6; i < 10; i++) {
+        δ = (φ + Math.sin(2 * φ) / 2 - k) / (1 + Math.cos(2 * φ));
+        if (Math.abs(δ) < ε) break;
+        φ -= δ;
+      }
     }
     return [
       2 * Math.SQRT2 / π * λ * Math.cos(φ),

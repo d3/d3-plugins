@@ -79,36 +79,48 @@
     ];
   }
 
-  function projection(project) {
-    return function create() {
-      var scale = 150,
-          translate = [480, 250];
+  function cylindricalEqualArea() {
+    var φ0 = 0,
+        cosφ0 = Math.cos(φ0);
 
-      function p(coordinates) {
-        coordinates = project(coordinates[0] * π / 180, coordinates[1] * π / 180);
-        return [coordinates[0] * scale + translate[0], translate[1] - coordinates[1] * scale];
-      }
+    var p = projection(function(λ, φ) {
+      return [
+        λ * cosφ0,
+        Math.sin(φ) / cosφ0
+      ];
+    });
 
-      p.scale = function(_) {
-        if (!arguments.length) return scale;
-        scale = +_;
-        return p;
-      };
-
-      p.translate = function(_) {
-        if (!arguments.length) return translate;
-        translate = [+_[0], +_[1]];
-        return p;
-      };
-
-      p.copy = function() {
-        return create()
-            .scale(scale)
-            .translate(translate.slice());
-      };
-
+    p.parallel = function(_) {
+      if (!arguments.length) return φ0 * 180 / π;
+      cosφ0 = Math.cos(φ0 = _ * π / 180);
       return p;
     };
+
+    return p;
+  }
+
+  function projection(project) {
+    var scale = 150,
+        translate = [480, 250];
+
+    function p(coordinates) {
+      coordinates = project(coordinates[0] * π / 180, coordinates[1] * π / 180);
+      return [coordinates[0] * scale + translate[0], translate[1] - coordinates[1] * scale];
+    }
+
+    p.scale = function(_) {
+      if (!arguments.length) return scale;
+      scale = +_;
+      return p;
+    };
+
+    p.translate = function(_) {
+      if (!arguments.length) return translate;
+      translate = [+_[0], +_[1]];
+      return p;
+    };
+
+    return p;
   }
 
   d3.geo.graticule = function() {
@@ -170,9 +182,13 @@
 
   d3.geo.projection = projection;
 
-  d3.geo.aitoff = projection(aitoff);
-  d3.geo.kavrayskiy7 = projection(kavrayskiy7);
-  d3.geo.robinson = projection(robinson);
-  d3.geo.wagner6 = projection(wagner6);
-  d3.geo.winkel3 = projection(winkel3);
+  d3.geo.aitoff = function() { return projection(aitoff); };
+  d3.geo.lambert = d3.geo.cylindricalEqualArea = cylindricalEqualArea;
+  d3.geo.behrmann = function() { return cylindricalEqualArea().parallel(30); };
+  d3.geo.hoboDyer = function() { return cylindricalEqualArea().parallel(37.5); };
+  d3.geo.gallPeters = function() { return cylindricalEqualArea().parallel(45); };
+  d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
+  d3.geo.robinson = function() { return projection(robinson); };
+  d3.geo.wagner6 = function() { return projection(wagner6); };
+  d3.geo.winkel3 = function() { return projection(winkel3); };
 })();

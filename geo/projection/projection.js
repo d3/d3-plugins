@@ -115,6 +115,15 @@
     ];
   }
 
+  function polyconic(λ, φ) {
+    var tanφ = Math.tan(φ),
+        k = λ * Math.sin(φ);
+    return [
+      Math.sin(k) / tanφ,
+      φ + (1 - Math.cos(k)) / tanφ
+    ];
+  }
+
   function projection(project) {
     var scale = 150,
         translate = [480, 250];
@@ -202,6 +211,7 @@
   d3.geo.cylindricalEqualArea = cylindricalEqualArea;
   d3.geo.hammer = function() { return projection(hammer); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
+  d3.geo.polyconic = function() { return projection(polyconic); };
   d3.geo.robinson = function() { return projection(robinson); };
   d3.geo.sinusoidal = function() { return projection(sinusoidal); };
   d3.geo.wagner6 = function() { return projection(wagner6); };

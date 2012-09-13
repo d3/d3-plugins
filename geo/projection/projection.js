@@ -24,6 +24,10 @@
     [0.5322, 1.0000]
   ];
 
+  function identity(d) {
+    return d;
+  }
+
   function sinci(x) {
     return x ? x / Math.sin(x) : 1;
   }
@@ -76,31 +80,34 @@
   }
 
   function projection(project) {
-    return function() {
+    return function create() {
       var scale = 150,
           translate = [480, 250];
 
-      function projection(coordinates) {
+      function p(coordinates) {
         coordinates = project(coordinates[0] * π / 180, coordinates[1] * π / 180);
-        return [
-          coordinates[0] * scale + translate[0],
-          translate[1] - coordinates[1] * scale
-        ];
+        return [coordinates[0] * scale + translate[0], translate[1] - coordinates[1] * scale];
       }
 
-      projection.scale = function(x) {
+      p.scale = function(_) {
         if (!arguments.length) return scale;
-        scale = +x;
-        return projection;
+        scale = +_;
+        return p;
       };
 
-      projection.translate = function(x) {
+      p.translate = function(_) {
         if (!arguments.length) return translate;
-        translate = [+x[0], +x[1]];
-        return projection;
+        translate = [+_[0], +_[1]];
+        return p;
       };
 
-      return projection;
+      p.copy = function() {
+        return create()
+            .scale(scale)
+            .translate(translate.slice());
+      };
+
+      return p;
     };
   }
 
@@ -113,38 +120,12 @@
 
     function graticule(g) {
       if (!coordinates) reset();
-
-      g.selectAll(".longitude,.latitude").remove();
-
-      g.append("g")
-          .attr("class", "longitude")
-        .selectAll(".line")
-          .data(coordinates[0])
-        .enter().append("path")
-          .attr("class", "line")
-          .attr("d", drawOpen);
-
-      g.append("g")
-          .attr("class", "latitude")
-        .selectAll(".line")
-          .data(coordinates[1])
-        .enter().append("path")
-          .attr("class", "line")
-          .attr("d", drawOpen);
+      g.each(function() {
+        d3.select(this)
+            .call(lines, "longitude", coordinates[0])
+            .call(lines, "latitude", coordinates[1]);
+      });
     }
-
-    graticule.outline = function(g) {
-      if (!coordinates) reset();
-
-      g.selectAll(".outline").remove();
-
-      g.append("g")
-          .attr("class", "outline")
-        .append("path")
-          .datum(coordinates[0][0].concat(coordinates[0][coordinates[0].length - 1].slice().reverse()))
-          .attr("class", "line")
-          .attr("d", drawClosed);
-    };
 
     function reset() {
       var xSteps = d3.range(extent[0][0], extent[1][0] + precision[0] / 2, precision[0]),
@@ -155,6 +136,17 @@
       ];
     }
 
+    function lines(g, name, coordinates) {
+      var dimension = g.selectAll("." + name).data([coordinates]);
+      dimension.exit().remove();
+      dimension.enter().append("g").attr("class", name);
+
+      var line = dimension.selectAll(".line").data(identity);
+      line.exit().remove();
+      line.enter().append("path").attr("class", "line");
+      d3.transition(line).attr("d", drawOpen);
+    }
+
     function drawOpen(coordinates) {
       return "M" + coordinates.map(projection).join("L");
     }
@@ -162,6 +154,16 @@
     function drawClosed(coordinates) {
       return drawOpen(coordinates) + "Z";
     }
+
+    graticule.outline = function(g) {
+      if (!coordinates) reset();
+      g.each(function() {
+        var g = d3.select(this).selectAll(".outline").data([coordinates[0][0].concat(coordinates[0][coordinates[0].length - 1].slice().reverse())]);
+        g.exit().remove();
+        g.enter().append("g").attr("class", "outline").append("path").attr("class", "line");
+        d3.transition(g.select(".line")).attr("d", drawClosed);
+      });
+    };
 
     graticule.projection = function(_) {
       if (!arguments.length) return projection;

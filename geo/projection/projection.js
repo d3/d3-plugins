@@ -131,7 +131,7 @@
   }
 
   function homolosine(λ, φ) {
-    return Math.abs(φ) > 41.737 ? mollweide(λ, φ) : sinusoidal(λ, φ);
+    return Math.abs(φ) > 41.737 * π / 180 ? mollweide(λ, φ) : sinusoidal(λ, φ);
   }
 
   function projection(project) {

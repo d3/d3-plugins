@@ -120,10 +120,11 @@
   }
 
   function vanDerGrinten(λ, φ) {
-    if (φ === 0) return [λ, 0];
+    var ε = 1e-6;
+    if (Math.abs(φ) < ε) return [λ, 0];
     var sinθ = 2 * φ / π,
         θ = Math.asin(sinθ);
-    if (λ === 0 || Math.abs(φ) === π / 2) return [0, sgn(φ) * π * Math.tan(θ)];
+    if (Math.abs(λ) < ε || Math.abs(φ - π / 2) < ε) return [0, sgn(φ) * π * Math.tan(θ / 2)];
     var cosθ = Math.cos(θ),
         A = .5 * Math.abs(π / λ - λ / π),
         A2 = A * A,

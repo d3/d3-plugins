@@ -148,6 +148,24 @@
       λ * (1 + Math.cos(φ)) / Math.sqrt(2 + π),
       2 * φ / Math.sqrt(2 + π)
     ];
+
+  function mollweide(λ, φ) {
+    if (Math.abs(φ) !== π / 2) {
+      var k = π / 2 * Math.sin(φ);
+      for (var i = 0, δ, ε = 1e-6; i < 10; i++) {
+        δ = (φ + Math.sin(2 * φ) / 2 - k) / (1 + Math.cos(2 * φ));
+        if (Math.abs(δ) < ε) break;
+        φ -= δ;
+      }
+    }
+    return [
+      2 * Math.SQRT2 / π * λ * Math.cos(φ),
+      Math.SQRT2 * Math.sin(φ)
+    ];
+  }
+
+  function homolosine(λ, φ) {
+    return Math.abs(φ) > 41.737 * π / 180 ? mollweide(λ, φ) : sinusoidal(λ, φ);
   }
 
   function projection(project) {
@@ -240,7 +258,9 @@
   d3.geo.eckert3 = function() { return projection(eckert3); };
   d3.geo.eckert5 = function() { return projection(eckert5); };
   d3.geo.hammer = function() { return projection(hammer); };
+  d3.geo.homolosine = function() { return projection(homolosine); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
+  d3.geo.mollweide = function() { return projection(mollweide); };
   d3.geo.robinson = function() { return projection(robinson); };
   d3.geo.sinusoidal = function() { return projection(sinusoidal); };
   d3.geo.wagner6 = function() { return projection(wagner6); };

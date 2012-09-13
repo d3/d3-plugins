@@ -148,6 +148,7 @@
       λ * (1 + Math.cos(φ)) / Math.sqrt(2 + π),
       2 * φ / Math.sqrt(2 + π)
     ];
+  }
 
   function mollweide(λ, φ) {
     if (Math.abs(φ) !== π / 2) {

@@ -153,7 +153,7 @@
     }
     return [
       2 / Math.sqrt(π * (4 + π)) * λ * (1 + Math.cos(φ)),
-      2 * Math.sqrt(π / (4 + π)) * Math.sin(φ))
+      2 * Math.sqrt(π / (4 + π)) * Math.sin(φ)
     ];
   }
 

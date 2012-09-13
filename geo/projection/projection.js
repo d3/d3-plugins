@@ -115,6 +115,19 @@
     ];
   }
 
+  function mollweide(λ, φ) {
+    var k = π / 2 * Math.sin(φ);
+    for (var i = 0, δ, ε = 1e-6; i < 10; i++) {
+      δ = (φ + Math.sin(2 * φ) / 2 - k) / (1 + Math.cos(2 * φ));
+      if (Math.abs(δ) < ε) break;
+      φ -= δ;
+    }
+    return [
+      2 * Math.SQRT2 / π * λ * Math.cos(φ),
+      Math.SQRT2 * Math.sin(φ)
+    ];
+  }
+
   function projection(project) {
     var scale = 150,
         translate = [480, 250];
@@ -202,6 +215,7 @@
   d3.geo.cylindricalEqualArea = cylindricalEqualArea;
   d3.geo.hammer = function() { return projection(hammer); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
+  d3.geo.mollweide = function() { return projection(mollweide); };
   d3.geo.robinson = function() { return projection(robinson); };
   d3.geo.sinusoidal = function() { return projection(sinusoidal); };
   d3.geo.wagner6 = function() { return projection(wagner6); };

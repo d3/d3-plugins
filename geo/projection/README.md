@@ -6,6 +6,7 @@ Projections:
 * [d3.geo.cylindricalEqualArea](http://bl.ocks.org/3712408) - Cylindrical equal-area
 * [d3.geo.hammer](http://bl.ocks.org/3712397) - Hammer
 * [d3.geo.kavrayskiy7](http://bl.ocks.org/3710082) - Kavrayskiy VII
+* [d3.geo.mollweide](http://bl.ocks.org/3717899) - Mollweide
 * [d3.geo.robinson](http://bl.ocks.org/3710566) - Robinson
 * [d3.geo.sinusoidal](http://bl.ocks.org/3712399) - Sinusoidal
 * [d3.geo.wagner6](http://bl.ocks.org/3710148) - Wagner VI

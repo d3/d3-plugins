@@ -9,6 +9,7 @@ Projections:
 * [d3.geo.eckert5](http://bl.ocks.org/3717382) - Eckert V
 * [d3.geo.cylindricalEqualArea](http://bl.ocks.org/3712408) - Cylindrical equal-area
 * [d3.geo.hammer](http://bl.ocks.org/3712397) - Hammer
+* [d3.geo.homolosine](http://bl.ocks.org/3718260) - Goode Homolosine
 * [d3.geo.kavrayskiy7](http://bl.ocks.org/3710082) - Kavrayskiy VII
 * [d3.geo.mollweide](http://bl.ocks.org/3717899) - Mollweide
 * [d3.geo.robinson](http://bl.ocks.org/3710566) - Robinson

@@ -8,6 +8,7 @@ Projections:
 * [d3.geo.kavrayskiy7](http://bl.ocks.org/3710082) - Kavrayskiy VII
 * [d3.geo.robinson](http://bl.ocks.org/3710566) - Robinson
 * [d3.geo.sinusoidal](http://bl.ocks.org/3712399) - Sinusoidal
+* [d3.geo.vanDerGrinten](http://bl.ocks.org/3718043) - Van der Grinten
 * [d3.geo.wagner6](http://bl.ocks.org/3710148) - Wagner VI
 * [d3.geo.winkel3](http://bl.ocks.org/3682676) - Winkel Tripel
 

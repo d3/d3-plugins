@@ -115,6 +115,26 @@
     ];
   }
 
+  function vanDerGrinten(λ, φ) {
+    if (φ === 0) return [λ, 0];
+    var sinθ = 2 * φ / π,
+        θ = Math.asin(sinθ);
+    if (λ === 0 || Math.abs(ϕ) === π / 2) return [0, sgn(ϕ) * π * Math.tan(θ)];
+    var cosθ = Math.cos(θ),
+        A = .5 * Math.abs(π / λ - λ / π),
+        A2 = A * A,
+        G = cosθ / (sinθ + cosθ - 1),
+        P = G * (2 / sinθ - 1),
+        P2 = P * P,
+        P2_A2 = P2 + A2,
+        G_P2 = G - P2,
+        Q = A2 + G;
+    return [
+      sgn(λ) * π * (A * G_P2 + Math.sqrt(A2 * G_P2 * G_P2 - P2_A2 * (G * G - P2))) / P2_A2,
+      sgn(φ) * π * (P * Q - A * Math.sqrt((1 + A2) * P2_A2 - Q * Q)) / P2_A2
+    ];
+  }
+
   function projection(project) {
     var scale = 150,
         translate = [480, 250];
@@ -204,6 +224,7 @@
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
   d3.geo.robinson = function() { return projection(robinson); };
   d3.geo.sinusoidal = function() { return projection(sinusoidal); };
+  d3.geo.vanDerGrinten = function() { return projection(vanDerGrinten); };
   d3.geo.wagner6 = function() { return projection(wagner6); };
   d3.geo.winkel3 = function() { return projection(winkel3); };
 })();

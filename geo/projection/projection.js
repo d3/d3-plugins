@@ -140,6 +140,7 @@
       var ySteps = d3.range(extent[0][1], extent[1][1] + precision[1] / 2, precision[1]),
           xLine0 = ySteps.map(function(y) { return [extent[0][0], y]; }),
           xLine1 = ySteps.map(function(y) { return [extent[1][0], y]; }).reverse();
+      xLine1.push(xLine0[0]); // closing coordinate
       return {
         type: "Polygon",
         coordinates: [xLine0.concat(xLine1)]

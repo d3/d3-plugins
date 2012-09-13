@@ -99,6 +99,22 @@
     return p;
   }
 
+  function sinusoidal(λ, φ) {
+    return [
+      λ * Math.cos(φ),
+      φ
+    ];
+  }
+
+  function hammer(λ, φ) {
+    var cosφ = Math.cos(φ),
+        k = Math.sqrt(2 / (1 + cosφ * Math.cos(λ /= 2)));
+    return [
+      Math.sin(λ) * cosφ * k * 2,
+      Math.sin(φ) * k
+    ];
+  }
+
   function projection(project) {
     var scale = 150,
         translate = [480, 250];
@@ -187,8 +203,10 @@
   d3.geo.behrmann = function() { return cylindricalEqualArea().parallel(30); };
   d3.geo.hoboDyer = function() { return cylindricalEqualArea().parallel(37.5); };
   d3.geo.gallPeters = function() { return cylindricalEqualArea().parallel(45); };
+  d3.geo.hammer = function() { return projection(hammer); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
   d3.geo.robinson = function() { return projection(robinson); };
+  d3.geo.sinusoidal = function() { return projection(sinusoidal); };
   d3.geo.wagner6 = function() { return projection(wagner6); };
   d3.geo.winkel3 = function() { return projection(winkel3); };
 })();

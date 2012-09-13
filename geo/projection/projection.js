@@ -32,6 +32,10 @@
     return x ? x / Math.sin(x) : 1;
   }
 
+  function sgn(x) {
+    return x > 0 ? 1 : x < 0 : -1 : 0;
+  }
+
   function aitoff(λ, φ) {
     var cosφ = Math.cos(φ),
         sinciα = sinci(Math.acos(cosφ * Math.cos(λ /= 2)));

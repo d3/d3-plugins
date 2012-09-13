@@ -121,7 +121,7 @@
 
     var p = projection(function(λ, φ) {
       var ρ = cotφ0 + φ0 - φ,
-          E = (λ - λ0) * Math.cos(φ) / ρ;
+          E = λ * Math.cos(φ) / ρ;
       return [
         ρ * Math.sin(E),
         cotφ0 - ρ * Math.cos(E)

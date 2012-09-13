@@ -3,6 +3,10 @@
 Projections:
 
 * [d3.geo.aitoff](http://bl.ocks.org/3682698) - Aitoff
+* [d3.geo.eckert1](http://bl.ocks.org/3717369) - Eckert I
+* [d3.geo.eckert2](http://bl.ocks.org/3717378) - Eckert II
+* [d3.geo.eckert3](http://bl.ocks.org/3717379) - Eckert III
+* [d3.geo.eckert5](http://bl.ocks.org/3717382) - Eckert V
 * [d3.geo.cylindricalEqualArea](http://bl.ocks.org/3712408) - Cylindrical equal-area
 * [d3.geo.hammer](http://bl.ocks.org/3712397) - Hammer
 * [d3.geo.kavrayskiy7](http://bl.ocks.org/3710082) - Kavrayskiy VII

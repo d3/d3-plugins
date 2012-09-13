@@ -115,6 +115,37 @@
     ];
   }
 
+  function eckert1(λ, φ) {
+    var α = 2 * Math.sqrt(2 * π / 3);
+    return [
+      α * λ * (1 - Math.abs(φ) / π),
+      α * φ
+    ];
+  }
+
+  function eckert2(λ, φ) {
+    var α = Math.sqrt(4 - 3 * Math.sin(Math.abs(φ)));
+    return [
+      2 / Math.sqrt(6 * π) * λ * α,
+      sgn(φ) * Math.sqrt(2 * π / 3) * (2 - α)
+    ];
+  }
+
+  function eckert3(λ, φ) {
+    var α = Math.sqrt(4 - 3 * Math.sin(Math.abs(φ)));
+    return [
+      2 / Math.sqrt(6 * π) * λ * α,
+      sgn(φ) * Math.sqrt(2 * π / 3) * (2 - α)
+    ];
+  }
+
+  function eckert5(λ, φ) {
+    return [
+      λ * (1 + Math.cos(φ)) / Math.sqrt(2 + π),
+      2 * φ / Math.sqrt(2 + π)
+    ];
+  }
+
   function projection(project) {
     var scale = 150,
         translate = [480, 250];
@@ -200,6 +231,10 @@
 
   d3.geo.aitoff = function() { return projection(aitoff); };
   d3.geo.cylindricalEqualArea = cylindricalEqualArea;
+  d3.geo.eckert1 = function() { return projection(eckert1); };
+  d3.geo.eckert2 = function() { return projection(eckert2); };
+  d3.geo.eckert3 = function() { return projection(eckert3); };
+  d3.geo.eckert5 = function() { return projection(eckert5); };
   d3.geo.hammer = function() { return projection(hammer); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
   d3.geo.robinson = function() { return projection(robinson); };

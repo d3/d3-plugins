@@ -122,9 +122,9 @@
   function vanDerGrinten(λ, φ) {
     var ε = 1e-6;
     if (Math.abs(φ) < ε) return [λ, 0];
-    var sinθ = 2 * φ / π,
+    var sinθ = Math.abs(2 * φ / π),
         θ = Math.asin(sinθ);
-    if (Math.abs(λ) < ε || Math.abs(φ - π / 2) < ε) return [0, sgn(φ) * π * Math.tan(θ / 2)];
+    if (Math.abs(λ) < ε || Math.abs(Math.abs(φ) - π / 2) < ε) return [0, sgn(φ) * π * Math.tan(θ / 2)];
     var cosθ = Math.cos(θ),
         A = .5 * Math.abs(π / λ - λ / π),
         A2 = A * A,
@@ -136,7 +136,7 @@
         Q = A2 + G;
     return [
       sgn(λ) * π * (A * G_P2 + Math.sqrt(A2 * G_P2 * G_P2 - P2_A2 * (G * G - P2))) / P2_A2,
-      sgn(φ) * π * (P * Q - A * Math.sqrt((1 + A2) * P2_A2 - Q * Q)) / P2_A2
+      sgn(φ) * π * (P * Q - A * Math.sqrt((A2 + 1) * P2_A2 - Q * Q)) / P2_A2
     ];
   }
 

@@ -136,10 +136,10 @@
   }
 
   function eckert3(λ, φ) {
-    var α = Math.sqrt(4 - 3 * Math.sin(Math.abs(φ)));
+    var k = Math.sqrt(π * (4 + π));
     return [
-      2 / Math.sqrt(6 * π) * λ * α,
-      sgn(φ) * Math.sqrt(2 * π / 3) * (2 - α)
+      2 / k * λ * (1 + Math.sqrt(1 - 4 * φ * φ / (π * π))),
+      4 / k * φ
     ];
   }
 

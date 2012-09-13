@@ -1,5 +1,6 @@
 (function() {
   var π = Math.PI,
+      sqrtπ = Math.sqrt(π),
       defaultProjection = d3.geo.path().projection();
 
   var robinsonConstants = [
@@ -115,6 +116,14 @@
     ];
   }
 
+  function collignon(λ, φ) {
+    var α = Math.sqrt(1 - Math.sin(φ));
+    return [
+      (2 / sqrtπ) * λ * α,
+      sqrtπ * (1 - α)
+    ];
+  }
+
   function projection(project) {
     var scale = 150,
         translate = [480, 250];
@@ -199,6 +208,7 @@
   d3.geo.projection = projection;
 
   d3.geo.aitoff = function() { return projection(aitoff); };
+  d3.geo.collignon = function() { return projection(collignon) };
   d3.geo.cylindricalEqualArea = cylindricalEqualArea;
   d3.geo.hammer = function() { return projection(hammer); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };

@@ -117,7 +117,7 @@
   }
 
   function collignon(λ, φ) {
-    var α = Math.sqrt(1 - Math.sin(φ));
+    var α = Math.sqrt(Math.max(0, 1 - Math.sin(φ)));
     return [
       (2 / sqrtπ) * λ * α,
       sqrtπ * (1 - α)

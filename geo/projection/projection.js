@@ -115,6 +115,13 @@
     ];
   }
 
+  function nellHammer(λ, φ) {
+    return [
+      λ * (1 + Math.cos(φ)) / 2,
+      2 * (φ - Math.tan(φ / 2))
+    ];
+  }
+
   function projection(project) {
     var scale = 150,
         translate = [480, 250];
@@ -202,6 +209,7 @@
   d3.geo.cylindricalEqualArea = cylindricalEqualArea;
   d3.geo.hammer = function() { return projection(hammer); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
+  d3.geo.nellHammer = function() { return projection(nellHammer); };
   d3.geo.robinson = function() { return projection(robinson); };
   d3.geo.sinusoidal = function() { return projection(sinusoidal); };
   d3.geo.wagner6 = function() { return projection(wagner6); };

@@ -3,6 +3,7 @@
 Projections:
 
 * [d3.geo.aitoff](http://bl.ocks.org/3682698) - Aitoff
+* [d3.geo.larrivee](http://bl.ocks.org/3717209) - Larrivée
 * [d3.geo.cylindricalEqualArea](http://bl.ocks.org/3712408) - Cylindrical equal-area
 * [d3.geo.hammer](http://bl.ocks.org/3712397) - Hammer
 * [d3.geo.kavrayskiy7](http://bl.ocks.org/3710082) - Kavrayskiy VII

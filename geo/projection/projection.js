@@ -119,7 +119,7 @@
     if (φ === 0) return [λ, 0];
     var sinθ = 2 * φ / π,
         θ = Math.asin(sinθ);
-    if (λ === 0 || Math.abs(ϕ) === π / 2) return [0, sgn(ϕ) * π * Math.tan(θ)];
+    if (λ === 0 || Math.abs(φ) === π / 2) return [0, sgn(φ) * π * Math.tan(θ)];
     var cosθ = Math.cos(θ),
         A = .5 * Math.abs(π / λ - λ / π),
         A2 = A * A,

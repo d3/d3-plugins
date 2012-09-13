@@ -199,10 +199,7 @@
   d3.geo.projection = projection;
 
   d3.geo.aitoff = function() { return projection(aitoff); };
-  d3.geo.lambert = d3.geo.cylindricalEqualArea = cylindricalEqualArea;
-  d3.geo.behrmann = function() { return cylindricalEqualArea().parallel(30); };
-  d3.geo.hoboDyer = function() { return cylindricalEqualArea().parallel(37.5); };
-  d3.geo.gallPeters = function() { return cylindricalEqualArea().parallel(45); };
+  d3.geo.cylindricalEqualArea = cylindricalEqualArea;
   d3.geo.hammer = function() { return projection(hammer); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
   d3.geo.robinson = function() { return projection(robinson); };

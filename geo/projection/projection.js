@@ -145,7 +145,7 @@
 
   function eckert4(λ, φ) {
     var ε = 1e-6,
-        k = (2 + π / 2) * Math.sin(φ),
+        k = (2 + π / 2) * Math.sin(φ);
     φ /= 2;
     for (var i = 0, δ = Infinity; i < 10 && Math.abs(δ) > ε; i++) {
       var cosφ = Math.cos(φ);
@@ -166,7 +166,7 @@
 
   function eckert6(λ, φ) {
     var ε = 1e-6,
-        k = (1 + π / 2) * Math.sin(φ),
+        k = (1 + π / 2) * Math.sin(φ);
     for (var i = 0, δ = Infinity; i < 10 && Math.abs(δ) > ε; i++) {
       φ -= δ = (φ + Math.sin(φ) - k) / (1 + Math.cos(φ));
     }

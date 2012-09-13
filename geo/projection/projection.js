@@ -130,6 +130,10 @@
     ];
   }
 
+  function homolosine(λ, φ) {
+    return Math.abs(φ) > 41.737 ? mollweide(λ, φ) : sinusoidal(λ, φ);
+  }
+
   function projection(project) {
     var scale = 150,
         translate = [480, 250];
@@ -216,6 +220,7 @@
   d3.geo.aitoff = function() { return projection(aitoff); };
   d3.geo.cylindricalEqualArea = cylindricalEqualArea;
   d3.geo.hammer = function() { return projection(hammer); };
+  d3.geo.homolosine = function() { return projection(homolosine); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
   d3.geo.mollweide = function() { return projection(mollweide); };
   d3.geo.robinson = function() { return projection(robinson); };

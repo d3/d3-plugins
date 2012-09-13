@@ -120,7 +120,7 @@
   }
 
   function eckert1(λ, φ) {
-    var α = 2 * Math.sqrt(2 * π / 3);
+    var α = Math.sqrt(8 / (3 * π));
     return [
       α * λ * (1 - Math.abs(φ) / π),
       α * φ

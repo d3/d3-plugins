@@ -114,81 +114,53 @@
   d3.geo.graticule = function() {
     var extent = [[-180, -90], [180, 90]],
         step = [22.5, 22.5],
-        precision = [2, 2],
-        projection = defaultProjection,
-        coordinates;
+        precision = [2, 2];
 
-    function graticule(g) {
-      if (!coordinates) reset();
-      g.each(function() {
-        d3.select(this)
-            .call(lines, "longitude", coordinates[0])
-            .call(lines, "latitude", coordinates[1]);
-      });
+    function graticule() {
+      return {
+        type: "GeometryCollection",
+        geometries: graticule.lines()
+      };
     }
 
-    function reset() {
+    graticule.lines = function() {
       var xSteps = d3.range(extent[0][0], extent[1][0] + precision[0] / 2, precision[0]),
-          ySteps = d3.range(extent[0][1], extent[1][1] + precision[1] / 2, precision[1]);
-      coordinates = [
-        d3.range(extent[0][0], extent[1][0] + step[0] / 2, step[0]).map(function(x) { return ySteps.map(function(y) { return [x, y]; }); }),
-        d3.range(extent[0][1], extent[1][1] + step[1] / 2, step[1]).map(function(y) { return xSteps.map(function(x) { return [x, y]; }); })
-      ];
-    }
-
-    function lines(g, name, coordinates) {
-      var dimension = g.selectAll("." + name).data([coordinates]);
-      dimension.exit().remove();
-      dimension.enter().append("g").attr("class", name);
-
-      var line = dimension.selectAll(".line").data(identity);
-      line.exit().remove();
-      line.enter().append("path").attr("class", "line");
-      d3.transition(line).attr("d", drawOpen);
-    }
-
-    function drawOpen(coordinates) {
-      return "M" + coordinates.map(projection).join("L");
-    }
-
-    function drawClosed(coordinates) {
-      return drawOpen(coordinates) + "Z";
-    }
-
-    graticule.outline = function(g) {
-      if (!coordinates) reset();
-      g.each(function() {
-        var g = d3.select(this).selectAll(".outline").data([coordinates[0][0].concat(coordinates[0][coordinates[0].length - 1].slice().reverse())]);
-        g.exit().remove();
-        g.enter().append("g").attr("class", "outline").append("path").attr("class", "line");
-        d3.transition(g.select(".line")).attr("d", drawClosed);
+          ySteps = d3.range(extent[0][1], extent[1][1] + precision[1] / 2, precision[1]),
+          xLines = d3.range(extent[0][0], extent[1][0] + step[0] / 2, step[0]).map(function(x) { return ySteps.map(function(y) { return [x, y]; }); }),
+          yLines = d3.range(extent[0][1], extent[1][1] + step[1] / 2, step[1]).map(function(y) { return xSteps.map(function(x) { return [x, y]; }); });
+      return xLines.concat(yLines).map(function(coordinates) {
+        return {
+          type: "LineString",
+          coordinates: coordinates
+        };
       });
-    };
+    }
 
-    graticule.projection = function(_) {
-      if (!arguments.length) return projection;
-      projection = _;
-      return graticule;
+    graticule.outline = function() {
+      var ySteps = d3.range(extent[0][1], extent[1][1] + precision[1] / 2, precision[1]),
+          xLine0 = ySteps.map(function(y) { return [extent[0][0], y]; }),
+          xLine1 = ySteps.map(function(y) { return [extent[1][0], y]; }).reverse();
+      return {
+        type: "Polygon",
+        coordinates: [xLine0.concat(xLine1)]
+      };
     };
 
     graticule.extent = function(_) {
       if (!arguments.length) return extent;
       extent = _;
-      coordinates = null;
       return graticule;
     };
 
     graticule.step = function(_) {
       if (!arguments.length) return step;
       step = _;
-      coordinates = null;
       return graticule;
     };
 
     graticule.precision = function(_) {
       if (!arguments.length) return precision;
       precision = _;
-      coordinates = null;
       return graticule;
     };
 

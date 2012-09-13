@@ -10,7 +10,7 @@ Projections:
 
 Also defines the following utilities:
 
-* [d3.geo.graticule](http://bl.ocks.org/3664049) - generates an SVG graticule (similar to d3.svg.axis)
+* [d3.geo.graticule](http://bl.ocks.org/3664049) - generates graticule geometry (similar to d3.geo.greatArc)
 * d3.geo.projection - abstract base class for defining new projections
 
 There are also several built-in projections in core D3:

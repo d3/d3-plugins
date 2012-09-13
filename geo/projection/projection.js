@@ -115,6 +115,28 @@
     ];
   }
 
+  function bonne() {
+    var φ0 = π / 4,
+        cotφ0 = 1 / Math.tan(φ0);
+
+    var p = projection(function(λ, φ) {
+      var ρ = cotφ0 + φ0 - φ,
+          E = (λ - λ0) * Math.cos(φ) / ρ;
+      return [
+        ρ * Math.sin(E),
+        cotφ0 - ρ * Math.cos(E)
+      ];
+    });
+
+    p.parallel = function(_) {
+      if (!arguments.length) return φ0 * 180 / π;
+      cotφ0 = 1 / Math.tan(φ0 = _ * π / 180);
+      return p;
+    };
+
+    return p;
+  }
+
   function projection(project) {
     var scale = 150,
         translate = [480, 250];
@@ -199,6 +221,7 @@
   d3.geo.projection = projection;
 
   d3.geo.aitoff = function() { return projection(aitoff); };
+  d3.geo.bonne = bonne;
   d3.geo.cylindricalEqualArea = cylindricalEqualArea;
   d3.geo.hammer = function() { return projection(hammer); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };

@@ -3,6 +3,7 @@
 Projections:
 
 * [d3.geo.aitoff](http://bl.ocks.org/3682698) - Aitoff
+* [d3.geo.bonne](http://bl.ocks.org/3717006) - Bonne
 * [d3.geo.eckert1](http://bl.ocks.org/3717369) - Eckert I
 * [d3.geo.eckert2](http://bl.ocks.org/3717378) - Eckert II
 * [d3.geo.eckert3](http://bl.ocks.org/3717379) - Eckert III

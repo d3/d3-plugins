@@ -8,9 +8,10 @@
         zAngle = z,
         radians = Math.PI / 180;
 
-    function rotate(λ, φ) {
-      λ += zAngle;
-      var cosφ = Math.cos(φ),
+    function rotate(coordinates) {
+      var λ = coordinates[0] + zAngle,
+          φ = coordinates[1],
+          cosφ = Math.cos(φ),
           x = Math.cos(λ) * cosφ,
           y = Math.sin(λ) * cosφ,
           z = Math.sin(φ),

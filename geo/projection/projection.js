@@ -189,6 +189,26 @@
     ];
   }
 
+  function verticalPerspective() {
+    var distance = 1;
+
+    var p = projection(function(λ, φ) {
+      var k = (distance - 1) / (distance - (Math.cos(φ) * Math.cos(λ));
+      return [
+        k * Math.cos(φ) * Math.sin(λ),
+        k * Math.sin(φ)
+      ];
+    });
+
+    p.distance = function(_) {
+      if (!arguments.length) return distance;
+      distance = +_;
+      return p;
+    }
+
+    return p;
+  }
+
   function projection(project) {
     var scale = 150,
         translate = [480, 250];

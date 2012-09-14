@@ -410,7 +410,7 @@
   function doubleParallelProjection(forwardAt, inverseAt) {
     var φ0 = 0,
         φ1 = π / 3,
-        project = forwardAt(φ0, φ1),
+        forward = forwardAt(φ0, φ1),
         inverse = inverseAt ? inverseAt(φ0, φ1) : null,
         p = inverseAt
             ? projection(function(λ, φ) { return forward(λ, φ); }, function(x, y) { return inverse(x, y); })

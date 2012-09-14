@@ -94,10 +94,27 @@
     };
   }
 
+  function cylindricalEqualAreaInverse(φ0) {
+    var cosφ0 = Math.cos(φ0);
+    return function(x, y) {
+      return [
+        x / cosφ0,
+        Math.asin(y * cosφ0)
+      ];
+    };
+  }
+
   function sinusoidal(λ, φ) {
     return [
       λ * Math.cos(φ),
       φ
+    ];
+  }
+
+  function sinusoidalInverse(x, y) {
+    return [
+      x / Math.cos(y),
+      y
     ];
   }
 
@@ -110,11 +127,28 @@
     ];
   }
 
+  function hammerInverse(x, y) {
+    var z = Math.sqrt(1 - x * x / 16 - y * y / 4);
+    return [
+      2 * Math.atan2(z * x, 4 * z * z - 2),
+      Math.asin(z * y)
+    ];
+  }
+
   function eckert1(λ, φ) {
     var α = Math.sqrt(8 / (3 * π));
     return [
       α * λ * (1 - Math.abs(φ) / π),
       α * φ
+    ];
+  }
+
+  function eckert1Inverse(x, y) {
+    var α = Math.sqrt(8 / (3 * π)),
+        φ = y / α;
+    return [
+      x / (α * (1 - Math.abs(φ) / π)),
+      φ
     ];
   }
 
@@ -181,8 +215,20 @@
     ];
   }
 
+  function mollweideInverse(x, y) {
+    var θ = Math.asin(y / Math.SQRT2);
+    return [
+      π * x / (2 * Math.SQRT2 * Math.cos(θ)),
+      Math.asin((2 * θ + Math.sin(2 * θ)) / π);
+    ];
+  }
+
   function homolosine(λ, φ) {
     return Math.abs(φ) > 41.737 * π / 180 ? mollweide(λ, φ) : sinusoidal(λ, φ);
+  }
+
+  function homolosineInverse(λ, φ) {
+    return Math.abs(φ) > 41.737 * π / 180 ? mollweideInverse(λ, φ) : sinusoidalInverse(λ, φ);
   }
 
   function bonne(φ0) {
@@ -193,6 +239,17 @@
       return [
         ρ * Math.sin(E),
         cotφ0 - ρ * Math.cos(E)
+      ];
+    };
+  }
+
+  function bonneInverse(φ0) {
+    var cotφ0 = 1 / Math.tan(φ0);
+    return function(x, y) {
+      var φ = cotφ0 + φ0 - ρ;
+      return [
+        ρ / Math.cos(φ) * Math.atan(x / (cotφ0 - y)),
+        φ
       ];
     };
   }
@@ -301,13 +358,20 @@
     };
   }
 
-  function projection(project) {
+  function projection(forward, inverse) {
     var scale = 150,
         translate = [480, 250];
 
     function p(coordinates) {
-      coordinates = project(coordinates[0] * π / 180, coordinates[1] * π / 180);
+      coordinates = forward(coordinates[0] * π / 180, coordinates[1] * π / 180);
       return [coordinates[0] * scale + translate[0], translate[1] - coordinates[1] * scale];
+    }
+
+    if (arguments.length > 1) {
+      p.invert = function(coordinates) {
+        coordinates = inverse((coordinates[0] - translate[0]) / scale, (coordinates[1] - translate[1]) / scale);
+        return [coordinates[0] * 180 / π, coordinates[1] * 180 / π];
+      };
     }
 
     p.scale = function(_) {
@@ -325,29 +389,37 @@
     return p;
   }
 
-  function singleParallelProjection(projectAt) {
+  function singleParallelProjection(forwardAt, inverseAt) {
     var φ0 = 0,
-        project = projectAt(φ0),
-        p = projection(function(λ, φ) { return project(λ, φ); });
+        forward = forwardAt(φ0),
+        inverse = inverseAt(φ0),
+        p = inverse
+            ? projection(function() { return forward(λ, φ); }, function(x, y) { return inverse(x, y); })
+            : projection(function() { return forward(λ, φ); });
 
     p.parallel = function(_) {
       if (!arguments.length) return φ0 / π * 180;
-      project = projectAt(φ0 = _ * π / 180);
+      forward = forwardAt(φ0 = _ * π / 180);
+      inverse = inverseAt(φ0);
       return p;
     };
 
     return p;
   }
 
-  function doubleParallelProjection(projectAt) {
+  function doubleParallelProjection(forwardAt, inverseAt) {
     var φ0 = 0,
         φ1 = π / 3,
-        project = projectAt(φ0, φ1),
-        p = projection(function(λ, φ) { return project(λ, φ); });
+        project = forwardAt(φ0, φ1),
+        inverse = inverseAt(φ0, φ1),
+        p = inverse
+            ? projection(function() { return forward(λ, φ); }, function(x, y) { return inverse(x, y); })
+            : projection(function() { return forward(λ, φ); });
 
     p.parallels = function(_) {
       if (!arguments.length) return [φ0 / π * 180, φ1 / π * 180];
-      project = projectAt(φ0 = _ * π / 180, φ1 = _ * π / 180);
+      forward = forwardAt(φ0 = _ * π / 180, φ1 = _ * π / 180);
+      inverse = inverseAt(φ0, φ1);
       return p;
     };
 
@@ -418,27 +490,27 @@
 
   d3.geo.aitoff = function() { return projection(aitoff); };
   d3.geo.albersEqualArea = function() { return doubleParallelProjection(albers); };
-  d3.geo.bonne = function() { return singleParallelProjection(bonne).parallel(π / 4); };
+  d3.geo.bonne = function() { return singleParallelProjection(bonne, bonneInverse).parallel(π / 4); };
   d3.geo.collignon = function() { return projection(collignon) };
   d3.geo.conicConformal = function() { return doubleParallelProjection(conicConformal); };
   d3.geo.conicEquidistant = function() { return doubleParallelProjection(conicEquidistant); };
-  d3.geo.cylindricalEqualArea = function() { return singleParallelProjection(cylindricalEqualArea); };
-  d3.geo.eckert1 = function() { return projection(eckert1); };
+  d3.geo.cylindricalEqualArea = function() { return singleParallelProjection(cylindricalEqualArea, cylindricalEqualAreaInverse); };
+  d3.geo.eckert1 = function() { return projection(eckert1, eckert1Inverse); };
   d3.geo.eckert2 = function() { return projection(eckert2); };
   d3.geo.eckert3 = function() { return projection(eckert3); };
   d3.geo.eckert4 = function() { return projection(eckert4); };
   d3.geo.eckert5 = function() { return projection(eckert5); };
   d3.geo.eckert6 = function() { return projection(eckert6); };
-  d3.geo.hammer = function() { return projection(hammer); };
-  d3.geo.homolosine = function() { return projection(homolosine); };
+  d3.geo.hammer = function() { return projection(hammer, hammerInverse); };
+  d3.geo.homolosine = function() { return projection(homolosine, homolosineInverse); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
   d3.geo.larrivee = function() { return projection(larrivee); };
   d3.geo.miller = function() { return projection(miller); };
-  d3.geo.mollweide = function() { return projection(mollweide); };
+  d3.geo.mollweide = function() { return projection(mollweide, mollweideInverse); };
   d3.geo.nellHammer = function() { return projection(nellHammer); };
   d3.geo.polyconic = function() { return projection(polyconic); };
   d3.geo.robinson = function() { return projection(robinson); };
-  d3.geo.sinusoidal = function() { return projection(sinusoidal); };
+  d3.geo.sinusoidal = function() { return projection(sinusoidal, sinusoidalInverse); };
   d3.geo.vanDerGrinten = function() { return projection(vanDerGrinten); };
   d3.geo.wagner6 = function() { return projection(wagner6); };
   d3.geo.winkel3 = function() { return projection(winkel3); };

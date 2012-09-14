@@ -1,5 +1,6 @@
 (function() {
-  var π = Math.PI,
+  var ε = 1e-6,
+      π = Math.PI,
       sqrtπ = Math.sqrt(π),
       defaultProjection = d3.geo.path().projection();
 
@@ -145,8 +146,7 @@
   }
 
   function eckert4(λ, φ) {
-    var ε = 1e-6,
-        k = (2 + π / 2) * Math.sin(φ);
+    var k = (2 + π / 2) * Math.sin(φ);
     φ /= 2;
     for (var i = 0, δ = Infinity; i < 10 && Math.abs(δ) > ε; i++) {
       var cosφ = Math.cos(φ);
@@ -166,8 +166,7 @@
   }
 
   function eckert6(λ, φ) {
-    var ε = 1e-6,
-        k = (1 + π / 2) * Math.sin(φ);
+    var k = (1 + π / 2) * Math.sin(φ);
     for (var i = 0, δ = Infinity; i < 10 && Math.abs(δ) > ε; i++) {
       φ -= δ = (φ + Math.sin(φ) - k) / (1 + Math.cos(φ));
     }
@@ -181,7 +180,7 @@
   function mollweide(λ, φ) {
     if (Math.abs(φ) !== π / 2) {
       var k = π / 2 * Math.sin(φ);
-      for (var i = 0, δ, ε = 1e-6; i < 10; i++) {
+      for (var i = 0, δ; i < 10; i++) {
         δ = (φ + Math.sin(2 * φ) / 2 - k) / (1 + Math.cos(2 * φ));
         if (Math.abs(δ) < ε) break;
         φ -= δ;
@@ -235,7 +234,6 @@
   }
 
   function vanDerGrinten(λ, φ) {
-    var ε = 1e-6;
     if (Math.abs(φ) < ε) return [λ, 0];
     var sinθ = Math.abs(2 * φ / π),
         θ = Math.asin(sinθ);
@@ -263,7 +261,6 @@
   }
 
   function polyconic(λ, φ) {
-    var ε = 1e-6;
     if (Math.abs(φ) < ε) return [λ, 0];
     var tanφ = Math.tan(φ),
         k = λ * Math.sin(φ);
@@ -286,8 +283,7 @@
         F;
 
     var p = projection(function(λ, φ) {
-      var ε = 1e-6,
-          ρ = Math.abs(Math.abs(φ) - π / 2) < ε ? 0 : F / Math.pow(t(φ), n);
+      var ρ = Math.abs(Math.abs(φ) - π / 2) < ε ? 0 : F / Math.pow(t(φ), n);
       return [
         ρ * Math.sin(n * λ),
         F - ρ * Math.cos(n * λ)

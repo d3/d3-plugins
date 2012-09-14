@@ -394,8 +394,8 @@
         forward = forwardAt(φ0),
         inverse = inverseAt ? inverseAt(φ0) : null,
         p = inverseAt
-            ? projection(function() { return forward(λ, φ); }, function(x, y) { return inverse(x, y); })
-            : projection(function() { return forward(λ, φ); });
+            ? projection(function(λ, φ) { return forward(λ, φ); }, function(x, y) { return inverse(x, y); })
+            : projection(function(λ, φ) { return forward(λ, φ); });
 
     p.parallel = function(_) {
       if (!arguments.length) return φ0 / π * 180;
@@ -413,8 +413,8 @@
         project = forwardAt(φ0, φ1),
         inverse = inverseAt ? inverseAt(φ0, φ1) : null,
         p = inverseAt
-            ? projection(function() { return forward(λ, φ); }, function(x, y) { return inverse(x, y); })
-            : projection(function() { return forward(λ, φ); });
+            ? projection(function(λ, φ) { return forward(λ, φ); }, function(x, y) { return inverse(x, y); })
+            : projection(function(λ, φ) { return forward(λ, φ); });
 
     p.parallels = function(_) {
       if (!arguments.length) return [φ0 / π * 180, φ1 / π * 180];

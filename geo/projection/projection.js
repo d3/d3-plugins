@@ -313,6 +313,13 @@
     ];
   }
 
+  function millerInverse(x, y) {
+    return [
+      x,
+      2.5 * Math.atan(Math.exp(.8 * y)) - .625 * π
+    ];
+  }
+
   function conicConformal(φ0, φ1) {
     var cosφ0 = Math.cos(φ0),
         n = Math.log(cosφ0 / Math.cos(φ1)) / Math.log(t(φ1) / t(φ0)),
@@ -505,7 +512,7 @@
   d3.geo.homolosine = function() { return projection(homolosine, homolosineInverse); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
   d3.geo.larrivee = function() { return projection(larrivee); };
-  d3.geo.miller = function() { return projection(miller); };
+  d3.geo.miller = function() { return projection(miller, millerInverse); };
   d3.geo.mollweide = function() { return projection(mollweide, mollweideInverse); };
   d3.geo.nellHammer = function() { return projection(nellHammer); };
   d3.geo.polyconic = function() { return projection(polyconic); };

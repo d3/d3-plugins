@@ -444,7 +444,7 @@
   d3.geo.projection = projection;
 
   d3.geo.aitoff = function() { return projection(aitoff); };
-  d3.geo.albers = albers;
+  d3.geo.albersEqualArea = albers;
   d3.geo.bonne = bonne;
   d3.geo.collignon = function() { return projection(collignon) };
   d3.geo.conicConformal = conicConformal;

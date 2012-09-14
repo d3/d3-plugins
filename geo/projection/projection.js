@@ -286,7 +286,8 @@
         F;
 
     var p = projection(function(λ, φ) {
-      var ρ = F / Math.pow(t(φ), n);
+      var ε = 1e-6,
+          ρ = Math.abs(Math.abs(φ) - π / 2) < ε ? 0 : F / Math.pow(t(φ), n);
       return [
         ρ * Math.sin(n * λ),
         F - ρ * Math.cos(n * λ)

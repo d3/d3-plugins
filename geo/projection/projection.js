@@ -280,6 +280,82 @@
     ];
   }
 
+  function conicConformal() {
+    var φ0, φ1,
+        n,
+        F;
+
+    var p = projection(function(λ, φ) {
+      var ρ = F / Math.pow(t(φ), n);
+      return [
+        ρ * Math.sin(n * λ),
+        F - ρ * Math.cos(n * λ)
+      ];
+    });
+
+    p.parallels = function(_0, _1) {
+      if (!arguments.length) return [φ0 * 180 / π, φ1 * 180 / π];
+      var cosφ0 = Math.cos(φ0 = _0 * π / 180);
+      n = Math.log(cosφ0 / Math.cos(φ1 = _1 * π / 180)) / Math.log(t(φ1) / t(φ0));
+      F = cosφ0 * Math.pow(t(φ0), n) / n;
+      return p;
+    };
+
+    return p.parallels(0, 60);
+
+    function t(φ) { return Math.tan(π / 4 + φ / 2); }
+  }
+
+  function conicEqualArea() {
+    var φ0, φ1,
+        n,
+        C,
+        ρ0;
+
+    var p = projection(function(λ, φ) {
+      var ρ = Math.sqrt(C - 2 * n * Math.sin(φ)) / n;
+      return [
+        ρ * Math.sin(n * λ),
+        ρ0 - ρ * Math.cos(n * λ)
+      ];
+    });
+
+    p.parallels = function(_0, _1) {
+      if (!arguments.length) return [φ0 * 180 / π, φ1 * 180 / π];
+      var sinφ0 = Math.sin(φ0 = _0 * π / 180);
+      n = (sinφ0 + Math.sin(φ1 = _1 * π / 180)) / 2;
+      C = 1 + sinφ0 * (2 * n - sinφ0);
+      ρ0 = Math.sqrt(C) / n;
+      return p;
+    };
+
+    return p.parallels(0, 60);
+  }
+
+  function conicEquidistant() {
+    var φ0, φ1,
+        n,
+        G;
+
+    var p = projection(function(λ, φ) {
+      var ρ = G - φ;
+      return [
+        ρ * Math.sin(n * λ),
+        G - ρ * Math.cos(n * λ)
+      ];
+    });
+
+    p.parallels = function(_0, _1) {
+      if (!arguments.length) return [φ0 * 180 / π, φ1 * 180 / π];
+      var cosφ0 = Math.cos(φ0 = _0 * π / 180);
+      n = (cosφ0 - Math.cos(φ1 = _1 * π / 180)) / (φ1 - φ0);
+      G = cosφ0 / n + φ0;
+      return p;
+    };
+
+    return p.parallels(0, 60);
+  }
+
   function projection(project) {
     var scale = 150,
         translate = [480, 250];
@@ -369,6 +445,9 @@
   d3.geo.aitoff = function() { return projection(aitoff); };
   d3.geo.bonne = bonne;
   d3.geo.collignon = function() { return projection(collignon) };
+  d3.geo.conicConformal = conicConformal;
+  d3.geo.conicEqualArea = conicEqualArea;
+  d3.geo.conicEquidistant = conicEquidistant;
   d3.geo.cylindricalEqualArea = cylindricalEqualArea;
   d3.geo.eckert1 = function() { return projection(eckert1); };
   d3.geo.eckert2 = function() { return projection(eckert2); };

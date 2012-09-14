@@ -1,8 +1,7 @@
 (function() {
   var ε = 1e-6,
       π = Math.PI,
-      sqrtπ = Math.sqrt(π),
-      defaultProjection = d3.geo.path().projection();
+      sqrtπ = Math.sqrt(π);
 
   var robinsonConstants = [
     [1.0000, 0.0000],

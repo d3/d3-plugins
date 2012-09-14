@@ -227,6 +227,13 @@
     ];
   }
 
+  function larrivee(λ, φ) {
+    return [
+      λ * (1 + Math.sqrt(Math.cos(φ))) / 2,
+      φ / (Math.cos(φ / 2) * Math.cos(λ / 6))
+    ];
+  }
+
   function projection(project) {
     var scale = 150,
         translate = [480, 250];
@@ -323,6 +330,7 @@
   d3.geo.hammer = function() { return projection(hammer); };
   d3.geo.homolosine = function() { return projection(homolosine); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
+  d3.geo.larrivee = function() { return projection(larrivee); };
   d3.geo.mollweide = function() { return projection(mollweide); };
   d3.geo.robinson = function() { return projection(robinson); };
   d3.geo.sinusoidal = function() { return projection(sinusoidal); };

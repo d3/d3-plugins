@@ -94,6 +94,11 @@
         λ * cosφ0,
         Math.sin(φ) / cosφ0
       ];
+    }, function(x, y) {
+      return [
+        x / cosφ0,
+        Math.asin(y * cosφ0)
+      ];
     });
 
     p.parallel = function(_) {

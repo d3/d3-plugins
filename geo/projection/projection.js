@@ -290,15 +290,15 @@
       ];
     });
 
-    p.parallels = function(_0, _1) {
+    p.parallels = function(_) {
       if (!arguments.length) return [φ0 * 180 / π, φ1 * 180 / π];
-      var cosφ0 = Math.cos(φ0 = _0 * π / 180);
-      n = Math.log(cosφ0 / Math.cos(φ1 = _1 * π / 180)) / Math.log(t(φ1) / t(φ0));
+      var cosφ0 = Math.cos(φ0 = _[0] * π / 180);
+      n = Math.log(cosφ0 / Math.cos(φ1 = _[1] * π / 180)) / Math.log(t(φ1) / t(φ0));
       F = cosφ0 * Math.pow(t(φ0), n) / n;
       return p;
     };
 
-    return p.parallels(0, 60);
+    return p.parallels([0, 60]);
 
     function t(φ) { return Math.tan(π / 4 + φ / 2); }
   }
@@ -317,16 +317,16 @@
       ];
     });
 
-    p.parallels = function(_0, _1) {
+    p.parallels = function(_) {
       if (!arguments.length) return [φ0 * 180 / π, φ1 * 180 / π];
-      var sinφ0 = Math.sin(φ0 = _0 * π / 180);
-      n = (sinφ0 + Math.sin(φ1 = _1 * π / 180)) / 2;
+      var sinφ0 = Math.sin(φ0 = _[0] * π / 180);
+      n = (sinφ0 + Math.sin(φ1 = _[1] * π / 180)) / 2;
       C = 1 + sinφ0 * (2 * n - sinφ0);
       ρ0 = Math.sqrt(C) / n;
       return p;
     };
 
-    return p.parallels(0, 60);
+    return p.parallels([0, 60]);
   }
 
   function conicEquidistant() {
@@ -342,15 +342,15 @@
       ];
     });
 
-    p.parallels = function(_0, _1) {
+    p.parallels = function(_) {
       if (!arguments.length) return [φ0 * 180 / π, φ1 * 180 / π];
-      var cosφ0 = Math.cos(φ0 = _0 * π / 180);
-      n = (cosφ0 - Math.cos(φ1 = _1 * π / 180)) / (φ1 - φ0);
+      var cosφ0 = Math.cos(φ0 = _[0] * π / 180);
+      n = (cosφ0 - Math.cos(φ1 = _[1] * π / 180)) / (φ1 - φ0);
       G = cosφ0 / n + φ0;
       return p;
     };
 
-    return p.parallels(0, 60);
+    return p.parallels([0, 60]);
   }
 
   function projection(project) {

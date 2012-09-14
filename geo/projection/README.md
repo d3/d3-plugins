@@ -16,6 +16,7 @@ Projections:
 * [d3.geo.homolosine](http://bl.ocks.org/3718260) - Goode Homolosine
 * [d3.geo.kavrayskiy7](http://bl.ocks.org/3710082) - Kavrayskiy VII
 * [d3.geo.larrivee](http://bl.ocks.org/3717209) - Larrivée
+* [d3.geo.miller](http://bl.ocks.org/3721424) - Miller
 * [d3.geo.mollweide](http://bl.ocks.org/3717899) - Mollweide
 * [d3.geo.nellHammer](http://bl.ocks.org/3717797) - Nell-Hammer
 * [d3.geo.polyconic](http://bl.ocks.org/3720962) - Polyconic

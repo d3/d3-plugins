@@ -9,8 +9,8 @@
         radians = Math.PI / 180;
 
     function rotate(coordinates) {
-      var λ = coordinates[0] + zAngle,
-          φ = coordinates[1],
+      var λ = coordinates[0] * radians + zAngle,
+          φ = coordinates[1] * radians,
           cosφ = Math.cos(φ),
           x = Math.cos(λ) * cosφ,
           y = Math.sin(λ) * cosφ,
@@ -22,8 +22,8 @@
       my = x * my[0] + y * my[1] + z * my[2];
       mz = x * mz[0] + y * mz[1] + z * mz[2];
       return [
-        Math.atan2(my, mx),
-        Math.asin(mz)
+        Math.atan2(my, mx) / radians,
+        Math.asin(mz) / radians
       ];
     }
 

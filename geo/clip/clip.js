@@ -5,7 +5,7 @@ d3.geo.clip = function() {
       degrees = 90,
       radians = degrees * d3_geo_radians,
       precision = 1, // step size in degrees for interpolated clip edge
-      arc = d3.geo.greatArc().source(origin).target(d3_identity),
+      arc = d3.geo.greatArc().source(origin).target(identity),
       clipCircle,
       normal, // Cartesian normal to the circle origin.
       reference, // Cartesian reference point lying on the circle.
@@ -40,7 +40,7 @@ d3.geo.clip = function() {
   var clipType = d3_geo_type({
 
     FeatureCollection: function(o) {
-      var features = o.features.map(clipType).filter(d3_identity);
+      var features = o.features.map(clipType).filter(identity);
       return features && (o = Object.create(o), o.features = features, o);
     },
 
@@ -82,7 +82,7 @@ d3.geo.clip = function() {
     },
 
     GeometryCollection: function(o) {
-      var geometries = o.geometries.map(clipType).filter(d3_identity);
+      var geometries = o.geometries.map(clipType).filter(identity);
       return geometries.length && (o = Object.create(o), o.geometries = geometries, o);
     }
 
@@ -342,4 +342,6 @@ function d3_geo_type(types, defaultValue) {
     return object && types.hasOwnProperty(object.type) ? types[object.type](object) : defaultValue;
   };
 }
+
+function identity(d) { return d; }
 })();

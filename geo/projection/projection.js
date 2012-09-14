@@ -307,7 +307,7 @@
     function t(φ) { return Math.tan(π / 4 + φ / 2); }
   }
 
-  function conicEqualArea() {
+  function albers() {
     var φ0, φ1,
         n,
         C,
@@ -444,10 +444,10 @@
   d3.geo.projection = projection;
 
   d3.geo.aitoff = function() { return projection(aitoff); };
+  d3.geo.albers = albers;
   d3.geo.bonne = bonne;
   d3.geo.collignon = function() { return projection(collignon) };
   d3.geo.conicConformal = conicConformal;
-  d3.geo.conicEqualArea = conicEqualArea;
   d3.geo.conicEquidistant = conicEquidistant;
   d3.geo.cylindricalEqualArea = cylindricalEqualArea;
   d3.geo.eckert1 = function() { return projection(eckert1); };

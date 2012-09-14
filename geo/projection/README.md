@@ -3,9 +3,9 @@
 Projections:
 
 * [d3.geo.aitoff](http://bl.ocks.org/3682698) - Aitoff
+* [d3.geo.albers](http://bl.ocks.org/3721525) - Albers equal-area conic
 * [d3.geo.bonne](http://bl.ocks.org/3717006) - Bonne
 * [d3.geo.collignon](http://bl.ocks.org/3716915) - Collignon
-* [d3.geo.conicEqualArea](http://bl.ocks.org/3721525) - Albers equal-area conic
 * [d3.geo.conicEquidistant](http://bl.ocks.org/3721557) - Conic equidistant
 * [d3.geo.conicConformal](http://bl.ocks.org/3721462) - Lambert conformal conic
 * [d3.geo.cylindricalEqualArea](http://bl.ocks.org/3712408) - Cylindrical equal-area

@@ -184,7 +184,7 @@
   }
 
   function verticalPerspective() {
-    var distance = 1;
+    var distance = 5;
 
     var p = projection(function(λ, φ) {
       var cosφ = Math.cos(φ),

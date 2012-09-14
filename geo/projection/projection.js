@@ -219,7 +219,7 @@
     var θ = Math.asin(y / Math.SQRT2);
     return [
       π * x / (2 * Math.SQRT2 * Math.cos(θ)),
-      Math.asin((2 * θ + Math.sin(2 * θ)) / π);
+      Math.asin((2 * θ + Math.sin(2 * θ)) / π)
     ];
   }
 

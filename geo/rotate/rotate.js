@@ -10,7 +10,7 @@
 
     function rotate(λ, φ) {
       λ += zAngle;
-      var cφ = Math.cos(φ),
+      var cosφ = Math.cos(φ),
           x = Math.cos(λ) * cosφ,
           y = Math.sin(λ) * cosφ,
           z = Math.sin(φ),

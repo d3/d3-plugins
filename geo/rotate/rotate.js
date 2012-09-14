@@ -28,26 +28,26 @@
       ];
     }
 
-    return rotate;
-  };
+    rotate.invert = function(coordinates) {
+      var λ = coordinates[0] * d3_geo_radians,
+          φ = coordinates[1] * d3_geo_radians,
+          cosφ = Math.cos(φ),
+          x = Math.cos(λ) * cosφ,
+          y = Math.sin(λ) * cosφ,
+          z = Math.sin(φ),
+          mx = m[0],
+          my = m[1],
+          mz = m[2],
+          rx = x * mx[0] + y * my[0] + z * mz[0],
+          ry = x * mx[1] + y * my[1] + z * mz[1],
+          rz = x * mx[2] + y * my[2] + z * mz[2];
+      return [
+        Math.atan2(ry, rx) / radians - zAngle,
+        Math.asin(rz) / radians
+      ];
+    };
 
-  rotate.invert = function(coordinates) {
-    var λ = coordinates[0] * d3_geo_radians,
-        φ = coordinates[1] * d3_geo_radians,
-        cosφ = Math.cos(φ),
-        x = Math.cos(λ) * cosφ,
-        y = Math.sin(λ) * cosφ,
-        z = Math.sin(φ),
-        mx = m[0],
-        my = m[1],
-        mz = m[2],
-        rx = x * mx[0] + y * my[0] + z * mz[0],
-        ry = x * mx[1] + y * my[1] + z * mz[1],
-        rz = x * mx[2] + y * my[2] + z * mz[2];
-    return [
-      Math.atan2(ry, rx) / radians - zAngle,
-      Math.asin(rz) / radians
-    ];
+    return rotate;
   };
 
   function matrix(y, x) {

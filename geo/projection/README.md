@@ -22,6 +22,7 @@ Projections:
 * [d3.geo.miller](http://bl.ocks.org/3721424) - Miller
 * [d3.geo.mollweide](http://bl.ocks.org/3717899) - Mollweide
 * [d3.geo.nellHammer](http://bl.ocks.org/3717797) - Nell-Hammer
+* [d3.geo.orthographic](http://bl.ocks.org/3721735) - Orthographic
 * [d3.geo.polyconic](http://bl.ocks.org/3720962) - Polyconic
 * [d3.geo.robinson](http://bl.ocks.org/3710566) - Robinson
 * [d3.geo.sinusoidal](http://bl.ocks.org/3712399) - Sinusoidal

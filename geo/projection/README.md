@@ -5,6 +5,7 @@ Projections:
 * [d3.geo.aitoff](http://bl.ocks.org/3682698) - Aitoff
 * [d3.geo.bonne](http://bl.ocks.org/3717006) - Bonne
 * [d3.geo.collignon](http://bl.ocks.org/3716915) - Collignon
+* [d3.geo.conicConformal](http://bl.ocks.org/3721462) - Lambert Conformal Conic
 * [d3.geo.cylindricalEqualArea](http://bl.ocks.org/3712408) - Cylindrical equal-area
 * [d3.geo.eckert1](http://bl.ocks.org/3717369) - Eckert I
 * [d3.geo.eckert2](http://bl.ocks.org/3717378) - Eckert II

@@ -207,6 +207,12 @@
         ρ * Math.sin(E),
         cotφ0 - ρ * Math.cos(E)
       ];
+    }, function(x, y) {
+      var φ = cotφ0 + φ0 - ρ;
+      return [
+        ρ / Math.cos(φ) * Math.atan(x / (cotφ0 - y)),
+        φ
+      ];
     });
 
     p.parallel = function(_) {
@@ -353,13 +359,20 @@
     return p.parallels([0, 60]);
   }
 
-  function projection(project) {
+  function projection(forward, inverse) {
     var scale = 150,
         translate = [480, 250];
 
     function p(coordinates) {
-      coordinates = project(coordinates[0] * π / 180, coordinates[1] * π / 180);
+      coordinates = forward(coordinates[0] * π / 180, coordinates[1] * π / 180);
       return [coordinates[0] * scale + translate[0], translate[1] - coordinates[1] * scale];
+    }
+
+    if (arguments.length > 1) {
+      p.invert = function(coordinates) {
+        coordinates = inverse((coordinates[0] - translate[0]) / scale, (coordinates[1] - translate[1]) / scale);
+        return [coordinates[0] * 180 / π, coordinates[1] * 180 / π];
+      };
     }
 
     p.scale = function(_) {

@@ -263,6 +263,8 @@
   }
 
   function polyconic(λ, φ) {
+    var ε = 1e-6;
+    if (Math.abs(φ) < ε) return [λ, 0];
     var tanφ = Math.tan(φ),
         k = λ * Math.sin(φ);
     return [

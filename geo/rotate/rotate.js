@@ -10,7 +10,7 @@
         zAngle = z;
 
     function rotate(coordinates) {
-      var λ = coordinates[0] * radians + zAngle,
+      var λ = (coordinates[0] + zAngle) * radians,
           φ = coordinates[1] * radians,
           cosφ = Math.cos(φ),
           x = Math.cos(λ) * cosφ,

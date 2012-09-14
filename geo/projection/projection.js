@@ -165,6 +165,13 @@
     ];
   }
 
+  function gnomonic(λ, φ) {
+    return [
+      Math.tan(λ),
+      Math.tan(φ) / Math.cos(λ)
+    ];
+  }
+
   function projection(project) {
     var scale = 150,
         translate = [480, 250];
@@ -254,6 +261,7 @@
   d3.geo.eckert2 = function() { return projection(eckert2); };
   d3.geo.eckert3 = function() { return projection(eckert3); };
   d3.geo.eckert5 = function() { return projection(eckert5); };
+  d3.geo.gnomonic = function() { return projection(gnomonic); };
   d3.geo.hammer = function() { return projection(hammer); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
   d3.geo.orthographic = function() { return projection(orthographic); };

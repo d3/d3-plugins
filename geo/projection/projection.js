@@ -490,7 +490,7 @@
 
   d3.geo.aitoff = function() { return projection(aitoff); };
   d3.geo.albersEqualArea = function() { return doubleParallelProjection(albers); };
-  d3.geo.bonne = function() { return singleParallelProjection(bonne, bonneInverse).parallel(π / 4); };
+  d3.geo.bonne = function() { return singleParallelProjection(bonne, bonneInverse).parallel(45); };
   d3.geo.collignon = function() { return projection(collignon) };
   d3.geo.conicConformal = function() { return doubleParallelProjection(conicConformal); };
   d3.geo.conicEquidistant = function() { return doubleParallelProjection(conicEquidistant); };

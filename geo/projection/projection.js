@@ -313,12 +313,15 @@
 
     graticule.outline = function() {
       var ySteps = d3.range(extent[0][1], extent[1][1] + precision[1] / 2, precision[1]),
+          xSteps = d3.range(extent[0][0], extent[1][0] + precision[0] / 2, precision[0]),
           xLine0 = ySteps.map(function(y) { return [extent[0][0], y]; }),
-          xLine1 = ySteps.map(function(y) { return [extent[1][0], y]; }).reverse();
-      xLine1.push(xLine0[0]); // closing coordinate
+          yLine0 = xSteps.map(function(x) { return [x, extent[1][1]]; }),
+          xLine1 = ySteps.map(function(y) { return [extent[1][0], y]; }).reverse(),
+          yLine1 = xSteps.map(function(x) { return [x, extent[0][1]]; }).reverse();
+      yLine1.push(xLine0[0]); // closing coordinate
       return {
         type: "Polygon",
-        coordinates: [xLine0.concat(xLine1)]
+        coordinates: [xLine0.concat(yLine0, xLine1, yLine1)]
       };
     };
 

@@ -165,18 +165,20 @@
   }
 
   function azimuthalEqualArea(λ, φ) {
-    var k = Math.sqrt(2 / (1 + Math.cos(φ) * Math.cos(λ)));
+    var cosφ = Math.cos(φ),
+        k = Math.sqrt(2 / (1 + cosφ * Math.cos(λ)));
     return [
-      k * Math.cos(φ) * Math.sin(λ),
+      k * cosφ * Math.sin(λ),
       k * Math.sin(φ)
     ];
   }
 
   function azimuthalEquidistant(λ, φ) {
-    var c = Math.acos(Math.cos(φ) * Math.cos(λ)),
+    var cosφ = Math.cos(φ),
+        c = Math.acos(cosφ * Math.cos(λ)),
         k = c / Math.sin(c);
     return [
-      k * Math.cos(φ) * Math.sin(λ),
+      k * cosφ * Math.sin(λ),
       k * Math.sin(φ)
     ];
   }
@@ -185,9 +187,10 @@
     var distance = 1;
 
     var p = projection(function(λ, φ) {
-      var k = (distance - 1) / (distance - (Math.cos(φ) * Math.cos(λ));
+      var cosφ = Math.cos(φ),
+          k = (distance - 1) / (distance - (cosφ * Math.cos(λ));
       return [
-        k * Math.cos(φ) * Math.sin(λ),
+        k * cosφ * Math.sin(λ),
         k * Math.sin(φ)
       ];
     });

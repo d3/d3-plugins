@@ -172,6 +172,23 @@
     ];
   }
 
+  function azimuthalEqualArea(λ, φ) {
+    var k = Math.sqrt(2 / (1 + Math.cos(φ) * Math.cos(λ)));
+    return [
+      k * Math.cos(φ) * Math.sin(λ),
+      k * Math.sin(φ)
+    ];
+  }
+
+  function azimuthalEquidistant(λ, φ) {
+    var c = Math.acos(Math.cos(φ) * Math.cos(λ)),
+        k = c / Math.sin(c);
+    return [
+      k * Math.cos(φ) * Math.sin(λ),
+      k * Math.sin(φ)
+    ];
+  }
+
   function projection(project) {
     var scale = 150,
         translate = [480, 250];
@@ -256,6 +273,8 @@
   d3.geo.projection = projection;
 
   d3.geo.aitoff = function() { return projection(aitoff); };
+  d3.geo.azimuthalEqualArea = function() { return projection(azimuthalEqualArea); };
+  d3.geo.azimuthalEquidistant = function() { return projection(azimuthalEquidistant); };
   d3.geo.cylindricalEqualArea = cylindricalEqualArea;
   d3.geo.eckert1 = function() { return projection(eckert1); };
   d3.geo.eckert2 = function() { return projection(eckert2); };

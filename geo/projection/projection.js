@@ -205,8 +205,8 @@
       var k = π / 2 * Math.sin(φ);
       for (var i = 0, δ; i < 10; i++) {
         δ = (φ + Math.sin(2 * φ) / 2 - k) / (1 + Math.cos(2 * φ));
-        if (Math.abs(δ) < ε) break;
         φ -= δ;
+        if (Math.abs(δ) < ε) break;
       }
     }
     return [
@@ -224,11 +224,11 @@
   }
 
   function homolosine(λ, φ) {
-    return Math.abs(φ) > 41.737 * π / 180 ? mollweide(λ, φ) : sinusoidal(λ, φ);
+    return (Math.abs(φ) > 41.737 * π / 180 ? mollweide : sinusoidal)(λ, φ);
   }
 
-  function homolosineInverse(λ, φ) {
-    return Math.abs(φ) > 41.737 * π / 180 ? mollweideInverse(λ, φ) : sinusoidalInverse(λ, φ);
+  function homolosineInverse(x, y) {
+    return (Math.abs(y) > 41.737 * π / 180 ? mollweideInverse : sinusoidalInverse)(x, y);
   }
 
   function bonne(φ0) {

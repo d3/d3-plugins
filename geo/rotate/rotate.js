@@ -62,5 +62,7 @@
     ];
   }
 
-  function identity(λ, φ) { return [λ, φ]; }
+  function identity(coordinates) { return coordinates; }
+  identity.invert = identity;
+
 })();

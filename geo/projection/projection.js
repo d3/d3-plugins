@@ -157,14 +157,6 @@
     ];
   }
 
-  function stereographic(λ, φ) {
-    var k = 2 / (1 + Math.cos(φ) * Math.cos(λ));
-    return [
-      k * Math.cos(φ) * Math.sin(λ),
-      k * Math.sin(φ)
-    ];
-  }
-
   function gnomonic(λ, φ) {
     return [
       Math.tan(λ),
@@ -306,7 +298,8 @@
   d3.geo.orthographic = function() { return projection(orthographic); };
   d3.geo.robinson = function() { return projection(robinson); };
   d3.geo.sinusoidal = function() { return projection(sinusoidal); };
-  d3.geo.stereographic = function() { return projection(stereographic); };
+  d3.geo.stereographic = verticalPerspective().distance(-1);
+  d3.geo.verticalPerspective = verticalPerspective;
   d3.geo.wagner6 = function() { return projection(wagner6); };
   d3.geo.winkel3 = function() { return projection(winkel3); };
 })();

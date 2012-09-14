@@ -1,6 +1,7 @@
 (function() {
 d3.geo.clip = function() {
-  var origin = [0, 0],
+  var d3_geo_radians = Math.PI / 180,
+      origin = [0, 0],
       degrees = 90,
       radians = degrees * d3_geo_radians,
       precision = 1, // step size in degrees for interpolated clip edge

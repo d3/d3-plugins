@@ -112,6 +112,13 @@
     ];
   }
 
+  function sinusoidalInverse(x, y) {
+    return [
+      x / Math.cos(y),
+      y
+    ];
+  }
+
   function hammer(λ, φ) {
     var cosφ = Math.cos(φ),
         k = Math.sqrt(2 / (1 + cosφ * Math.cos(λ /= 2)));
@@ -200,8 +207,20 @@
     ];
   }
 
+  function mollweideInverse(x, y) {
+    var θ = Math.asin(y / Math.SQRT2);
+    return [
+      π * x / (2 * Math.SQRT2 * Math.cos(θ)),
+      Math.asin((2 * θ + Math.sin(2 * θ)) / π);
+    ];
+  }
+
   function homolosine(λ, φ) {
     return Math.abs(φ) > 41.737 * π / 180 ? mollweide(λ, φ) : sinusoidal(λ, φ);
+  }
+
+  function homolosineInverse(λ, φ) {
+    return Math.abs(φ) > 41.737 * π / 180 ? mollweideInverse(λ, φ) : sinusoidalInverse(λ, φ);
   }
 
   function bonne(φ0) {
@@ -475,15 +494,15 @@
   d3.geo.eckert5 = function() { return projection(eckert5); };
   d3.geo.eckert6 = function() { return projection(eckert6); };
   d3.geo.hammer = function() { return projection(hammer, hammerInverse); };
-  d3.geo.homolosine = function() { return projection(homolosine); };
+  d3.geo.homolosine = function() { return projection(homolosine, homolosineInverse); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
   d3.geo.larrivee = function() { return projection(larrivee); };
   d3.geo.miller = function() { return projection(miller); };
-  d3.geo.mollweide = function() { return projection(mollweide); };
+  d3.geo.mollweide = function() { return projection(mollweide, mollweideInverse); };
   d3.geo.nellHammer = function() { return projection(nellHammer); };
   d3.geo.polyconic = function() { return projection(polyconic); };
   d3.geo.robinson = function() { return projection(robinson); };
-  d3.geo.sinusoidal = function() { return projection(sinusoidal); };
+  d3.geo.sinusoidal = function() { return projection(sinusoidal, sinusoidalInverse); };
   d3.geo.vanDerGrinten = function() { return projection(vanDerGrinten); };
   d3.geo.wagner6 = function() { return projection(wagner6); };
   d3.geo.winkel3 = function() { return projection(winkel3); };

@@ -349,6 +349,21 @@
     };
   }
 
+  function albersInverse(φ0, φ1) {
+    var sinφ0 = Math.sin(φ0),
+        n = (sinφ0 + Math.sin(φ1)) / 2,
+        C = 1 + sinφ0 * (2 * n - sinφ0),
+        ρ0 = Math.sqrt(C) / n;
+
+    return function(x, y) {
+      var ρ0_y = ρ0 - y;
+      return [
+        Math.atan2(x, ρ0_y) / n,
+        Math.asin((C - (x * x + ρ0_y * ρ0_y) * n * n) / (2 * n))
+      ];
+    };
+  }
+
   function conicEquidistant(φ0, φ1) {
     var cosφ0 = Math.cos(φ0),
         n = (cosφ0 - Math.cos(φ1)) / (φ1 - φ0),
@@ -494,7 +509,7 @@
   d3.geo.projection = projection;
 
   d3.geo.aitoff = function() { return projection(aitoff); };
-  d3.geo.albersEqualArea = function() { return doubleParallelProjection(albers); };
+  d3.geo.albersEqualArea = function() { return doubleParallelProjection(albers, albersInverse); };
   d3.geo.bonne = function() { return singleParallelProjection(bonne, bonneInverse).parallel(45); };
   d3.geo.collignon = function() { return projection(collignon) };
   d3.geo.conicConformal = function() { return doubleParallelProjection(conicConformal); };

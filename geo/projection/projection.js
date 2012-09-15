@@ -203,10 +203,8 @@
   function mollweide(λ, φ) {
     if (Math.abs(φ) !== π / 2) {
       var k = π / 2 * Math.sin(φ);
-      for (var i = 0, δ; i < 10; i++) {
-        δ = (φ + Math.sin(2 * φ) / 2 - k) / (1 + Math.cos(2 * φ));
-        φ -= δ;
-        if (Math.abs(δ) < ε) break;
+      for (var i = 0, δ; i < 10 && Math.abs(δ) > ε; i++) {
+        φ -= δ = (φ + Math.sin(2 * φ) / 2 - k) / (1 + Math.cos(2 * φ));
       }
     }
     return [

@@ -24,7 +24,7 @@
       mz = x * mz[0] + y * mz[1] + z * mz[2];
       return [
         Math.atan2(my, mx) / radians,
-        Math.asin(mz) / radians
+        Math.asin(Math.max(-1, Math.min(1, mz))) / radians
       ];
     }
 

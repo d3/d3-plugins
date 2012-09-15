@@ -273,7 +273,7 @@
         θ = Math.asin(sinθ);
     if (Math.abs(λ) < ε || Math.abs(Math.abs(φ) - π / 2) < ε) return [0, sgn(φ) * π * Math.tan(θ / 2)];
     var cosθ = Math.cos(θ),
-        A = .5 * Math.abs(π / λ - λ / π),
+        A = Math.abs(π / λ - λ / π) / 2,
         A2 = A * A,
         G = cosθ / (sinθ + cosθ - 1),
         P = G * (2 / sinθ - 1),
@@ -284,6 +284,26 @@
     return [
       sgn(λ) * π * (A * G_P2 + Math.sqrt(A2 * G_P2 * G_P2 - P2_A2 * (G * G - P2))) / P2_A2,
       sgn(φ) * π * (P * Q - A * Math.sqrt((A2 + 1) * P2_A2 - Q * Q)) / P2_A2
+    ];
+  }
+
+  function vanDerGrintenInverse(x, y) {
+    if (Math.abs(y) < ε) return [x, 0];
+    var x2 = (x /= π) * x,
+        y2 = (y /= π) * y,
+        x2_y2 = x2 + y2,
+        z = x2_y2 * x2_y2,
+        c1 = -Math.abs(y) * (1 + x2_y2),
+        c2 = c1 - 2 * y2 + x2,
+        c3 = -2 * c1 + 1 + 2 * y2 + z,
+        d = y2 / c3 + (2 * c2 * c2 * c2 / (c3 * c3 * c3) - 9 * c1 * c2 / (c3 * c3)) / 27,
+        a1 = (c1 - c2 * c2 / (3 * c3)) / c3,
+        m1 = 2 * Math.sqrt(-a1 / 3),
+        θ1 = Math.acos(3 * d / (a1 * m1)) / 3;
+    console.log(d, a1, m1);
+    return [
+      π * (x2_y2 - 1 + Math.sqrt(1 + 2 * (x2 - y2) + z)) / (2 * x),
+      sgn(y) * π * (-m1 * Math.cos(θ1 + π / 3) - c2 / (3 * c3))
     ];
   }
 
@@ -420,7 +440,7 @@
 
     if (arguments.length > 1) {
       p.invert = function(coordinates) {
-        coordinates = inverse((coordinates[0] - translate[0]) / scale, (coordinates[1] - translate[1]) / scale);
+        coordinates = inverse((coordinates[0] - translate[0]) / scale, (translate[1] - coordinates[1]) / scale);
         return [coordinates[0] * 180 / π, coordinates[1] * 180 / π];
       };
     }
@@ -562,7 +582,7 @@
   d3.geo.polyconic = function() { return projection(polyconic); };
   d3.geo.robinson = function() { return projection(robinson); };
   d3.geo.sinusoidal = function() { return projection(sinusoidal, sinusoidalInverse); };
-  d3.geo.vanDerGrinten = function() { return projection(vanDerGrinten); };
+  d3.geo.vanDerGrinten = function() { return projection(vanDerGrinten, vanDerGrintenInverse); };
   d3.geo.wagner6 = function() { return projection(wagner6); };
   d3.geo.winkel3 = function() { return projection(winkel3); };
 })();

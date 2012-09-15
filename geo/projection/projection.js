@@ -378,6 +378,20 @@
     };
   }
 
+  function conicEquidistantInverse(φ0, φ1) {
+    var cosφ0 = Math.cos(φ0),
+        n = (cosφ0 - Math.cos(φ1)) / (φ1 - φ0),
+        G = cosφ0 / n + φ0;
+
+    return function(x, y) {
+      var ρ0_y = G - y;
+      return [
+        Math.atan2(x, ρ0_y) / n,
+        G - sgn(n) * Math.sqrt(x * x + ρ0_y * ρ0_y)
+      ];
+    };
+  }
+
   function projection(forward, inverse) {
     var scale = 150,
         translate = [480, 250];
@@ -513,7 +527,7 @@
   d3.geo.bonne = function() { return singleParallelProjection(bonne, bonneInverse).parallel(45); };
   d3.geo.collignon = function() { return projection(collignon) };
   d3.geo.conicConformal = function() { return doubleParallelProjection(conicConformal); };
-  d3.geo.conicEquidistant = function() { return doubleParallelProjection(conicEquidistant); };
+  d3.geo.conicEquidistant = function() { return doubleParallelProjection(conicEquidistant, conicEquidistantInverse); };
   d3.geo.cylindricalEqualArea = function() { return singleParallelProjection(cylindricalEqualArea, cylindricalEqualAreaInverse); };
   d3.geo.eckert1 = function() { return projection(eckert1, eckert1Inverse); };
   d3.geo.eckert2 = function() { return projection(eckert2); };

@@ -334,6 +334,23 @@
     };
   }
 
+  function conicConformalInverse(φ0, φ1) {
+    var cosφ0 = Math.cos(φ0),
+        n = Math.log(cosφ0 / Math.cos(φ1)) / Math.log(t(φ1) / t(φ0)),
+        F = cosφ0 * Math.pow(t(φ0), n) / n;
+
+    function t(φ) { return Math.tan(π / 4 + φ / 2); }
+
+    return function(x, y) {
+      var ρ0_y = F - y,
+          ρ = sgn(n) * Math.sqrt(x * x + ρ0_y * ρ0_y);
+      return [
+        Math.atan2(x, ρ0_y) / n,
+        2 * Math.atan(Math.pow(F / ρ, 1 / n)) - π / 2
+      ];
+    };
+  }
+
   function albers(φ0, φ1) {
     var sinφ0 = Math.sin(φ0),
         n = (sinφ0 + Math.sin(φ1)) / 2,
@@ -526,7 +543,7 @@
   d3.geo.albersEqualArea = function() { return doubleParallelProjection(albers, albersInverse); };
   d3.geo.bonne = function() { return singleParallelProjection(bonne, bonneInverse).parallel(45); };
   d3.geo.collignon = function() { return projection(collignon) };
-  d3.geo.conicConformal = function() { return doubleParallelProjection(conicConformal); };
+  d3.geo.conicConformal = function() { return doubleParallelProjection(conicConformal, conicConformalInverse); };
   d3.geo.conicEquidistant = function() { return doubleParallelProjection(conicEquidistant, conicEquidistantInverse); };
   d3.geo.cylindricalEqualArea = function() { return singleParallelProjection(cylindricalEqualArea, cylindricalEqualAreaInverse); };
   d3.geo.eckert1 = function() { return projection(eckert1, eckert1Inverse); };

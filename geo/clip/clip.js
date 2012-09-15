@@ -309,7 +309,7 @@
   function clipSpherical(point) {
     return [
       Math.atan2(point[1], point[0]) / d3_geo_radians,
-      Math.asin(point[2]) / d3_geo_radians
+      Math.asin(Math.max(-1, Math.min(1, point[2]))) / d3_geo_radians
     ];
   }
 

@@ -423,7 +423,7 @@
 
     p.parallels = function(_) {
       if (!arguments.length) return [φ0 / π * 180, φ1 / π * 180];
-      forward = forwardAt(φ0 = _ * π / 180, φ1 = _ * π / 180);
+      forward = forwardAt(φ0 = _[0] * π / 180, φ1 = _[1] * π / 180);
       if (inverseAt) inverse = inverseAt(φ0, φ1);
       return p;
     };

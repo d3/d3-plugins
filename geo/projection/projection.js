@@ -300,7 +300,6 @@
         a1 = (c1 - c2 * c2 / (3 * c3)) / c3,
         m1 = 2 * Math.sqrt(-a1 / 3),
         θ1 = Math.acos(3 * d / (a1 * m1)) / 3;
-    console.log(d, a1, m1);
     return [
       π * (x2_y2 - 1 + Math.sqrt(1 + 2 * (x2 - y2) + z)) / (2 * x),
       sgn(y) * π * (-m1 * Math.cos(θ1 + π / 3) - c2 / (3 * c3))

@@ -136,8 +136,11 @@
           n1n1 = clipDot(n1, n1),
           n2n2 = clipDot(n2, n2),
           n1n2 = clipDot(n1, n2),
-          determinant = n1n1 * n2n2 - n1n2 * n1n2,
-          c1 = (d1 * n2n2 - d2 * n1n2) / determinant,
+          determinant = n1n1 * n2n2 - n1n2 * n1n2;
+      // Two polar points.
+      if (!determinant) return a;
+
+      var c1 = (d1 * n2n2 - d2 * n1n2) / determinant,
           c2 = (d2 * n1n1 - d1 * n1n2) / determinant,
           n1xn2 = clipCross(n1, n2),
           A = clipScale(n1, c1),

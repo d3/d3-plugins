@@ -644,7 +644,7 @@
   d3.geo.polyconic = function() { return projection(polyconic); };
   d3.geo.robinson = function() { return projection(robinson); };
   d3.geo.sinusoidal = function() { return projection(sinusoidal, sinusoidalInverse); };
-  d3.geo.stereographic = verticalPerspective().distance(-1);
+  d3.geo.stereographic = function() { return verticalPerspective().distance(-1); };
   d3.geo.vanDerGrinten = function() { return projection(vanDerGrinten, vanDerGrintenInverse); };
   d3.geo.verticalPerspective = verticalPerspective;
   d3.geo.wagner6 = function() { return projection(wagner6); };

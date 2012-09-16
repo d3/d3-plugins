@@ -197,6 +197,13 @@
     ];
   }
 
+  function gnomonicInverse(x, y) {
+    return [
+      Math.atan(x),
+      Math.asin(y / Math.sqrt(x * x + y * y + 1))
+    ];
+  }
+
   function azimuthalEqualArea(λ, φ) {
     var cosφ = Math.cos(φ),
         k = Math.sqrt(2 / (1 + cosφ * Math.cos(λ)));
@@ -640,7 +647,7 @@
   d3.geo.eckert4 = function() { return projection(eckert4); };
   d3.geo.eckert5 = function() { return projection(eckert5); };
   d3.geo.eckert6 = function() { return projection(eckert6); };
-  d3.geo.gnomonic = function() { return projection(gnomonic); };
+  d3.geo.gnomonic = function() { return projection(gnomonic, gnomonicInverse); };
   d3.geo.hammer = function() { return projection(hammer, hammerInverse); };
   d3.geo.homolosine = function() { return projection(homolosine, homolosineInverse); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };

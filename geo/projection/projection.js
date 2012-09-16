@@ -311,6 +311,14 @@
     ];
   }
 
+  function collignonInverse(x, y) {
+    var λ = (λ = y / sqrtπ - 1) * λ;
+    return [
+      λ > 0 ? x * Math.sqrt(π / λ) / 2 : 0,
+      Math.asin(Math.max(-1, Math.min(1, 1 - λ)))
+    ];
+  }
+
   function larrivee(λ, φ) {
     return [
       λ * (1 + Math.sqrt(Math.cos(φ))) / 2,
@@ -613,7 +621,7 @@
   d3.geo.aitoff = function() { return projection(aitoff); };
   d3.geo.albersEqualArea = function() { return doubleParallelProjection(albers, albersInverse); };
   d3.geo.bonne = function() { return singleParallelProjection(bonne, bonneInverse).parallel(45); };
-  d3.geo.collignon = function() { return projection(collignon) };
+  d3.geo.collignon = function() { return projection(collignon, collignonInverse); };
   d3.geo.conicConformal = function() { return doubleParallelProjection(conicConformal, conicConformalInverse); };
   d3.geo.conicEquidistant = function() { return doubleParallelProjection(conicEquidistant, conicEquidistantInverse); };
   d3.geo.cylindricalEqualArea = function() { return singleParallelProjection(cylindricalEqualArea, cylindricalEqualAreaInverse); };

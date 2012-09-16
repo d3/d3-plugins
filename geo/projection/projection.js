@@ -119,21 +119,15 @@
   }
 
   function hammer(λ, φ) {
-    var cosφ = Math.cos(φ),
-        k = Math.sqrt(2 / (1 + cosφ * Math.cos(λ /= 2)));
-    return [
-      Math.sin(λ) * cosφ * k * 2,
-      Math.sin(φ) * k
-    ];
+    var coordinates = azimuthalEqualArea(λ / 2, φ);
+    coordinates[0] *= 2;
+    return coordinates;
   }
 
   function hammerInverse(x, y) {
-    var z2 = 1 - x * x / 16 - y * y / 4,
-        z = Math.sqrt(z2);
-    return [
-      2 * Math.atan2(z * x, 4 * z2 - 2),
-      Math.asin(z * y)
-    ];
+    var coordinates = azimuthalEqualAreaInverse(x / 2, y);
+    coordinates[0] *= 2;
+    return coordinates;
   }
 
   function eckert1(λ, φ) {
@@ -209,6 +203,15 @@
     return [
       k * cosφ * Math.sin(λ),
       k * Math.sin(φ)
+    ];
+  }
+
+  function azimuthalEqualAreaInverse(x, y) {
+    var z2 = 4 - x * x - y * y,
+        z = Math.sqrt(z2);
+    return [
+      Math.atan2(z * x, z2 - 2),
+      Math.asin(z * y / 2)
     ];
   }
 
@@ -616,7 +619,7 @@
 
   d3.geo.aitoff = function() { return projection(aitoff); };
   d3.geo.albersEqualArea = function() { return doubleParallelProjection(albers, albersInverse); };
-  d3.geo.azimuthalEqualArea = function() { return projection(azimuthalEqualArea); };
+  d3.geo.azimuthalEqualArea = function() { return projection(azimuthalEqualArea, azimuthalEqualAreaInverse); };
   d3.geo.azimuthalEquidistant = function() { return projection(azimuthalEquidistant); };
   d3.geo.bonne = function() { return singleParallelProjection(bonne, bonneInverse).parallel(45); };
   d3.geo.collignon = function() { return projection(collignon) };

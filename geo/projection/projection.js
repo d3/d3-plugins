@@ -128,9 +128,10 @@
   }
 
   function hammerInverse(x, y) {
-    var z = Math.sqrt(1 - x * x / 16 - y * y / 4);
+    var z2 = 1 - x * x / 16 - y * y / 4,
+        z = Math.sqrt(z2);
     return [
-      2 * Math.atan2(z * x, 4 * z * z - 2),
+      2 * Math.atan2(z * x, 4 * z2 - 2),
       Math.asin(z * y)
     ];
   }

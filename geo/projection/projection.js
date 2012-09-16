@@ -217,12 +217,20 @@
 
   function azimuthalEquidistant(λ, φ) {
     var cosφ = Math.cos(φ),
-        c = Math.acos(cosφ * Math.cos(λ)),
-        k = c / Math.sin(c);
-    return [
-      k * cosφ * Math.sin(λ),
-      k * Math.sin(φ)
-    ];
+        c = Math.acos(cosφ * Math.cos(λ));
+    return c ? [
+      (c /= Math.sin(c)) * cosφ * Math.sin(λ),
+      c * Math.sin(φ)
+    ] : [0, 0];
+  }
+
+  function azimuthalEquidistantInverse(x, y) {
+    var c = Math.sqrt(x * x + y * y),
+        sinc = Math.sin(c);
+    return c ? [
+      Math.atan2(x * sinc, c * Math.cos(c)),
+      Math.asin(y * sinc / c)
+    ] : [0, 0];
   }
 
   function verticalPerspective() {
@@ -620,7 +628,7 @@
   d3.geo.aitoff = function() { return projection(aitoff); };
   d3.geo.albersEqualArea = function() { return doubleParallelProjection(albers, albersInverse); };
   d3.geo.azimuthalEqualArea = function() { return projection(azimuthalEqualArea, azimuthalEqualAreaInverse); };
-  d3.geo.azimuthalEquidistant = function() { return projection(azimuthalEquidistant); };
+  d3.geo.azimuthalEquidistant = function() { return projection(azimuthalEquidistant, azimuthalEquidistantInverse); };
   d3.geo.bonne = function() { return singleParallelProjection(bonne, bonneInverse).parallel(45); };
   d3.geo.collignon = function() { return projection(collignon) };
   d3.geo.conicConformal = function() { return doubleParallelProjection(conicConformal, conicConformalInverse); };

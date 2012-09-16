@@ -289,6 +289,7 @@
 
   function vanDerGrintenInverse(x, y) {
     if (Math.abs(y) < ε) return [x, 0];
+    if (Math.abs(x) < ε) return [0, π / 2 * Math.sin(2 * Math.atan(y / π))];
     var x2 = (x /= π) * x,
         y2 = (y /= π) * y,
         x2_y2 = x2 + y2,

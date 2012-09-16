@@ -395,6 +395,20 @@
     ];
   }
 
+  function polyconicInverse(x, y) {
+    if (Math.abs(y) < ε) return [x, 0];
+    var k = x * x + y * y,
+        φ = y;
+    for (var i = 0, δ = Infinity; i < 10 && Math.abs(δ) > ε; i++) {
+      var tanφ = Math.tan(φ);
+      φ -= δ = (y * (φ * tanφ + 1) - φ - .5 * (φ * φ + k) * tanφ) / ((φ - y) / tanφ - 1);
+    }
+    return [
+      Math.asin(x * Math.tan(φ)) / Math.sin(φ),
+      φ
+    ];
+  }
+
   function miller(λ, φ) {
     return [
       λ,
@@ -650,7 +664,7 @@
   d3.geo.miller = function() { return projection(miller, millerInverse); };
   d3.geo.mollweide = function() { return projection(mollweide, mollweideInverse); };
   d3.geo.nellHammer = function() { return projection(nellHammer, nellHammerInverse); };
-  d3.geo.polyconic = function() { return projection(polyconic); };
+  d3.geo.polyconic = function() { return projection(polyconic, polyconicInverse); };
   d3.geo.robinson = function() { return projection(robinson); };
   d3.geo.sinusoidal = function() { return projection(sinusoidal, sinusoidalInverse); };
   d3.geo.vanDerGrinten = function() { return projection(vanDerGrinten, vanDerGrintenInverse); };

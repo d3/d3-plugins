@@ -199,10 +199,10 @@
 
   function azimuthalEqualArea(λ, φ) {
     var cosφ = Math.cos(φ),
-        k = Math.sqrt(2 / (1 + cosφ * Math.cos(λ)));
+        k = Math.sqrt(1 + cosφ * Math.cos(λ));
     return [
-      k * cosφ * Math.sin(λ),
-      k * Math.sin(φ)
+      cosφ * (k ? Math.sin(λ) * (k = Math.SQRT2 / k) : sgn(λ) * 2),
+      Math.sin(φ) * k
     ];
   }
 

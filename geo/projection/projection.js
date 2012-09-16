@@ -322,6 +322,18 @@
     ];
   }
 
+  function nellHammerInverse(x, y) {
+    var p = y / 2;
+    for (var i = 0, δ = Infinity; i < 10 && Math.abs(δ) > ε; i++) {
+      var c = Math.cos(y / 2);
+      y -= δ = (y - Math.tan(y / 2) - p) / (1 - .5 / (c * c));
+    }
+    return [
+      2 * x / (1 + Math.cos(y)),
+      y
+    ];
+  }
+
   function polyconic(λ, φ) {
     if (Math.abs(φ) < ε) return [λ, 0];
     var tanφ = Math.tan(φ),
@@ -586,7 +598,7 @@
   d3.geo.larrivee = function() { return projection(larrivee); };
   d3.geo.miller = function() { return projection(miller, millerInverse); };
   d3.geo.mollweide = function() { return projection(mollweide, mollweideInverse); };
-  d3.geo.nellHammer = function() { return projection(nellHammer); };
+  d3.geo.nellHammer = function() { return projection(nellHammer, nellHammerInverse); };
   d3.geo.polyconic = function() { return projection(polyconic); };
   d3.geo.robinson = function() { return projection(robinson); };
   d3.geo.sinusoidal = function() { return projection(sinusoidal, sinusoidalInverse); };

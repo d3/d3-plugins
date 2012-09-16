@@ -184,6 +184,14 @@
     ];
   }
 
+  function eckert3Inverse(x, y) {
+    var k = Math.sqrt(π * (4 + π)) / 2;
+    return [
+      x * k / (1 + Math.sqrt(Math.max(0, 1 - y * y * (4 + π) / (4 * π)))),
+      y * k / 2
+    ];
+  }
+
   function eckert4(λ, φ) {
     var k = (2 + π / 2) * Math.sin(φ);
     φ /= 2;
@@ -197,10 +205,28 @@
     ];
   }
 
+  function eckert4Inverse(x, y) {
+    var j = 2 * Math.sqrt(π / (4 + π)),
+        k = Math.asin(y / cy);
+    return [
+      x / (2 / Math.sqrt(π * (4 + π)) * (1 + (c = Math.cos(k)))),
+      Math.asin((k + y / j * (c + 2)) / (2 + π / 2))
+    ];
+  }
+
   function eckert5(λ, φ) {
     return [
       λ * (1 + Math.cos(φ)) / Math.sqrt(2 + π),
       2 * φ / Math.sqrt(2 + π)
+    ];
+  }
+
+  function eckert5Inverse(x, y) {
+    var k = Math.sqrt(2 + π),
+        φ = y * k / 2;
+    return [
+      k * x / (1 + Math.cos(φ)),
+      φ
     ];
   }
 
@@ -213,6 +239,15 @@
     return [
       λ * (1 + Math.cos(φ)) / k,
       2 * φ / k
+    ];
+  }
+
+  function eckert6Inverse(x, y) {
+    var j = 1 + Math.PI / 2,
+        k = Math.sqrt(j / 2);
+    return [
+      x * 2 * k / (1 + Math.cos(y *= k)),
+      Math.asin((y + Math.sin(y)) / j)
     ];
   }
 
@@ -584,10 +619,10 @@
   d3.geo.cylindricalEqualArea = function() { return singleParallelProjection(cylindricalEqualArea, cylindricalEqualAreaInverse); };
   d3.geo.eckert1 = function() { return projection(eckert1, eckert1Inverse); };
   d3.geo.eckert2 = function() { return projection(eckert2, eckert2Inverse); };
-  d3.geo.eckert3 = function() { return projection(eckert3); };
-  d3.geo.eckert4 = function() { return projection(eckert4); };
-  d3.geo.eckert5 = function() { return projection(eckert5); };
-  d3.geo.eckert6 = function() { return projection(eckert6); };
+  d3.geo.eckert3 = function() { return projection(eckert3, eckert3Inverse); };
+  d3.geo.eckert4 = function() { return projection(eckert4, eckert4Inverse); };
+  d3.geo.eckert5 = function() { return projection(eckert5, eckert5Inverse); };
+  d3.geo.eckert6 = function() { return projection(eckert6, eckert6Inverse); };
   d3.geo.hammer = function() { return projection(hammer, hammerInverse); };
   d3.geo.homolosine = function() { return projection(homolosine, homolosineInverse); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7, kavrayskiy7Inverse); };

@@ -168,6 +168,14 @@
     ];
   }
 
+  function eckert2Inverse(x, y) {
+    var α = 2 - Math.abs(y) / Math.sqrt(2 * π / 3);
+    return [
+      x * Math.sqrt(6 * π) / (2 * α),
+      sgn(y) * Math.asin((4 - α * α) / 3)
+    ];
+  }
+
   function eckert3(λ, φ) {
     var k = Math.sqrt(π * (4 + π));
     return [
@@ -575,7 +583,7 @@
   d3.geo.conicEquidistant = function() { return doubleParallelProjection(conicEquidistant, conicEquidistantInverse); };
   d3.geo.cylindricalEqualArea = function() { return singleParallelProjection(cylindricalEqualArea, cylindricalEqualAreaInverse); };
   d3.geo.eckert1 = function() { return projection(eckert1, eckert1Inverse); };
-  d3.geo.eckert2 = function() { return projection(eckert2); };
+  d3.geo.eckert2 = function() { return projection(eckert2, eckert2Inverse); };
   d3.geo.eckert3 = function() { return projection(eckert3); };
   d3.geo.eckert4 = function() { return projection(eckert4); };
   d3.geo.eckert5 = function() { return projection(eckert5); };

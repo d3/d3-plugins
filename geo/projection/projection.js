@@ -61,6 +61,13 @@
     ];
   }
 
+  function kavrayskiy7Inverse(x, y) {
+    return [
+      2 / 3 * π * x / Math.sqrt(π * π / 3 - y * y),
+      y
+    ];
+  }
+
   function wagner6(λ, φ) {
     return [
       λ * Math.sqrt(1 - 3 * φ * φ / (π * π)),
@@ -650,7 +657,7 @@
   d3.geo.gnomonic = function() { return projection(gnomonic, gnomonicInverse); };
   d3.geo.hammer = function() { return projection(hammer, hammerInverse); };
   d3.geo.homolosine = function() { return projection(homolosine, homolosineInverse); };
-  d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
+  d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7, kavrayskiy7Inverse); };
   d3.geo.larrivee = function() { return projection(larrivee); };
   d3.geo.miller = function() { return projection(miller, millerInverse); };
   d3.geo.mollweide = function() { return projection(mollweide, mollweideInverse); };

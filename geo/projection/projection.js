@@ -273,11 +273,19 @@
   }
 
   function homolosine(λ, φ) {
-    return (Math.abs(φ) > 41.737 * π / 180 ? mollweide : sinusoidal)(λ, φ);
+    if (Math.abs(φ) > 40.733 * π / 180) {
+      var coordinates = mollweide(λ, φ);
+      coordinates[1] -= φ >= 0 ? .0528 : -.0528;
+      return coordinates;
+    } else return sinusoidal(λ, φ);
   }
 
   function homolosineInverse(x, y) {
-    return (Math.abs(y) > 41.737 * π / 180 ? mollweideInverse : sinusoidalInverse)(x, y);
+    if (Math.abs(y) > 40.733 * π / 180) {
+      coordinates = mollweideInverse(x, y);
+      coordinates[1] += y >= 0 ? .0528 : -.0528;
+      return coordinates;
+    } else return sinusoidalInverse(x, y);
   }
 
   function bonne(φ0) {

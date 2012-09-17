@@ -295,9 +295,10 @@
   function bonneInverse(φ0) {
     var cotφ0 = 1 / Math.tan(φ0);
     return function(x, y) {
-      var φ = cotφ0 + φ0 - ρ;
+      var ρ = Math.sqrt(x * x + (y = cotφ0 - y) * y),
+          φ = cotφ0 + φ0 - ρ;
       return [
-        ρ / Math.cos(φ) * Math.atan(x / (cotφ0 - y)),
+        ρ / Math.cos(φ) * Math.atan2(x, y),
         φ
       ];
     };

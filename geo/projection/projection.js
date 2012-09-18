@@ -288,6 +288,20 @@
     } else return sinusoidalInverse(x, y);
   }
 
+  function august(λ, φ) {
+    var tanφ = Math.tan(φ / 2),
+        k = 1 - tanφ * tanφ,
+        c = 1 + k * Math.cos(λ /= 2),
+        x = Math.sin(λ) * k / c,
+        y = tanφ / c,
+        x2 = x * x,
+        y2 = y * y;
+    return [
+      4 / 3 * x * (3 + x2 - 3 * y2),
+      4 / 3 * y * (3 + 3 * x2 - y2)
+    ];
+  }
+
   function bonne(φ0) {
     var cotφ0 = 1 / Math.tan(φ0);
     return function(λ, φ) {
@@ -655,6 +669,7 @@
 
   d3.geo.aitoff = function() { return projection(aitoff); };
   d3.geo.albersEqualArea = function() { return doubleParallelProjection(albers, albersInverse); };
+  d3.geo.august = function() { return projection(august); };
   d3.geo.bonne = function() { return singleParallelProjection(bonne, bonneInverse).parallel(45); };
   d3.geo.collignon = function() { return projection(collignon, collignonInverse); };
   d3.geo.conicConformal = function() { return doubleParallelProjection(conicConformal, conicConformalInverse); };

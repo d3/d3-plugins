@@ -302,6 +302,22 @@
     ];
   }
 
+  function eisenlohr(λ, φ) {
+    var f = 3 + Math.sqrt(8),
+        s1 = Math.sin(λ /= 2),
+        c1 = Math.cos(λ),
+        k = Math.sqrt(Math.cos(φ) / 2),
+        cosφ2 = Math.cos(φ /= 2),
+        t = Math.sin(φ) / (cosφ2 + 2 * c1 * k),
+        c = Math.sqrt(2 / (1 + t * t)),
+        v = Math.sqrt((cosφ2 + (c1 + s1) * k)
+                    / (cosφ2 + (c1 - s1) * k));
+    return [
+      f * (c * (v - 1 / v) - 2 * Math.log(v)),
+      f * (c * t * (v + 1 / v) - 2 * Math.atan(t))
+    ];
+  }
+
   function bonne(φ0) {
     var cotφ0 = 1 / Math.tan(φ0);
     return function(λ, φ) {
@@ -681,6 +697,7 @@
   d3.geo.eckert4 = function() { return projection(eckert4, eckert4Inverse); };
   d3.geo.eckert5 = function() { return projection(eckert5, eckert5Inverse); };
   d3.geo.eckert6 = function() { return projection(eckert6, eckert6Inverse); };
+  d3.geo.eisenlohr = function() { return projection(eisenlohr); };
   d3.geo.hammer = function() { return projection(hammer, hammerInverse); };
   d3.geo.homolosine = function() { return projection(homolosine, homolosineInverse); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7, kavrayskiy7Inverse); };

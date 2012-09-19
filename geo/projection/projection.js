@@ -574,7 +574,7 @@
     } else return [0, ellipticF(Math.atan(sinhψ), 1 - m) * sgn(ψ)];
   }
 
-  // Calculate F(w|m) where m = k^2 = sin^2(α).
+  // Calculate F(φ|m) where m = k^2 = sin^2(α).
   // See Abramowitz and Stegun, 17.6.7.
   function ellipticF(φ, m) {
     var a = 1,

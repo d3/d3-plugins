@@ -6,7 +6,7 @@
         degrees = 90,
         radians = degrees * d3_geo_radians,
         precision = 1, // step size in degrees for interpolated clip edge
-        arc = d3.geo.greatArc().source(origin).target(identity),
+        arc = d3.geo.greatArc().source(origin).target(identity).precision(precision),
         clipCircle,
         normal, // Cartesian normal to the circle origin.
         reference, // Cartesian reference point lying on the circle.
@@ -291,7 +291,13 @@
       return clip;
     };
 
-    return d3.rebind(clip, arc, "precision");
+    clip.precision = function(_) {
+      if (!arguments.length) return precision;
+      arc.precision(precision = +_);
+      return clip;
+    }
+
+    return clip;
   }
 
   // Convert spherical (degrees) to normalized Cartesian coordinates, relative to

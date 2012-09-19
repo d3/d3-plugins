@@ -552,6 +552,47 @@
     return p;
   }
 
+  function guyou(λ, φ) {
+    return ellipticFi(λ, sgn(φ) * Math.log(Math.tan(.5 * (Math.abs(φ) + π / 2))), .5);
+  }
+
+  // Calculate F(φ+iψ|m).
+  // See Abramowitz and Stegun, 17.4.11.
+  function ellipticFi(φ, ψ, m) {
+    var r = Math.abs(φ),
+        i = Math.abs(ψ),
+        sinhψ = .5 * ((sinhψ = Math.exp(i)) - 1 / sinhψ);
+    if (r) {
+      var cscφ = 1 / Math.sin(r),
+          cotφ2 = (cotφ2 = Math.cos(r) * cscφ) * cotφ2,
+          b = -(cotφ2 + m * (sinhψ * sinhψ * cscφ * cscφ + 1) - 1),
+          cotλ2 = .5 * (-b + Math.sqrt(b * b - 4 * (m - 1) * cotφ2));
+      return [
+        ellipticF(Math.atan(1 / Math.sqrt(cotλ2)), m) * sgn(φ),
+        ellipticF(Math.atan(Math.sqrt(Math.max(0, cotλ2 / cotφ2 - 1) / m)), 1 - m) * sgn(ψ)
+      ];
+    } else return [0, ellipticF(Math.atan(sinhψ), 1 - m) * sgn(ψ)];
+  }
+
+  // Calculate F(w|m) where m = k^2 = sin^2(α).
+  // See Abramowitz and Stegun, 17.6.7.
+  function ellipticF(φ, m) {
+    var a = 1,
+        b = Math.sqrt(1 - m),
+        c = Math.sqrt(m);
+    for (var i = 0; Math.abs(c) > ε; i++) {
+      if (φ % π) {
+        var dφ = Math.atan(b * Math.tan(φ) / a);
+        if (dφ < 0) dφ += π;
+        φ += dφ + ~~(φ / π) * π;
+      } else φ += φ;
+      c = (a + b) / 2;
+      b = Math.sqrt(a * b);
+      c = ((a = c) - b) / 2;
+    }
+    return φ / (Math.pow(2, i) * a);
+  }
+
   function projection(forward, inverse) {
     var scale = 150,
         translate = [480, 250];
@@ -698,6 +739,7 @@
   d3.geo.eckert5 = function() { return projection(eckert5, eckert5Inverse); };
   d3.geo.eckert6 = function() { return projection(eckert6, eckert6Inverse); };
   d3.geo.gnomonic = function() { return projection(gnomonic, gnomonicInverse); };
+  d3.geo.guyou = function() { return projection(guyou); };
   d3.geo.hammer = function() { return projection(hammer, hammerInverse); };
   d3.geo.homolosine = function() { return projection(homolosine, homolosineInverse); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7, kavrayskiy7Inverse); };

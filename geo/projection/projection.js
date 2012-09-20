@@ -612,20 +612,28 @@
   }
 
   function verticalPerspective() {
-    var distance = 5;
+    var P = 5;
 
     var p = projection(function(λ, φ) {
       var cosφ = Math.cos(φ),
-          k = (distance - 1) / (distance - (cosφ * Math.cos(λ)));
+          k = (P - 1) / (P - (cosφ * Math.cos(λ)));
       return [
         k * cosφ * Math.sin(λ),
         k * Math.sin(φ)
       ];
+    }, function(x, y) {
+      var ρ2 = x * x + y * y,
+          ρ = Math.sqrt(ρ2),
+          sinc = (P - Math.sqrt(1 - ρ2 * (P + 1) / (P - 1))) / ((P - 1) / ρ + ρ / (P - 1));
+      return [
+        Math.atan2(x * sinc, ρ * Math.sqrt(1 - sinc * sinc)),
+        ρ ? Math.asin(y * sinc / ρ) : 0
+      ];
     });
 
     p.distance = function(_) {
-      if (!arguments.length) return distance;
-      distance = +_;
+      if (!arguments.length) return P;
+      P = +_;
       return p;
     }
 

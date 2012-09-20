@@ -9,7 +9,6 @@
     "url": "http://github.com/d3/d3-plugins.git"
   },
   "dependencies": {
-    "jsdom": "0.2.15",
     "d3": "2.10.x"
   },
   "devDependencies": {

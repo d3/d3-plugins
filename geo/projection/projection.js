@@ -243,7 +243,7 @@
   }
 
   function eckert6Inverse(x, y) {
-    var j = 1 + Math.PI / 2,
+    var j = 1 + π / 2,
         k = Math.sqrt(j / 2);
     return [
       x * 2 * k / (1 + Math.cos(y *= k)),
@@ -589,6 +589,27 @@
     return Math.sqrt(2 / (1 + cosλcosφ));
   });
 
+  function equirectangular(λ, φ) {
+    return [
+      λ,
+      φ
+    ];
+  }
+
+  function mercator(λ, φ) {
+    return [
+      λ / (2 * π),
+      Math.max(-.5, Math.min(+.5, Math.log(Math.tan(π / 4 + φ / 2)) / (2 * π)))
+    ];
+  }
+
+  function mercatorInverse(x, y) {
+    return [
+      2 * π * x,
+      2 * Math.atan(Math.exp(2 * π * y)) - π / 2
+    ];
+  }
+
   function projection(forward, inverse) {
     var scale = 150,
         translate = [480, 250];
@@ -736,11 +757,13 @@
   d3.geo.eckert5 = function() { return projection(eckert5, eckert5Inverse); };
   d3.geo.eckert6 = function() { return projection(eckert6, eckert6Inverse); };
   d3.geo.eisenlohr = function() { return projection(eisenlohr); };
+  d3.geo.equirectangular = function() { return projection(equirectangular, equirectangular); };
   d3.geo.gnomonic = function() { return projection(gnomonic); };
   d3.geo.hammer = function() { return projection(hammer, hammerInverse); };
   d3.geo.homolosine = function() { return projection(homolosine, homolosineInverse); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7, kavrayskiy7Inverse); };
   d3.geo.larrivee = function() { return projection(larrivee); };
+  d3.geo.mercator = function() { return projection(mercator, mercatorInverse); };
   d3.geo.miller = function() { return projection(miller, millerInverse); };
   d3.geo.mollweide = function() { return projection(mollweide, mollweideInverse); };
   d3.geo.nellHammer = function() { return projection(nellHammer, nellHammerInverse); };

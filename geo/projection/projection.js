@@ -554,6 +554,13 @@
     ];
   }
 
+  function orthographicInverse(x, y) {
+    return [
+      Math.atan2(x, Math.sqrt(1 - x * x - y * y)),
+      Math.asin(y)
+    ];
+  }
+
   function gnomonic(λ, φ) {
     return [
       Math.tan(λ),
@@ -822,7 +829,7 @@
   d3.geo.miller = function() { return projection(miller, millerInverse); };
   d3.geo.mollweide = function() { return projection(mollweide, mollweideInverse); };
   d3.geo.nellHammer = function() { return projection(nellHammer, nellHammerInverse); };
-  d3.geo.orthographic = function() { return projection(orthographic); };
+  d3.geo.orthographic = function() { return projection(orthographic, orthographicInverse); };
   d3.geo.polyconic = function() { return projection(polyconic, polyconicInverse); };
   d3.geo.robinson = function() { return projection(robinson); };
   d3.geo.sinusoidal = function() { return projection(sinusoidal, sinusoidalInverse); };

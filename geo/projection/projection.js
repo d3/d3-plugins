@@ -354,26 +354,26 @@
 
   function bonne(φ0) {
     var cotφ0 = 1 / Math.tan(φ0);
-    return function(λ, φ) {
+    return φ0 ? function(λ, φ) {
       var ρ = cotφ0 + φ0 - φ,
           E = λ * Math.cos(φ) / ρ;
       return [
         ρ * Math.sin(E),
         cotφ0 - ρ * Math.cos(E)
       ];
-    };
+    } : sinusoidal;
   }
 
   function bonneInverse(φ0) {
     var cotφ0 = 1 / Math.tan(φ0);
-    return function(x, y) {
+    return φ0 ? function(x, y) {
       var ρ = Math.sqrt(x * x + (y = cotφ0 - y) * y),
           φ = cotφ0 + φ0 - ρ;
       return [
         ρ / Math.cos(φ) * Math.atan2(x, y),
         φ
       ];
-    };
+    } : sinusoidalInverse;
   }
 
   function collignon(λ, φ) {

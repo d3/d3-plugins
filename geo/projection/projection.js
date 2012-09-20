@@ -685,8 +685,8 @@
     var ω = 0,
         cosω = 1,
         sinω = 0,
-        distance = 1.4,
-        verticalPerspective = d3.geo.verticalPerspective().scale(1).translate([0, 0]).distance(distance);
+        distance,
+        verticalPerspective = d3.geo.verticalPerspective().scale(1).translate([0, 0]);
 
     var p = projection(function(λ, φ) {
       var coordinates = verticalPerspective([λ * 180 / π, φ * 180 / π]),
@@ -718,7 +718,7 @@
       return p;
     };
 
-    return p;
+    return p.distance(1.4);
   }
 
   function projection(forward, inverse) {

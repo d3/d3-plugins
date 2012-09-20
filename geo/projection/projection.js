@@ -546,62 +546,6 @@
     };
   }
 
-  function azimuthal(scale) {
-    return function(λ, φ) {
-      var cosλ = Math.cos(λ),
-          cosφ = Math.cos(φ),
-          k = scale(cosλ * cosφ);
-      return [
-        k * cosφ * Math.sin(λ),
-        k * Math.sin(φ)
-      ];
-    };
-  }
-
-  // Optimized special case of azimuthal.
-  function orthographic(λ, φ) {
-    return [
-      Math.cos(φ) * Math.sin(λ),
-      Math.sin(φ)
-    ];
-  }
-
-  function orthographicInverse(x, y) {
-    return [
-      Math.atan2(x, Math.sqrt(1 - x * x - y * y)),
-      Math.asin(y)
-    ];
-  }
-
-  function verticalPerspective() {
-    var P = 5;
-
-    var p = projection(function(λ, φ) {
-      var cosφ = Math.cos(φ),
-          k = (P - 1) / (P - (cosφ * Math.cos(λ)));
-      return [
-        k * cosφ * Math.sin(λ),
-        k * Math.sin(φ)
-      ];
-    }, function(x, y) {
-      var ρ2 = x * x + y * y,
-          ρ = Math.sqrt(ρ2),
-          sinc = (P - Math.sqrt(1 - ρ2 * (P + 1) / (P - 1))) / ((P - 1) / ρ + ρ / (P - 1));
-      return [
-        Math.atan2(x * sinc, ρ * Math.sqrt(1 - sinc * sinc)),
-        ρ ? Math.asin(y * sinc / ρ) : 0
-      ];
-    });
-
-    p.distance = function(_) {
-      if (!arguments.length) return P;
-      P = +_;
-      return p;
-    }
-
-    return p;
-  }
-
   function guyou(λ, φ) {
     return ellipticFi(λ, sgn(φ) * Math.log(Math.tan(.5 * (Math.abs(φ) + π / 2))), .5);
   }
@@ -641,6 +585,35 @@
       c = ((a = c) - b) / 2;
     }
     return φ / (Math.pow(2, i) * a);
+  }
+
+  function verticalPerspective() {
+    var P = 5;
+
+    var p = projection(function(λ, φ) {
+      var cosφ = Math.cos(φ),
+          k = (P - 1) / (P - (cosφ * Math.cos(λ)));
+      return [
+        k * cosφ * Math.sin(λ),
+        k * Math.sin(φ)
+      ];
+    }, function(x, y) {
+      var ρ2 = x * x + y * y,
+          ρ = Math.sqrt(ρ2),
+          sinc = (P - Math.sqrt(1 - ρ2 * (P + 1) / (P - 1))) / ((P - 1) / ρ + ρ / (P - 1));
+      return [
+        Math.atan2(x * sinc, ρ * Math.sqrt(1 - sinc * sinc)),
+        ρ ? Math.asin(y * sinc / ρ) : 0
+      ];
+    });
+
+    p.distance = function(_) {
+      if (!arguments.length) return P;
+      P = +_;
+      return p;
+    }
+
+    return p;
   }
 
   function satellite() {
@@ -704,6 +677,33 @@
     };
 
     return p;
+  }
+
+  function azimuthal(scale) {
+    return function(λ, φ) {
+      var cosλ = Math.cos(λ),
+          cosφ = Math.cos(φ),
+          k = scale(cosλ * cosφ);
+      return [
+        k * cosφ * Math.sin(λ),
+        k * Math.sin(φ)
+      ];
+    };
+  }
+
+  // Optimized special case of azimuthal.
+  function orthographic(λ, φ) {
+    return [
+      Math.cos(φ) * Math.sin(λ),
+      Math.sin(φ)
+    ];
+  }
+
+  function orthographicInverse(x, y) {
+    return [
+      Math.atan2(x, Math.sqrt(1 - x * x - y * y)),
+      Math.asin(y)
+    ];
   }
 
   var stereographic = azimuthal(function(cosλcosφ) {

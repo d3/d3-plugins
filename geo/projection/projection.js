@@ -916,6 +916,7 @@
   };
 
   d3.geo.projection = projection;
+  d3.geo.projectionMutator = projectionMutator;
 
   d3.geo.aitoff = function() { return projection(aitoff); };
   d3.geo.albersEqualArea = function() { return doubleParallelProjection(albers, albersInverse); }; // TODO rename albers

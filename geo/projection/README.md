@@ -3,7 +3,7 @@
 Projections:
 
 * [d3.geo.aitoff](http://bl.ocks.org/3682698) - Aitoff
-* [d3.geo.albersEqualArea](http://bl.ocks.org/3721525) - Albers equal-area conic (to be renamed "albers")
+* [d3.geo.albersEqualArea](http://bl.ocks.org/3721525) - Albers equal-area conic (to be renamed "albers" or possibly "conicEqualArea")
 * [d3.geo.azimuthalEqualArea](http://bl.ocks.org/3757101) - Lambert azimuthal equal-area
 * [d3.geo.azimuthalEquidistant](http://bl.ocks.org/3757110) - Azimuthal equidistant
 * [d3.geo.bonne](http://bl.ocks.org/3717006) - Bonne

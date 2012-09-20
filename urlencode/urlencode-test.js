@@ -1,4 +1,5 @@
-require("../env");
+require("d3");
+require("./urlencode");
 
 var vows = require("vows"),
     assert = require("assert");
@@ -28,7 +29,7 @@ suite.addBatch({
       assert.strictEqual(u + "", "baz=3&foo=1&unsafe=true");
     },
     "has the type application/x-www-form-urlencoded;charset=utf-8": function(urlencode) {
-      assert.strictEqual(urlencode().type, "application/x-www-form-urlencoded;charset=utf-8");
+      assert.strictEqual(urlencode.type, "application/x-www-form-urlencoded;charset=utf-8");
     },
     "encodes the name and value per the HTML 4.01 specification": function(urlencode) {
       assert.strictEqual(urlencode("foo", "bar") + "", "foo=bar");

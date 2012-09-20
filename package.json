@@ -1,0 +1,20 @@
+{
+  "name": "d3-plugins",
+  "version": "0.0.1",
+  "description": "Plugins for D3.js.",
+  "keywords": ["visualization"],
+  "homepage": "http://github.com/d3/d3-plugins",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/d3/d3-plugins.git"
+  },
+  "dependencies": {
+    "d3": "2.10.x"
+  },
+  "devDependencies": {
+    "vows": "0.6.x"
+  },
+  "scripts": {
+    "test": "./node_modules/vows/bin/vows `find . -name \"*-test.js\" \\! -path \"./node_modules/*\"`"
+  }
+}

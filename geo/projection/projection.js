@@ -813,7 +813,7 @@
         m = projectionMutator(verticalPerspective, verticalPerspectiveInverse),
         p = m(P);
 
-    // As a multiple of radius (presumably?)
+    // As a multiple of radius.
     p.distance = function(_) {
       if (!arguments.length) return P;
       return m(P = +_);
@@ -841,7 +841,7 @@
         m = projectionMutator(satellite, satelliteInverse),
         p = m(P, ω);
 
-    // As a multiple of radius (presumably?)
+    // As a multiple of radius.
     p.distance = function(_) {
       if (!arguments.length) return P;
       return m(P = +_, ω);

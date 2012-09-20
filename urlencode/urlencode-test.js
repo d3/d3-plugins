@@ -1,4 +1,5 @@
-require("../env");
+require("d3");
+require("./urlencode");
 
 var vows = require("vows"),
     assert = require("assert");

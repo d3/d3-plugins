@@ -721,6 +721,29 @@
     return p.distance(1.4);
   }
 
+  function lagrange() {
+    var n = .5;
+
+    var p = projection(function(λ, φ) {
+      if (Math.abs(Math.abs(φ) - π / 2) < ε) return [0, φ < 0 ? -2 : 2];
+      var sinφ = Math.sin(φ),
+          v = Math.pow((1 + sinφ) / (1 - sinφ), n / 2),
+          c = .5 * (v + 1 / v) + Math.cos(λ *= n);
+      return [
+        2 * Math.sin(λ) / c,
+        (v - 1 / v) / c
+      ];
+    });
+
+    p.spacing = function(_) {
+      if (!arguments.length) return n;
+      n = +_;
+      return p;
+    };
+
+    return p;
+  }
+
   function projection(forward, inverse) {
     var scale = 150,
         translate = [480, 250];
@@ -873,6 +896,7 @@
   d3.geo.hammer = function() { return projection(hammer, hammerInverse); };
   d3.geo.homolosine = function() { return projection(homolosine, homolosineInverse); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7, kavrayskiy7Inverse); };
+  d3.geo.lagrange = lagrange;
   d3.geo.larrivee = function() { return projection(larrivee); };
   d3.geo.miller = function() { return projection(miller, millerInverse); };
   d3.geo.mollweide = function() { return projection(mollweide, mollweideInverse); };

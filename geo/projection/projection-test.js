@@ -44,26 +44,6 @@ suite.addBatch({
   }
 });
 
-var locations = [
-  [   0,   0],
-  [   1,   1],
-  [   0,  90],
-  [   0, -90],
-  [   0,  45],
-  [   0, -45],
-  [  90,   0],
-  [-180,   0],
-  [ 180,   0],
-  [-179,  15],
-  [-180,  15],
-  [ 180,  15],
-  [-180, -90],
-  [ 180,  90],
-  [ 179,   0],
-  [-179,   0],
-  [   0,  15]
-]
-
 suite.export(module);
 
 function assertEqualInverse(projection, location, point) {

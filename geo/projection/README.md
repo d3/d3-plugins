@@ -19,6 +19,7 @@ Projections:
 * [d3.geo.eckert6](http://bl.ocks.org/3718617) - Eckert VI
 * [d3.geo.equirectangular](http://bl.ocks.org/3757119) - Equirectangular (Plate Carrée)
 * [d3.geo.gnomonic](http://bl.ocks.org/3757349) - Gnomonic projection
+* [d3.geo.guyou](http://bl.ocks.org/3748686) - Guyou hemisphere-in-a-square
 * [d3.geo.hammer](http://bl.ocks.org/3712397) - Hammer
 * [d3.geo.homolosine](http://bl.ocks.org/3718260) - Goode Homolosine
 * [d3.geo.kavrayskiy7](http://bl.ocks.org/3710082) - Kavrayskiy VII

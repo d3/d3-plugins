@@ -126,21 +126,15 @@
   }
 
   function hammer(λ, φ) {
-    var cosφ = Math.cos(φ),
-        k = Math.sqrt(2 / (1 + cosφ * Math.cos(λ /= 2)));
-    return [
-      Math.sin(λ) * cosφ * k * 2,
-      Math.sin(φ) * k
-    ];
+    var coordinates = azimuthalEqualArea(λ / 2, φ);
+    coordinates[0] *= 2;
+    return coordinates;
   }
 
   function hammerInverse(x, y) {
-    var z2 = 1 - x * x / 16 - y * y / 4,
-        z = Math.sqrt(z2);
-    return [
-      2 * Math.atan2(z * x, 4 * z2 - 2),
-      Math.asin(z * y)
-    ];
+    var coordinates = azimuthalEqualAreaInverse(x / 2, y);
+    coordinates[0] *= 2;
+    return coordinates;
   }
 
   function eckert1(λ, φ) {
@@ -572,6 +566,146 @@
     ];
   }
 
+  function orthographicInverse(x, y) {
+    return [
+      Math.atan2(x, Math.sqrt(1 - x * x - y * y)),
+      Math.asin(y)
+    ];
+  }
+
+  function verticalPerspective() {
+    var P = 5;
+
+    var p = projection(function(λ, φ) {
+      var cosφ = Math.cos(φ),
+          k = (P - 1) / (P - (cosφ * Math.cos(λ)));
+      return [
+        k * cosφ * Math.sin(λ),
+        k * Math.sin(φ)
+      ];
+    }, function(x, y) {
+      var ρ2 = x * x + y * y,
+          ρ = Math.sqrt(ρ2),
+          sinc = (P - Math.sqrt(1 - ρ2 * (P + 1) / (P - 1))) / ((P - 1) / ρ + ρ / (P - 1));
+      return [
+        Math.atan2(x * sinc, ρ * Math.sqrt(1 - sinc * sinc)),
+        ρ ? Math.asin(y * sinc / ρ) : 0
+      ];
+    });
+
+    p.distance = function(_) {
+      if (!arguments.length) return P;
+      P = +_;
+      return p;
+    }
+
+    return p;
+  }
+
+  function guyou(λ, φ) {
+    return ellipticFi(λ, sgn(φ) * Math.log(Math.tan(.5 * (Math.abs(φ) + π / 2))), .5);
+  }
+
+  // Calculate F(φ+iψ|m).
+  // See Abramowitz and Stegun, 17.4.11.
+  function ellipticFi(φ, ψ, m) {
+    var r = Math.abs(φ),
+        i = Math.abs(ψ),
+        sinhψ = .5 * ((sinhψ = Math.exp(i)) - 1 / sinhψ);
+    if (r) {
+      var cscφ = 1 / Math.sin(r),
+          cotφ2 = (cotφ2 = Math.cos(r) * cscφ) * cotφ2,
+          b = -(cotφ2 + m * (sinhψ * sinhψ * cscφ * cscφ + 1) - 1),
+          cotλ2 = .5 * (-b + Math.sqrt(b * b - 4 * (m - 1) * cotφ2));
+      return [
+        ellipticF(Math.atan(1 / Math.sqrt(cotλ2)), m) * sgn(φ),
+        ellipticF(Math.atan(Math.sqrt(Math.max(0, cotλ2 / cotφ2 - 1) / m)), 1 - m) * sgn(ψ)
+      ];
+    } else return [0, ellipticF(Math.atan(sinhψ), 1 - m) * sgn(ψ)];
+  }
+
+  // Calculate F(φ|m) where m = k² = sin²α.
+  // See Abramowitz and Stegun, 17.6.7.
+  function ellipticF(φ, m) {
+    var a = 1,
+        b = Math.sqrt(1 - m),
+        c = Math.sqrt(m);
+    for (var i = 0; Math.abs(c) > ε; i++) {
+      if (φ % π) {
+        var dφ = Math.atan(b * Math.tan(φ) / a);
+        if (dφ < 0) dφ += π;
+        φ += dφ + ~~(φ / π) * π;
+      } else φ += φ;
+      c = (a + b) / 2;
+      b = Math.sqrt(a * b);
+      c = ((a = c) - b) / 2;
+    }
+    return φ / (Math.pow(2, i) * a);
+  }
+
+  function satellite() {
+    var ω = 0,
+        cosω = 1,
+        sinω = 0,
+        distance,
+        verticalPerspective = d3.geo.verticalPerspective().scale(1).translate([0, 0]);
+
+    var p = projection(function(λ, φ) {
+      var coordinates = verticalPerspective([λ * 180 / π, φ * 180 / π]),
+          y = -coordinates[1],
+          A = y * Math.sin(ω / (distance - 1)) + cosω;
+      return [
+        coordinates[0] * Math.cos(ω / A),
+        y / A
+      ];
+    }, function(x, y) {
+      var k = (distance - 1) / (distance - 1 - y * sinω),
+          coordinates = verticalPerspective.invert([k * x, -k * y * cosω]);
+      return [
+        coordinates[0] * π / 180,
+        coordinates[1] * π / 180
+      ];
+    });
+
+    p.distance = function(_) {
+      if (!arguments.length) return distance;
+      verticalPerspective.distance(distance = +_);
+      return p;
+    };
+
+    p.tilt = function(_) {
+      if (!arguments.length) return ω * 180 / π;
+      cosω = Math.cos(ω = _ * π / 180);
+      sinω = Math.sin(ω);
+      return p;
+    };
+
+    return p.distance(1.4);
+  }
+
+  function lagrange() {
+    var n = .5;
+
+    var p = projection(function(λ, φ) {
+      if (Math.abs(Math.abs(φ) - π / 2) < ε) return [0, φ < 0 ? -2 : 2];
+      var sinφ = Math.sin(φ),
+          v = Math.pow((1 + sinφ) / (1 - sinφ), n / 2),
+          c = .5 * (v + 1 / v) + Math.cos(λ *= n);
+      return [
+        2 * Math.sin(λ) / c,
+        (v - 1 / v) / c
+      ];
+    });
+
+    p.spacing = function(_) {
+      if (!arguments.length) return n;
+      n = +_;
+      return p;
+    };
+
+    return p;
+  }
+
   var stereographic = azimuthal(function(cosλcosφ) {
     return 1 / (1 + cosλcosφ);
   });
@@ -580,14 +714,39 @@
     return 1 / cosλcosφ;
   });
 
+  function gnomonicInverse(x, y) {
+    return [
+      Math.atan(x),
+      Math.asin(y / Math.sqrt(x * x + y * y + 1))
+    ];
+  }
+
   var azimuthalEquidistant = azimuthal(function(cosλcosφ) {
     var c = Math.acos(cosλcosφ);
     return c && c / Math.sin(c);
   });
 
+  function azimuthalEquidistantInverse(x, y) {
+    var c = Math.sqrt(x * x + y * y),
+        sinc = Math.sin(c);
+    return c ? [
+      Math.atan2(x * sinc, c * Math.cos(c)),
+      Math.asin(y * sinc / c)
+    ] : [0, 0];
+  }
+
   var azimuthalEqualArea = azimuthal(function(cosλcosφ) {
     return Math.sqrt(2 / (1 + cosλcosφ));
   });
+
+  function azimuthalEqualAreaInverse(x, y) {
+    var z2 = 4 - x * x - y * y,
+        z = Math.sqrt(z2);
+    return [
+      Math.atan2(z * x, z2 - 2),
+      Math.asin(z * y / 2)
+    ];
+  }
 
   function equirectangular(λ, φ) {
     return [
@@ -743,8 +902,8 @@
   d3.geo.aitoff = function() { return projection(aitoff); };
   d3.geo.albersEqualArea = function() { return doubleParallelProjection(albers, albersInverse); }; // TODO rename albers
   d3.geo.august = function() { return projection(august); };
-  d3.geo.azimuthalEqualArea = function() { return projection(azimuthalEqualArea); };
-  d3.geo.azimuthalEquidistant = function() { return projection(azimuthalEquidistant); };
+  d3.geo.azimuthalEqualArea = function() { return projection(azimuthalEqualArea, azimuthalEqualAreaInverse); };
+  d3.geo.azimuthalEquidistant = function() { return projection(azimuthalEquidistant, azimuthalEquidistantInverse); };
   d3.geo.bonne = function() { return singleParallelProjection(bonne, bonneInverse).parallel(45); };
   d3.geo.collignon = function() { return projection(collignon, collignonInverse); };
   d3.geo.conicConformal = function() { return doubleParallelProjection(conicConformal, conicConformalInverse); };
@@ -758,21 +917,25 @@
   d3.geo.eckert6 = function() { return projection(eckert6, eckert6Inverse); };
   d3.geo.eisenlohr = function() { return projection(eisenlohr); };
   d3.geo.equirectangular = function() { return projection(equirectangular, equirectangular); };
-  d3.geo.gnomonic = function() { return projection(gnomonic); };
+  d3.geo.gnomonic = function() { return projection(gnomonic, gnomonicInverse); };
+  d3.geo.guyou = function() { return projection(guyou); };
   d3.geo.hammer = function() { return projection(hammer, hammerInverse); };
   d3.geo.homolosine = function() { return projection(homolosine, homolosineInverse); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7, kavrayskiy7Inverse); };
+  d3.geo.lagrange = lagrange;
   d3.geo.larrivee = function() { return projection(larrivee); };
   d3.geo.mercator = function() { return projection(mercator, mercatorInverse); };
   d3.geo.miller = function() { return projection(miller, millerInverse); };
   d3.geo.mollweide = function() { return projection(mollweide, mollweideInverse); };
   d3.geo.nellHammer = function() { return projection(nellHammer, nellHammerInverse); };
-  d3.geo.orthographic = function() { return projection(orthographic); };
+  d3.geo.orthographic = function() { return projection(orthographic, orthographicInverse); };
   d3.geo.polyconic = function() { return projection(polyconic, polyconicInverse); };
   d3.geo.robinson = function() { return projection(robinson); };
+  d3.geo.satellite = satellite;
   d3.geo.sinusoidal = function() { return projection(sinusoidal, sinusoidalInverse); };
   d3.geo.stereographic = function() { return projection(stereographic); };
   d3.geo.vanDerGrinten = function() { return projection(vanDerGrinten, vanDerGrintenInverse); };
+  d3.geo.verticalPerspective = verticalPerspective;
   d3.geo.wagner6 = function() { return projection(wagner6); };
   d3.geo.winkel3 = function() { return projection(winkel3); };
 })();

@@ -681,6 +681,46 @@
     return φ / (Math.pow(2, i) * a);
   }
 
+  function satellite() {
+    var ω = 0,
+        cosω = 1,
+        sinω = 0,
+        distance = 1.4,
+        verticalPerspective = d3.geo.verticalPerspective().scale(1).translate([0, 0]).distance(distance);
+
+    var p = projection(function(λ, φ) {
+      var coordinates = verticalPerspective([λ * 180 / π, φ * 180 / π]),
+          y = -coordinates[1],
+          A = y * Math.sin(ω / (distance - 1)) + cosω;
+      return [
+        coordinates[0] * Math.cos(ω / A),
+        y / A
+      ];
+    }, function(x, y) {
+      var k = (distance - 1) / (distance - 1 - y * sinω),
+          coordinates = verticalPerspective.invert([k * x, -k * y * cosω]);
+      return [
+        coordinates[0] * π / 180,
+        coordinates[1] * π / 180
+      ];
+    });
+
+    p.distance = function(_) {
+      if (!arguments.length) return distance;
+      verticalPerspective.distance(distance = +_);
+      return p;
+    };
+
+    p.tilt = function(_) {
+      if (!arguments.length) return ω * 180 / π;
+      cosω = Math.cos(ω = _ * π / 180);
+      sinω = Math.sin(ω);
+      return p;
+    };
+
+    return p;
+  }
+
   function projection(forward, inverse) {
     var scale = 150,
         translate = [480, 250];
@@ -840,6 +880,7 @@
   d3.geo.orthographic = function() { return projection(orthographic, orthographicInverse); };
   d3.geo.polyconic = function() { return projection(polyconic, polyconicInverse); };
   d3.geo.robinson = function() { return projection(robinson); };
+  d3.geo.satellite = satellite;
   d3.geo.sinusoidal = function() { return projection(sinusoidal, sinusoidalInverse); };
   d3.geo.stereographic = function() { return verticalPerspective().distance(-1); };
   d3.geo.vanDerGrinten = function() { return projection(vanDerGrinten, vanDerGrintenInverse); };

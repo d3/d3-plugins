@@ -4,6 +4,10 @@ A plugin for CIE Lab and LCH color spaces. For an example, see
 
 * http://bl.ocks.org/3014589
 
+This plugin was incorporated into D3 2.10.0 on August 9, 2012 and can now be used directly as d3.hcl and d3.lab!
+
+## Old Documentation
+
 To create a Lab color, use the `d3.cie.lab` constructor. To create an LCH color, use the `d3.cie.lch` constructor. For example, here are two ugly colors:
 
 ```js

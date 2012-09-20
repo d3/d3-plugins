@@ -237,7 +237,7 @@
   }
 
   function eckert6Inverse(x, y) {
-    var j = 1 + Math.PI / 2,
+    var j = 1 + π / 2,
         k = Math.sqrt(j / 2);
     return [
       x * 2 * k / (1 + Math.cos(y *= k)),
@@ -304,8 +304,7 @@
         cosφ2 = Math.cos(φ /= 2),
         t = Math.sin(φ) / (cosφ2 + 2 * c1 * k),
         c = Math.sqrt(2 / (1 + t * t)),
-        v = Math.sqrt((cosφ2 + (c1 + s1) * k)
-                    / (cosφ2 + (c1 - s1) * k));
+        v = Math.sqrt((cosφ2 + (c1 + s1) * k) / (cosφ2 + (c1 - s1) * k));
     return [
       f * (c * (v - 1 / v) - 2 * Math.log(v)),
       f * (c * t * (v + 1 / v) - 2 * Math.atan(t))
@@ -547,6 +546,19 @@
     };
   }
 
+  function azimuthal(scale) {
+    return function(λ, φ) {
+      var cosλ = Math.cos(λ),
+          cosφ = Math.cos(φ),
+          k = scale(cosλ * cosφ);
+      return [
+        k * cosφ * Math.sin(λ),
+        k * Math.sin(φ)
+      ];
+    };
+  }
+
+  // Optimized special case of azimuthal.
   function orthographic(λ, φ) {
     return [
       Math.cos(φ) * Math.sin(λ),
@@ -559,56 +571,6 @@
       Math.atan2(x, Math.sqrt(1 - x * x - y * y)),
       Math.asin(y)
     ];
-  }
-
-  function gnomonic(λ, φ) {
-    return [
-      Math.tan(λ),
-      Math.tan(φ) / Math.cos(λ)
-    ];
-  }
-
-  function gnomonicInverse(x, y) {
-    return [
-      Math.atan(x),
-      Math.asin(y / Math.sqrt(x * x + y * y + 1))
-    ];
-  }
-
-  function azimuthalEqualArea(λ, φ) {
-    var cosφ = Math.cos(φ),
-        k = Math.sqrt(2 / (1 + cosφ * Math.cos(λ)));
-    return [
-      k * cosφ * Math.sin(λ),
-      k * Math.sin(φ)
-    ];
-  }
-
-  function azimuthalEqualAreaInverse(x, y) {
-    var z2 = 4 - x * x - y * y,
-        z = Math.sqrt(z2);
-    return [
-      Math.atan2(z * x, z2 - 2),
-      Math.asin(z * y / 2)
-    ];
-  }
-
-  function azimuthalEquidistant(λ, φ) {
-    var cosφ = Math.cos(φ),
-        c = Math.acos(cosφ * Math.cos(λ));
-    return c ? [
-      (c /= Math.sin(c)) * cosφ * Math.sin(λ),
-      c * Math.sin(φ)
-    ] : [0, 0];
-  }
-
-  function azimuthalEquidistantInverse(x, y) {
-    var c = Math.sqrt(x * x + y * y),
-        sinc = Math.sin(c);
-    return c ? [
-      Math.atan2(x * sinc, c * Math.cos(c)),
-      Math.asin(y * sinc / c)
-    ] : [0, 0];
   }
 
   function verticalPerspective() {
@@ -744,6 +706,69 @@
     return p;
   }
 
+  var stereographic = azimuthal(function(cosλcosφ) {
+    return 1 / (1 + cosλcosφ);
+  });
+
+  var gnomonic = azimuthal(function(cosλcosφ) {
+    return 1 / cosλcosφ;
+  });
+
+  function gnomonicInverse(x, y) {
+    return [
+      Math.atan(x),
+      Math.asin(y / Math.sqrt(x * x + y * y + 1))
+    ];
+  }
+
+  var azimuthalEquidistant = azimuthal(function(cosλcosφ) {
+    var c = Math.acos(cosλcosφ);
+    return c && c / Math.sin(c);
+  });
+
+  function azimuthalEquidistantInverse(x, y) {
+    var c = Math.sqrt(x * x + y * y),
+        sinc = Math.sin(c);
+    return c ? [
+      Math.atan2(x * sinc, c * Math.cos(c)),
+      Math.asin(y * sinc / c)
+    ] : [0, 0];
+  }
+
+  var azimuthalEqualArea = azimuthal(function(cosλcosφ) {
+    return Math.sqrt(2 / (1 + cosλcosφ));
+  });
+
+  function azimuthalEqualAreaInverse(x, y) {
+    var z2 = 4 - x * x - y * y,
+        z = Math.sqrt(z2);
+    return [
+      Math.atan2(z * x, z2 - 2),
+      Math.asin(z * y / 2)
+    ];
+  }
+
+  function equirectangular(λ, φ) {
+    return [
+      λ,
+      φ
+    ];
+  }
+
+  function mercator(λ, φ) {
+    return [
+      λ / (2 * π),
+      Math.max(-.5, Math.min(+.5, Math.log(Math.tan(π / 4 + φ / 2)) / (2 * π)))
+    ];
+  }
+
+  function mercatorInverse(x, y) {
+    return [
+      2 * π * x,
+      2 * Math.atan(Math.exp(2 * π * y)) - π / 2
+    ];
+  }
+
   function projection(forward, inverse) {
     var scale = 150,
         translate = [480, 250];
@@ -875,7 +900,7 @@
   d3.geo.projection = projection;
 
   d3.geo.aitoff = function() { return projection(aitoff); };
-  d3.geo.albersEqualArea = function() { return doubleParallelProjection(albers, albersInverse); };
+  d3.geo.albersEqualArea = function() { return doubleParallelProjection(albers, albersInverse); }; // TODO rename albers
   d3.geo.august = function() { return projection(august); };
   d3.geo.azimuthalEqualArea = function() { return projection(azimuthalEqualArea, azimuthalEqualAreaInverse); };
   d3.geo.azimuthalEquidistant = function() { return projection(azimuthalEquidistant, azimuthalEquidistantInverse); };
@@ -891,6 +916,7 @@
   d3.geo.eckert5 = function() { return projection(eckert5, eckert5Inverse); };
   d3.geo.eckert6 = function() { return projection(eckert6, eckert6Inverse); };
   d3.geo.eisenlohr = function() { return projection(eisenlohr); };
+  d3.geo.equirectangular = function() { return projection(equirectangular, equirectangular); };
   d3.geo.gnomonic = function() { return projection(gnomonic, gnomonicInverse); };
   d3.geo.guyou = function() { return projection(guyou); };
   d3.geo.hammer = function() { return projection(hammer, hammerInverse); };
@@ -898,6 +924,7 @@
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7, kavrayskiy7Inverse); };
   d3.geo.lagrange = lagrange;
   d3.geo.larrivee = function() { return projection(larrivee); };
+  d3.geo.mercator = function() { return projection(mercator, mercatorInverse); };
   d3.geo.miller = function() { return projection(miller, millerInverse); };
   d3.geo.mollweide = function() { return projection(mollweide, mollweideInverse); };
   d3.geo.nellHammer = function() { return projection(nellHammer, nellHammerInverse); };
@@ -906,7 +933,7 @@
   d3.geo.robinson = function() { return projection(robinson); };
   d3.geo.satellite = satellite;
   d3.geo.sinusoidal = function() { return projection(sinusoidal, sinusoidalInverse); };
-  d3.geo.stereographic = function() { return verticalPerspective().distance(-1); };
+  d3.geo.stereographic = function() { return projection(stereographic); };
   d3.geo.vanDerGrinten = function() { return projection(vanDerGrinten, vanDerGrintenInverse); };
   d3.geo.verticalPerspective = verticalPerspective;
   d3.geo.wagner6 = function() { return projection(wagner6); };

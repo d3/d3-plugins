@@ -682,10 +682,9 @@
   }
 
   function satellite() {
-    var γ = 0,
-        ω = 0,
+    var ω = 0,
         cosω = 1,
-        sinω = 1,
+        sinω = 0,
         distance = 1.4,
         verticalPerspective = d3.geo.verticalPerspective().scale(1).translate([0, 0]).distance(distance);
 
@@ -698,11 +697,8 @@
         y / A
       ];
     }, function(x, y) {
-      var H = distance - 1,
-          coordinates = verticalPerspective.invert([
-            H * x / (H - y * sinω),
-            H * y * cosω / (H - y * sinω)
-          ]);
+      var k = (distance - 1) / (distance - 1 - y * sinω),
+          coordinates = verticalPerspective.invert([k * x, -k * y * cosω]);
       return [
         coordinates[0] * π / 180,
         coordinates[1] * π / 180

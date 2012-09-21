@@ -981,7 +981,7 @@
   d3.geo.projectionMutator = projectionMutator;
 
   d3.geo.aitoff = function() { return projection(aitoff); };
-  d3.geo.albersEqualArea = function() { return doubleParallelProjection(albers, albersInverse); }; // TODO rename albers
+  d3.geo.albers = function() { return doubleParallelProjection(albers, albersInverse); };
   d3.geo.august = function() { return projection(august); };
   d3.geo.azimuthalEqualArea = function() { return projection(azimuthalEqualArea, azimuthalEqualAreaInverse); };
   d3.geo.azimuthalEquidistant = function() { return projection(azimuthalEquidistant, azimuthalEquidistantInverse); };

@@ -742,29 +742,29 @@
       return p;
     };
 
-    // TODO remove in favour of .origin
-    p.rotate = function(_) {
-      if (!arguments.length) return [δλ * 180 / π, δφ * 180 / π];
-      forwardRotate = rotate(forward, δλ = (_[0] % 360) * π / 180, δφ = (_[1] % 360) * π / 180, δγ);
-      if (inverseAt) inverseRotate = rotateInverse(inverse, δλ, δφ, δγ);
-      return p;
-    };
-
     p.origin = function(_) {
-      if (!arguments.length) return [-δλ * 180 / π, -δφ * 180 / π];
-      return p.rotate([-_[0], -_[1]]);
+      if (!arguments.length) return [δλ * 180 / π, δφ * 180 / π];
+      δλ = _[0] % 360 * π / 180;
+      δφ = _[1] % 360 * π / 180;
+      return rerotate();
     };
 
     p.oblique = function(_) {
       if (!arguments.length) return δγ * 180 / π;
-      δγ = (_ % 360) * π / 180;
-      return p.rotate([δλ * 180 / π, δφ * 180 / π]);
+      δγ = _ % 360 * π / 180;
+      return rerotate();
     };
 
-    return function() {
-      forwardRotate = rotate(forward = forwardAt.apply(this, arguments), δλ, δφ, δγ);
-      if (inverseAt) inverseRotate = rotateInverse(inverse = inverseAt.apply(this, arguments), δλ, δφ, δγ);
+    function rerotate() {
+      forwardRotate = rotate(forward, -δλ, -δφ, δγ);
+      if (inverseAt) inverseRotate = rotateInverse(inverse, -δλ, -δφ, δγ);
       return p;
+    }
+
+    return function() {
+      forward = forwardAt.apply(this, arguments);
+      if (inverseAt) inverse = inverseAt.apply(this, arguments);
+      return rerotate();
     };
   }
 
@@ -845,9 +845,9 @@
         p = m(φ0);
 
     p.parallel = function(_) {
-      var δφ = p.rotate()[1];
+      var δφ = p.origin()[1];
       if (!arguments.length) return φ0 / π * 180 - δφ;
-      return m(φ0 = (_ + δφ) * π / 180);
+      return m(φ0 = (_ - δφ) * π / 180);
     };
 
     return p;
@@ -860,9 +860,9 @@
         p = m(φ0, φ1);
 
     p.parallels = function(_) {
-      var δφ = p.rotate()[1];
+      var δφ = p.origin()[1];
       if (!arguments.length) return [φ0 / π * 180 - δφ, φ1 / π * 180 - δφ];
-      return m(φ0 = (_[0] + δφ) * π / 180, φ1 = (_[1] + δφ) * π / 180);
+      return m(φ0 = (_[0] - δφ) * π / 180, φ1 = (_[1] - δφ) * π / 180);
     };
 
     return p;

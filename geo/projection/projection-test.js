@@ -43,10 +43,10 @@ suite.addBatch({
       }
     }
   },
-  "rotate": {
+  "origin": {
     "identity": {
       topic: function() {
-        return d3.geo.equirectangular().rotate([0, 0]).translate([0, 0]).scale(1);
+        return d3.geo.equirectangular().origin([0, 0]).translate([0, 0]).scale(1);
       },
       "projections and inverse projections": function(projection) {
         assertEqualInverse(projection, [   0,   0], [ 0,  0]);
@@ -60,9 +60,9 @@ suite.addBatch({
         assertEqualInverse(projection, [ -30, -30], [-π / 6,  π / 6]);
       }
     },
-    "[30, 0]": {
+    "[-30, 0]": {
       topic: function() {
-        return d3.geo.equirectangular().rotate([30, 0]).translate([0, 0]).scale(1);
+        return d3.geo.equirectangular().origin([-30, 0]).translate([0, 0]).scale(1);
       },
       "projections and inverse projections": function(projection) {
         assertEqualInverse(projection, [   0,   0], [ π / 6,  0]);
@@ -76,9 +76,9 @@ suite.addBatch({
         assertEqualInverse(projection, [ -30, -30], [ 0    ,  π / 6]);
       }
     },
-    "[30, 30]": {
+    "[-30, -30]": {
       topic: function() {
-        return d3.geo.equirectangular().rotate([30, 30]).translate([0, 0]).scale(1);
+        return d3.geo.equirectangular().origin([-30, -30]).translate([0, 0]).scale(1);
       },
       "projections and inverse projections": function(projection) {
         assertEqualInverse(projection, [   0,   0], [ 0.5880026035475674, -0.44783239692893245]);
@@ -108,9 +108,9 @@ suite.addBatch({
         assertEqualInverse(projection, [ -30, -30], [-0.1651486774146268,  0.70695172788721760]);
       }
     },
-    "[30, 30]; oblique 30": {
+    "[-30, -30]; oblique 30": {
       topic: function() {
-        return d3.geo.equirectangular().rotate([30, 30]).oblique(30).translate([0, 0]).scale(1);
+        return d3.geo.equirectangular().origin([-30, -30]).oblique(30).translate([0, 0]).scale(1);
       },
       "projections and inverse projections": function(projection) {
         assertEqualInverse(projection, [   0,   0], [ 0.2810349015028135, -0.67513153293703170]);

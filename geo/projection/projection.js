@@ -778,9 +778,9 @@
       return p;
     };
 
-    p.origin = function(_) {
-      if (!arguments.length) return [-δλ * 180 / π, -δφ * 180 / π];
-      forwardRotate = rotate(forward, δλ = -(_[0] % 360) * π / 180, δφ = -(_[1] % 360) * π / 180);
+    p.rotate = function(_) {
+      if (!arguments.length) return [δλ * 180 / π, δφ * 180 / π];
+      forwardRotate = rotate(forward, δλ = (_[0] % 360) * π / 180, δφ = (_[1] % 360) * π / 180);
       if (inverseAt) inverseRotate = rotateInverse(inverse, δλ, δφ);
       return p;
     };
@@ -849,8 +849,9 @@
         p = m(φ0);
 
     p.parallel = function(_) {
-      if (!arguments.length) return φ0 / π * 180;
-      return m(φ0 = _ * π / 180);
+      var δφ = p.rotate()[1];
+      if (!arguments.length) return φ0 / π * 180 + δφ;
+      return m(φ0 = (_ - δφ) * π / 180);
     };
 
     return p;
@@ -863,8 +864,9 @@
         p = m(φ0, φ1);
 
     p.parallels = function(_) {
-      if (!arguments.length) return [φ0 / π * 180, φ1 / π * 180];
-      return m(φ0 = _[0] * π / 180, φ1 = _[1] * π / 180);
+      var δφ = p.rotate()[1];
+      if (!arguments.length) return [φ0 / π * 180 + δφ, φ1 / π * 180 + δφ];
+      return m(φ0 = (_[0] - δφ) * π / 180, φ1 = (_[1] - δφ) * π / 180);
     };
 
     return p;

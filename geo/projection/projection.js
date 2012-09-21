@@ -1016,7 +1016,6 @@
   d3.geo.sinusoidal = function() { return projection(sinusoidal, sinusoidalInverse); };
   d3.geo.stereographic = function() { return projection(stereographic, stereographicInverse); };
   d3.geo.vanDerGrinten = function() { return projection(vanDerGrinten, vanDerGrintenInverse); };
-  d3.geo.verticalPerspective = verticalPerspectiveProjection;
   d3.geo.wagner6 = function() { return projection(wagner6); };
   d3.geo.winkel3 = function() { return projection(winkel3); };
 })();

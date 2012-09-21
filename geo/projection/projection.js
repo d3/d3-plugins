@@ -850,8 +850,8 @@
 
     p.parallel = function(_) {
       var δφ = p.rotate()[1];
-      if (!arguments.length) return φ0 / π * 180 + δφ;
-      return m(φ0 = (_ - δφ) * π / 180);
+      if (!arguments.length) return φ0 / π * 180 - δφ;
+      return m(φ0 = (_ + δφ) * π / 180);
     };
 
     return p;
@@ -865,8 +865,8 @@
 
     p.parallels = function(_) {
       var δφ = p.rotate()[1];
-      if (!arguments.length) return [φ0 / π * 180 + δφ, φ1 / π * 180 + δφ];
-      return m(φ0 = (_[0] - δφ) * π / 180, φ1 = (_[1] - δφ) * π / 180);
+      if (!arguments.length) return [φ0 / π * 180 - δφ, φ1 / π * 180 - δφ];
+      return m(φ0 = (_[0] + δφ) * π / 180, φ1 = (_[1] + δφ) * π / 180);
     };
 
     return p;

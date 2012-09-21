@@ -25,10 +25,6 @@
     [0.5322, 1.0000]
   ];
 
-  function identity(d) {
-    return d;
-  }
-
   function sinci(x) {
     return x ? x / Math.sin(x) : 1;
   }

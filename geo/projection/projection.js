@@ -748,17 +748,21 @@
 
   function projectionMutator(forwardAt, inverseAt) {
     var forward,
+        forwardRotate,
         inverse,
+        inverseRotate,
         scale = 150,
-        translate = [480, 250];
+        translate = [480, 250],
+        δλ = 0,
+        δφ = 0;
 
     function p(coordinates) {
-      coordinates = forward(coordinates[0] * π / 180, coordinates[1] * π / 180);
+      coordinates = forwardRotate(coordinates[0] * π / 180, coordinates[1] * π / 180);
       return [coordinates[0] * scale + translate[0], translate[1] - coordinates[1] * scale];
     }
 
     if (inverseAt) p.invert = function(coordinates) {
-      coordinates = inverse((coordinates[0] - translate[0]) / scale, (translate[1] - coordinates[1]) / scale);
+      coordinates = inverseRotate((coordinates[0] - translate[0]) / scale, (translate[1] - coordinates[1]) / scale);
       return [coordinates[0] * 180 / π, coordinates[1] * 180 / π];
     };
 
@@ -774,10 +778,68 @@
       return p;
     };
 
-    return function() {
-      forward = forwardAt.apply(this, arguments);
-      if (inverseAt) inverse = inverseAt.apply(this, arguments);
+    p.origin = function(_) {
+      if (!arguments.length) return [-δλ * 180 / π, -δφ * 180 / π];
+      forwardRotate = rotate(forward, δλ = -(_[0] % 360) * π / 180, δφ = -(_[1] % 360) * π / 180);
+      if (inverseAt) inverseRotate = rotateInverse(inverse, δλ, δφ);
       return p;
+    };
+
+    return function() {
+      forwardRotate = rotate(forward = forwardAt.apply(this, arguments), δλ, δφ);
+      if (inverseAt) inverseRotate = rotateInverse(inverse = inverseAt.apply(this, arguments), δλ, δφ);
+      return p;
+    };
+  }
+
+  // Note: |δλ| and |δφ| must be < 2π
+  function rotate(forward, δλ, δφ) {
+    return δλ ? (δφ ? rotateφ(rotateλ(forward, δλ), δφ)
+      : rotateλ(forward, δλ))
+      : (δφ ? rotateφ(forward, δφ)
+      : forward);
+  }
+
+  function rotateλ(forward, δλ) {
+    return function(λ, φ) {
+      return forward(
+        (λ += δλ) > π ? λ - 2 * π : λ < -π ? λ + 2 * π : λ,
+        φ
+      );
+    };
+  }
+
+  function rotateφ(forward, δφ) {
+    return function(λ, φ) {
+      return forward(
+        λ,
+        (φ += δφ) > π / 2 ? φ - π : φ < -π / 2 ? φ + π : φ
+      );
+    };
+  }
+
+  function rotateInverse(inverse, δλ, δφ) {
+    return δλ ? (δφ ? rotateInverseφ(rotateInverseλ(inverse, δλ), δφ)
+      : rotateInverseλ(inverse, δλ))
+      : (δφ ? rotateInverseφ(inverse, δφ)
+      : inverse);
+  }
+
+  function rotateInverseλ(inverse, δλ) {
+    return function(x, y) {
+      var coordinates = inverse(x, y),
+          λ = coordinates[0] - δλ;
+      coordinates[0] = λ > π ? λ - 2 * π : λ < -π ? λ + 2 * π : λ;
+      return coordinates;
+    };
+  }
+
+  function rotateInverseφ(inverse, δφ) {
+    return function(x, y) {
+      var coordinates = inverse(x, y),
+          φ = coordinates[1] - δφ;
+      coordinates[1] = φ > π / 2 ? φ - π : φ < -π / 2 ? φ + π : φ;
+      return coordinates;
     };
   }
 

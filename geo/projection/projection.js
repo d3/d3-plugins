@@ -930,10 +930,10 @@
     }
 
     graticule.lines = function() {
-      var xSteps = d3.range(extent[0][0], extent[1][0] + precision[0] / 2, precision[0]),
-          ySteps = d3.range(extent[0][1], extent[1][1] + precision[1] / 2, precision[1]),
-          xLines = d3.range(extent[0][0], extent[1][0] + step[0] / 2, step[0]).map(function(x) { return ySteps.map(function(y) { return [x, y]; }); }),
-          yLines = d3.range(extent[0][1], extent[1][1] + step[1] / 2, step[1]).map(function(y) { return xSteps.map(function(x) { return [x, y]; }); });
+      var xSteps = d3.range(extent[0][0], extent[1][0] - precision[0] / 2, precision[0]).concat(extent[1][0]),
+          ySteps = d3.range(extent[0][1], extent[1][1] - precision[1] / 2, precision[1]).concat(extent[1][1]),
+          xLines = d3.range(Math.ceil(extent[0][0] / step[0]) * step[0], extent[1][0], step[0]).map(function(x) { return ySteps.map(function(y) { return [x, y]; }); }),
+          yLines = d3.range(Math.ceil(extent[0][1] / step[1]) * step[1], extent[1][1], step[1]).map(function(y) { return xSteps.map(function(x) { return [x, y]; }); });
       return xLines.concat(yLines).map(function(coordinates) {
         return {
           type: "LineString",
@@ -943,8 +943,8 @@
     }
 
     graticule.outline = function() {
-      var ySteps = d3.range(extent[0][1], extent[1][1] + precision[1] / 2, precision[1]),
-          xSteps = d3.range(extent[0][0], extent[1][0] + precision[0] / 2, precision[0]),
+      var ySteps = d3.range(extent[0][1], extent[1][1] - precision[1] / 2, precision[1]).concat(extent[1][1]),
+          xSteps = d3.range(extent[0][0], extent[1][0] - precision[0] / 2, precision[0]).concat(extent[1][0]),
           xLine0 = ySteps.map(function(y) { return [extent[0][0], y]; }),
           yLine0 = xSteps.map(function(x) { return [x, extent[1][1]]; }),
           xLine1 = ySteps.map(function(y) { return [extent[1][0], y]; }).reverse(),

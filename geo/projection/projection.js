@@ -611,8 +611,9 @@
   }
 
   function satellite(P, ω) {
-    var forward = verticalPerspective(P),
-        cosω = Math.cos(ω),
+    var forward = verticalPerspective(P);
+    if (!ω) return forward;
+    var cosω = Math.cos(ω),
         sinω = Math.sin(ω);
     return function(λ, φ) {
       var coordinates = forward(λ, φ),
@@ -626,8 +627,9 @@
   }
 
   function satelliteInverse(P, ω) {
-    var inverse = verticalPerspectiveInverse(P),
-        cosω = Math.cos(ω),
+    var inverse = verticalPerspectiveInverse(P);
+    if (!ω) return inverse;
+    var cosω = Math.cos(ω),
         sinω = Math.sin(ω);
     return function(x, y) {
       var k = (P - 1) / (P - 1 - y * sinω);

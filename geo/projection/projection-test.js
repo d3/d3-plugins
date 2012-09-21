@@ -60,6 +60,38 @@ suite.addBatch({
         assertEqualInverse(projection, [ -30,  30], [-π / 6, -π / 6]);
         assertEqualInverse(projection, [ -30, -30], [-π / 6,  π / 6]);
       }
+    },
+    "[30, 0]": {
+      topic: function() {
+        return d3.geo.equirectangular().rotate([30, 0]).translate([0, 0]).scale(1);
+      },
+      "projections and inverse projections": function(projection) {
+        assertEqualInverse(projection, [   0,   0], [ π / 6,  0]);
+        assertEqualInverse(projection, [-180,   0], [-5 / 6 * π,  0]);
+        assert.inDelta(    projection( [ 180,   0]),[-5 / 6 * π,  0], 1e-6); // inverse is [-180, 0]
+        assertEqualInverse(projection, [   0,  30], [ π / 6, -π / 6]);
+        assertEqualInverse(projection, [   0, -30], [ π / 6,  π / 6]);
+        assertEqualInverse(projection, [  30,  30], [ π / 3, -π / 6]);
+        assertEqualInverse(projection, [  30, -30], [ π / 3,  π / 6]);
+        assertEqualInverse(projection, [ -30,  30], [ 0    , -π / 6]);
+        assertEqualInverse(projection, [ -30, -30], [ 0    ,  π / 6]);
+      }
+    },
+    "[30, 30]": {
+      topic: function() {
+        return d3.geo.equirectangular().rotate([30, 30]).translate([0, 0]).scale(1);
+      },
+      "projections and inverse projections": function(projection) {
+        assertEqualInverse(projection, [   0,   0], [ 0.5880026035475674, -0.44783239692893245]);
+        assertEqualInverse(projection, [-180,   0], [-2.5535900500422257,  0.44783239692893245]);
+        assert.inDelta(    projection( [ 180,   0]),[-2.5535900500422257,  0.44783239692893245], 1e-6); // inverse is [-180, 0]
+        assertEqualInverse(projection, [   0,  30], [ 0.8256075561643480, -0.94077119517052080]);
+        assertEqualInverse(projection, [   0, -30], [ 0.4486429615608479,  0.05804529130778048]);
+        assertEqualInverse(projection, [  30,  30], [ 1.4056476493802694, -0.70695172788721770]);
+        assertEqualInverse(projection, [  30, -30], [ 0.8760580505981933,  0.21823451436745955]);
+        assertEqualInverse(projection, [ -30,  30], [ 0,                  -1.04719755119659760]);
+        assertEqualInverse(projection, [ -30, -30], [ 0,                   0]);
+      }
     }
   }
 });

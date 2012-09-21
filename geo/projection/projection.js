@@ -821,7 +821,7 @@
   }
 
   function rotateInverse(inverse, δλ, δφ) {
-    return δλ ? (δφ ? rotateInverseφ(rotateInverseλ(inverse, δλ), δφ)
+    return δλ ? (δφ ? rotateInverseλ(rotateInverseφ(inverse, δφ), δλ)
       : rotateInverseλ(inverse, δλ))
       : (δφ ? rotateInverseφ(inverse, δφ)
       : inverse);
@@ -848,7 +848,7 @@
           y = Math.sin(λ) * cosφ,
           z = Math.sin(φ);
       coordinates[0] = Math.atan2(y, x * cosδφ + z * sinδφ);
-      coordinates[1] = Math.asin(Math.max(-1, Math.min(1, x * sinδφ + z * cosδφ)));
+      coordinates[1] = Math.asin(Math.max(-1, Math.min(1, z * cosδφ - x * sinδφ)));
       return coordinates;
     };
   }

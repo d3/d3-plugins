@@ -7,13 +7,15 @@ var vows = require("vows"),
 
 var suite = vows.describe("d3.geo.projection");
 
+var π = Math.PI;
+
 suite.addBatch({
   "d3.geo.bonne": {
     "40° parallel": {
       topic: function() {
         return d3.geo.bonne().parallel(40);
       },
-      "invert(project(location)) equals location": function(bonne) {
+      "projections and inverse projections": function(bonne) {
         assertEqualInverse(bonne, [   0,   0], [480,        354.719755]);
         assertEqualInverse(bonne, [   0, -90], [480,        590.339204]);
         assertEqualInverse(bonne, [   0,  90], [480,        119.100306]);
@@ -29,7 +31,7 @@ suite.addBatch({
       topic: function() {
         return d3.geo.bonne().parallel(90);
       },
-      "invert(project(location)) equals location": function(bonne) {
+      "projections and inverse projections": function(bonne) {
         assertEqualInverse(bonne, [0, 0], [480, 485.619449]);
       }
     },
@@ -37,8 +39,26 @@ suite.addBatch({
       topic: function() {
         return d3.geo.bonne().parallel(0);
       },
-      "invert(project(location)) equals location": function(bonne) {
+      "projections and inverse projections": function(bonne) {
         assertEqualInverse(bonne, [0, 0], [480, 250]);
+      }
+    }
+  },
+  "rotate": {
+    "identity": {
+      topic: function() {
+        return d3.geo.equirectangular().rotate([0, 0]).translate([0, 0]).scale(1);
+      },
+      "projections and inverse projections": function(projection) {
+        assertEqualInverse(projection, [   0,   0], [ 0,  0]);
+        assertEqualInverse(projection, [-180,   0], [-π,  0]);
+        assertEqualInverse(projection, [ 180,   0], [ π,  0]);
+        assertEqualInverse(projection, [   0,  30], [ 0, -π / 6]);
+        assertEqualInverse(projection, [   0, -30], [ 0,  π / 6]);
+        assertEqualInverse(projection, [  30,  30], [ π / 6, -π / 6]);
+        assertEqualInverse(projection, [  30, -30], [ π / 6,  π / 6]);
+        assertEqualInverse(projection, [ -30,  30], [-π / 6, -π / 6]);
+        assertEqualInverse(projection, [ -30, -30], [-π / 6,  π / 6]);
       }
     }
   }

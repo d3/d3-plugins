@@ -837,10 +837,18 @@
   }
 
   function rotateInverseφ(inverse, δφ) {
+    var cosδφ = Math.cos(δφ),
+        sinδφ = Math.sin(δφ);
     return function(x, y) {
       var coordinates = inverse(x, y),
-          φ = coordinates[1] - δφ;
-      coordinates[1] = φ > π / 2 ? φ - π : φ < -π / 2 ? φ + π : φ;
+          λ = coordinates[0],
+          φ = coordinates[1],
+          cosφ = Math.cos(φ),
+          x = Math.cos(λ) * cosφ,
+          y = Math.sin(λ) * cosφ,
+          z = Math.sin(φ);
+      coordinates[0] = Math.atan2(y, x * cosδφ + z * sinδφ);
+      coordinates[1] = Math.asin(Math.max(-1, Math.min(1, x * sinδφ + z * cosδφ)));
       return coordinates;
     };
   }

@@ -794,7 +794,7 @@
 
   // Note: |δλ| and |δφ| must be < 2π
   function rotate(forward, δλ, δφ) {
-    return δλ ? (δφ ? rotateφ(rotateλ(forward, δλ), δφ)
+    return δλ ? (δφ ? rotateλ(rotateφ(forward, δφ), δλ)
       : rotateλ(forward, δλ))
       : (δφ ? rotateφ(forward, δφ)
       : forward);
@@ -810,10 +810,16 @@
   }
 
   function rotateφ(forward, δφ) {
+    var cosδφ = Math.cos(δφ),
+        sinδφ = Math.sin(δφ);
     return function(λ, φ) {
+      var cosφ = Math.cos(φ),
+          x = Math.cos(λ) * cosφ,
+          y = Math.sin(λ) * cosφ,
+          z = Math.sin(φ);
       return forward(
-        λ,
-        (φ += δφ) > π / 2 ? φ - π : φ < -π / 2 ? φ + π : φ
+        Math.atan2(y, x * cosδφ - z * sinδφ),
+        Math.asin(Math.max(-1, Math.min(1, x * sinδφ + z * cosδφ)))
       );
     };
   }

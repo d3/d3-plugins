@@ -133,6 +133,6 @@ suite.export(module);
 function assertEqualInverse(projection, location, point) {
   assert.inDelta(projection(location), point, 1e-6);
   assert.inDelta(projection.invert(point), location, 1e-6);
-  //assert.inDelta(location, projection.invert(projection(location)), 1e-6);
-  //assert.inDelta(point, projection(projection.invert(point)), 1e-6);
+  assert.inDelta(location, projection.invert(projection(location)), 1e-6);
+  assert.inDelta(point, projection(projection.invert(point)), 1e-6);
 }

@@ -750,7 +750,8 @@
         scale = 150,
         translate = [480, 250],
         δλ = 0,
-        δφ = 0;
+        δφ = 0,
+        δγ = 0;
 
     function p(coordinates) {
       coordinates = forwardRotate(coordinates[0] * π / 180, coordinates[1] * π / 180);
@@ -774,25 +775,37 @@
       return p;
     };
 
+    // TODO remove in favour of .origin
     p.rotate = function(_) {
       if (!arguments.length) return [δλ * 180 / π, δφ * 180 / π];
-      forwardRotate = rotate(forward, δλ = (_[0] % 360) * π / 180, δφ = (_[1] % 360) * π / 180);
-      if (inverseAt) inverseRotate = rotateInverse(inverse, δλ, δφ);
+      forwardRotate = rotate(forward, δλ = (_[0] % 360) * π / 180, δφ = (_[1] % 360) * π / 180, δγ);
+      if (inverseAt) inverseRotate = rotateInverse(inverse, δλ, δφ, δγ);
       return p;
     };
 
+    p.origin = function(_) {
+      if (!arguments.length) return [-δλ * 180 / π, -δφ * 180 / π];
+      return p.rotate([-_[0], -_[1]]);
+    };
+
+    p.oblique = function(_) {
+      if (!arguments.length) return δγ * 180 / π;
+      δγ = (_ % 360) * π / 180;
+      return p.rotate([δλ * 180 / π, δφ * 180 / π]);
+    };
+
     return function() {
-      forwardRotate = rotate(forward = forwardAt.apply(this, arguments), δλ, δφ);
-      if (inverseAt) inverseRotate = rotateInverse(inverse = inverseAt.apply(this, arguments), δλ, δφ);
+      forwardRotate = rotate(forward = forwardAt.apply(this, arguments), δλ, δφ, δγ);
+      if (inverseAt) inverseRotate = rotateInverse(inverse = inverseAt.apply(this, arguments), δλ, δφ, δγ);
       return p;
     };
   }
 
   // Note: |δλ| and |δφ| must be < 2π
-  function rotate(forward, δλ, δφ) {
-    return δλ ? (δφ ? rotateλ(rotateφ(forward, δφ), δλ)
+  function rotate(forward, δλ, δφ, δγ) {
+    return δλ ? (δφ || δγ ? rotateλ(rotateφγ(forward, δφ, δγ), δλ)
       : rotateλ(forward, δλ))
-      : (δφ ? rotateφ(forward, δφ)
+      : (δφ || δγ ? rotateφγ(forward, δφ, δγ)
       : forward);
   }
 
@@ -805,25 +818,28 @@
     };
   }
 
-  function rotateφ(forward, δφ) {
+  function rotateφγ(forward, δφ, δγ) {
     var cosδφ = Math.cos(δφ),
-        sinδφ = Math.sin(δφ);
+        sinδφ = Math.sin(δφ),
+        cosδγ = Math.cos(δγ),
+        sinδγ = Math.sin(δγ);
     return function(λ, φ) {
       var cosφ = Math.cos(φ),
           x = Math.cos(λ) * cosφ,
           y = Math.sin(λ) * cosφ,
-          z = Math.sin(φ);
+          z = Math.sin(φ),
+          k = x * sinδφ + z * cosδφ;
       return forward(
-        Math.atan2(y, x * cosδφ - z * sinδφ),
-        Math.asin(Math.max(-1, Math.min(1, x * sinδφ + z * cosδφ)))
+        Math.atan2(y * cosδγ - k * sinδγ, x * cosδφ - z * sinδφ),
+        Math.asin(Math.max(-1, Math.min(1, k * cosδγ + y * sinδγ)))
       );
     };
   }
 
-  function rotateInverse(inverse, δλ, δφ) {
-    return δλ ? (δφ ? rotateInverseλ(rotateInverseφ(inverse, δφ), δλ)
+  function rotateInverse(inverse, δλ, δφ, δγ) {
+    return δλ ? (δφ || δγ ? rotateInverseλ(rotateInverseφγ(inverse, δφ, δγ), δλ)
       : rotateInverseλ(inverse, δλ))
-      : (δφ ? rotateInverseφ(inverse, δφ)
+      : (δφ || δγ ? rotateInverseφγ(inverse, δφ, δγ)
       : inverse);
   }
 
@@ -836,9 +852,11 @@
     };
   }
 
-  function rotateInverseφ(inverse, δφ) {
+  function rotateInverseφγ(inverse, δφ, δγ) {
     var cosδφ = Math.cos(δφ),
-        sinδφ = Math.sin(δφ);
+        sinδφ = Math.sin(δφ),
+        cosδγ = Math.cos(δγ),
+        sinδγ = Math.sin(δγ);
     return function(x, y) {
       var coordinates = inverse(x, y),
           λ = coordinates[0],
@@ -846,9 +864,10 @@
           cosφ = Math.cos(φ),
           x = Math.cos(λ) * cosφ,
           y = Math.sin(λ) * cosφ,
-          z = Math.sin(φ);
-      coordinates[0] = Math.atan2(y, x * cosδφ + z * sinδφ);
-      coordinates[1] = Math.asin(Math.max(-1, Math.min(1, z * cosδφ - x * sinδφ)));
+          z = Math.sin(φ),
+          k = z * cosδγ - y * sinδγ;
+      coordinates[0] = Math.atan2(y * cosδγ + z * sinδγ, x * cosδφ + k * sinδφ);
+      coordinates[1] = Math.asin(Math.max(-1, Math.min(1, k * cosδφ - x * sinδφ)));
       return coordinates;
     };
   }

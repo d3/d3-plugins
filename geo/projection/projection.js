@@ -660,62 +660,29 @@
     };
   }
 
-  // Optimized special case of azimuthal.
-  function orthographic(λ, φ) {
-    return [
-      Math.cos(φ) * Math.sin(λ),
-      Math.sin(φ)
-    ];
+  function azimuthalInverse(angle) {
+    return function(x, y) {
+      var ρ = Math.sqrt(x * x + y * y),
+          c = angle(ρ),
+          sinc = Math.sin(c),
+          cosc = Math.cos(c);
+      return [
+        Math.atan2(x * sinc, ρ * cosc),
+        Math.asin(ρ && y * sinc / ρ)
+      ];
+    };
   }
 
-  function orthographicInverse(x, y) {
-    return [
-      Math.atan2(x, Math.sqrt(1 - x * x - y * y)),
-      Math.asin(y)
-    ];
-  }
-
-  var stereographic = azimuthal(function(cosλcosφ) {
-    return 1 / (1 + cosλcosφ);
-  });
-
-  var gnomonic = azimuthal(function(cosλcosφ) {
-    return 1 / cosλcosφ;
-  });
-
-  function gnomonicInverse(x, y) {
-    return [
-      Math.atan(x),
-      Math.asin(y / Math.sqrt(x * x + y * y + 1))
-    ];
-  }
-
-  var azimuthalEquidistant = azimuthal(function(cosλcosφ) {
-    var c = Math.acos(cosλcosφ);
-    return c && c / Math.sin(c);
-  });
-
-  function azimuthalEquidistantInverse(x, y) {
-    var c = Math.sqrt(x * x + y * y),
-        sinc = Math.sin(c);
-    return c ? [
-      Math.atan2(x * sinc, c * Math.cos(c)),
-      Math.asin(y * sinc / c)
-    ] : [0, 0];
-  }
-
-  var azimuthalEqualArea = azimuthal(function(cosλcosφ) {
-    return Math.sqrt(2 / (1 + cosλcosφ));
-  });
-
-  function azimuthalEqualAreaInverse(x, y) {
-    var z2 = 4 - x * x - y * y,
-        z = Math.sqrt(z2);
-    return [
-      Math.atan2(z * x, z2 - 2),
-      Math.asin(z * y / 2)
-    ];
-  }
+  var orthographic = azimuthal(function(cosλcosφ) { return 1; }),
+      orthographicInverse = azimuthalInverse(function(ρ) { return Math.asin(ρ); }),
+      stereographic = azimuthal(function(cosλcosφ) { return 1 / (1 + cosλcosφ); }),
+      stereographicInverse = azimuthalInverse(function(ρ) { return 2 * Math.atan(ρ); }),
+      gnomonic = azimuthal(function(cosλcosφ) { return 1 / cosλcosφ; }),
+      gnomonicInverse = azimuthalInverse(function(ρ) { return Math.atan(ρ); }),
+      azimuthalEquidistant = azimuthal(function(cosλcosφ) { var c = Math.acos(cosλcosφ); return c && c / Math.sin(c); }),
+      azimuthalEquidistantInverse = azimuthalInverse(function(ρ) { return ρ; }),
+      azimuthalEqualArea = azimuthal(function(cosλcosφ) { return Math.sqrt(2 / (1 + cosλcosφ)); }),
+      azimuthalEqualAreaInverse = azimuthalInverse(function(ρ) { return 2 * Math.asin(ρ / 2); });
 
   function equirectangular(λ, φ) {
     return [
@@ -1045,7 +1012,7 @@
   d3.geo.robinson = function() { return projection(robinson); };
   d3.geo.satellite = satelliteProjection;
   d3.geo.sinusoidal = function() { return projection(sinusoidal, sinusoidalInverse); };
-  d3.geo.stereographic = function() { return projection(stereographic); };
+  d3.geo.stereographic = function() { return projection(stereographic, stereographicInverse); };
   d3.geo.vanDerGrinten = function() { return projection(vanDerGrinten, vanDerGrintenInverse); };
   d3.geo.verticalPerspective = verticalPerspectiveProjection;
   d3.geo.wagner6 = function() { return projection(wagner6); };

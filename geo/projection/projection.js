@@ -841,6 +841,21 @@
     };
   }
 
+  d3.geo.rotation = function(δλ, δφ, δγ) {
+    var forward = rotate(equirectangular, δλ, δφ, δγ),
+        inverse = rotateInverse(equirectangular, δλ, δφ, δγ);
+
+    function r(coordinates) {
+      return forward(coordinates[0], coordinates[1]);
+    }
+
+    r.invert = function(coordinates) {
+      return inverse(coordinates[0], coordinates[1]);
+    };
+
+    return r;
+  };
+
   function singleParallelProjection(forwardAt, inverseAt) {
     var φ0 = 0,
         m = projectionMutator(forwardAt, inverseAt),

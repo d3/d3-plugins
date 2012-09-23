@@ -696,18 +696,19 @@
     var project,
         projectRotate,
         scale = 150,
-        translate = [480, 250],
+        δx = 480,
+        δy = 250,
         δλ = 0,
         δφ = 0,
         δγ = 0;
 
     function p(coordinates) {
       coordinates = projectRotate(coordinates[0] * π / 180, coordinates[1] * π / 180);
-      return [coordinates[0] * scale + translate[0], translate[1] - coordinates[1] * scale];
+      return [coordinates[0] * scale + δx, δy - coordinates[1] * scale];
     }
 
     function i(coordinates) {
-      coordinates = projectRotate.invert((coordinates[0] - translate[0]) / scale, (translate[1] - coordinates[1]) / scale);
+      coordinates = projectRotate.invert((coordinates[0] - δx) / scale, (δy - coordinates[1]) / scale);
       return [coordinates[0] * 180 / π, coordinates[1] * 180 / π];
     }
 
@@ -718,8 +719,9 @@
     };
 
     p.translate = function(_) {
-      if (!arguments.length) return translate;
-      translate = [+_[0], +_[1]];
+      if (!arguments.length) return [δx, δy];
+      δx = +_[0];
+      δy = +_[1];
       return p;
     };
 

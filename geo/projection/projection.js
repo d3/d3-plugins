@@ -918,6 +918,38 @@
     return p;
   }
 
+  var azimuthalModes = {
+    equalarea: azimuthalEqualArea,
+    equidistant: azimuthalEquidistant,
+    gnomonic: gnomonic,
+    orthographic: orthographic,
+    stereographic: stereographic
+  };
+
+  function azimuthalMode(mode) {
+    return azimuthalModes[mode];
+  }
+
+  // Deprecated; backwards-compatibility for d3.geo.azimuthal.
+  function azimuthalProjection() {
+    var mode = "orthographic",
+        m = projectionMutator(azimuthalMode),
+        p = m(mode);
+
+    p.mode = function(_) {
+      if (!arguments.length) return mode;
+      return m(mode = _ + "");
+    };
+
+    p.origin = function(_) {
+      if (!arguments.length) { var rotate = p.rotate(); return [-rotate[0], -rotate[1]]; }
+      return p.rotate([-_[0], -_[1]]);
+    };
+
+    return p.scale(200);
+  }
+
+  // Deprecated; backwards-compatibility for d3.geo.albers.
   function albersProjection() {
     var p = doubleParallelProjection(albers)
         .rotate([98, 0])
@@ -929,7 +961,7 @@
       var rotate = p.rotate(),
           center = p.center();
       if (!arguments.length) return [-rotate[0], center[1]];
-      return p.rotate([-_[0], rotate[1], rotate[2]]).center([center[0], _[1]]);
+      return p.rotate([-_[0], rotate[1]]).center([center[0], _[1]]);
     };
 
     return p;
@@ -1001,6 +1033,7 @@
   d3.geo.aitoff = function() { return projection(aitoff); };
   d3.geo.albers = albersProjection;
   d3.geo.august = function() { return projection(august); };
+  d3.geo.azimuthal = azimuthalProjection;
   d3.geo.azimuthalEqualArea = function() { return projection(azimuthalEqualArea); };
   d3.geo.azimuthalEquidistant = function() { return projection(azimuthalEquidistant); };
   d3.geo.bonne = function() { return singleParallelProjection(bonne).parallel(45); };

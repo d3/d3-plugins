@@ -1056,7 +1056,7 @@
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
   d3.geo.lagrange = lagrangeProjection;
   d3.geo.larrivee = function() { return projection(larrivee); };
-  d3.geo.mercator = function() { return projection(mercator); };
+  d3.geo.mercator = function() { return projection(mercator).scale(500); };
   d3.geo.miller = function() { return projection(miller); };
   d3.geo.mollweide = function() { return projection(mollweide); };
   d3.geo.nellHammer = function() { return projection(nellHammer); };

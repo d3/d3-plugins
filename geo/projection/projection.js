@@ -744,20 +744,6 @@
       return reset();
     };
 
-    p.origin = function(_) {
-      if (!arguments.length) return [-δλ * 180 / π, φ * 180 / π];
-      δλ = -_[0] % 360 * π / 180;
-      φ = _[1] % 360 * π / 180;
-      return reset();
-    };
-
-    // TODO remove
-    p.oblique = function(_) {
-      if (!arguments.length) return δγ * 180 / π;
-      δγ = _ % 360 * π / 180;
-      return reset();
-    };
-
     function reset() {
       projectRotate = compose(rotation(δλ, δφ, δγ), project);
       var center = project(λ, φ);
@@ -932,6 +918,23 @@
     return p;
   }
 
+  function albersProjection() {
+    var p = doubleParallelProjection(albers)
+        .rotate([98, 0])
+        .center([0, 38])
+        .parallels([29.5, 45.5])
+        .scale(1000);
+
+    p.origin = function(_) {
+      var rotate = p.rotate(),
+          center = p.center();
+      if (!arguments.length) return [-rotate[0], center[1]];
+      return p.rotate([-_[0], rotate[1], rotate[2]]).center([center[0], _[1]]);
+    };
+
+    return p;
+  }
+
   d3.geo.graticule = function() {
     var extent = [[-180, -90], [180, 90]],
         step = [22.5, 22.5],
@@ -996,7 +999,7 @@
   d3.geo.projectionMutator = projectionMutator;
 
   d3.geo.aitoff = function() { return projection(aitoff); };
-  d3.geo.albers = function() { return doubleParallelProjection(albers); };
+  d3.geo.albers = albersProjection;
   d3.geo.august = function() { return projection(august); };
   d3.geo.azimuthalEqualArea = function() { return projection(azimuthalEqualArea); };
   d3.geo.azimuthalEquidistant = function() { return projection(azimuthalEquidistant); };

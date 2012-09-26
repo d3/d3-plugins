@@ -162,6 +162,8 @@
     ];
   };
 
+  var azimuthalEqualArea = d3.geo.azimuthalEqualArea.raw;
+
   function hammer(λ, φ) {
     var coordinates = azimuthalEqualArea(λ / 2, φ);
     coordinates[0] *= 2;
@@ -521,31 +523,6 @@
     return forward;
   }
 
-  function albers(φ0, φ1) {
-    var sinφ0 = Math.sin(φ0),
-        n = (sinφ0 + Math.sin(φ1)) / 2,
-        C = 1 + sinφ0 * (2 * n - sinφ0),
-        ρ0 = Math.sqrt(C) / n;
-
-    function forward(λ, φ) {
-      var ρ = Math.sqrt(C - 2 * n * Math.sin(φ)) / n;
-      return [
-        ρ * Math.sin(n * λ),
-        ρ0 - ρ * Math.cos(n * λ)
-      ];
-    }
-
-    forward.invert = function(x, y) {
-      var ρ0_y = ρ0 - y;
-      return [
-        Math.atan2(x, ρ0_y) / n,
-        Math.asin((C - (x * x + ρ0_y * ρ0_y) * n * n) / (2 * n))
-      ];
-    };
-
-    return forward;
-  }
-
   function conicEquidistant(φ0, φ1) {
     var cosφ0 = Math.cos(φ0),
         n = (cosφ0 - Math.cos(φ1)) / (φ1 - φ0),
@@ -634,216 +611,6 @@
     };
   }
 
-  function azimuthal(scale, angle) {
-    function forward(λ, φ) {
-      var cosλ = Math.cos(λ),
-          cosφ = Math.cos(φ),
-          k = scale(cosλ * cosφ);
-      return [
-        k * cosφ * Math.sin(λ),
-        k * Math.sin(φ)
-      ];
-    }
-
-    forward.invert = function(x, y) {
-      var ρ = Math.sqrt(x * x + y * y),
-          c = angle(ρ),
-          sinc = Math.sin(c),
-          cosc = Math.cos(c);
-      return [
-        Math.atan2(x * sinc, ρ * cosc),
-        Math.asin(ρ && y * sinc / ρ)
-      ];
-    };
-
-    return forward;
-  }
-
-  var orthographic = azimuthal(function(cosλcosφ) { return 1; }, function(ρ) { return Math.asin(ρ); }),
-      stereographic = azimuthal(function(cosλcosφ) { return 1 / (1 + cosλcosφ); }, function(ρ) { return 2 * Math.atan(ρ); }),
-      gnomonic = azimuthal(function(cosλcosφ) { return 1 / cosλcosφ; }, function(ρ) { return Math.atan(ρ); }),
-      azimuthalEquidistant = azimuthal(function(cosλcosφ) { var c = Math.acos(cosλcosφ); return c && c / Math.sin(c); }, function(ρ) { return ρ; }),
-      azimuthalEqualArea = azimuthal(function(cosλcosφ) { return Math.sqrt(2 / (1 + cosλcosφ)); }, function(ρ) { return 2 * Math.asin(ρ / 2); });
-
-  function identity(λ, φ) {
-    return [
-      λ,
-      φ
-    ];
-  }
-
-  identity.invert = identity;
-
-  function mercator(λ, φ) {
-    return [
-      λ / (2 * π),
-      Math.max(-.5, Math.min(+.5, Math.log(Math.tan(π / 4 + φ / 2)) / (2 * π)))
-    ];
-  }
-
-  mercator.invert = function(x, y) {
-    return [
-      2 * π * x,
-      2 * Math.atan(Math.exp(2 * π * y)) - π / 2
-    ];
-  };
-
-  function projection(project) {
-    return projectionMutator(function() { return project; })();
-  }
-
-  function projectionMutator(projectAt) {
-    var project,
-        projectRotate,
-        k = 150,
-        x = 480,
-        y = 250,
-        λ = 0,
-        φ = 0,
-        δλ = 0,
-        δφ = 0,
-        δγ = 0,
-        δx = x,
-        δy = y;
-
-    function p(coordinates) {
-      coordinates = projectRotate(coordinates[0] * π / 180, coordinates[1] * π / 180);
-      return [coordinates[0] * k + δx, δy - coordinates[1] * k];
-    }
-
-    function i(coordinates) {
-      coordinates = projectRotate.invert((coordinates[0] - δx) / k, (δy - coordinates[1]) / k);
-      return [coordinates[0] * 180 / π, coordinates[1] * 180 / π];
-    }
-
-    p.scale = function(_) {
-      if (!arguments.length) return k;
-      k = +_;
-      return reset();
-    };
-
-    p.translate = function(_) {
-      if (!arguments.length) return [x, y];
-      x = +_[0];
-      y = +_[1];
-      return reset();
-    };
-
-    p.center = function(_) {
-      if (!arguments.length) return [λ * 180 / π, φ * 180 / π];
-      λ = _[0] % 360 * π / 180;
-      φ = _[1] % 360 * π / 180;
-      return reset();
-    };
-
-    p.rotate = function(_) {
-      if (!arguments.length) return [δλ * 180 / π, δφ * 180 / π, δγ * 180 / π];
-      δλ = _[0] % 360 * π / 180;
-      δφ = _[1] % 360 * π / 180;
-      δγ = _.length > 2 ? _[2] % 360 * π / 180 : 0;
-      return reset();
-    };
-
-    function reset() {
-      projectRotate = compose(rotation(δλ, δφ, δγ), project);
-      var center = project(λ, φ);
-      δx = x - center[0] * k;
-      δy = y + center[1] * k;
-      return p;
-    }
-
-    return function() {
-      project = projectAt.apply(this, arguments);
-      p.invert = project.invert && i;
-      return reset();
-    };
-  }
-
-  function compose(a, b) {
-    if (b === identity) return a;
-    if (a === identity) return b;
-
-    function forward(λ, φ) {
-      return b.apply(b, a(λ, φ));
-    }
-
-    if (a.invert && b.invert) forward.invert = function(x, y) {
-      return a.invert.apply(a, b.invert(x, y));
-    };
-
-    return forward;
-  }
-
-  // Note: |δλ| and |δφ| must be < 2π
-  function rotation(δλ, δφ, δγ) {
-    return δλ ? (δφ || δγ ? compose(rotationλ(δλ), rotationφγ(δφ, δγ))
-      : rotationλ(δλ))
-      : (δφ || δγ ? rotationφγ(δφ, δγ)
-      : identity);
-  }
-
-  function forwardRotationλ(δλ) {
-    return function(λ, φ) {
-      return [
-        (λ += δλ) > π ? λ - 2 * π : λ < -π ? λ + 2 * π : λ,
-        φ
-      ];
-    };
-  }
-
-  function rotationλ(δλ) {
-    var forward = forwardRotationλ(δλ);
-    forward.invert = forwardRotationλ(-δλ);
-    return forward;
-  }
-
-  function rotationφγ(δφ, δγ) {
-    var cosδφ = Math.cos(δφ),
-        sinδφ = Math.sin(δφ),
-        cosδγ = Math.cos(δγ),
-        sinδγ = Math.sin(δγ);
-
-    function forward(λ, φ) {
-      var cosφ = Math.cos(φ),
-          x = Math.cos(λ) * cosφ,
-          y = Math.sin(λ) * cosφ,
-          z = Math.sin(φ),
-          k = z * cosδφ + x * sinδφ;
-      return [
-        Math.atan2(y * cosδγ + k * sinδγ, x * cosδφ - z * sinδφ),
-        Math.asin(Math.max(-1, Math.min(1, k * cosδγ - y * sinδγ)))
-      ];
-    }
-
-    forward.invert = function(λ, φ) {
-      var cosφ = Math.cos(φ),
-          x = Math.cos(λ) * cosφ,
-          y = Math.sin(λ) * cosφ,
-          z = Math.sin(φ),
-          k = z * cosδγ + y * sinδγ;
-      return [
-        Math.atan2(y * cosδγ - z * sinδγ, x * cosδφ + k * sinδφ),
-        Math.asin(Math.max(-1, Math.min(1, k * cosδφ - x * sinδφ)))
-      ];
-    };
-
-    return forward;
-  }
-
-  d3.geo.rotation = function(δλ, δφ, δγ) {
-    var r = rotation(δλ, δφ, δγ);
-
-    function rotation(coordinates) {
-      return r(coordinates[0], coordinates[1]);
-    }
-
-    rotation.invert = function(coordinates) {
-      return r.invert(coordinates[0], coordinates[1]);
-    };
-
-    return r;
-  };
-
   function singleParallelProjection(projectAt) {
     var φ0 = 0,
         m = projectionMutator(projectAt),
@@ -918,124 +685,11 @@
     return p;
   }
 
-  var azimuthalModes = {
-    equalarea: azimuthalEqualArea,
-    equidistant: azimuthalEquidistant,
-    gnomonic: gnomonic,
-    orthographic: orthographic,
-    stereographic: stereographic
-  };
-
-  function azimuthalMode(mode) {
-    return azimuthalModes[mode];
-  }
-
-  // Deprecated; backwards-compatibility for d3.geo.azimuthal.
-  function azimuthalProjection() {
-    var mode = "orthographic",
-        m = projectionMutator(azimuthalMode),
-        p = m(mode);
-
-    p.mode = function(_) {
-      if (!arguments.length) return mode;
-      return m(mode = _ + "");
-    };
-
-    p.origin = function(_) {
-      if (!arguments.length) { var rotate = p.rotate(); return [-rotate[0], -rotate[1]]; }
-      return p.rotate([-_[0], -_[1]]);
-    };
-
-    return p.scale(200);
-  }
-
-  // Deprecated; backwards-compatibility for d3.geo.albers.
-  function albersProjection() {
-    var p = doubleParallelProjection(albers)
-        .rotate([98, 0])
-        .center([0, 38])
-        .parallels([29.5, 45.5])
-        .scale(1000);
-
-    p.origin = function(_) {
-      var rotate = p.rotate(),
-          center = p.center();
-      if (!arguments.length) return [-rotate[0], center[1]];
-      return p.rotate([-_[0], rotate[1]]).center([center[0], _[1]]);
-    };
-
-    return p;
-  }
-
-  d3.geo.graticule = function() {
-    var extent = [[-180, -90], [180, 90]],
-        step = [22.5, 22.5],
-        precision = [2, 2];
-
-    function graticule() {
-      return {
-        type: "GeometryCollection",
-        geometries: graticule.lines()
-      };
-    }
-
-    graticule.lines = function() {
-      var xSteps = d3.range(extent[0][0], extent[1][0] - precision[0] / 2, precision[0]).concat(extent[1][0]),
-          ySteps = d3.range(extent[0][1], extent[1][1] - precision[1] / 2, precision[1]).concat(extent[1][1]),
-          xLines = d3.range(Math.ceil(extent[0][0] / step[0]) * step[0], extent[1][0], step[0]).map(function(x) { return ySteps.map(function(y) { return [x, y]; }); }),
-          yLines = d3.range(Math.ceil(extent[0][1] / step[1]) * step[1], extent[1][1], step[1]).map(function(y) { return xSteps.map(function(x) { return [x, y]; }); });
-      return xLines.concat(yLines).map(function(coordinates) {
-        return {
-          type: "LineString",
-          coordinates: coordinates
-        };
-      });
-    }
-
-    graticule.outline = function() {
-      var ySteps = d3.range(extent[0][1], extent[1][1] - precision[1] / 2, precision[1]).concat(extent[1][1]),
-          xSteps = d3.range(extent[0][0], extent[1][0] - precision[0] / 2, precision[0]).concat(extent[1][0]),
-          xLine0 = ySteps.map(function(y) { return [extent[0][0], y]; }),
-          yLine0 = xSteps.map(function(x) { return [x, extent[1][1]]; }),
-          xLine1 = ySteps.map(function(y) { return [extent[1][0], y]; }).reverse(),
-          yLine1 = xSteps.map(function(x) { return [x, extent[0][1]]; }).reverse();
-      yLine1.push(xLine0[0]); // closing coordinate
-      return {
-        type: "Polygon",
-        coordinates: [xLine0.concat(yLine0, xLine1, yLine1)]
-      };
-    };
-
-    graticule.extent = function(_) {
-      if (!arguments.length) return extent;
-      extent = _;
-      return graticule;
-    };
-
-    graticule.step = function(_) {
-      if (!arguments.length) return step;
-      step = _;
-      return graticule;
-    };
-
-    graticule.precision = function(_) {
-      if (!arguments.length) return precision;
-      precision = _;
-      return graticule;
-    };
-
-    return graticule;
-  };
-
-  d3.geo.projection = projection;
-  d3.geo.projectionMutator = projectionMutator;
+  var projection = d3.geo.projection,
+      projectionMutator = d3.geo.projectionMutator;
 
   d3.geo.aitoff = function() { return projection(aitoff); };
-  d3.geo.albers = albersProjection;
   d3.geo.august = function() { return projection(august); };
-  d3.geo.azimuthal = azimuthalProjection;
-  d3.geo.azimuthalEqualArea = function() { return projection(azimuthalEqualArea); };
-  d3.geo.azimuthalEquidistant = function() { return projection(azimuthalEquidistant); };
   d3.geo.bonne = function() { return singleParallelProjection(bonne).parallel(45); };
   d3.geo.collignon = function() { return projection(collignon); };
   d3.geo.conicConformal = function() { return doubleParallelProjection(conicConformal); };
@@ -1048,24 +702,19 @@
   d3.geo.eckert5 = function() { return projection(eckert5); };
   d3.geo.eckert6 = function() { return projection(eckert6); };
   d3.geo.eisenlohr = function() { return projection(eisenlohr); };
-  d3.geo.equirectangular = function() { return projection(identity); };
-  d3.geo.gnomonic = function() { return projection(gnomonic); };
   d3.geo.guyou = function() { return projection(guyou); };
   d3.geo.hammer = function() { return projection(hammer); };
   d3.geo.homolosine = function() { return projection(homolosine); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
   d3.geo.lagrange = lagrangeProjection;
   d3.geo.larrivee = function() { return projection(larrivee); };
-  d3.geo.mercator = function() { return projection(mercator).scale(500); };
   d3.geo.miller = function() { return projection(miller); };
   d3.geo.mollweide = function() { return projection(mollweide); };
   d3.geo.nellHammer = function() { return projection(nellHammer); };
-  d3.geo.orthographic = function() { return projection(orthographic); };
   d3.geo.polyconic = function() { return projection(polyconic); };
   d3.geo.robinson = function() { return projection(robinson); };
   d3.geo.satellite = satelliteProjection;
   d3.geo.sinusoidal = function() { return projection(sinusoidal); };
-  d3.geo.stereographic = function() { return projection(stereographic); };
   d3.geo.vanDerGrinten = function() { return projection(vanDerGrinten); };
   d3.geo.wagner6 = function() { return projection(wagner6); };
   d3.geo.winkel3 = function() { return projection(winkel3); };

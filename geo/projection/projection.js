@@ -583,7 +583,7 @@
     function forward(λ, φ) {
       var coordinates = vertical(λ, φ),
           y = coordinates[1],
-          A = y * sinω / (P - 1) + cosω;
+          A = P * (y * sinω / (P - 1) + cosω);
       return [
         coordinates[0] * cosω / A,
         y / A

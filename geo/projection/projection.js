@@ -583,9 +583,9 @@
     function forward(λ, φ) {
       var coordinates = vertical(λ, φ),
           y = coordinates[1],
-          A = y * Math.sin(ω / (P - 1)) + cosω;
+          A = y * Math.sin(ω) / (P - 1) + cosω;
       return [
-        coordinates[0] * Math.cos(ω / A),
+        coordinates[0] * Math.cos(ω) / A,
         y / A
       ];
     }

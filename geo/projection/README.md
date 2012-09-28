@@ -4,7 +4,7 @@ Projections:
 
 * [d3.geo.aitoff](http://bl.ocks.org/3682698) - Aitoff
 * [d3.geo.albers](http://bl.ocks.org/3734308) - Albers equal-area conic
-* d3.geo.august
+* [d3.geo.august](http://bl.ocks.org/3797581) - August
 * [d3.geo.azimuthalEqualArea](http://bl.ocks.org/3757101) - Lambert azimuthal equal-area
 * [d3.geo.azimuthalEquidistant](http://bl.ocks.org/3757110) - Azimuthal equidistant
 * [d3.geo.bonne](http://bl.ocks.org/3734313) - Bonne

@@ -25,7 +25,7 @@ Projections:
 * [d3.geo.hammer](http://bl.ocks.org/3712397) - Hammer
 * [d3.geo.homolosine](http://bl.ocks.org/3734330) - Goode Homolosine
 * [d3.geo.kavrayskiy7](http://bl.ocks.org/3710082) - Kavrayskiy VII
-* d3.geo.lagrange
+* [d3.geo.lagrange](http://bl.ocks.org/3797591) - Lagrange conformal
 * [d3.geo.larrivee](http://bl.ocks.org/3719042) - Larrivée
 * [d3.geo.mercator](http://bl.ocks.org/3757132) - Mercator
 * [d3.geo.miller](http://bl.ocks.org/3734333) - Miller

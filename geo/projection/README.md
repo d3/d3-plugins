@@ -34,7 +34,7 @@ Projections:
 * [d3.geo.orthographic](http://bl.ocks.org/3757125) - Orthographic
 * [d3.geo.polyconic](http://bl.ocks.org/3734343) - Polyconic
 * [d3.geo.robinson](http://bl.ocks.org/3710566) - Robinson
-* d3.geo.satellite
+* [d3.geo.satellite](http://bl.ocks.org/3790444) - Satellite (tilted perpsective)
 * [d3.geo.sinusoidal](http://bl.ocks.org/3712399) - Sinusoidal
 * [d3.geo.stereographic](http://bl.ocks.org/3757137) - Stereographic
 * [d3.geo.vanDerGrinten](http://bl.ocks.org/3796831) - Van der Grinten

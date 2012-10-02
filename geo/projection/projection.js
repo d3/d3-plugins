@@ -558,7 +558,7 @@
   function verticalPerspective(P) {
     function forward(λ, φ) {
       var cosφ = Math.cos(φ),
-          k = (P - 1) / (P - (cosφ * Math.cos(λ)));
+          k = (P - 1) / (P - cosφ * Math.cos(λ));
       return [
         k * cosφ * Math.sin(λ),
         k * Math.sin(φ)

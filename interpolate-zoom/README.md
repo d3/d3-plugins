@@ -1,6 +1,6 @@
 # Interpolate Zoom
 
-An interpolator for zooming and panning between two views of a two-dimensional plane, based on "Smooth and efficient zooming and panning" by Jarke J. van Wijk and Wim A.A. Nuij.
+An interpolator for zooming and panning between two views of a two-dimensional plane, based on [“Smooth and efficient zooming and panning”](https://www.google.com/search?q=Smooth+and+efficient+zooming+and+panning) by Jarke J. van Wijk and Wim A.A. Nuij.
 
 Demo: <http://bl.ocks.org/3828981>
 

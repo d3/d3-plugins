@@ -704,10 +704,17 @@
 
   function gringorten(quincuncial) {
     function forward(λ, φ) {
-      var point = quincuncial ? gringortenRotationφ(λ, φ) : gringortenRotationγ(λ, φ);
-      if (!quincuncial) point[0] += 3 * π / 4;
-      λ = point[0] - π / 4 + ε; // TODO find more robust fix
-      φ = point[1];
+      var cosφ = Math.cos(φ),
+          x = Math.cos(λ) * cosφ,
+          y = Math.sin(λ) * cosφ,
+          z = Math.sin(φ);
+      if (quincuncial) {
+        λ = Math.atan2(y, -z) - π / 4;
+        φ = Math.asin(Math.max(-1, Math.min(1, x)));
+      } else {
+        λ = Math.atan2(z, x) + π / 2;
+        φ = Math.asin(Math.max(-1, Math.min(1, -y)));
+      }
       while (λ < 0) λ += 2 * π;
       var nφ = φ < 0,
           df = ~~(λ / (π / 4));
@@ -727,28 +734,6 @@
     }
 
     return forward;
-  }
-
-  function gringortenRotationγ(λ, φ) {
-    var cosφ = Math.cos(φ),
-        x = Math.cos(λ) * cosφ,
-        y = Math.sin(λ) * cosφ,
-        z = Math.sin(φ);
-    return [
-      Math.atan2(z, x),
-      Math.asin(Math.max(-1, Math.min(1, -y)))
-    ];
-  }
-
-  function gringortenRotationφ(λ, φ) {
-    var cosφ = Math.cos(φ),
-        x = Math.cos(λ) * cosφ,
-        y = Math.sin(λ) * cosφ,
-        z = Math.sin(φ);
-    return [
-      Math.atan2(y, -z),
-      Math.asin(Math.max(-1, Math.min(1, x)))
-    ];
   }
 
   function gringortenHexadecant(λ, φ) {

@@ -43,6 +43,22 @@ suite.addBatch({
       }
     }
   },
+  "larrivee": {
+    topic: function() {
+      return d3.geo.larrivee();
+    },
+    "projections and inverse projections": function(larrivee) {
+      assertEqualInverse(larrivee, [   0,   0], [480,        250]);
+      assertEqualInverse(larrivee, [   0, -90], [480,        583.216220]);
+      assertEqualInverse(larrivee, [   0,  90], [480,        -83.216220]);
+      assertEqualInverse(larrivee, [   0, -45], [480,        377.516326]);
+      assertEqualInverse(larrivee, [   0,  45], [480,        122.483673]);
+      assertEqualInverse(larrivee, [-180,   0], [  8.761101, 250]);
+      assertEqualInverse(larrivee, [ 180,   0], [951.238898, 250]);
+      assertEqualInverse(larrivee, [-179,  15], [ 15.405661, 204.340225]);
+      assertEqualInverse(larrivee, [   1,   1], [482.617894, 247.381895]);
+    }
+  },
   "rotate": {
     "identity": {
       topic: function() {

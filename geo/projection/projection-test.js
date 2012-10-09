@@ -43,7 +43,7 @@ suite.addBatch({
       }
     }
   },
-  "larrivee": {
+  "d3.geo.larrivee": {
     topic: function() {
       return d3.geo.larrivee();
     },
@@ -59,6 +59,7 @@ suite.addBatch({
       assertEqualInverse(larrivee, [   1,   1], [482.617894, 247.381895]);
     }
   },
+  // TODO move to D3 core?
   "rotate": {
     "identity": {
       topic: function() {

@@ -482,6 +482,32 @@
     ];
   };
 
+  function loximuthal(φ0) {
+    var cosφ0 = Math.cos(φ0),
+        tanφ0 = Math.tan(π / 4 + φ0 / 2);
+
+    function forward(λ, φ) {
+      var y = φ - φ0,
+          x = Math.abs(y) < ε ? λ * cosφ0
+          : Math.abs(x = π / 4 + φ / 2) < ε || Math.abs(Math.abs(x) - π / 2) < ε
+          ? 0 : λ * y / Math.log(Math.tan(x) / tanφ0);
+      return [x, y];
+    }
+
+    forward.invert = function(x, y) {
+      var λ,
+          φ = y + φ0;
+      return [
+        Math.abs(y) < ε ? x / cosφ0
+          : (Math.abs(λ = π / 4 + φ / 2) < ε || Math.abs(Math.abs(λ) - π / 2) < ε) ? 0
+          : x * Math.log(Math.tan(λ) / tanφ0) / y,
+        φ
+      ];
+    };
+
+    return forward;
+  }
+
   function nellHammer(λ, φ) {
     return [
       λ * (1 + Math.cos(φ)) / 2,
@@ -862,6 +888,7 @@
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
   d3.geo.lagrange = lagrangeProjection;
   d3.geo.larrivee = function() { return projection(larrivee); };
+  d3.geo.loximuthal = function() { return singleParallelProjection(loximuthal).parallel(40); };
   d3.geo.miller = function() { return projection(miller); };
   d3.geo.mollweide = function() { return projection(mollweide); };
   d3.geo.nellHammer = function() { return projection(nellHammer); };

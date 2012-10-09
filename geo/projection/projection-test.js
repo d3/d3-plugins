@@ -59,6 +59,22 @@ suite.addBatch({
       assertEqualInverse(larrivee, [   1,   1], [482.617894, 247.381895]);
     }
   },
+  "d3.geo.loximuthal": {
+    topic: function() {
+      return d3.geo.loximuthal();
+    },
+    "projections and inverse projections": function(loximuthal) {
+      assertEqualInverse(loximuthal, [   0,   0], [480,        250]);
+      assertEqualInverse(loximuthal, [   0, -90], [480,        485.619449]);
+      assertEqualInverse(loximuthal, [   0,  90], [480,         14.380550]);
+      assertEqualInverse(loximuthal, [   0, -45], [480,        367.809724]);
+      assertEqualInverse(loximuthal, [   0,  45], [480,        132.190275]);
+      assertEqualInverse(loximuthal, [-180,   0], [ 48.773559, 250]);
+      assertEqualInverse(loximuthal, [ 180,   0], [911.226440, 250]);
+      assertEqualInverse(loximuthal, [-179,  15], [69.4643149, 210.730091]);
+      assertEqualInverse(loximuthal, [   1,   1], [482.390500, 247.382006]);
+    }
+  },
   "d3.geo.wagner6": {
     topic: function() {
       return d3.geo.wagner6();

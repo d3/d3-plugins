@@ -116,6 +116,13 @@
     ];
   }
 
+  wagner6.invert = function(x, y) {
+    return [
+      x / Math.sqrt(1 - 3 * y * y / (π * π)),
+      y
+    ];
+  };
+
   function robinson(λ, φ) {
     var i = Math.min(18, Math.abs(φ) * 36 / π),
         i0 = Math.floor(i),

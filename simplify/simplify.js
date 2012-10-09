@@ -123,11 +123,11 @@ d3.simplify = function() {
   }
 
   function simplifyMultiPolygon(mulitPolygon) {
-    return mulitPolygon.map(simplifyPolygon);
+    return mulitPolygon.map(simplifyPolygon).filter(length);
   }
 
   function simplifyPolygon(polygon) {
-    return polygon.map(simplifyLineString);
+    return polygon.map(simplifyLineString).filter(length);
   }
 
   function simplifyLineString(lineString) {
@@ -219,5 +219,7 @@ function minHeap() {
 
   return heap;
 }
+
+function length(d) { return d.length; }
 
 })();

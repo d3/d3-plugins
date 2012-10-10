@@ -122,8 +122,8 @@ d3.simplify = function() {
     };
   }
 
-  function simplifyMultiPolygon(mulitPolygon) {
-    return mulitPolygon.map(simplifyPolygon).filter(length);
+  function simplifyMultiPolygon(multiPolygon) {
+    return multiPolygon.map(simplifyPolygon).filter(length);
   }
 
   function simplifyPolygon(polygon) {

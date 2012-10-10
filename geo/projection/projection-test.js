@@ -43,6 +43,22 @@ suite.addBatch({
       }
     }
   },
+  "d3.geo.hatano": {
+    topic: function() {
+      return d3.geo.hatano();
+    },
+    "projections and inverse projections": function(hatano) {
+      assertEqualInverse(hatano, [   0,   0], [480,        250]);
+      assertEqualInverse(hatano, [   0, -90], [480,        441.538303]);
+      assertEqualInverse(hatano, [   0,  90], [480,         53.383198]);
+      assertEqualInverse(hatano, [   0, -45], [480,        379.209449]);
+      assertEqualInverse(hatano, [   0,  45], [480,        119.704758]);
+      assertEqualInverse(hatano, [-180,   0], [ 79.446936, 250]);
+      assertEqualInverse(hatano, [ 180,   0], [880.553063, 250]);
+      assertEqualInverse(hatano, [-179,  15], [87.7505160, 204.093101]);
+      assertEqualInverse(hatano, [   1,   1], [482.225143, 246.920082]);
+    }
+  },
   "d3.geo.larrivee": {
     topic: function() {
       return d3.geo.larrivee();

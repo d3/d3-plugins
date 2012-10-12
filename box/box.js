@@ -55,7 +55,7 @@ d3.box = function() {
       var center = g.selectAll("line.center")
           .data(whiskerData ? [whiskerData] : []);
 
-      center.enter().insert("svg:line", "rect")
+      center.enter().insert("line", "rect")
           .attr("class", "center")
           .attr("x1", width / 2)
           .attr("y1", function(d) { return x0(d[0]); })
@@ -85,7 +85,7 @@ d3.box = function() {
       var box = g.selectAll("rect.box")
           .data([quartileData]);
 
-      box.enter().append("svg:rect")
+      box.enter().append("rect")
           .attr("class", "box")
           .attr("x", 0)
           .attr("y", function(d) { return x0(d[2]); })
@@ -105,7 +105,7 @@ d3.box = function() {
       var medianLine = g.selectAll("line.median")
           .data([quartileData[1]]);
 
-      medianLine.enter().append("svg:line")
+      medianLine.enter().append("line")
           .attr("class", "median")
           .attr("x1", 0)
           .attr("y1", x0)
@@ -125,7 +125,7 @@ d3.box = function() {
       var whisker = g.selectAll("line.whisker")
           .data(whiskerData || []);
 
-      whisker.enter().insert("svg:line", "circle, text")
+      whisker.enter().insert("line", "circle, text")
           .attr("class", "whisker")
           .attr("x1", 0)
           .attr("y1", x0)
@@ -155,7 +155,7 @@ d3.box = function() {
       var outlier = g.selectAll("circle.outlier")
           .data(outlierIndices, Number);
 
-      outlier.enter().insert("svg:circle", "text")
+      outlier.enter().insert("circle", "text")
           .attr("class", "outlier")
           .attr("r", 5)
           .attr("cx", width / 2)
@@ -184,7 +184,7 @@ d3.box = function() {
       var boxTick = g.selectAll("text.box")
           .data(quartileData);
 
-      boxTick.enter().append("svg:text")
+      boxTick.enter().append("text")
           .attr("class", "box")
           .attr("dy", ".3em")
           .attr("dx", function(d, i) { return i & 1 ? 6 : -6 })
@@ -207,7 +207,7 @@ d3.box = function() {
       var whiskerTick = g.selectAll("text.whisker")
           .data(whiskerData || []);
 
-      whiskerTick.enter().append("svg:text")
+      whiskerTick.enter().append("text")
           .attr("class", "whisker")
           .attr("dy", ".3em")
           .attr("dx", 6)

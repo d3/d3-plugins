@@ -43,7 +43,7 @@ d3.bullet = function() {
       var range = g.selectAll("rect.range")
           .data(rangez);
 
-      range.enter().append("svg:rect")
+      range.enter().append("rect")
           .attr("class", function(d, i) { return "range s" + i; })
           .attr("width", w0)
           .attr("height", height)
@@ -63,7 +63,7 @@ d3.bullet = function() {
       var measure = g.selectAll("rect.measure")
           .data(measurez);
 
-      measure.enter().append("svg:rect")
+      measure.enter().append("rect")
           .attr("class", function(d, i) { return "measure s" + i; })
           .attr("width", w0)
           .attr("height", height / 3)
@@ -85,7 +85,7 @@ d3.bullet = function() {
       var marker = g.selectAll("line.marker")
           .data(markerz);
 
-      marker.enter().append("svg:line")
+      marker.enter().append("line")
           .attr("class", "marker")
           .attr("x1", x0)
           .attr("x2", x0)
@@ -113,16 +113,16 @@ d3.bullet = function() {
           });
 
       // Initialize the ticks with the old scale, x0.
-      var tickEnter = tick.enter().append("svg:g")
+      var tickEnter = tick.enter().append("g")
           .attr("class", "tick")
           .attr("transform", bulletTranslate(x0))
           .style("opacity", 1e-6);
 
-      tickEnter.append("svg:line")
+      tickEnter.append("line")
           .attr("y1", height)
           .attr("y2", height * 7 / 6);
 
-      tickEnter.append("svg:text")
+      tickEnter.append("text")
           .attr("text-anchor", "middle")
           .attr("dy", "1em")
           .attr("y", height * 7 / 6)

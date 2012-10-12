@@ -62,7 +62,7 @@ function d3_chernoff() {
                     {x: 20+facevar, y: 160}, {x: 20+facevar, y: 110},
                     {x: 20, y: 80}];
         ele.selectAll("path.face").data([face]).enter()
-            .append("svg:path")
+            .append("path")
             .attr("class", "face")
             .attr("d", bline);
 
@@ -71,7 +71,7 @@ function d3_chernoff() {
                     {x: 70, y: 30}, {x: 20, y: 45},
                     {x: 0, y: 45-hairvar}, {x: 20, y: 80}];
         ele.selectAll("path.hair").data([hair]).enter()
-            .append("svg:path")
+            .append("path")
             .attr("class", "hair")
             .attr("d", bline);
 
@@ -80,7 +80,7 @@ function d3_chernoff() {
                      {x: 70, y: 140+mouthvar},
                      {x: 30+facevar, y: 135-mouthvar}];
         ele.selectAll("path.mouth").data([mouth]).enter()
-            .append("svg:path")
+            .append("path")
             .attr("class", "mouth")
             .attr("d", line);
 
@@ -88,7 +88,7 @@ function d3_chernoff() {
                     {x: 70+nosewvar, y: 110+nosehvar},
                     {x: 70-nosewvar, y: 110+nosehvar}];
         ele.selectAll("path.nose").data([nose]).enter()
-            .append("svg:path")
+            .append("path")
             .attr("class", "nose")
             .attr("d", line);
 
@@ -97,21 +97,21 @@ function d3_chernoff() {
         var reye = [{x: 85, y: 90-eyehvar}, {x: 85+eyewvar, y: 90},
                     {x: 85, y: 90+eyehvar}, {x: 85-eyewvar, y: 90}];
         ele.selectAll("path.leye").data([leye]).enter()
-            .append("svg:path")
+            .append("path")
             .attr("class", "leye")
             .attr("d", bline);
         ele.selectAll("path.reye").data([reye]).enter()
-            .append("svg:path")
+            .append("path")
             .attr("class", "reye")
             .attr("d", bline);
 
-        ele.append("svg:path")
+        ele.append("path")
             .attr("class", "lbrow")
             .attr("d", "M" + (55-eyewvar/1.7-sign(browvar)) + "," +
                        (87-eyehvar+browvar) + " " +
                        (55+eyewvar/1.7-sign(browvar)) + "," +
                        (87-eyehvar-browvar));
-        ele.append("svg:path")
+        ele.append("path")
             .attr("class", "rbrow")
             .attr("d", "M" + (85-eyewvar/1.7+sign(browvar)) + "," +
                        (87-eyehvar-browvar) + " " +

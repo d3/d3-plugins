@@ -56,3 +56,25 @@ These projections mostly replace D3 core’s built-in projections:
 * d3.geo.mercator
 
 At some point in the near future, this plugin will be integrated into D3 core. The popular projections will become part of core, while the more obscure projections will remain in this plugin.
+
+## Defining a New Projection
+
+Todo: Pick a useful projection
+
+```javascript
+function cosinusoidal(λ, φ) {
+    return [
+      λ * Math.sin(φ),
+      φ
+    ];
+  }
+
+cosinusoidal.invert = function(x, y) {
+  return [
+    x / Math.sin(y),
+    y
+  ];
+};
+
+d3.geo.cosinusoidal = function() { return d3.geo.projection(cosinusoidal) };
+```

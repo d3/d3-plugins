@@ -14,7 +14,8 @@ d3.mekko = function() {
   // For each small multiple…
   function mekko(g) {
     g.each(function(data, i) {
-      var offset = 0,
+      var g = d3.select(this),
+          offset = 0,
           x0, // old x-scale
           y0; // old y-scale
 
@@ -57,7 +58,7 @@ d3.mekko = function() {
       }, 0);
 
       // Add x-axis ticks.
-      var xtick = svg.selectAll("g.x")
+      var xtick = g.selectAll("g.x")
           .data(x1.ticks(10));
 
       var xtickEnter = xtick.enter().append("g")
@@ -91,7 +92,7 @@ d3.mekko = function() {
           .remove();
 
       // Add y-axis ticks.
-      var ytick = svg.selectAll("g.y")
+      var ytick = g.selectAll("g.y")
           .data(y1.ticks(10));
 
       var ytickEnter = ytick.enter().append("g")
@@ -125,7 +126,7 @@ d3.mekko = function() {
           .remove();
 
       // Add a group for each x-category.
-      var xGroup = svg.selectAll("g.group")
+      var xGroup = g.selectAll("g.group")
           .data(groups, function(d) { return d.key; });
 
       xGroup.enter().append("g")
@@ -146,7 +147,7 @@ d3.mekko = function() {
           .remove();
 
       // Add a rect for each y-category. Re-select to get current x-categories.
-      var yGroup = svg.selectAll("g.group").selectAll("a.y")
+      var yGroup = g.selectAll("g.group").selectAll("a.y")
           .data(function(d) { return d.values; }, function(d) { return d.category; });
 
       yGroup.enter().append("a")

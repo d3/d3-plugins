@@ -20,7 +20,14 @@ d3.simplify = function() {
   };
 
   function simplify(object) {
-    return (object.type === "Feature" ? simplifyFeature : simplifyGeometry)(object);
+    var type = object.type;
+    if (type === "FeatureCollection") {
+      return {
+        type: "FeatureCollection",
+        features: object.features.map(simplifyFeature).filter(nonemptyFeature)
+      };
+    }
+    return (type === "Feature" ? simplifyFeature : simplifyGeometry)(object);
   }
 
   simplify.project = function(feature) {
@@ -67,7 +74,9 @@ d3.simplify = function() {
   };
 
   function triangulate(object) {
-    (object.type === "Feature" ? triangulateFeature : triangulateGeometry)(object);
+    var type = object.type;
+    if (type === "FeatureCollection") object.features.forEach(triangulateFeature);
+    else (type === "Feature" ? triangulateFeature : triangulateGeometry)(object);
   }
 
   function triangulateFeature(feature) {
@@ -75,7 +84,9 @@ d3.simplify = function() {
   }
 
   function triangulateGeometry(geometry) {
-    geometry.coordinates = triangulateCoordinates[geometry.type](geometry.coordinates);
+    var type = geometry.type;
+    if (type === "GeometryCollection") geometry.geometries.forEach(triangulateGeometry);
+    else geometry.coordinates = triangulateCoordinates[type](geometry.coordinates);
   }
 
   function triangulateMultiPolygon(multiPolygon) {
@@ -116,10 +127,10 @@ d3.simplify = function() {
   }
 
   function simplifyGeometry(geometry) {
-    return {
-      type: geometry.type,
-      coordinates: simplifyCoordinates[geometry.type](geometry.coordinates)
-    };
+    var type = geometry.type;
+    return type === "GeometryCollection"
+        ? {type: type, geometries: geometry.geometries.map(simplifyGeometry).filter(nonemptyGeometry)}
+        : {type: type, coordinates: simplifyCoordinates[type](geometry.coordinates)};
   }
 
   function simplifyMultiPolygon(multiPolygon) {
@@ -218,6 +229,13 @@ function minHeap() {
   }
 
   return heap;
+}
+
+function nonemptyFeature(d) { return nonemptyGeometry(d.geometry); }
+
+function nonemptyGeometry(d) {
+  return length(d.type === "GeometryCollection"
+      ? d.geometries : d.coordinates);
 }
 
 function length(d) { return d.length; }

@@ -58,6 +58,26 @@ suite.addBatch({
         var p = {type: "MultiPolygon", coordinates: [[[[0, 0], [10, 10], [10, 0], [0, 0]]]]};
         assert.deepEqual(simplify(p), p);
       }
+    },
+    "GeometryCollection": {
+      "empty result": function(simplify) {
+        var p = {type: "GeometryCollection", geometries: [{type: "Polygon", coordinates: [[[0, 0], [1, 1], [1, 0], [0, 0]]]}]};
+        assert.deepEqual(simplify(p).geometries, []);
+      },
+      "1 polygon": function(simplify) {
+        var p = {type: "GeometryCollection", geometries: [{type: "MultiPolygon", coordinates: [[[[0, 0], [10, 10], [10, 0], [0, 0]]]]}]};
+        assert.deepEqual(simplify(p), p);
+      }
+    },
+    "FeatureCollection": {
+      "empty result": function(simplify) {
+        var p = {type: "FeatureCollection", features: [{type: "Feature", geometry: {type: "Polygon", coordinates: [[[0, 0], [1, 1], [1, 0], [0, 0]]]}}]};
+        assert.deepEqual(simplify(p).features, []);
+      },
+      "1 polygon": function(simplify) {
+        var p = {type: "FeatureCollection", features: [{type: "Feature", geometry: {type: "MultiPolygon", coordinates: [[[[0, 0], [10, 10], [10, 0], [0, 0]]]]}}]};
+        assert.deepEqual(simplify(p), p);
+      }
     }
   }
 });

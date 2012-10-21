@@ -104,11 +104,12 @@ d3.simplify = function() {
 
     for (var i = 1, n = lineString.length - 1; i < n; ++i) {
       triangle = points.slice(i - 1, i + 2);
-      if (triangle[1][2] = area(triangle)) {
-        triangles.push(triangle);
-        heap.push(triangle);
-      }
+      triangle[1][2] = area(triangle);
+      triangles.push(triangle);
+      heap.push(triangle);
     }
+
+    if (n < 2) for (var i = 0; i <= n; ++i) points[i][2] = 0;
 
     for (var i = 0, n = triangles.length; i < n; ++i) {
       triangle = triangles[i];
@@ -142,9 +143,11 @@ d3.simplify = function() {
   }
 
   function simplifyLineString(lineString) {
-    return lineString.filter(function(point) {
-      return point[2] >= minArea;
-    });
+    return lineString.filter(filterLineString);
+  }
+
+  function filterLineString(point) {
+    return point[2] >= minArea;
   }
 
   simplify.projection = function(_) {

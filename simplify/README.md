@@ -1,3 +1,6 @@
 # Line Simplification
 
-Demo: <http://bost.ocks.org/mike/simplify/>
+Demos:
+
+* <http://bost.ocks.org/mike/simplify/>
+* <http://www.jasondavies.com/maps/simplify/>

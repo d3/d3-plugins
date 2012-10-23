@@ -3,7 +3,8 @@
 d3.simplify = function() {
   var projection = d3.geo.albers(),
       heap,
-      minArea = 3;
+      minArea = 3,
+      topology = false;
 
   var triangulateCoordinates = {
     MultiPolygon: triangulateMultiPolygon,
@@ -50,7 +51,7 @@ d3.simplify = function() {
         triangle.previous.next = triangle.next;
         triangle.previous[2] = triangle[2];
         update(triangle.previous);
-      } else {
+      } else if (!topology) {
         triangle[0][2] = triangle[1][2];
       }
 
@@ -58,7 +59,7 @@ d3.simplify = function() {
         triangle.next.previous = triangle.previous;
         triangle.next[0] = triangle[0];
         update(triangle.next);
-      } else {
+      } else if (!topology) {
         triangle[2][2] = triangle[1][2];
       }
     }
@@ -74,9 +75,95 @@ d3.simplify = function() {
   };
 
   function triangulate(object) {
-    var type = object.type;
-    if (type === "FeatureCollection") object.features.forEach(triangulateFeature);
-    else (type === "Feature" ? triangulateFeature : triangulateGeometry)(object);
+    if (topology) triangulateTopology(object);
+    else {
+      var type = object.type;
+      if (type === "FeatureCollection") object.features.forEach(triangulateFeature);
+      else (type === "Feature" ? triangulateFeature : triangulateGeometry)(object);
+    }
+  }
+
+  function triangulateTopology(object) {
+    var id = 0,
+        ringId = 0,
+        idByRings = {},
+        ringByPoint = {},
+        type = object.type,
+        topologyCoordinates = {
+          MultiPolygon: topologyMultiPolygon,
+          Polygon: topologyPolygon,
+          MultiLineString: topologyPolygon,
+          LineString: topologyLineString
+        },
+        triangulateCoordinates = {
+          MultiPolygon: triangulateMultiPolygon,
+          Polygon: triangulatePolygon,
+          MultiLineString: triangulatePolygon,
+          LineString: triangulateLineString0
+        };
+
+    if (type === "FeatureCollection") {
+      object.features.forEach(topologyFeature);
+      object.features.forEach(triangulateFeature);
+    } else if (type === "Feature") {
+      topologyFeature(object);
+      triangulateFeature(object);
+    } else {
+      topologyGeometry(object);
+      triangulateGeometry(object);
+    }
+
+    function topologyFeature(feature) { return topologyGeometry(feature.geometry); }
+
+    function topologyGeometry(geometry) {
+      var type = geometry.type;
+      if (type === "GeometryCollection") geometry.geometries.forEach(topologyGeometry);
+      else topologyCoordinates[type](geometry.coordinates);
+    }
+
+    function topologyMultiPolygon(multiPolygon) { multiPolygon.forEach(topologyPolygon); }
+    function topologyLineString(lineString) { topologyPolygon([lineString]); }
+
+    function topologyPolygon(polygon) {
+      polygon.forEach(function(ring) {
+        ++ringId;
+        ring.forEach(function(point) {
+          point = point.join(",");
+          var key = ringByPoint.hasOwnProperty(point) ? ringByPoint[point] + ":" + ringId : ringId;
+          ringByPoint[point] = idByRings.hasOwnProperty(key) ? idByRings[key] : (idByRings[key] = ++id);
+        });
+      });
+    }
+
+    function triangulateFeature(feature) { triangulateGeometry(feature.geometry); }
+    function triangulateGeometry(geometry) {
+      var type = geometry.type;
+      if (type === "GeometryCollection") geometry.geometries.forEach(topologyGeometry);
+      else geometry.coordinates = triangulateCoordinates[type](geometry.coordinates);
+    }
+
+    function triangulateMultiPolygon(multiPolygon) { return multiPolygon.map(triangulatePolygon); }
+    function triangulatePolygon(polygon) { return polygon.map(triangulateLineString0); }
+
+    function triangulateLineString0(lineString) {
+      var result = [],
+          id0,
+          i0 = 0;
+      lineString.forEach(function(point, i) {
+        var id = ringByPoint[point.join(",")];
+        if (id !== id0) {
+          if (id0) {
+            var chain = triangulateLineString(lineString.slice(i0, i0 = i));
+            chain[0][2] = chain[chain.length - 1][2] = Infinity;
+            result = result.concat(chain);
+          }
+          id0 = id;
+        }
+      });
+      var chain = triangulateLineString(i0 ? lineString.slice(i0) : lineString);
+      chain[0][2] = chain[chain.length - 1][2] = Infinity;
+      return result.concat(chain);
+    }
   }
 
   function triangulateFeature(feature) {
@@ -109,7 +196,7 @@ d3.simplify = function() {
       heap.push(triangle);
     }
 
-    if (n < 2) for (var i = 0; i <= n; ++i) points[i][2] = 0;
+    points[0][2] = points[n][2] = 0;
 
     for (var i = 0, n = triangles.length; i < n; ++i) {
       triangle = triangles[i];
@@ -159,6 +246,12 @@ d3.simplify = function() {
   simplify.area = function(_) {
     if (!arguments.length) return minArea;
     minArea = +_;
+    return simplify;
+  };
+
+  simplify.topology = function(_) {
+    if (!arguments.length) return topology;
+    topology = !!_;
     return simplify;
   };
 

@@ -141,7 +141,7 @@ function inDeltaNumber(actual, expected, delta) {
   return actual >= expected - delta && actual <= expected + delta;
 }
 
-// includes non-enumerable properties
+// Includes properties in the prototype chain.
 function deepEqual(actual, expected) {
   if (actual === expected) return true;
   if (typeof actual !== "object" && typeof expected !== "object") return actual == expected;

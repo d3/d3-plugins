@@ -11,7 +11,7 @@ Projections:
 * [d3.geo.collignon](http://bl.ocks.org/3716915) - Collignon
 * [d3.geo.conicConformal](http://bl.ocks.org/3721462) - Lambert conformal conic
 * [d3.geo.conicEquidistant](http://bl.ocks.org/3721557) - Conic equidistant
-* [d3.geo.cylindricalEqualArea](http://bl.ocks.org/3712408) - Cylindrical equal-area
+* [d3.geo.cylindricalEqualArea](http://bl.ocks.org/3712408) - Cylindrical equal-area, [Gall–Peters](http://bl.ocks.org/3946824)
 * [d3.geo.eckert1](http://bl.ocks.org/3717369) - Eckert I
 * [d3.geo.eckert2](http://bl.ocks.org/3717378) - Eckert II
 * [d3.geo.eckert3](http://bl.ocks.org/3717379) - Eckert III

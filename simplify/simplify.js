@@ -23,10 +23,9 @@ d3.simplify = function() {
   function simplify(object) {
     var type = object.type;
     if (type === "FeatureCollection") {
-      return {
-        type: "FeatureCollection",
-        features: object.features.map(simplifyFeature).filter(nonemptyFeature)
-      };
+      object = Object.create(object);
+      object.features = object.features.map(simplifyFeature).filter(nonemptyFeature);
+      return object;
     }
     return (type === "Feature" ? simplifyFeature : simplifyGeometry)(object);
   }
@@ -208,17 +207,20 @@ d3.simplify = function() {
   }
 
   function simplifyFeature(feature) {
-    return {
-      type: "Feature",
-      geometry: simplifyGeometry(feature.geometry)
-    };
+    feature = Object.create(feature);
+    feature.geometry = simplifyGeometry(feature.geometry);
+    return feature;
   }
 
   function simplifyGeometry(geometry) {
     var type = geometry.type;
-    return type === "GeometryCollection"
-        ? {type: type, geometries: geometry.geometries.map(simplifyGeometry).filter(nonemptyGeometry)}
-        : {type: type, coordinates: simplifyCoordinates[type](geometry.coordinates)};
+    geometry = Object.create(geometry);
+    if (type === "GeometryCollection") {
+      geometry.geometries = geometry.geometries.map(simplifyGeometry).filter(nonemptyGeometry);
+    } else {
+      geometry.coordinates = simplifyCoordinates[type](geometry.coordinates);
+    }
+    return geometry;
   }
 
   function simplifyMultiPolygon(multiPolygon) {

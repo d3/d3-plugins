@@ -16,29 +16,29 @@ suite.addBatch({
       "LineString": {
         "2 points": function(simplify) {
           var p = {type: "LineString", coordinates: [[0, 0], [1, 1]]};
-          deepEqual(simplify(p), p);
+          assert.deepEqual(simplify(p), p);
         },
         "9 points": function(simplify) {
           var p = {type: "LineString", coordinates: [[0, 0], [0, 5], [0, 10], [5, 10], [10, 10], [10, 5], [10, 0], [5, 0], [0, 0]]};
-          deepEqual(simplify(p), p);
+          assert.deepEqual(simplify(p), p);
         }
       },
       "FeatureCollection": {
         "preserves properties": function(simplify) {
-          var p = {type: "FeatureCollection", features: [], properties: {name: "test"}};
-          deepEqual(simplify(p), p);
+          var p = {type: "FeatureCollection", features: [], id: "test"};
+          assert.deepEqual(simplify(p), p);
         }
       },
       "Feature": {
         "preserves properties": function(simplify) {
-          var p = {type: "Feature", geometry: {type: "GeometryCollection", geometries: []}, properties: {name: "test"}};
-          deepEqual(simplify(p), p);
+          var p = {type: "Feature", geometry: {type: "GeometryCollection", geometries: []}, properties: {name: "test"}, id: "test"};
+          assert.deepEqual(simplify(p), p);
         }
       },
       "GeometryCollection": {
         "preserves properties": function(simplify) {
-          var p = {type: "GeometryCollection", geometries: [], properties: {name: "test"}};
-          deepEqual(simplify(p), p);
+          var p = {type: "GeometryCollection", geometries: [], id: "test"};
+          assert.deepEqual(simplify(p), p);
         }
       }
     },
@@ -58,7 +58,7 @@ suite.addBatch({
         },
         "3 points": function(simplify) {
           var p = {type: "LineString", coordinates: [[0, 0], [10, 10], [0, 20]]};
-          deepEqual(simplify(p), p);
+          assert.deepEqual(simplify(p), p);
         }
       },
       "MultiLineString": {
@@ -81,7 +81,7 @@ suite.addBatch({
         "1 ring": function(simplify) {
           // TODO verify that LinearRings all have >= 4 points?
           var p = {type: "Polygon", coordinates: [[[0, 0], [10, 10], [10, 0], [0, 0]]]};
-          deepEqual(simplify(p), p);
+          assert.deepEqual(simplify(p), p);
         }
       },
       "MultiPolygon": {
@@ -91,7 +91,7 @@ suite.addBatch({
         },
         "1 polygon": function(simplify) {
           var p = {type: "MultiPolygon", coordinates: [[[[0, 0], [10, 10], [10, 0], [0, 0]]]]};
-          deepEqual(simplify(p), p);
+          assert.deepEqual(simplify(p), p);
         }
       },
       "GeometryCollection": {
@@ -101,7 +101,7 @@ suite.addBatch({
         },
         "1 polygon": function(simplify) {
           var p = {type: "GeometryCollection", geometries: [{type: "MultiPolygon", coordinates: [[[[0, 0], [10, 10], [10, 0], [0, 0]]]]}]};
-          deepEqual(simplify(p), p);
+          assert.deepEqual(simplify(p), p);
         }
       },
       "FeatureCollection": {
@@ -111,7 +111,7 @@ suite.addBatch({
         },
         "1 polygon": function(simplify) {
           var p = {type: "FeatureCollection", features: [{type: "Feature", geometry: {type: "MultiPolygon", coordinates: [[[[0, 0], [10, 10], [10, 0], [0, 0]]]]}}]};
-          deepEqual(simplify(p), p);
+          assert.deepEqual(simplify(p), p);
         }
       }
     }
@@ -139,24 +139,4 @@ function inDeltaArray(actual, expected, delta) {
 
 function inDeltaNumber(actual, expected, delta) {
   return actual >= expected - delta && actual <= expected + delta;
-}
-
-// Includes properties in the prototype chain.
-function deepEqual(actual, expected) {
-  if (actual === expected) return true;
-  if (typeof actual !== "object" && typeof expected !== "object") return actual == expected;
-  return objectEqual(actual, expected);
-}
-
-function objectEqual(a, b) {
-  if (a === null || a === undefined || b === null || b === undefined) return false;
-  if (a.prototype !== b.prototype) return false;
-  var ka = d3.keys(a),
-      kb = d3.keys(b);
-  if (ka.length !== kb.length) return false;
-  ka.sort();
-  kb.sort();
-  for (var i = ka.length; --i >= 0;) if (ka[i] !== kb[i]) return false;
-  for (var i = ka.length; --i >= 0;) if (!deepEqual(a[ka[i]], b[ka[i]])) return false;
-  return true;
 }

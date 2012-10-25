@@ -23,7 +23,7 @@ d3.simplify = function() {
   function simplify(object) {
     var type = object.type;
     if (type === "FeatureCollection") {
-      object = Object.create(object);
+      object = copy(object);
       object.features = object.features.map(simplifyFeature).filter(nonemptyFeature);
       return object;
     }
@@ -207,14 +207,14 @@ d3.simplify = function() {
   }
 
   function simplifyFeature(feature) {
-    feature = Object.create(feature);
+    feature = copy(feature);
     feature.geometry = simplifyGeometry(feature.geometry);
     return feature;
   }
 
   function simplifyGeometry(geometry) {
     var type = geometry.type;
-    geometry = Object.create(geometry);
+    geometry = copy(geometry);
     if (type === "GeometryCollection") {
       geometry.geometries = geometry.geometries.map(simplifyGeometry).filter(nonemptyGeometry);
     } else {
@@ -337,5 +337,11 @@ function nonemptyGeometry(d) {
 }
 
 function length(d) { return d.length; }
+
+function copy(object) {
+  var o = {};
+  for (var key in object) o[key] = object[key];
+  return o;
+}
 
 })();

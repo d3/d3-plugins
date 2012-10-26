@@ -43,15 +43,15 @@ d3.simplify = function() {
       // to be eliminated, use the latter’s area instead. This ensures that the
       // current point cannot be eliminated without eliminating previously-
       // eliminated points.
-      if (triangle[1][2] < maxArea) triangle[1][2] = maxArea;
-      else maxArea = triangle[1][2];
+      if (triangle[1].area < maxArea) triangle[1].area = maxArea;
+      else maxArea = triangle[1].area;
 
       if (triangle.previous) {
         triangle.previous.next = triangle.next;
-        triangle.previous[2] = triangle[2];
+        triangle.previous.area = triangle.area;
         update(triangle.previous);
       } else if (!topology) {
-        triangle[0][2] = triangle[1][2];
+        triangle[0].area = triangle[1].area;
       }
 
       if (triangle.next) {
@@ -59,13 +59,13 @@ d3.simplify = function() {
         triangle.next[0] = triangle[0];
         update(triangle.next);
       } else if (!topology) {
-        triangle[2][2] = triangle[1][2];
+        triangle[2].area = triangle[1].area;
       }
     }
 
     function update(triangle) {
       heap.remove(triangle);
-      triangle[1][2] = area(triangle);
+      triangle[1].area = area(triangle);
       heap.push(triangle);
     }
 
@@ -153,14 +153,14 @@ d3.simplify = function() {
         if (id !== id0) {
           if (id0) {
             var chain = triangulateLineString(lineString.slice(i0, i0 = i));
-            chain[0][2] = chain[chain.length - 1][2] = Infinity;
+            chain[0].area = chain[chain.length - 1].area = Infinity;
             result = result.concat(chain);
           }
           id0 = id;
         }
       });
       var chain = triangulateLineString(i0 ? lineString.slice(i0) : lineString);
-      chain[0][2] = chain[chain.length - 1][2] = Infinity;
+      chain[0].area = chain[chain.length - 1].area = Infinity;
       return result.concat(chain);
     }
   }
@@ -190,12 +190,12 @@ d3.simplify = function() {
 
     for (var i = 1, n = lineString.length - 1; i < n; ++i) {
       triangle = points.slice(i - 1, i + 2);
-      triangle[1][2] = area(triangle);
+      triangle[1].area = area(triangle);
       triangles.push(triangle);
       heap.push(triangle);
     }
 
-    points[0][2] = points[n][2] = 0;
+    points[0].area = points[n].area = 0;
 
     for (var i = 0, n = triangles.length; i < n; ++i) {
       triangle = triangles[i];
@@ -236,7 +236,7 @@ d3.simplify = function() {
   }
 
   function filterLineString(point) {
-    return point[2] >= minArea;
+    return point.area >= minArea;
   }
 
   simplify.projection = function(_) {
@@ -261,7 +261,7 @@ d3.simplify = function() {
 };
 
 function compare(a, b) {
-  return a[1][2] - b[1][2];
+  return a[1].area - b[1].area;
 }
 
 function area(t) {

@@ -15,15 +15,15 @@ suite.addBatch({
         return d3.geo.bonne().parallel(40);
       },
       "projections and inverse projections": function(bonne) {
-        assertEqualInverse(bonne, [   0,   0], [480,        354.719755]);
-        assertEqualInverse(bonne, [   0, -90], [480,        590.339204]);
-        assertEqualInverse(bonne, [   0,  90], [480,        119.100306]);
-        assertEqualInverse(bonne, [   0, -45], [480,        472.529479]);
-        assertEqualInverse(bonne, [   0,  45], [480,        236.910030]);
-        assertEqualInverse(bonne, [-180,   0], [197.703665,  45.328000]);
-        assertEqualInverse(bonne, [ 180,   0], [762.296334,  45.328000]);
-        assertEqualInverse(bonne, [-179,  15], [245.482446,   3.108766]);
-        assertEqualInverse(bonne, [   1,   1], [482.617557, 352.089563]);
+        assertEqualInverse(bonne, [   0,   0], [480,         250]);
+        assertEqualInverse(bonne, [   0, -90], [480,         485.619449]);
+        assertEqualInverse(bonne, [   0,  90], [480,          14.380550]);
+        assertEqualInverse(bonne, [   0, -45], [480,         367.809724]);
+        assertEqualInverse(bonne, [   0,  45], [480,         132.190275]);
+        assertEqualInverse(bonne, [-180,   0], [197.703665,  -59.391754]);
+        assertEqualInverse(bonne, [ 180,   0], [762.296334,  -59.391754]);
+        assertEqualInverse(bonne, [-179,  15], [245.482446, -101.610988]);
+        assertEqualInverse(bonne, [   1,   1], [482.617557,  247.369808]);
       }
     },
     "90° parallel (Werner)": {
@@ -31,7 +31,7 @@ suite.addBatch({
         return d3.geo.bonne().parallel(90);
       },
       "projections and inverse projections": function(bonne) {
-        assertEqualInverse(bonne, [0, 0], [480, 485.619449]);
+        assertEqualInverse(bonne, [0, 0], [480, 250]);
       }
     },
     "0° parallel (sinusoidal)": {
@@ -43,10 +43,75 @@ suite.addBatch({
       }
     }
   },
-  "origin": {
+  "d3.geo.hatano": {
+    topic: function() {
+      return d3.geo.hatano();
+    },
+    "projections and inverse projections": function(hatano) {
+      assertEqualInverse(hatano, [   0,   0], [480,        250]);
+      assertEqualInverse(hatano, [   0, -90], [480,        441.538303]);
+      assertEqualInverse(hatano, [   0,  90], [480,         53.383198]);
+      assertEqualInverse(hatano, [   0, -45], [480,        379.209449]);
+      assertEqualInverse(hatano, [   0,  45], [480,        119.704758]);
+      assertEqualInverse(hatano, [-180,   0], [ 79.446936, 250]);
+      assertEqualInverse(hatano, [ 180,   0], [880.553063, 250]);
+      assertEqualInverse(hatano, [-179,  15], [87.7505160, 204.093101]);
+      assertEqualInverse(hatano, [   1,   1], [482.225143, 246.920082]);
+    }
+  },
+  "d3.geo.larrivee": {
+    topic: function() {
+      return d3.geo.larrivee();
+    },
+    "projections and inverse projections": function(larrivee) {
+      assertEqualInverse(larrivee, [   0,   0], [480,        250]);
+      assertEqualInverse(larrivee, [   0, -90], [480,        583.216220]);
+      assertEqualInverse(larrivee, [   0,  90], [480,        -83.216220]);
+      assertEqualInverse(larrivee, [   0, -45], [480,        377.516326]);
+      assertEqualInverse(larrivee, [   0,  45], [480,        122.483673]);
+      assertEqualInverse(larrivee, [-180,   0], [  8.761101, 250]);
+      assertEqualInverse(larrivee, [ 180,   0], [951.238898, 250]);
+      assertEqualInverse(larrivee, [-179,  15], [ 15.405661, 204.340225]);
+      assertEqualInverse(larrivee, [   1,   1], [482.617894, 247.381895]);
+    }
+  },
+  "d3.geo.loximuthal": {
+    topic: function() {
+      return d3.geo.loximuthal();
+    },
+    "projections and inverse projections": function(loximuthal) {
+      assertEqualInverse(loximuthal, [   0,   0], [480,        250]);
+      assertEqualInverse(loximuthal, [   0, -90], [480,        485.619449]);
+      assertEqualInverse(loximuthal, [   0,  90], [480,         14.380550]);
+      assertEqualInverse(loximuthal, [   0, -45], [480,        367.809724]);
+      assertEqualInverse(loximuthal, [   0,  45], [480,        132.190275]);
+      assertEqualInverse(loximuthal, [-180,   0], [ 48.773559, 250]);
+      assertEqualInverse(loximuthal, [ 180,   0], [911.226440, 250]);
+      assertEqualInverse(loximuthal, [-179,  15], [69.4643149, 210.730091]);
+      assertEqualInverse(loximuthal, [   1,   1], [482.390500, 247.382006]);
+    }
+  },
+  "d3.geo.wagner6": {
+    topic: function() {
+      return d3.geo.wagner6();
+    },
+    "projections and inverse projections": function(wagner6) {
+      assertEqualInverse(wagner6, [   0,   0], [480,        250]);
+      assertEqualInverse(wagner6, [   0, -90], [480,        485.619449]);
+      assertEqualInverse(wagner6, [   0,  90], [480,         14.380550]);
+      assertEqualInverse(wagner6, [   0, -45], [480,        367.809724]);
+      assertEqualInverse(wagner6, [   0,  45], [480,        132.190275]);
+      assertEqualInverse(wagner6, [-180,   0], [  8.761101, 250]);
+      assertEqualInverse(wagner6, [ 180,   0], [951.238898, 250]);
+      assertEqualInverse(wagner6, [-179,  15], [16.2862562, 210.730091]);
+      assertEqualInverse(wagner6, [   1,   1], [482.617872, 247.382006]);
+    }
+  },
+  // TODO move to D3 core?
+  "rotate": {
     "identity": {
       topic: function() {
-        return d3.geo.equirectangular().origin([0, 0]).translate([0, 0]).scale(1);
+        return d3.geo.equirectangular().rotate([0, 0]).translate([0, 0]).scale(1);
       },
       "projections and inverse projections": function(projection) {
         assertEqualInverse(projection, [   0,   0], [ 0,  0]);
@@ -60,9 +125,9 @@ suite.addBatch({
         assertEqualInverse(projection, [ -30, -30], [-π / 6,  π / 6]);
       }
     },
-    "[-30, 0]": {
+    "[30, 0]": {
       topic: function() {
-        return d3.geo.equirectangular().origin([-30, 0]).translate([0, 0]).scale(1);
+        return d3.geo.equirectangular().rotate([30, 0]).translate([0, 0]).scale(1);
       },
       "projections and inverse projections": function(projection) {
         assertEqualInverse(projection, [   0,   0], [ π / 6,  0]);
@@ -76,9 +141,9 @@ suite.addBatch({
         assertEqualInverse(projection, [ -30, -30], [ 0    ,  π / 6]);
       }
     },
-    "[-30, -30]": {
+    "[30, 30]": {
       topic: function() {
-        return d3.geo.equirectangular().origin([-30, -30]).translate([0, 0]).scale(1);
+        return d3.geo.equirectangular().rotate([30, 30]).translate([0, 0]).scale(1);
       },
       "projections and inverse projections": function(projection) {
         assertEqualInverse(projection, [   0,   0], [ 0.5880026035475674, -0.44783239692893245]);
@@ -92,9 +157,9 @@ suite.addBatch({
         assertEqualInverse(projection, [ -30, -30], [ 0,                   0]);
       }
     },
-    "oblique 30": {
+    "[0, 0, 30]": {
       topic: function() {
-        return d3.geo.equirectangular().oblique(30).translate([0, 0]).scale(1);
+        return d3.geo.equirectangular().rotate([0, 0, 30]).translate([0, 0]).scale(1);
       },
       "projections and inverse projections": function(projection) {
         assertEqualInverse(projection, [   0,   0], [ 0, 0]);
@@ -108,9 +173,9 @@ suite.addBatch({
         assertEqualInverse(projection, [ -30, -30], [-0.1651486774146268,  0.70695172788721760]);
       }
     },
-    "[-30, -30]; oblique 30": {
+    "[30, 30, 30]": {
       topic: function() {
-        return d3.geo.equirectangular().origin([-30, -30]).oblique(30).translate([0, 0]).scale(1);
+        return d3.geo.equirectangular().rotate([30, 30, 30]).translate([0, 0]).scale(1);
       },
       "projections and inverse projections": function(projection) {
         assertEqualInverse(projection, [   0,   0], [ 0.2810349015028135, -0.67513153293703170]);

@@ -116,6 +116,13 @@
     ];
   }
 
+  wagner6.invert = function(x, y) {
+    return [
+      x / Math.sqrt(1 - 3 * y * y / (π * π)),
+      y
+    ];
+  };
+
   function robinson(λ, φ) {
     var i = Math.min(18, Math.abs(φ) * 36 / π),
         i0 = Math.floor(i),
@@ -327,6 +334,30 @@
     return sinusoidal.invert(x, y);
   };
 
+  function hatano(λ, φ) {
+    var c = Math.sin(φ) * (φ < 0 ? 2.43763 : 2.67595);
+    for (var i = 0, δ; i < 20; i++) {
+      φ -= δ = (φ + Math.sin(φ) - c) / (1 + Math.cos(φ));
+      if (Math.abs(δ) < ε) break;
+    }
+    return [
+      .85 * λ * Math.cos(φ *= .5),
+      Math.sin(φ) * (φ < 0 ? 1.93052 : 1.75859)
+    ];
+  }
+
+  hatano.invert = function(x, y) {
+    var θ = Math.abs(θ = y * (y < 0 ? .51799515156538134803 : .56863737426006061674)) > 1 - ε
+        ? θ > 0 ? π / 2 : -π / 2
+        : Math.asin(θ);
+    return [
+      1.17647058823529411764 * x / Math.cos(θ),
+      Math.abs(θ = ((θ += θ) + Math.sin(θ)) * (y < 0 ? .41023453108141924738 : .37369906014686373063)) > 1 - ε
+        ? θ > 0 ? π / 2 : -π / 2
+        : Math.asin(θ)
+    ];
+  };
+
   function august(λ, φ) {
     var tanφ = Math.tan(φ / 2),
         k = 1 - tanφ * tanφ,
@@ -404,6 +435,37 @@
     ];
   }
 
+  larrivee.invert = function(x, y) {
+    var x0 = Math.abs(x),
+        y0 = Math.abs(y),
+        π_sqrt2 = π / Math.SQRT2,
+        λ = ε,
+        φ = π / 2;
+    if (y0 < π_sqrt2) φ *= y0 / π_sqrt2;
+    else λ += 6 * Math.acos(π_sqrt2 / y0);
+    for (var i = 0; i < 25; i++) {
+      var sinφ = Math.sin(φ),
+          sqrtcosφ = asqrt(Math.cos(φ)),
+          sinφ_2 = Math.sin(φ / 2),
+          cosφ_2 = Math.cos(φ / 2),
+          sinλ_6 = Math.sin(λ / 6),
+          cosλ_6 = Math.cos(λ / 6),
+          f0 = .5 * λ * (1 + sqrtcosφ) - x0,
+          f1 = φ / (cosφ_2 * cosλ_6) - y0,
+          df0dφ = sqrtcosφ ? -.25 * λ * sinφ / sqrtcosφ : 0,
+          df0dλ = .5 * (1 + sqrtcosφ),
+          df1dφ = (1 + .5 * φ * sinφ_2 / cosφ_2) / (cosφ_2 * cosλ_6),
+          df1dλ = (φ / cosφ_2) * (sinλ_6 / 6) / (cosλ_6 * cosλ_6),
+          denom = df0dφ * df1dλ - df1dφ * df0dλ,
+          dφ = (f0 * df1dλ - f1 * df0dλ) / denom,
+          dλ = (f1 * df0dφ - f0 * df1dφ) / denom;
+      φ -= dφ;
+      λ -= dλ;
+      if (Math.abs(dφ) < ε && Math.abs(dλ) < ε) break;
+    }
+    return [x < 0 ? -λ : λ, y < 0 ? -φ : φ];
+  };
+
   function vanDerGrinten(λ, φ) {
     if (Math.abs(φ) < ε) return [λ, 0];
     var sinθ = Math.abs(2 * φ / π),
@@ -443,6 +505,32 @@
       sgn(y) * π * (-m1 * Math.cos(θ1 + π / 3) - c2 / (3 * c3))
     ];
   };
+
+  function loximuthal(φ0) {
+    var cosφ0 = Math.cos(φ0),
+        tanφ0 = Math.tan(π / 4 + φ0 / 2);
+
+    function forward(λ, φ) {
+      var y = φ - φ0,
+          x = Math.abs(y) < ε ? λ * cosφ0
+          : Math.abs(x = π / 4 + φ / 2) < ε || Math.abs(Math.abs(x) - π / 2) < ε
+          ? 0 : λ * y / Math.log(Math.tan(x) / tanφ0);
+      return [x, y];
+    }
+
+    forward.invert = function(x, y) {
+      var λ,
+          φ = y + φ0;
+      return [
+        Math.abs(y) < ε ? x / cosφ0
+          : (Math.abs(λ = π / 4 + φ / 2) < ε || Math.abs(Math.abs(λ) - π / 2) < ε) ? 0
+          : x * Math.log(Math.tan(λ) / tanφ0) / y,
+        φ
+      ];
+    };
+
+    return forward;
+  }
 
   function nellHammer(λ, φ) {
     return [
@@ -558,7 +646,7 @@
   function verticalPerspective(P) {
     function forward(λ, φ) {
       var cosφ = Math.cos(φ),
-          k = (P - 1) / (P - (cosφ * Math.cos(λ)));
+          k = (P - 1) / (P - cosφ * Math.cos(λ));
       return [
         k * cosφ * Math.sin(λ),
         k * Math.sin(φ)
@@ -587,7 +675,7 @@
     function forward(λ, φ) {
       var coordinates = vertical(λ, φ),
           y = coordinates[1],
-          A = P * (y * sinω / (P - 1) + cosω);
+          A = y * sinω / (P - 1) + cosω;
       return [
         coordinates[0] * cosω / A,
         y / A
@@ -704,10 +792,17 @@
 
   function gringorten(quincuncial) {
     function forward(λ, φ) {
-      var point = quincuncial ? gringortenRotationφ(λ, φ) : gringortenRotationγ(λ, φ);
-      if (!quincuncial) point[0] += 3 * π / 4;
-      λ = point[0] - π / 4 + ε; // TODO find more robust fix
-      φ = point[1];
+      var cosφ = Math.cos(φ),
+          x = Math.cos(λ) * cosφ,
+          y = Math.sin(λ) * cosφ,
+          z = Math.sin(φ);
+      if (quincuncial) {
+        λ = Math.atan2(y, -z) - π / 4;
+        φ = Math.asin(Math.max(-1, Math.min(1, x)));
+      } else {
+        λ = Math.atan2(z, x) + π / 2;
+        φ = Math.asin(Math.max(-1, Math.min(1, -y)));
+      }
       while (λ < 0) λ += 2 * π;
       var nφ = φ < 0,
           df = ~~(λ / (π / 4));
@@ -727,28 +822,6 @@
     }
 
     return forward;
-  }
-
-  function gringortenRotationγ(λ, φ) {
-    var cosφ = Math.cos(φ),
-        x = Math.cos(λ) * cosφ,
-        y = Math.sin(λ) * cosφ,
-        z = Math.sin(φ);
-    return [
-      Math.atan2(z, x),
-      Math.asin(Math.max(-1, Math.min(1, -y)))
-    ];
-  }
-
-  function gringortenRotationφ(λ, φ) {
-    var cosφ = Math.cos(φ),
-        x = Math.cos(λ) * cosφ,
-        y = Math.sin(λ) * cosφ,
-        z = Math.sin(φ);
-    return [
-      Math.atan2(y, -z),
-      Math.asin(Math.max(-1, Math.min(1, x)))
-    ];
   }
 
   function gringortenHexadecant(λ, φ) {
@@ -836,9 +909,11 @@
   d3.geo.guyou = function() { return projection(guyou); };
   d3.geo.hammer = function() { return projection(hammer); };
   d3.geo.homolosine = function() { return projection(homolosine); };
+  d3.geo.hatano = function() { return projection(hatano); };
   d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
   d3.geo.lagrange = lagrangeProjection;
   d3.geo.larrivee = function() { return projection(larrivee); };
+  d3.geo.loximuthal = function() { return singleParallelProjection(loximuthal).parallel(40); };
   d3.geo.miller = function() { return projection(miller); };
   d3.geo.mollweide = function() { return projection(mollweide); };
   d3.geo.nellHammer = function() { return projection(nellHammer); };

@@ -2,9 +2,24 @@
 
 d3.simplify = function() {
   var projection = d3.geo.albers(),
+      triangulateLineString = triangulateLineStringSimple,
       heap,
       minArea = 3,
-      topology = false;
+      topology = false,
+      ringId,
+      id,
+      idByRings,
+      ringByPoint,
+      ringsByPoint,
+      sharedPoints,
+      graph;
+
+  var projectCoordinates = {
+    MultiPolygon: projectMultiPolygon,
+    Polygon: projectPolygon,
+    MultiLineString: projectPolygon,
+    LineString: projectLineString
+  };
 
   var triangulateCoordinates = {
     MultiPolygon: triangulateMultiPolygon,
@@ -32,13 +47,19 @@ d3.simplify = function() {
 
   simplify.project = function(feature) {
     var maxArea = 0,
+        maxAreas = {},
         triangle;
 
     heap = minHeap();
-    triangulate(feature);
+    id = 0;
+    idByRings = {};
+    ringsByPoint = {};
+    ringByPoint = {};
+    sharedPoints = {};
+    graph = {};
+    (topology ? triangulateTopology : triangulateSimple)(feature);
 
     while (triangle = heap.pop()) {
-
       // If the area of the current point is less than that of the previous point
       // to be eliminated, use the latter’s area instead. This ensures that the
       // current point cannot be eliminated without eliminating previously-
@@ -52,6 +73,8 @@ d3.simplify = function() {
         update(triangle.previous);
       } else if (!topology) {
         triangle[0][2] = triangle[1][2];
+      } else {
+        maxAreas[triangle.ring] = triangle[1][2];
       }
 
       if (triangle.next) {
@@ -60,6 +83,8 @@ d3.simplify = function() {
         update(triangle.next);
       } else if (!topology) {
         triangle[2][2] = triangle[1][2];
+      } else {
+        maxAreas[triangle.ring] = triangle[1][2];
       }
     }
 
@@ -69,99 +94,178 @@ d3.simplify = function() {
       heap.push(triangle);
     }
 
-    heap = null;
+    var seen = {},
+        max,
+        m,
+        c;
+    for (var key in graph) {
+      if (seen.hasOwnProperty(key)) continue;
+      max = 0;
+      for (var k in (c = components(graph, key))) if ((m = maxAreas[k]) > max) max = m;
+      for (var k in c) maxAreas[k] = max, seen[k] = 1;
+    }
+
+    for (var key in sharedPoints) {
+      maxArea = maxAreas[ringsByPoint[key][0]];
+      sharedPoints[key].forEach(function(point) { point[2] = maxArea; });
+    }
+
+    heap = ringByPoint = idByRings = ringsByPoint = sharedPoints = graph = null;
     return feature;
   };
 
-  function triangulate(object) {
-    if (topology) triangulateTopology(object);
-    else {
-      var type = object.type;
-      if (type === "FeatureCollection") object.features.forEach(triangulateFeature);
-      else (type === "Feature" ? triangulateFeature : triangulateGeometry)(object);
+  function components(graph, source) {
+    var seen = {},
+        nextLevel = {},
+        thisLevel,
+        empty;
+    nextLevel[source] = 1;
+    while (1) {
+      empty = true;
+      for (var k in nextLevel) empty = false;
+      if (empty) break;
+      thisLevel = nextLevel;
+      nextLevel = {};
+      for (var v in thisLevel) {
+        if (seen.hasOwnProperty(v)) continue;
+        seen[v] = 1;
+        var neighbors = graph[v];
+        for (var k in neighbors) nextLevel[k] = neighbors[k];
+      }
     }
+    return seen;
+  }
+
+  function projectFeature(feature) {
+    projectGeometry(feature.geometry);
+  }
+
+  function projectGeometry(geometry) {
+    var type = geometry.type;
+    if (type === "GeometryCollection") geometry.geometries.forEach(projectGeometry);
+    else geometry.coordinates = projectCoordinates[type](geometry.coordinates);
+  }
+
+  function projectMultiPolygon(multiPolygon) {
+    return multiPolygon.map(projectPolygon);
+  }
+
+  function projectPolygon(polygon) {
+    return polygon.map(projectLineString);
+  }
+
+  function projectLineString(lineString) {
+    ++ringId;
+    return lineString.map(projectPoint);
+  }
+
+  function projectPoint(point) {
+    var pointKey = (point = projection(point))[0] + "," + point[1],
+        key = (ringByPoint.hasOwnProperty(pointKey) ? ringByPoint[pointKey] + ":" : "") + ringId;
+    ringByPoint[pointKey] = idByRings.hasOwnProperty(key)
+        ? idByRings[key]
+        : idByRings[key] = ++id;
+    return point;
+  }
+
+  function triangulateLineStringTopology(lineString) {
+    ++ringId;
+    var n = lineString.length - 1,
+        maxArea = 0,
+        triangle0,
+        triangle,
+        a = lineString[0],
+        b = lineString[1],
+        c,
+        idA = ringByPoint[a[0] + "," + a[1]],
+        idB = ringByPoint[b[0] + "," + b[1]],
+        idC;
+
+    lineString[0][2] = lineString[n][2] = 0;
+    if (n < 2) return lineString;
+
+    graph[ringId] = {};
+
+    addSharedPoint(a);
+    for (var i = 2; i <= n; ++i, a = b, b = c, idA = idB, idB = idC) {
+      c = lineString[i];
+      idC = ringByPoint[c[0] + "," + c[1]];
+      if (idA === idB && idB === idC) {
+        triangle = [a, b, c];
+        triangle.ring = ringId;
+        b[2] = area(triangle);
+        if (b[2] > maxArea) maxArea = b[2];
+        heap.push(triangle);
+        if (triangle0) (triangle.previous = triangle0).next = triangle;
+        triangle0 = triangle;
+      } else {
+        addSharedPoint(b);
+        triangle0 = null;
+      }
+    }
+    addSharedPoint(c);
+
+    function addSharedPoint(point) {
+      var key = point[0] + "," + point[1],
+          rings = ringsByPoint.hasOwnProperty(key) ? ringsByPoint[key] : (ringsByPoint[key] = []);
+      rings.forEach(function(ring) {
+        graph[ring][ringId] = 1;
+        graph[ringId][ring] = 1;
+      });
+      rings.push(ringId);
+      if (sharedPoints.hasOwnProperty(key)) sharedPoints[key].push(point);
+      else sharedPoints[key] = [point];
+    }
+
+    return lineString;
+  }
+
+  // Project and triangulate.
+  function triangulateLineStringSimple(lineString) {
+    var points = lineString.map(projection),
+        n = points.length - 1,
+        triangle0,
+        triangle,
+        a = points[0],
+        b = points[1],
+        c;
+
+    points[0][2] = points[n][2] = 0;
+
+    for (var i = 2; i <= n; ++i) {
+      triangle = [a, b, c = points[i]];
+      b[2] = area(triangle);
+      heap.push(triangle);
+      if (triangle0) (triangle.previous = triangle0).next = triangle;
+      triangle0 = triangle;
+      a = b;
+      b = c;
+    }
+
+    return points;
+  }
+
+  function triangulateSimple(object) {
+    var type = object.type;
+    if (type === "FeatureCollection") object.features.forEach(triangulateFeature);
+    else (type === "Feature" ? triangulateFeature : triangulateGeometry)(object);
   }
 
   function triangulateTopology(object) {
-    var id = 0,
-        ringId = 0,
-        idByRings = {},
-        ringByPoint = {},
-        type = object.type,
-        topologyCoordinates = {
-          MultiPolygon: topologyMultiPolygon,
-          Polygon: topologyPolygon,
-          MultiLineString: topologyPolygon,
-          LineString: topologyLineString
-        },
-        triangulateCoordinates = {
-          MultiPolygon: triangulateMultiPolygon,
-          Polygon: triangulatePolygon,
-          MultiLineString: triangulatePolygon,
-          LineString: triangulateLineString0
-        };
-
+    var type = object.type;
+    ringId = 0;
     if (type === "FeatureCollection") {
-      object.features.forEach(topologyFeature);
+      object.features.forEach(projectFeature);
+      ringId = 0;
       object.features.forEach(triangulateFeature);
     } else if (type === "Feature") {
-      topologyFeature(object);
+      projectFeature(object);
+      ringId = 0;
       triangulateFeature(object);
     } else {
-      topologyGeometry(object);
+      projectGeometry(object);
+      ringId = 0;
       triangulateGeometry(object);
-    }
-
-    function topologyFeature(feature) { return topologyGeometry(feature.geometry); }
-
-    function topologyGeometry(geometry) {
-      var type = geometry.type;
-      if (type === "GeometryCollection") geometry.geometries.forEach(topologyGeometry);
-      else topologyCoordinates[type](geometry.coordinates);
-    }
-
-    function topologyMultiPolygon(multiPolygon) { multiPolygon.forEach(topologyPolygon); }
-    function topologyLineString(lineString) { topologyPolygon([lineString]); }
-
-    function topologyPolygon(polygon) {
-      polygon.forEach(function(ring) {
-        ++ringId;
-        ring.forEach(function(point) {
-          point = point.join(",");
-          var key = ringByPoint.hasOwnProperty(point) ? ringByPoint[point] + ":" + ringId : ringId;
-          ringByPoint[point] = idByRings.hasOwnProperty(key) ? idByRings[key] : (idByRings[key] = ++id);
-        });
-      });
-    }
-
-    function triangulateFeature(feature) { triangulateGeometry(feature.geometry); }
-    function triangulateGeometry(geometry) {
-      var type = geometry.type;
-      if (type === "GeometryCollection") geometry.geometries.forEach(topologyGeometry);
-      else geometry.coordinates = triangulateCoordinates[type](geometry.coordinates);
-    }
-
-    function triangulateMultiPolygon(multiPolygon) { return multiPolygon.map(triangulatePolygon); }
-    function triangulatePolygon(polygon) { return polygon.map(triangulateLineString0); }
-
-    function triangulateLineString0(lineString) {
-      var result = [],
-          id0,
-          i0 = 0;
-      lineString.forEach(function(point, i) {
-        var id = ringByPoint[point.join(",")];
-        if (id !== id0) {
-          if (id0) {
-            var chain = triangulateLineString(lineString.slice(i0, i0 = i));
-            chain[0][2] = chain[chain.length - 1][2] = Infinity;
-            result = result.concat(chain);
-          }
-          id0 = id;
-        }
-      });
-      var chain = triangulateLineString(i0 ? lineString.slice(i0) : lineString);
-      chain[0][2] = chain[chain.length - 1][2] = Infinity;
-      return result.concat(chain);
     }
   }
 
@@ -181,29 +285,6 @@ d3.simplify = function() {
 
   function triangulatePolygon(polygon) {
     return polygon.map(triangulateLineString);
-  }
-
-  function triangulateLineString(lineString) {
-    var points = lineString.map(projection),
-        triangle,
-        triangles = [];
-
-    for (var i = 1, n = lineString.length - 1; i < n; ++i) {
-      triangle = points.slice(i - 1, i + 2);
-      triangle[1][2] = area(triangle);
-      triangles.push(triangle);
-      heap.push(triangle);
-    }
-
-    points[0][2] = points[n][2] = 0;
-
-    for (var i = 0, n = triangles.length; i < n; ++i) {
-      triangle = triangles[i];
-      triangle.previous = triangles[i - 1];
-      triangle.next = triangles[i + 1];
-    }
-
-    return points;
   }
 
   function simplifyFeature(feature) {
@@ -253,7 +334,10 @@ d3.simplify = function() {
 
   simplify.topology = function(_) {
     if (!arguments.length) return topology;
-    topology = !!_;
+    triangulateCoordinates.LineString =
+    triangulateLineString = (topology = !!_)
+        ? triangulateLineStringTopology
+        : triangulateLineStringSimple;
     return simplify;
   };
 

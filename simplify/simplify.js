@@ -9,9 +9,11 @@ d3.simplify = function() {
       ringId,
       id,
       idByRings,
-      ringByPoint,
+      idByPoint,
       ringsByPoint,
       sharedPoints,
+      lastRingByPoint,
+      isShared,
       graph;
 
   var projectCoordinates = {
@@ -56,8 +58,10 @@ d3.simplify = function() {
       id = 0;
       idByRings = {};
       ringsByPoint = {};
-      ringByPoint = {};
+      idByPoint = {};
       sharedPoints = {};
+      lastRingByPoint = {};
+      isShared = {};
       graph = {};
       triangulateTopology(feature);
     } else {
@@ -115,7 +119,7 @@ d3.simplify = function() {
         maxArea = maxAreas[ringsByPoint[key][0]];
         sharedPoints[key].forEach(function(point) { point[2] = maxArea; });
       }
-      ringByPoint = idByRings = ringsByPoint = sharedPoints = graph = null;
+      idByPoint = idByRings = ringsByPoint = sharedPoints = isShared = lastRingByPoint = graph = null;
     }
 
     heap = null;
@@ -169,10 +173,14 @@ d3.simplify = function() {
 
   function projectPoint(point) {
     var pointKey = (point = projection(point))[0] + "," + point[1],
-        key = (ringByPoint.hasOwnProperty(pointKey) ? ringByPoint[pointKey] + ":" : "") + ringId;
-    ringByPoint[pointKey] = idByRings.hasOwnProperty(key)
+        key = (idByPoint.hasOwnProperty(pointKey) ? idByPoint[pointKey] + ":" : "") + ringId;
+    idByPoint[pointKey] = idByRings.hasOwnProperty(key)
         ? idByRings[key]
         : idByRings[key] = ++id;
+    if (lastRingByPoint.hasOwnProperty(pointKey) && lastRingByPoint[pointKey] !== ringId) {
+      isShared[pointKey] = 1;
+    }
+    lastRingByPoint[pointKey] = ringId;
     return point;
   }
 
@@ -184,8 +192,10 @@ d3.simplify = function() {
         a = lineString[0],
         b = lineString[1],
         c,
-        idA = ringByPoint[a[0] + "," + a[1]],
-        idB = ringByPoint[b[0] + "," + b[1]],
+        key0,
+        key,
+        idA = idByPoint[a[0] + "," + a[1]],
+        idB = idByPoint[key0 = b[0] + "," + b[1]],
         idC;
 
     lineString[0][2] = lineString[n][2] = 0;
@@ -194,10 +204,10 @@ d3.simplify = function() {
     graph[ringId] = {};
 
     addSharedPoint(a);
-    for (var i = 2; i <= n; ++i, a = b, b = c, idA = idB, idB = idC) {
+    for (var i = 2; i <= n; ++i, a = b, b = c, idA = idB, idB = idC, key0 = key) {
       c = lineString[i];
-      idC = ringByPoint[c[0] + "," + c[1]];
-      if (idA === idB && idB === idC) {
+      idC = idByPoint[key = c[0] + "," + c[1]];
+      if (idA === idB && idB === idC || !isShared.hasOwnProperty(key0)) {
         triangle = [a, b, c];
         triangle.ring = ringId;
         b[2] = area(triangle);
@@ -209,7 +219,7 @@ d3.simplify = function() {
         triangle0 = null;
       }
     }
-    addSharedPoint(c);
+    addSharedPoint(b);
 
     function addSharedPoint(point) {
       var key = point[0] + "," + point[1],

@@ -21,6 +21,7 @@ Projections:
 * [d3.geo.eisenlohr](http://bl.ocks.org/3797585) - Eisenlohr conformal
 * [d3.geo.equirectangular](http://bl.ocks.org/3757119) - Equirectangular (Plate Carrée)
 * [d3.geo.gnomonic](http://bl.ocks.org/3757349) - Gnomonic
+* [d3.geo.gringorten](http://bl.ocks.org/3796882) - Gringorten
 * [d3.geo.guyou](http://bl.ocks.org/3748686) - Guyou hemisphere-in-a-square
 * [d3.geo.hammer](http://bl.ocks.org/3712397) - Hammer
 * [d3.geo.homolosine](http://bl.ocks.org/3734330) - Goode Homolosine

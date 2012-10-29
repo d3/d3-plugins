@@ -215,8 +215,7 @@ d3.simplify = function() {
       var key = point[0] + "," + point[1],
           rings = ringsByPoint.hasOwnProperty(key) ? ringsByPoint[key] : (ringsByPoint[key] = []);
       rings.forEach(function(ring) {
-        graph[ring][ringId] = 1;
-        graph[ringId][ring] = 1;
+        graph[ring][ringId] = graph[ringId][ring] = 1;
       });
       rings.push(ringId);
       if (sharedPoints.hasOwnProperty(key)) sharedPoints[key].push(point);
@@ -351,7 +350,7 @@ d3.simplify = function() {
 };
 
 function compare(a, b) {
-  return a[1][2] - b[1][2];
+  return a[1][2] - b[1][2] || a[1][1] - b[1][1] || a[1][0] - b[1][0];
 }
 
 function area(t) {

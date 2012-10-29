@@ -51,13 +51,18 @@ d3.simplify = function() {
         triangle;
 
     heap = minHeap();
-    id = 0;
-    idByRings = {};
-    ringsByPoint = {};
-    ringByPoint = {};
-    sharedPoints = {};
-    graph = {};
-    (topology ? triangulateTopology : triangulateSimple)(feature);
+
+    if (topology) {
+      id = 0;
+      idByRings = {};
+      ringsByPoint = {};
+      ringByPoint = {};
+      sharedPoints = {};
+      graph = {};
+      triangulateTopology(feature);
+    } else {
+      triangulateSimple(feature);
+    }
 
     while (triangle = heap.pop()) {
       // If the area of the current point is less than that of the previous point
@@ -71,20 +76,20 @@ d3.simplify = function() {
         triangle.previous.next = triangle.next;
         triangle.previous[2] = triangle[2];
         update(triangle.previous);
-      } else if (!topology) {
-        triangle[0][2] = triangle[1][2];
-      } else {
+      } else if (topology) {
         maxAreas[triangle.ring] = triangle[1][2];
+      } else {
+        triangle[0][2] = triangle[1][2];
       }
 
       if (triangle.next) {
         triangle.next.previous = triangle.previous;
         triangle.next[0] = triangle[0];
         update(triangle.next);
-      } else if (!topology) {
-        triangle[2][2] = triangle[1][2];
-      } else {
+      } else if (topology) {
         maxAreas[triangle.ring] = triangle[1][2];
+      } else {
+        triangle[2][2] = triangle[1][2];
       }
     }
 
@@ -94,23 +99,26 @@ d3.simplify = function() {
       heap.push(triangle);
     }
 
-    var seen = {},
-        max,
-        m,
-        c;
-    for (var key in graph) {
-      if (seen.hasOwnProperty(key)) continue;
-      max = 0;
-      for (var k in (c = components(graph, key))) if ((m = maxAreas[k]) > max) max = m;
-      for (var k in c) maxAreas[k] = max, seen[k] = 1;
+    if (topology) {
+      var seen = {},
+          max,
+          m,
+          c;
+      for (var key in graph) {
+        if (seen.hasOwnProperty(key)) continue;
+        max = 0;
+        for (var k in (c = components(graph, key))) if ((m = maxAreas[k]) > max) max = m;
+        for (var k in c) maxAreas[k] = max, seen[k] = 1;
+      }
+
+      for (var key in sharedPoints) {
+        maxArea = maxAreas[ringsByPoint[key][0]];
+        sharedPoints[key].forEach(function(point) { point[2] = maxArea; });
+      }
+      ringByPoint = idByRings = ringsByPoint = sharedPoints = graph = null;
     }
 
-    for (var key in sharedPoints) {
-      maxArea = maxAreas[ringsByPoint[key][0]];
-      sharedPoints[key].forEach(function(point) { point[2] = maxArea; });
-    }
-
-    heap = ringByPoint = idByRings = ringsByPoint = sharedPoints = graph = null;
+    heap = null;
     return feature;
   };
 
@@ -171,7 +179,6 @@ d3.simplify = function() {
   function triangulateLineStringTopology(lineString) {
     ++ringId;
     var n = lineString.length - 1,
-        maxArea = 0,
         triangle0,
         triangle,
         a = lineString[0],
@@ -194,7 +201,6 @@ d3.simplify = function() {
         triangle = [a, b, c];
         triangle.ring = ringId;
         b[2] = area(triangle);
-        if (b[2] > maxArea) maxArea = b[2];
         heap.push(triangle);
         if (triangle0) (triangle.previous = triangle0).next = triangle;
         triangle0 = triangle;

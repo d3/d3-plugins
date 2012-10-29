@@ -159,7 +159,16 @@ d3.simplify = function() {
   }
 
   function projectPolygon(polygon) {
-    return polygon.map(projectLineString);
+    return polygon.map(projectLinearRing);
+  }
+
+  function projectLinearRing(linearRing) {
+    ++ringId;
+    var points = [],
+        n = linearRing.length - 1;
+    for (var i = 0; i < n; ++i) points.push(projectPoint(linearRing[i]));
+    points.push(points[0].slice());
+    return points;
   }
 
   function projectLineString(lineString) {

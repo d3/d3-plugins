@@ -121,12 +121,37 @@ suite.addBatch({
         return function(d) { return simplify(simplify.project(d)); };
       },
       "Polygon": {
+        "preserves topology": function(simplify) {
+          assert.inDelta(simplify({
+              type: "GeometryCollection",
+              geometries: [
+                {type: "Polygon", coordinates: [octagon(-2)]},
+                {type: "Polygon", coordinates: [octagon(2)]}
+              ]
+            }).geometries.map(function(d) { return d.coordinates; }), [[[
+                [474.444444, 250,        19.290123],
+                [475.833333, 247.222222, 13.503086],
+                [480,        248.611111, 19.290123],
+                [480,        250,        19.290123],
+                [480,        251.388888, 19.290123],
+                [475.833333, 252.777777, 13.503086],
+                [474.444444, 250,        19.290123]]], [[
+                [480,        250,        19.290123],
+                [480,        248.611111, 19.290123],
+                [485.555555, 248.611111, 19.290123],
+                [484.166666, 252.777777, 19.290123],
+                [480,        251.388888, 19.290123],
+                [480,        250,        19.290123]]]
+            ], 1e-6);
+        },
         "doesn't increase effective area of endpoints unless they touch another line": function(simplify) {
-          var octagon = [[-2, 0], [-2,  1], [-1,  2], [0,  2], [ 1,  2], [ 2,  1],
-                         [ 2, 0], [ 2, -1], [ 1, -2], [0, -2], [-1, -2], [-2, -1],
-                         [-2, 0]];
-          var p = {type: "Polygon", coordinates: [octagon]};
-          assert.deepEqual(simplify(p).coordinates[0].length, 5);
+          assert.inDelta(simplify({type: "Polygon", coordinates: [octagon()]}).coordinates, [[
+            [477.222222, 250,        21.219135],
+            [478.611111, 247.222222, 13.503086],
+            [482.777777, 248.611111, 21.219135],
+            [481.388888, 252.777777, 21.219135],
+            [477.222222, 250,        21.219135]
+          ]], 1e-6);
         }
       }
     }
@@ -154,4 +179,15 @@ function inDeltaArray(actual, expected, delta) {
 
 function inDeltaNumber(actual, expected, delta) {
   return actual >= expected - delta && actual <= expected + delta;
+}
+
+function octagon(dx) {
+  dx = dx || 0;
+  return [
+    [-2, 0], [-2,  1], [-1,  2], [0,  2], [ 1,  2], [ 2,  1],
+    [ 2, 0], [ 2, -1], [ 1, -2], [0, -2], [-1, -2], [-2, -1],
+    [-2, 0]
+  ].map(function(point) {
+    return [point[0] + dx, point[1]];
+  });
 }

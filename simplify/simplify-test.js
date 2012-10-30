@@ -114,6 +114,21 @@ suite.addBatch({
           assert.deepEqual(simplify(p), p);
         }
       }
+    },
+    "topology": {
+      topic: function() {
+        var simplify = d3.simplify().topology(true).area(10).projection(d3.geo.equirectangular());
+        return function(d) { return simplify(simplify.project(d)); };
+      },
+      "Polygon": {
+        "doesn't increase effective area of endpoints unless they touch another line": function(simplify) {
+          var octagon = [[-2, 0], [-2,  1], [-1,  2], [0,  2], [ 1,  2], [ 2,  1],
+                         [ 2, 0], [ 2, -1], [ 1, -2], [0, -2], [-1, -2], [-2, -1],
+                         [-2, 0]];
+          var p = {type: "Polygon", coordinates: [octagon]};
+          assert.deepEqual(simplify(p).coordinates[0].length, 5);
+        }
+      }
     }
   }
 });

@@ -15,9 +15,8 @@
 
     // For each small multiple…
     function horizon(g) {
-      g.each(function(d, i) {
+      g.each(function(d) {
         var g = d3.select(this),
-            n = 2 * bands + 1,
             xMin = Infinity,
             xMax = -Infinity,
             yMax = -Infinity,

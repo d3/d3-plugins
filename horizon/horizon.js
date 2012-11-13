@@ -23,6 +23,7 @@
             yMax = -Infinity,
             x0, // old x-scale
             y0, // old y-scale
+            t0,
             id; // unique id for paths
 
         // Compute x- and y-values along with extents.

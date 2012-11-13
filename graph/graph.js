@@ -29,7 +29,8 @@
 
     graph.traverse = function() {
       var traversal = {},
-          selected = {};            // selected entities
+          selected = {},            // selected entities
+          selected_type;
 
       traversal.filter = function(f) {
         // only works on nodes

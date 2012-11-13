@@ -251,9 +251,10 @@
 
   eckert4.invert = function(x, y) {
     var j = 2 * Math.sqrt(π / (4 + π)),
-        k = Math.asin(y / cy);
+        k = Math.asin(y / cy),
+        c = Math.cos(k);
     return [
-      x / (2 / Math.sqrt(π * (4 + π)) * (1 + (c = Math.cos(k)))),
+      x / (2 / Math.sqrt(π * (4 + π)) * (1 + c)),
       Math.asin((k + y / j * (c + 2)) / (2 + π / 2))
     ];
   };
@@ -327,7 +328,7 @@
 
   homolosine.invert = function(x, y) {
     if (Math.abs(y) > 40.733 * π / 180) {
-      coordinates = mollweide.invert(x, y);
+      var coordinates = mollweide.invert(x, y);
       coordinates[1] += y >= 0 ? .0528 : -.0528;
       return coordinates;
     }
@@ -730,20 +731,6 @@
     return p;
   }
 
-  function verticalPerspectiveProjection() {
-    var P = 5,
-        m = projectionMutator(verticalPerspective),
-        p = m(P);
-
-    // As a multiple of radius.
-    p.distance = function(_) {
-      if (!arguments.length) return P;
-      return m(P = +_);
-    };
-
-    return p;
-  }
-
   function lagrangeProjection() {
     var n = .5,
         m = projectionMutator(lagrange),
@@ -807,9 +794,10 @@
       var nφ = φ < 0,
           df = ~~(λ / (π / 4));
       λ %= π / 2;
-      point = gringortenHexadecant(df & 1 ? π / 2 - λ : λ, Math.abs(φ));
-      var x = point[0],
-          y = point[1];
+      var point = gringortenHexadecant(df & 1 ? π / 2 - λ : λ, Math.abs(φ)),
+          x = point[0],
+          y = point[1],
+          t;
       if (quincuncial && nφ) y = -2 - y;
       if (df > 3) x = -x, y = -y;
       switch (df % 4) {

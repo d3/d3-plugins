@@ -5,7 +5,7 @@ d3.geo.tile = function() {
 
   function tile() {
     var z = Math.max(Math.log(scale) / Math.LN2 - 8, 0),
-        z0 = z | 0,
+        z0 = Math.round(z),
         k = Math.pow(2, z - z0 + 8),
         origin = [(translate[0] - scale / 2) / k, (translate[1] - scale / 2) / k],
         tiles = [],

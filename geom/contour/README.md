@@ -1,5 +1,3 @@
-Computes a contour for a given input grid function using the <a href="http://en.wikipedia.org/wiki/Marching_squares">marching squares</a> algorithm. Returns the contour polygon as an array of points.
+Demo: <http://bl.ocks.org/4241134>
 
-@param grid a two-input function(x, y) that returns true for values inside the contour and false for values outside the contour.
-@param start an optional starting point [x, y] on the grid.
-@returns polygon [[x1, y1], [x2, y2], …]
+Computes a contour for a given *grid function* using the [marching squares](http://en.wikipedia.org/wiki/Marching_squares) algorithm. Returns the contour polygon as an array of points. The grid function takes two arguments, *x* and *y*, and returns true if the specified point is inside the contour, and false for points outside the contour. The contour plugin can also take an optional starting point [x, y] on the grid.

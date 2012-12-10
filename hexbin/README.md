@@ -15,8 +15,8 @@ Constructs a new default hexbin layout.
 
 Evaluates the hexbin layout on the specified array of *points*, returning an array of hexagonal *bins*. Each bin is an array containing the bin’s points, as well as some additional properties:
 
-* x - the x-coordinate of the bin
-* y - the y-coordinate of the bin
+* x - the x-coordinate of the center of the associated bin’s hexagon
+* y - the y-coordinate of the center of the associated bin’s hexagon
 
 Bins that are empty are not omitted. The origin bin at ⟨0,0⟩ is in the top-left. The returned bins are designed to work with the layouts point and hexagon methods.
 

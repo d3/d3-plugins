@@ -27,9 +27,12 @@ d3.hexbin = function() {
         if (px1 * px1 + py1 * py1 > px2 * px2 + py2 * py2) pi = pi2 + (pj & 1 ? 1 : -1) / 2, pj = pj2;
       }
 
-      var id = pi + "-" + pj,
-          bin = binsById[id] || (binsById[id] = {i: pi, j: pj, points: []});
-      bin.points.push(point);
+      var id = pi + "-" + pj, bin = binsById[id];
+      if (bin) bin.push(point); else {
+        bin = binsById[id] = [point];
+        bin.x = (pi + pj & 1 ? 1 / 2 : 0) * dx;
+        bin.y = pj * dy;
+      }
     });
 
     return d3.values(binsById);
@@ -47,12 +50,8 @@ d3.hexbin = function() {
     return hexbin;
   };
 
-  hexbin.point = function(d) {
-    return [(d.i + (d.j & 1 ? 1 / 2 : 0)) * dx, d.j * dy];
-  };
-
-  hexbin.hexagon = function(d) {
-    return (arguments.length ? "M" + hexbin.point(d) + "m" : "M") + hexagon.join("l") + "Z";
+  hexbin.hexagon = function() {
+    return "m" + hexagon.join("l") + "z";
   };
 
   hexbin.mesh = function() {

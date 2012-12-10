@@ -13,11 +13,10 @@ Constructs a new default hexbin layout.
 
 <a name="_hexbin" href="#_hexbin">#</a> <b>hexbin</b>(<i>points</i>)
 
-Evaluates the hexbin layout on the specified array of *points*, return an array of hexagonal *bins*. Each bin has several attributes:
+Evaluates the hexbin layout on the specified array of *points*, return an array of hexagonal *bins*. Each bin is an array containing the bin’s points, as well as some additional properties:
 
-* i - the x-coordinate of the bin
-* j - the y-coordinate of the bin
-* points - the array of points contained by this bin
+* x - the x-coordinate of the bin
+* y - the y-coordinate of the bin
 
 Bins that are empty are not omitted. The origin bin at ⟨0,0⟩ is in the top-left. The returned bins are designed to work with the layouts point and hexagon methods.
 
@@ -37,13 +36,9 @@ Sets or gets the *x*-accessor function for the hexbin layout. If *accessor* is s
 
 Sets or gets the *y*-accessor function for the hexbin layout. If *accessor* is specified, sets the *y*-accessor function and returns the hexbin layout; if *accessor* is not specified, returns the current *y*-accessor function, which defaults to `function(d) { return d[1]; }`.
 
-<a href="point" href="#point">#</a> hexbin.<b>point</b>(bin)
+<a href="hexagon" href="#hexagon">#</a> hexbin.<b>hexagon</b>()
 
-Converts the specified *bin* to world coordinates, returning a two-element array [*x*, *y*].
-
-<a href="hexagon" href="#hexagon">#</a> hexbin.<b>hexagon</b>([bin])
-
-Returns the SVG path string for the hexagon representing the specified *bin*. If no bin is specified, returns a hexagon centered at the origin ⟨0,0⟩.
+Returns the SVG path string for the hexagon centered at the origin ⟨0,0⟩.
 
 <a href="mesh" href="#mesh">#</a> hexbin.<b>mesh</b>()
 

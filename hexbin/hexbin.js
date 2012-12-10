@@ -30,7 +30,7 @@ d3.hexbin = function() {
       var id = pi + "-" + pj, bin = binsById[id];
       if (bin) bin.push(point); else {
         bin = binsById[id] = [point];
-        bin.x = (pi + pj & 1 ? 1 / 2 : 0) * dx;
+        bin.x = (pi + (pj & 1 ? 1 / 2 : 0)) * dx;
         bin.y = pj * dy;
       }
     });

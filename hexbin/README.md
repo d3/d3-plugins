@@ -38,8 +38,19 @@ Sets or gets the *y*-accessor function for the hexbin layout. If *accessor* is s
 
 <a href="hexagon" href="#hexagon">#</a> hexbin.<b>hexagon</b>()
 
-Returns the SVG path string for the hexagon centered at the origin ⟨0,0⟩.
+Returns the SVG path string for the hexagon centered at the origin ⟨0,0⟩. The path string is defined with relative coordinates such that you can easily translate the hexagon to the desired position. For example:
+
+```js
+path.attr("d", function(d) { return "M" + d.x + "," + d.y + hexbin.hexagon(); });
+```
+
+Alternatively, use a transform attribute:
+
+```js
+path.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+    .attr("d", hexbin.hexagon);
+```
 
 <a href="mesh" href="#mesh">#</a> hexbin.<b>mesh</b>()
 
-Returns the SVG path string for a hexagonal mesh that covers the area of the layout (as determined by the layout size). The returned mesh is designed to be stroked.
+Returns the SVG path string for a hexagonal mesh that covers the area of the layout (as determined by the layout size). The returned mesh is designed to be stroked. The mesh may extend slightly beyond the layout’s defined area, and thus may need to be clipped.

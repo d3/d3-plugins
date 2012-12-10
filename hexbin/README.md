@@ -13,7 +13,7 @@ Constructs a new default hexbin layout.
 
 <a name="_hexbin" href="#_hexbin">#</a> <b>hexbin</b>(<i>points</i>)
 
-Evaluates the hexbin layout on the specified array of *points*, return an array of hexagonal *bins*. Each bin is an array containing the bin’s points, as well as some additional properties:
+Evaluates the hexbin layout on the specified array of *points*, returning an array of hexagonal *bins*. Each bin is an array containing the bin’s points, as well as some additional properties:
 
 * x - the x-coordinate of the bin
 * y - the y-coordinate of the bin

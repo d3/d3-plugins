@@ -5,7 +5,7 @@ Examples:
 * Color encoding: <http://bl.ocks.org/4248145>
 * Area encoding: <http://bl.ocks.org/4248146>
 
-The **d3.hexbin** plugin implements **hexagonal binning**, which is useful for aggregating data into a more coarse representation suitable for display. Rather than displaying a scatterplot with tens of thousands of points, you can bin points into gridded hexagons, and then display the distribution using color or area.
+The **d3.hexbin** plugin implements **hexagonal binning**, which is useful for aggregating data into a more coarse representation suitable for display. Rather than displaying a scatterplot with tens of thousands of points, you can bin points into gridded hexagons, and then display the distribution using color or area. This plugin was inspired by earlier work by [Zachary Forest Johnson](http://indiemaps.com/blog/2011/10/hexbins/).
 
 <a name="hexbin" href="#hexbin">#</a> d3.<b>hexbin</b>()
 

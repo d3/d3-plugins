@@ -6,19 +6,19 @@
 /*       are defined one element longer than they need to be.           */
 /************************************************************************/
 
-var SQRT_3  = Math.sqrt(3);
-var SQRT_5  = Math.sqrt(5);
-var SQRT_8  = Math.sqrt(8);
-var SQRT_10 = Math.sqrt(10);
-var SQRT_15 = Math.sqrt(15);
+var SQRT_3  = Math.sqrt(3),
+    SQRT_5  = Math.sqrt(5),
+    SQRT_8  = Math.sqrt(8),
+    SQRT_10 = Math.sqrt(10),
+    SQRT_15 = Math.sqrt(15);
 
-var v_x = [];
-var v_y = [];
-var v_z = [];
-var center_x = [];
-var center_y = [];
-var center_z = [];
-var garc, gt, gdve, gel;
+var v_x = [],
+    v_y = [],
+    v_z = [],
+    center_x = [],
+    center_y = [],
+    center_z = [],
+    garc, gt, gdve, gel;
 
 /* initializes the global variables which includes the */
 /* vertix coordinates and mid-face coordinates.        */
@@ -242,7 +242,7 @@ function dymaxion(λ, φ) {
   var info = s_tri_info(h.x, h.y, h.z);
 
   /* Determine the corresponding Fuller map plane(x, y) point */
-  return dymax_point(info.tri, info.hlcd, h.x, h.y, h.z);
+  return dymax_point(info.tri, info.lcd, h.x, h.y, h.z);
 }
 
 /* Covert spherical polar coordinates to cartesian coordinates. */
@@ -267,34 +267,22 @@ function c_to_s(x, y, z) {
 
 /* Determine which triangle and LCD triangle the point is in. */
 function s_tri_info(x, y, z) {
-  var h_dist1, h_dist2, h_dist3, h1, h2, h3; // double
-  var i, h_tri, h_lcd;  //int
-  var v1, v2, v3;       // int
-  var info = new Object();
-
-  h_tri = 0;
-  h_dist1 = Infinity;
+  var d1 = Infinity, d2, d3,
+      v1, v2, v3,
+      dx, dy, dz,
+      tri = 0, lcd;
 
   /* Which triangle face center is the closest to the given point */
   /* is the triangle in which the given point is in.              */
-
-  for(i = 1; i <=20; i = i + 1) {
-     h1 = center_x[i] - x;
-     h2 = center_y[i] - y;
-     h3 = center_z[i] - z;
-     h_dist2 = Math.sqrt(h1 * h1 + h2 * h2 + h3 * h3);
-     if(h_dist2 < h_dist1) {
-        h_tri = i;
-        h_dist1 = h_dist2;
-      }
+  for (var i = 1; i <= 20; ++i) {
+     if ((d2 = (dx = center_x[i] - x) * dx + (dy = center_y[i] - y) * dy + (dz = center_z[i] - z) * dz) < d1) {
+       tri = i;
+       d1 = d2;
+     }
    }
 
-   info.tri = h_tri;
-
-   /* Now the LCD triangle is determined. */
-
-   switch(h_tri)
-   {
+  /* Now the LCD triangle is determined. */
+  switch (tri) {
     case 1:  v1 =  1; v2 =  3; v3 =  2; break;
     case 2:  v1 =  1; v2 =  4; v3 =  3; break;
     case 3:  v1 =  1; v2 =  5; v3 =  4; break;
@@ -315,33 +303,23 @@ function s_tri_info(x, y, z) {
     case 18: v1 = 10; v2 = 11; v3 = 12; break;
     case 19: v1 = 11; v2 =  7; v3 = 12; break;
     case 20: v1 =  8; v2 = 12; v3 =  7; break;
-   }
+  }
 
-   h1 = x - v_x[v1];
-   h2 = y - v_y[v1];
-   h3 = z - v_z[v1];
-   h_dist1 = Math.sqrt(h1 * h1 + h2 * h2 + h3 * h3);
+  d1 = (dx = x - v_x[v1]) * dx + (dy = y - v_y[v1]) * dy + (dz = z - v_z[v1]) * dz;
+  d2 = (dx = x - v_x[v2]) * dx + (dy = y - v_y[v2]) * dy + (dz = z - v_z[v2]) * dz;
+  d3 = (dx = x - v_x[v3]) * dx + (dy = y - v_y[v3]) * dy + (dz = z - v_z[v3]) * dz;
 
-   h1 = x - v_x[v2];
-   h2 = y - v_y[v2];
-   h3 = z - v_z[v2];
-   h_dist2 = Math.sqrt(h1 * h1 + h2 * h2 + h3 * h3);
+  if ((d1 <= d2) && (d2 <= d3)) lcd = 1;
+  else if ((d1 <= d3) && (d3 <= d2)) lcd = 6;
+  else if ((d2 <= d1) && (d1 <= d3)) lcd = 2;
+  else if ((d2 <= d3) && (d3 <= d1)) lcd = 3;
+  else if ((d3 <= d1) && (d1 <= d2)) lcd = 5;
+  else /* if ((d3 <= d2) && (d2 <= d1)) */ lcd = 4;
 
-   h1 = x - v_x[v3];
-   h2 = y - v_y[v3];
-   h3 = z - v_z[v3];
-   h_dist3 = Math.sqrt(h1 * h1 + h2 * h2 + h3 * h3);
-
-   if((h_dist1 <= h_dist2) && (h_dist2 <= h_dist3)) {h_lcd = 1; }
-   if((h_dist1 <= h_dist3) && (h_dist3 <= h_dist2)) {h_lcd = 6; }
-   if((h_dist2 <= h_dist1) && (h_dist1 <= h_dist3)) {h_lcd = 2; }
-   if((h_dist2 <= h_dist3) && (h_dist3 <= h_dist1)) {h_lcd = 3; }
-   if((h_dist3 <= h_dist1) && (h_dist1 <= h_dist2)) {h_lcd = 5; }
-   if((h_dist3 <= h_dist2) && (h_dist2 <= h_dist1)) {h_lcd = 4; }
-
-   info.hlcd = h_lcd;
-
-   return info;
+  return {
+    tri: tri,
+    lcd: lcd
+  };
 }
 
 function dymax_point(tri, lcd, x, y, z) {
@@ -356,8 +334,7 @@ function dymax_point(tri, lcd, x, y, z) {
   /* of the face and one of the face vertices. So set up which vertex */
   /* to use.                                                          */
 
-   switch(tri)
-   {
+  switch (tri) {
     case 1:  v1 =  1;  break;
     case 2:  v1 =  1;  break;
     case 3:  v1 =  1;  break;
@@ -378,84 +355,74 @@ function dymax_point(tri, lcd, x, y, z) {
     case 18: v1 = 10;  break;
     case 19: v1 = 11;  break;
     case 20: v1 =  8;  break;
-   }
+  }
 
-   var h0 = new Object();
-   h0.x = x;
-   h0.y = y;
-   h0.z = z;
+  var h0 = {x: x, y: y, z: z},
+      h1 = {x: v_x[v1], y: v_y[v1], z: v_z[v1]};
 
-   var h1 = new Object();
-   h1.x = v_x[v1];
-   h1.y = v_y[v1];
-   h1.z = v_z[v1];
+  h = c_to_s(center_x[tri], center_y[tri], center_z[tri]);
 
-   h = c_to_s(center_x[tri], center_y[tri], center_z[tri]);
+  rotateZ(h.lng, h0);
+  rotateZ(h.lng, h1);
+  rotateY(h.lat, h0);
+  rotateY(h.lat, h1);
 
-   rotateZ(h.lng, h0);
-   rotateZ(h.lng, h1);
-   rotateY(h.lat, h0);
-   rotateY(h.lat, h1);
+  h = c_to_s(h1.x, h1.y, h1.z);
+  h.lng = h.lng - Math.PI / 2;
 
-   h = c_to_s(h1.x, h1.y, h1.z);
-   h.lng = h.lng - Math.PI / 2;
+  rotateZ(h.lng, h0);
 
-   rotateZ(h.lng, h0);
+  /* exact transformation equations */
 
-   /* exact transformation equations */
+  gz = Math.sqrt(1 - h0.x * h0.x - h0.y * h0.y);
+  gs = Math.sqrt(5 + 2 * SQRT_5) / (gz * SQRT_15);
 
-   gz = Math.sqrt(1 - h0.x * h0.x - h0.y * h0.y);
-   gs = Math.sqrt(5 + 2 * SQRT_5) / (gz * SQRT_15);
+  gxp = h0.x * gs;
+  gyp = h0.y * gs;
 
-   gxp = h0.x * gs;
-   gyp = h0.y * gs;
+  ga1p = 2 * gyp / SQRT_3 + (gel / 3);
+  ga2p = gxp - (gyp / SQRT_3) +  (gel / 3);
+  ga3p = (gel / 3) - gxp - (gyp / SQRT_3);
 
-   ga1p = 2 * gyp / SQRT_3 + (gel / 3);
-   ga2p = gxp - (gyp / SQRT_3) +  (gel / 3);
-   ga3p = (gel / 3) - gxp - (gyp / SQRT_3);
+  ga1 = gt + Math.atan2((ga1p - .5 * gel), gdve);
+  ga2 = gt + Math.atan2((ga2p - .5 * gel), gdve);
+  ga3 = gt + Math.atan2((ga3p - .5 * gel), gdve);
 
-   ga1 = gt + Math.atan2((ga1p - 0.5 * gel), gdve);
-   ga2 = gt + Math.atan2((ga2p - 0.5 * gel), gdve);
-   ga3 = gt + Math.atan2((ga3p - 0.5 * gel), gdve);
+  gx = .5 * (ga2 - ga3);
+  gy = 1 / (2 * SQRT_3) * (2 * ga1 - ga2 - ga3);
 
-   gx = 0.5 * (ga2 - ga3);
-   gy = 1 / (2 * SQRT_3) * (2 * ga1 - ga2 - ga3);
+  /* Re-scale so plane triangle edge length is 1. */
+  var pt = {x: gx / garc, y: gy / garc};
 
-   /* Re-scale so plane triangle edge length is 1. */
+  /* rotate and translate to correct position */
+  var point2d = {};
 
-   var pt = new Object();
-   pt.x = gx / garc;
-   pt.y = gy / garc;
+  switch (tri) {
+    case  1: rotateZ(-4 / 3 * Math.PI, pt); point2d.x = pt.x + 2; point2d.y = pt.y + 7 / (2 * SQRT_3); break;
+    case  2: rotateZ(-5 / 3 * Math.PI, pt); point2d.x = pt.x + 2; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
+    case  3: point2d.x = pt.x + 2.5; point2d.y = pt.y + 2 / SQRT_3; break;
+    case  4: rotateZ(-1 / 3 * Math.PI, pt); point2d.x = pt.x + 3; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
+    case  5: rotateZ(-Math.PI, pt); point2d.x = pt.x + 2.5; point2d.y = pt.y + 4 * SQRT_3 / 3; break;
+    case  6: rotateZ(-5 / 3 * Math.PI, pt); point2d.x = pt.x + 1.5; point2d.y = pt.y + 4 * SQRT_3 / 3; break;
+    case  7: rotateZ(-5 / 3 * Math.PI, pt); point2d.x = pt.x + 1; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
+    case  8: point2d.x = pt.x + 1.5; point2d.y = pt.y + 2 / SQRT_3; break;
+    case  9: if (lcd > 2) { rotateZ(-5 / 3 * Math.PI, pt); point2d.x = pt.x + 1.5; point2d.y = pt.y + 1 / SQRT_3; }
+             else { point2d.x = pt.x + 2; point2d.y = pt.y + 1 / (2 * SQRT_3); } break;
+    case 10: rotateZ(-1 / 3 * Math.PI, pt); point2d.x = pt.x + 2.5; point2d.y = pt.y + 1 / SQRT_3; break;
+    case 11: rotateZ(-1 / 3 * Math.PI, pt); point2d.x = pt.x + 3.5; point2d.y = pt.y + 1 / SQRT_3; break;
+    case 12: rotateZ(-2 / 3 * Math.PI, pt); point2d.x = pt.x + 3.5; point2d.y = pt.y + 2 / SQRT_3; break;
+    case 13: rotateZ(-1 / 3 * Math.PI, pt); point2d.x = pt.x + 4; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
+    case 14: point2d.x = pt.x + 4; point2d.y = pt.y + 7 / (2 * SQRT_3); break;
+    case 15: point2d.x = pt.x + 5; point2d.y = pt.y + 7 / (2 * SQRT_3); break;
+    case 16: if (lcd < 4) { rotateZ(-1 / 3 * Math.PI, pt); point2d.x = pt.x + 0.5; point2d.y = pt.y + 1 / SQRT_3; }
+             else { point2d.x = pt.x + 5.5; point2d.y = pt.y + 2 / SQRT_3; } break;
+    case 17: point2d.x = pt.x + 1; point2d.y = pt.y + 1 / (2 * SQRT_3); break;
+    case 18: rotateZ(-2 / 3 * Math.PI, pt); point2d.x = pt.x + 4; point2d.y = pt.y + 1 / (2 * SQRT_3); break;
+    case 19: rotateZ(-2 / 3 * Math.PI, pt); point2d.x = pt.x + 4.5; point2d.y = pt.y + 2 / SQRT_3; break;
+    case 20: rotateZ(-5 / 3 * Math.PI, pt); point2d.x = pt.x + 5; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
+  }
 
-  /* rotate and translate to correct position          */
-  var point2d = new Object();
-
-  switch(tri) {
-     case  1: rotateZ(-4 / 3 * Math.PI, pt); point2d.x = pt.x + 2; point2d.y = pt.y + 7 / (2 * SQRT_3); break;
-     case  2: rotateZ(-5 / 3 * Math.PI, pt); point2d.x = pt.x + 2; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
-     case  3: point2d.x = pt.x + 2.5; point2d.y = pt.y + 2 / SQRT_3; break;
-     case  4: rotateZ(-1 / 3 * Math.PI, pt); point2d.x = pt.x + 3; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
-     case  5: rotateZ(-Math.PI, pt); point2d.x = pt.x + 2.5; point2d.y = pt.y + 4 * SQRT_3 / 3; break;
-     case  6: rotateZ(-5 / 3 * Math.PI, pt); point2d.x = pt.x + 1.5; point2d.y = pt.y + 4 * SQRT_3 / 3; break;
-     case  7: rotateZ(-5 / 3 * Math.PI, pt); point2d.x = pt.x + 1; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
-     case  8: point2d.x = pt.x + 1.5; point2d.y = pt.y + 2 / SQRT_3; break;
-     case  9: if (lcd > 2) { rotateZ(-5 / 3 * Math.PI, pt); point2d.x = pt.x + 1.5; point2d.y = pt.y + 1 / SQRT_3; }
-              else { point2d.x = pt.x + 2; point2d.y = pt.y + 1 / (2 * SQRT_3); } break;
-     case 10: rotateZ(-1 / 3 * Math.PI, pt); point2d.x = pt.x + 2.5; point2d.y = pt.y + 1 / SQRT_3; break;
-     case 11: rotateZ(-1 / 3 * Math.PI, pt); point2d.x = pt.x + 3.5; point2d.y = pt.y + 1 / SQRT_3; break;
-     case 12: rotateZ(-2 / 3 * Math.PI, pt); point2d.x = pt.x + 3.5; point2d.y = pt.y + 2 / SQRT_3; break;
-     case 13: rotateZ(-1 / 3 * Math.PI, pt); point2d.x = pt.x + 4; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
-     case 14: point2d.x = pt.x + 4; point2d.y = pt.y + 7 / (2 * SQRT_3); break;
-     case 15: point2d.x = pt.x + 5; point2d.y = pt.y + 7 / (2 * SQRT_3); break;
-     case 16: if (lcd < 4) { rotateZ(-1 / 3 * Math.PI, pt); point2d.x = pt.x + 0.5; point2d.y = pt.y + 1 / SQRT_3; }
-              else { point2d.x = pt.x + 5.5; point2d.y = pt.y + 2 / SQRT_3; } break;
-     case 17: point2d.x = pt.x + 1; point2d.y = pt.y + 1 / (2 * SQRT_3); break;
-     case 18: rotateZ(-2 / 3 * Math.PI, pt); point2d.x = pt.x + 4; point2d.y = pt.y + 1 / (2 * SQRT_3); break;
-     case 19: rotateZ(-2 / 3 * Math.PI, pt); point2d.x = pt.x + 4.5; point2d.y = pt.y + 2 / SQRT_3; break;
-     case 20: rotateZ(-5 / 3 * Math.PI, pt); point2d.x = pt.x + 5; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
-   }
-
-   return [point2d.x, point2d.y];
+  return [point2d.x, point2d.y];
 }
 
 function rotateY(θ, point) {

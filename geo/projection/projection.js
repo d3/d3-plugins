@@ -644,6 +644,17 @@
     return ellipticFi(λ, sgn(φ) * Math.log(Math.tan(.5 * (Math.abs(φ) + π / 2))), .5);
   }
 
+  function peirceQuincuncial(λ, φ) {
+    var t = Math.abs(λ) < π / 2,
+        p = guyou(t ? λ : -sgn(λ) * (π - Math.abs(λ)), φ),
+        x = p[0] / Math.SQRT2 - p[1] / Math.SQRT2,
+        y = p[1] / Math.SQRT2 + p[0] / Math.SQRT2;
+    if (t) return [x, y];
+    var d = 2 * 1.311028777082283, // TODO unobfuscate
+        s = (x > 0) ^ (y > 0) ? -1 : 1;
+    return [s * x - sgn(y) * d, s * y - sgn(x) * d];
+  }
+
   function verticalPerspective(P) {
     function forward(λ, φ) {
       var cosφ = Math.cos(φ),
@@ -905,6 +916,7 @@
   d3.geo.miller = function() { return projection(miller); };
   d3.geo.mollweide = function() { return projection(mollweide); };
   d3.geo.nellHammer = function() { return projection(nellHammer); };
+  d3.geo.peirceQuincuncial = function() { return projection(peirceQuincuncial).rotate([-90, -90, 45]); };
   d3.geo.polyconic = function() { return projection(polyconic); };
   d3.geo.robinson = function() { return projection(robinson); };
   d3.geo.satellite = satelliteProjection;

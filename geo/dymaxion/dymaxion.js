@@ -12,12 +12,12 @@ var SQRT_8  = Math.sqrt(8);
 var SQRT_10 = Math.sqrt(10);
 var SQRT_15 = Math.sqrt(15);
 
-var v_x = new Array(13);
-var v_y = new Array(13);
-var v_z = new Array(13);
-var center_x = new Array(21);
-var center_y = new Array(21);
-var center_z = new Array(21);
+var v_x = [];
+var v_y = [];
+var v_z = [];
+var center_x = [];
+var center_y = [];
+var center_z = [];
 var garc, gt, gdve, gel;
 
 /* initializes the global variables which includes the */
@@ -67,170 +67,170 @@ v_z[12] =  -0.904082550615019298;
 
 /* now calculate mid face coordinates             */
 
-hold_x = (v_x[1] + v_x[2] + v_x[3]) / 3.0 ;
-hold_y = (v_y[1] + v_y[2] + v_y[3]) / 3.0 ;
-hold_z = (v_z[1] + v_z[2] + v_z[3]) / 3.0 ;
+hold_x = (v_x[1] + v_x[2] + v_x[3]) / 3;
+hold_y = (v_y[1] + v_y[2] + v_y[3]) / 3;
+hold_z = (v_z[1] + v_z[2] + v_z[3]) / 3;
 magn = Math.sqrt(hold_x * hold_x + hold_y * hold_y + hold_z * hold_z);
 center_x[1] = hold_x / magn;
 center_y[1] = hold_y / magn;
 center_z[1] = hold_z / magn;
 
-hold_x = (v_x[1] + v_x[3] + v_x[4]) / 3.0 ;
-hold_y = (v_y[1] + v_y[3] + v_y[4]) / 3.0 ;
-hold_z = (v_z[1] + v_z[3] + v_z[4]) / 3.0 ;
+hold_x = (v_x[1] + v_x[3] + v_x[4]) / 3;
+hold_y = (v_y[1] + v_y[3] + v_y[4]) / 3;
+hold_z = (v_z[1] + v_z[3] + v_z[4]) / 3;
 magn = Math.sqrt(hold_x * hold_x + hold_y * hold_y + hold_z * hold_z);
 center_x[2] = hold_x / magn;
 center_y[2] = hold_y / magn;
 center_z[2] = hold_z / magn;
 
-hold_x = (v_x[1] + v_x[4] + v_x[5]) / 3.0 ;
-hold_y = (v_y[1] + v_y[4] + v_y[5]) / 3.0 ;
-hold_z = (v_z[1] + v_z[4] + v_z[5]) / 3.0 ;
+hold_x = (v_x[1] + v_x[4] + v_x[5]) / 3;
+hold_y = (v_y[1] + v_y[4] + v_y[5]) / 3;
+hold_z = (v_z[1] + v_z[4] + v_z[5]) / 3;
 magn = Math.sqrt(hold_x * hold_x + hold_y * hold_y + hold_z * hold_z);
 center_x[3] = hold_x / magn;
 center_y[3] = hold_y / magn;
 center_z[3] = hold_z / magn;
 
-hold_x = (v_x[1] + v_x[5] + v_x[6]) / 3.0 ;
-hold_y = (v_y[1] + v_y[5] + v_y[6]) / 3.0 ;
-hold_z = (v_z[1] + v_z[5] + v_z[6]) / 3.0 ;
+hold_x = (v_x[1] + v_x[5] + v_x[6]) / 3;
+hold_y = (v_y[1] + v_y[5] + v_y[6]) / 3;
+hold_z = (v_z[1] + v_z[5] + v_z[6]) / 3;
 magn = Math.sqrt(hold_x * hold_x + hold_y * hold_y + hold_z * hold_z);
 center_x[4] = hold_x / magn;
 center_y[4] = hold_y / magn;
 center_z[4] = hold_z / magn;
 
-hold_x = (v_x[1] + v_x[2] + v_x[6]) / 3.0 ;
-hold_y = (v_y[1] + v_y[2] + v_y[6]) / 3.0 ;
-hold_z = (v_z[1] + v_z[2] + v_z[6]) / 3.0 ;
+hold_x = (v_x[1] + v_x[2] + v_x[6]) / 3;
+hold_y = (v_y[1] + v_y[2] + v_y[6]) / 3;
+hold_z = (v_z[1] + v_z[2] + v_z[6]) / 3;
 magn = Math.sqrt(hold_x * hold_x + hold_y * hold_y + hold_z * hold_z);
 center_x[5] = hold_x / magn;
 center_y[5] = hold_y / magn;
 center_z[5] = hold_z / magn;
 
-hold_x = (v_x[2] + v_x[3] + v_x[8]) / 3.0 ;
-hold_y = (v_y[2] + v_y[3] + v_y[8]) / 3.0 ;
-hold_z = (v_z[2] + v_z[3] + v_z[8]) / 3.0 ;
+hold_x = (v_x[2] + v_x[3] + v_x[8]) / 3;
+hold_y = (v_y[2] + v_y[3] + v_y[8]) / 3;
+hold_z = (v_z[2] + v_z[3] + v_z[8]) / 3;
 magn = Math.sqrt(hold_x * hold_x + hold_y * hold_y + hold_z * hold_z);
 center_x[6] = hold_x / magn;
 center_y[6] = hold_y / magn;
 center_z[6] = hold_z / magn;
 
-hold_x = (v_x[8] + v_x[3] + v_x[9]) / 3.0 ;
-hold_y = (v_y[8] + v_y[3] + v_y[9]) / 3.0 ;
-hold_z = (v_z[8] + v_z[3] + v_z[9]) / 3.0 ;
+hold_x = (v_x[8] + v_x[3] + v_x[9]) / 3;
+hold_y = (v_y[8] + v_y[3] + v_y[9]) / 3;
+hold_z = (v_z[8] + v_z[3] + v_z[9]) / 3;
 magn = Math.sqrt(hold_x * hold_x + hold_y * hold_y + hold_z * hold_z);
 center_x[7] = hold_x / magn;
 center_y[7] = hold_y / magn;
 center_z[7] = hold_z / magn;
 
-hold_x = (v_x[9] + v_x[3] + v_x[4]) / 3.0 ;
-hold_y = (v_y[9] + v_y[3] + v_y[4]) / 3.0 ;
-hold_z = (v_z[9] + v_z[3] + v_z[4]) / 3.0 ;
+hold_x = (v_x[9] + v_x[3] + v_x[4]) / 3;
+hold_y = (v_y[9] + v_y[3] + v_y[4]) / 3;
+hold_z = (v_z[9] + v_z[3] + v_z[4]) / 3;
 magn = Math.sqrt(hold_x * hold_x + hold_y * hold_y + hold_z * hold_z);
 center_x[8] = hold_x / magn;
 center_y[8] = hold_y / magn;
 center_z[8] = hold_z / magn;
 
-hold_x = (v_x[10] + v_x[9] + v_x[4]) / 3.0 ;
-hold_y = (v_y[10] + v_y[9] + v_y[4]) / 3.0 ;
-hold_z = (v_z[10] + v_z[9] + v_z[4]) / 3.0 ;
+hold_x = (v_x[10] + v_x[9] + v_x[4]) / 3;
+hold_y = (v_y[10] + v_y[9] + v_y[4]) / 3;
+hold_z = (v_z[10] + v_z[9] + v_z[4]) / 3;
 magn = Math.sqrt(hold_x * hold_x + hold_y * hold_y + hold_z * hold_z);
 center_x[9] = hold_x / magn;
 center_y[9] = hold_y / magn;
 center_z[9] = hold_z / magn;
 
-hold_x = (v_x[5] + v_x[10] + v_x[4]) / 3.0 ;
-hold_y = (v_y[5] + v_y[10] + v_y[4]) / 3.0 ;
-hold_z = (v_z[5] + v_z[10] + v_z[4]) / 3.0 ;
+hold_x = (v_x[5] + v_x[10] + v_x[4]) / 3;
+hold_y = (v_y[5] + v_y[10] + v_y[4]) / 3;
+hold_z = (v_z[5] + v_z[10] + v_z[4]) / 3;
 magn = Math.sqrt(hold_x * hold_x + hold_y * hold_y + hold_z * hold_z);
 center_x[10] = hold_x / magn;
 center_y[10] = hold_y / magn;
 center_z[10] = hold_z / magn;
 
-hold_x = (v_x[5] + v_x[11] + v_x[10]) / 3.0 ;
-hold_y = (v_y[5] + v_y[11] + v_y[10]) / 3.0 ;
-hold_z = (v_z[5] + v_z[11] + v_z[10]) / 3.0 ;
+hold_x = (v_x[5] + v_x[11] + v_x[10]) / 3;
+hold_y = (v_y[5] + v_y[11] + v_y[10]) / 3;
+hold_z = (v_z[5] + v_z[11] + v_z[10]) / 3;
 magn = Math.sqrt(hold_x * hold_x + hold_y * hold_y + hold_z * hold_z);
 center_x[11] = hold_x / magn;
 center_y[11] = hold_y / magn;
 center_z[11] = hold_z / magn;
 
-hold_x = (v_x[5] + v_x[6] + v_x[11]) / 3.0 ;
-hold_y = (v_y[5] + v_y[6] + v_y[11]) / 3.0 ;
-hold_z = (v_z[5] + v_z[6] + v_z[11]) / 3.0 ;
+hold_x = (v_x[5] + v_x[6] + v_x[11]) / 3;
+hold_y = (v_y[5] + v_y[6] + v_y[11]) / 3;
+hold_z = (v_z[5] + v_z[6] + v_z[11]) / 3;
 magn = Math.sqrt(hold_x * hold_x + hold_y * hold_y + hold_z * hold_z);
 center_x[12] = hold_x / magn;
 center_y[12] = hold_y / magn;
 center_z[12] = hold_z / magn;
 
-hold_x = (v_x[11] + v_x[6] + v_x[7]) / 3.0 ;
-hold_y = (v_y[11] + v_y[6] + v_y[7]) / 3.0 ;
-hold_z = (v_z[11] + v_z[6] + v_z[7]) / 3.0 ;
+hold_x = (v_x[11] + v_x[6] + v_x[7]) / 3;
+hold_y = (v_y[11] + v_y[6] + v_y[7]) / 3;
+hold_z = (v_z[11] + v_z[6] + v_z[7]) / 3;
 magn = Math.sqrt(hold_x * hold_x + hold_y * hold_y + hold_z * hold_z);
 center_x[13] = hold_x / magn;
 center_y[13] = hold_y / magn;
 center_z[13] = hold_z / magn;
 
-hold_x = (v_x[7] + v_x[6] + v_x[2]) / 3.0 ;
-hold_y = (v_y[7] + v_y[6] + v_y[2]) / 3.0 ;
-hold_z = (v_z[7] + v_z[6] + v_z[2]) / 3.0 ;
+hold_x = (v_x[7] + v_x[6] + v_x[2]) / 3;
+hold_y = (v_y[7] + v_y[6] + v_y[2]) / 3;
+hold_z = (v_z[7] + v_z[6] + v_z[2]) / 3;
 magn = Math.sqrt(hold_x * hold_x + hold_y * hold_y + hold_z * hold_z);
 center_x[14] = hold_x / magn;
 center_y[14] = hold_y / magn;
 center_z[14] = hold_z / magn;
 
-hold_x = (v_x[8] + v_x[7] + v_x[2]) / 3.0 ;
-hold_y = (v_y[8] + v_y[7] + v_y[2]) / 3.0 ;
-hold_z = (v_z[8] + v_z[7] + v_z[2]) / 3.0 ;
+hold_x = (v_x[8] + v_x[7] + v_x[2]) / 3;
+hold_y = (v_y[8] + v_y[7] + v_y[2]) / 3;
+hold_z = (v_z[8] + v_z[7] + v_z[2]) / 3;
 magn = Math.sqrt(hold_x * hold_x + hold_y * hold_y + hold_z * hold_z);
 center_x[15] = hold_x / magn;
 center_y[15] = hold_y / magn;
 center_z[15] = hold_z / magn;
 
-hold_x = (v_x[12] + v_x[9] + v_x[8]) / 3.0 ;
-hold_y = (v_y[12] + v_y[9] + v_y[8]) / 3.0 ;
-hold_z = (v_z[12] + v_z[9] + v_z[8]) / 3.0 ;
+hold_x = (v_x[12] + v_x[9] + v_x[8]) / 3;
+hold_y = (v_y[12] + v_y[9] + v_y[8]) / 3;
+hold_z = (v_z[12] + v_z[9] + v_z[8]) / 3;
 magn = Math.sqrt(hold_x * hold_x + hold_y * hold_y + hold_z * hold_z);
 center_x[16] = hold_x / magn;
 center_y[16] = hold_y / magn;
 center_z[16] = hold_z / magn;
 
-hold_x = (v_x[12] + v_x[9] + v_x[10]) / 3.0 ;
-hold_y = (v_y[12] + v_y[9] + v_y[10]) / 3.0 ;
-hold_z = (v_z[12] + v_z[9] + v_z[10]) / 3.0 ;
+hold_x = (v_x[12] + v_x[9] + v_x[10]) / 3;
+hold_y = (v_y[12] + v_y[9] + v_y[10]) / 3;
+hold_z = (v_z[12] + v_z[9] + v_z[10]) / 3;
 magn = Math.sqrt(hold_x * hold_x + hold_y * hold_y + hold_z * hold_z);
 center_x[17] = hold_x / magn;
 center_y[17] = hold_y / magn;
 center_z[17] = hold_z / magn;
 
-hold_x = (v_x[12] + v_x[11] + v_x[10]) / 3.0 ;
-hold_y = (v_y[12] + v_y[11] + v_y[10]) / 3.0 ;
-hold_z = (v_z[12] + v_z[11] + v_z[10]) / 3.0 ;
+hold_x = (v_x[12] + v_x[11] + v_x[10]) / 3;
+hold_y = (v_y[12] + v_y[11] + v_y[10]) / 3;
+hold_z = (v_z[12] + v_z[11] + v_z[10]) / 3;
 magn = Math.sqrt(hold_x * hold_x + hold_y * hold_y + hold_z * hold_z);
 center_x[18] = hold_x / magn;
 center_y[18] = hold_y / magn;
 center_z[18] = hold_z / magn;
 
-hold_x = (v_x[12] + v_x[11] + v_x[7]) / 3.0 ;
-hold_y = (v_y[12] + v_y[11] + v_y[7]) / 3.0 ;
-hold_z = (v_z[12] + v_z[11] + v_z[7]) / 3.0 ;
+hold_x = (v_x[12] + v_x[11] + v_x[7]) / 3;
+hold_y = (v_y[12] + v_y[11] + v_y[7]) / 3;
+hold_z = (v_z[12] + v_z[11] + v_z[7]) / 3;
 magn = Math.sqrt(hold_x * hold_x + hold_y * hold_y + hold_z * hold_z);
 center_x[19] = hold_x / magn;
 center_y[19] = hold_y / magn;
 center_z[19] = hold_z / magn;
 
-hold_x = (v_x[12] + v_x[8] + v_x[7]) / 3.0 ;
-hold_y = (v_y[12] + v_y[8] + v_y[7]) / 3.0 ;
-hold_z = (v_z[12] + v_z[8] + v_z[7]) / 3.0 ;
+hold_x = (v_x[12] + v_x[8] + v_x[7]) / 3;
+hold_y = (v_y[12] + v_y[8] + v_y[7]) / 3;
+hold_z = (v_z[12] + v_z[8] + v_z[7]) / 3;
 magn = Math.sqrt(hold_x * hold_x + hold_y * hold_y + hold_z * hold_z);
 center_x[20] = hold_x / magn;
 center_y[20] = hold_y / magn;
 center_z[20] = hold_z / magn;
 
-garc = 2.0 * Math.asin( Math.sqrt( 5 - SQRT_5) / SQRT_10 );
-gt = garc / 2.0;
+garc = 2 * Math.asin(Math.sqrt(5 - SQRT_5) / SQRT_10);
+gt = garc / 2;
 
-gdve = Math.sqrt( 3 + SQRT_5 ) / Math.sqrt( 5 + SQRT_5 );
+gdve = Math.sqrt(3 + SQRT_5) / Math.sqrt(5 + SQRT_5);
 gel = SQRT_8 / Math.sqrt(5 + SQRT_5);
 
 function dymaxion(λ, φ) {
@@ -268,7 +268,7 @@ function c_to_s(x, y, z) {
 /* Determine which triangle and LCD triangle the point is in. */
 function s_tri_info(x, y, z) {
   var h_dist1, h_dist2, h_dist3, h1, h2, h3; // double
-  var i, h_tri, h_lcd ;  //int
+  var i, h_tri, h_lcd;  //int
   var v1, v2, v3;       // int
   var info = new Object();
 
@@ -332,12 +332,12 @@ function s_tri_info(x, y, z) {
    h3 = z - v_z[v3];
    h_dist3 = Math.sqrt(h1 * h1 + h2 * h2 + h3 * h3);
 
-   if( (h_dist1 <= h_dist2) && (h_dist2 <= h_dist3) ) {h_lcd = 1; }
-   if( (h_dist1 <= h_dist3) && (h_dist3 <= h_dist2) ) {h_lcd = 6; }
-   if( (h_dist2 <= h_dist1) && (h_dist1 <= h_dist3) ) {h_lcd = 2; }
-   if( (h_dist2 <= h_dist3) && (h_dist3 <= h_dist1) ) {h_lcd = 3; }
-   if( (h_dist3 <= h_dist1) && (h_dist1 <= h_dist2) ) {h_lcd = 5; }
-   if( (h_dist3 <= h_dist2) && (h_dist2 <= h_dist1) ) {h_lcd = 4; }
+   if((h_dist1 <= h_dist2) && (h_dist2 <= h_dist3)) {h_lcd = 1; }
+   if((h_dist1 <= h_dist3) && (h_dist3 <= h_dist2)) {h_lcd = 6; }
+   if((h_dist2 <= h_dist1) && (h_dist1 <= h_dist3)) {h_lcd = 2; }
+   if((h_dist2 <= h_dist3) && (h_dist3 <= h_dist1)) {h_lcd = 3; }
+   if((h_dist3 <= h_dist1) && (h_dist1 <= h_dist2)) {h_lcd = 5; }
+   if((h_dist3 <= h_dist2) && (h_dist2 <= h_dist1)) {h_lcd = 4; }
 
    info.hlcd = h_lcd;
 
@@ -345,7 +345,7 @@ function s_tri_info(x, y, z) {
 }
 
 function dymax_point(tri, lcd, x, y, z) {
-  var axis, v1;  // int
+  var v1;  // int
   var h;
 
   var gs; // double
@@ -392,39 +392,35 @@ function dymax_point(tri, lcd, x, y, z) {
 
    h = c_to_s(center_x[tri], center_y[tri], center_z[tri]);
 
-   axis = 3;
-   rotate3d(axis,h.lng,h0);
-   rotate3d(axis,h.lng,h1);
+   rotate3dz(h.lng,h0);
+   rotate3dz(h.lng,h1);
 
-   axis = 2;
-   rotate3d(axis,h.lat,h0);
-   rotate3d(axis,h.lat,h1);
+   rotate3dy(h.lat,h0);
+   rotate3dy(h.lat,h1);
 
    h = c_to_s(h1.x,h1.y,h1.z);
    h.lng = h.lng - Math.PI / 2;
 
-   axis = 3;
-   rotate3d(axis,h.lng,h0);
+   rotate3dz(h.lng,h0);
 
    /* exact transformation equations */
 
    gz = Math.sqrt(1 - h0.x * h0.x - h0.y * h0.y);
-   gs = Math.sqrt( 5 + 2 * SQRT_5 ) / ( gz * SQRT_15 );
+   gs = Math.sqrt(5 + 2 * SQRT_5) / (gz * SQRT_15);
 
-   gxp = h0.x * gs ;
-   gyp = h0.y * gs ;
+   gxp = h0.x * gs;
+   gyp = h0.y * gs;
 
-   ga1p = 2.0 * gyp / SQRT_3 + (gel / 3.0) ;
-   ga2p = gxp - (gyp / SQRT_3) +  (gel / 3.0) ;
-   ga3p = (gel / 3.0) - gxp - (gyp / SQRT_3);
+   ga1p = 2 * gyp / SQRT_3 + (gel / 3);
+   ga2p = gxp - (gyp / SQRT_3) +  (gel / 3);
+   ga3p = (gel / 3) - gxp - (gyp / SQRT_3);
 
-   ga1 = gt + Math.atan( (ga1p - 0.5 * gel) / gdve);
-   ga2 = gt + Math.atan( (ga2p - 0.5 * gel) / gdve);
-   ga3 = gt + Math.atan( (ga3p - 0.5 * gel) / gdve);
+   ga1 = gt + Math.atan2((ga1p - 0.5 * gel), gdve);
+   ga2 = gt + Math.atan2((ga2p - 0.5 * gel), gdve);
+   ga3 = gt + Math.atan2((ga3p - 0.5 * gel), gdve);
 
-   gx = 0.5 * (ga2 - ga3) ;
-
-   gy = (1.0 / (2.0 * SQRT_3) ) * (2 * ga1 - ga2 - ga3);
+   gx = 0.5 * (ga2 - ga3);
+   gy = 1 / (2 * SQRT_3) * (2 * ga1 - ga2 - ga3);
 
    /* Re-scale so plane triangle edge length is 1. */
 
@@ -435,109 +431,55 @@ function dymax_point(tri, lcd, x, y, z) {
   /* rotate and translate to correct position          */
   var point2d = new Object();
 
-  switch(tri)
-   {
-     case  1: rotate2d(240.0,pt);
-          point2d.x = pt.x + 2.0; point2d.y = pt.y + 7.0 / (2.0 * SQRT_3) ; break;
-     case  2: rotate2d(300.0, pt); point2d.x = pt.x + 2.0;
-              point2d.y = pt.y + 5.0 / (2.0 * SQRT_3) ; break;
-     case  3: rotate2d(0.0, pt);
-             point2d.x = pt.x + 2.5; point2d.y = pt.y + 2.0 / SQRT_3; break;
-     case  4: rotate2d(60.0, pt);
-              point2d.x = pt.x + 3.0; point2d.y = pt.y + 5.0 / (2.0 * SQRT_3) ; break;
-     case  5: rotate2d(180.0, pt);
-          point2d.x = pt.x + 2.5; point2d.y = pt.y + 4.0 * SQRT_3 / 3.0; break;
-     case  6: rotate2d(300.0, pt);
-              point2d.x = pt.x + 1.5; point2d.y = pt.y + 4.0 * SQRT_3 / 3.0; break;
-     case  7: rotate2d(300.0, pt);
-              point2d.x = pt.x + 1.0; point2d.y = pt.y + 5.0 / (2.0 * SQRT_3) ; break;
-     case  8: rotate2d(0.0, pt);
-              point2d.x = pt.x + 1.5; point2d.y = pt.y + 2.0 / SQRT_3; break;
-     case  9: if(lcd > 2)
-          {
-          rotate2d(300.0, pt);
-          point2d.x = pt.x + 1.5; point2d.y = pt.y + 1.0 / SQRT_3;
-          }
-          else
-          {
-          rotate2d(0.0, pt);
-          point2d.x = pt.x + 2.0; point2d.y = pt.y + 1.0 / (2.0 * SQRT_3);
-          }
-          break;
-
-     case 10: rotate2d(60.0, pt);
-              point2d.x = pt.x + 2.5; point2d.y = pt.y + 1.0 / SQRT_3; break;
-     case 11: rotate2d(60.0, pt);
-              point2d.x = pt.x + 3.5; point2d.y = pt.y + 1.0 / SQRT_3; break;
-     case 12: rotate2d(120.0, pt);
-              point2d.x = pt.x + 3.5; point2d.y = pt.y + 2.0 / SQRT_3; break;
-     case 13: rotate2d(60.0, pt);
-              point2d.x = pt.x + 4.0; point2d.y = pt.y + 5.0 / (2.0 * SQRT_3); break;
-     case 14: rotate2d(0.0, pt);
-          point2d.x = pt.x + 4.0; point2d.y = pt.y + 7.0 / (2.0 * SQRT_3) ; break;
-     case 15: rotate2d(0.0, pt);
-          point2d.x = pt.x + 5.0; point2d.y = pt.y + 7.0 / (2.0 * SQRT_3) ; break;
-     case 16: if(lcd < 4)
-          {
-        rotate2d(60.0, pt);
-        point2d.x = pt.x + 0.5; point2d.y = pt.y + 1.0 / SQRT_3;
-           }
-           else
-           {
-        rotate2d(0.0, pt);
-        point2d.x = pt.x + 5.5; point2d.y = pt.y + 2.0 / SQRT_3;
-           }
-           break;
-     case 17: rotate2d(0.0, pt);
-          point2d.x = pt.x + 1.0; point2d.y = pt.y + 1.0 / (2.0 * SQRT_3); break;
-     case 18: rotate2d(120.0, pt);
-              point2d.x = pt.x + 4.0; point2d.y = pt.y + 1.0 / (2.0 * SQRT_3); break;
-     case 19: rotate2d(120.0, pt);
-              point2d.x = pt.x + 4.5; point2d.y = pt.y + 2.0 / SQRT_3; break;
-     case 20: rotate2d(300.0, pt);
-              point2d.x = pt.x + 5.0; point2d.y = pt.y + 5.0 / (2.0 * SQRT_3); break;
-
+  switch(tri) {
+     case  1: rotate2d(240,pt); point2d.x = pt.x + 2; point2d.y = pt.y + 7 / (2 * SQRT_3); break;
+     case  2: rotate2d(300, pt); point2d.x = pt.x + 2; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
+     case  3: rotate2d(0, pt); point2d.x = pt.x + 2.5; point2d.y = pt.y + 2 / SQRT_3; break;
+     case  4: rotate2d(60, pt); point2d.x = pt.x + 3; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
+     case  5: rotate2d(180, pt); point2d.x = pt.x + 2.5; point2d.y = pt.y + 4 * SQRT_3 / 3; break;
+     case  6: rotate2d(300, pt); point2d.x = pt.x + 1.5; point2d.y = pt.y + 4 * SQRT_3 / 3; break;
+     case  7: rotate2d(300, pt); point2d.x = pt.x + 1; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
+     case  8: rotate2d(0, pt); point2d.x = pt.x + 1.5; point2d.y = pt.y + 2 / SQRT_3; break;
+     case  9: if (lcd > 2) { rotate2d(300, pt); point2d.x = pt.x + 1.5; point2d.y = pt.y + 1 / SQRT_3; }
+              else { rotate2d(0, pt); point2d.x = pt.x + 2; point2d.y = pt.y + 1 / (2 * SQRT_3); } break;
+     case 10: rotate2d(60, pt); point2d.x = pt.x + 2.5; point2d.y = pt.y + 1 / SQRT_3; break;
+     case 11: rotate2d(60, pt); point2d.x = pt.x + 3.5; point2d.y = pt.y + 1 / SQRT_3; break;
+     case 12: rotate2d(120, pt); point2d.x = pt.x + 3.5; point2d.y = pt.y + 2 / SQRT_3; break;
+     case 13: rotate2d(60, pt); point2d.x = pt.x + 4; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
+     case 14: rotate2d(0, pt); point2d.x = pt.x + 4; point2d.y = pt.y + 7 / (2 * SQRT_3); break;
+     case 15: rotate2d(0, pt); point2d.x = pt.x + 5; point2d.y = pt.y + 7 / (2 * SQRT_3); break;
+     case 16: if (lcd < 4) { rotate2d(60, pt); point2d.x = pt.x + 0.5; point2d.y = pt.y + 1 / SQRT_3; }
+              else { rotate2d(0, pt); point2d.x = pt.x + 5.5; point2d.y = pt.y + 2 / SQRT_3; } break;
+     case 17: rotate2d(0, pt); point2d.x = pt.x + 1; point2d.y = pt.y + 1 / (2 * SQRT_3); break;
+     case 18: rotate2d(120, pt); point2d.x = pt.x + 4; point2d.y = pt.y + 1 / (2 * SQRT_3); break;
+     case 19: rotate2d(120, pt); point2d.x = pt.x + 4.5; point2d.y = pt.y + 2 / SQRT_3; break;
+     case 20: rotate2d(300, pt); point2d.x = pt.x + 5; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
    }
 
    return [point2d.x, point2d.y];
 }
 
-/* Rotate the point to correct orientation in XY-plane. */
 function rotate2d(angle, point2d) {
-
   var ha, hx, hy; // double
-
   ha = angle / 180 * Math.PI; // TODO take radians as input
   hx = point2d.x;
   hy = point2d.y;
   point2d.x = hx * Math.cos(ha) - hy * Math.sin(ha);
   point2d.y = hx * Math.sin(ha) + hy * Math.cos(ha);
-
   return point2d;
 }
 
-/* Rotate a 3-D point about the specified axis.         */
-function rotate3d(axis, alpha, point3d) {
+function rotate3dy(θ, point3d) {
+  var cosθ = Math.cos(θ), sinθ = Math.sin(θ), a = point3d.x, c = point3d.z;
+  point3d.x = a * cosθ - c * sinθ;
+  point3d.z = a * sinθ + c * cosθ;
+  return point3d;
+}
 
-  var a = point3d.x;
-  var b = point3d.y;
-  var c = point3d.z;
-
-  if(axis == 1) {
-    point3d.y = b * Math.cos(alpha) + c * Math.sin(alpha);
-    point3d.z = c * Math.cos(alpha) - b * Math.sin(alpha);
-  }
-
-  if(axis == 2) {
-    point3d.x = a * Math.cos(alpha) - c * Math.sin(alpha);
-    point3d.z = a * Math.sin(alpha) + c * Math.cos(alpha);
-  }
-
-  if(axis == 3) {
-    point3d.x = a * Math.cos(alpha) + b * Math.sin(alpha);
-    point3d.y = b * Math.cos(alpha) - a * Math.sin(alpha);
-  }
-
+function rotate3dz(θ, point3d) {
+  var cosθ = Math.cos(θ), sinθ = Math.sin(θ), a = point3d.x, b = point3d.y;
+  point3d.x = a * cosθ + b * sinθ;
+  point3d.y = b * cosθ - a * sinθ;
   return point3d;
 }
 

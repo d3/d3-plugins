@@ -392,16 +392,15 @@ function dymax_point(tri, lcd, x, y, z) {
 
    h = c_to_s(center_x[tri], center_y[tri], center_z[tri]);
 
-   rotate3dz(h.lng,h0);
-   rotate3dz(h.lng,h1);
+   rotateZ(h.lng, h0);
+   rotateZ(h.lng, h1);
+   rotateY(h.lat, h0);
+   rotateY(h.lat, h1);
 
-   rotate3dy(h.lat,h0);
-   rotate3dy(h.lat,h1);
-
-   h = c_to_s(h1.x,h1.y,h1.z);
+   h = c_to_s(h1.x, h1.y, h1.z);
    h.lng = h.lng - Math.PI / 2;
 
-   rotate3dz(h.lng,h0);
+   rotateZ(h.lng, h0);
 
    /* exact transformation equations */
 
@@ -432,55 +431,43 @@ function dymax_point(tri, lcd, x, y, z) {
   var point2d = new Object();
 
   switch(tri) {
-     case  1: rotate2d(240,pt); point2d.x = pt.x + 2; point2d.y = pt.y + 7 / (2 * SQRT_3); break;
-     case  2: rotate2d(300, pt); point2d.x = pt.x + 2; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
-     case  3: rotate2d(0, pt); point2d.x = pt.x + 2.5; point2d.y = pt.y + 2 / SQRT_3; break;
-     case  4: rotate2d(60, pt); point2d.x = pt.x + 3; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
-     case  5: rotate2d(180, pt); point2d.x = pt.x + 2.5; point2d.y = pt.y + 4 * SQRT_3 / 3; break;
-     case  6: rotate2d(300, pt); point2d.x = pt.x + 1.5; point2d.y = pt.y + 4 * SQRT_3 / 3; break;
-     case  7: rotate2d(300, pt); point2d.x = pt.x + 1; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
-     case  8: rotate2d(0, pt); point2d.x = pt.x + 1.5; point2d.y = pt.y + 2 / SQRT_3; break;
-     case  9: if (lcd > 2) { rotate2d(300, pt); point2d.x = pt.x + 1.5; point2d.y = pt.y + 1 / SQRT_3; }
-              else { rotate2d(0, pt); point2d.x = pt.x + 2; point2d.y = pt.y + 1 / (2 * SQRT_3); } break;
-     case 10: rotate2d(60, pt); point2d.x = pt.x + 2.5; point2d.y = pt.y + 1 / SQRT_3; break;
-     case 11: rotate2d(60, pt); point2d.x = pt.x + 3.5; point2d.y = pt.y + 1 / SQRT_3; break;
-     case 12: rotate2d(120, pt); point2d.x = pt.x + 3.5; point2d.y = pt.y + 2 / SQRT_3; break;
-     case 13: rotate2d(60, pt); point2d.x = pt.x + 4; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
-     case 14: rotate2d(0, pt); point2d.x = pt.x + 4; point2d.y = pt.y + 7 / (2 * SQRT_3); break;
-     case 15: rotate2d(0, pt); point2d.x = pt.x + 5; point2d.y = pt.y + 7 / (2 * SQRT_3); break;
-     case 16: if (lcd < 4) { rotate2d(60, pt); point2d.x = pt.x + 0.5; point2d.y = pt.y + 1 / SQRT_3; }
-              else { rotate2d(0, pt); point2d.x = pt.x + 5.5; point2d.y = pt.y + 2 / SQRT_3; } break;
-     case 17: rotate2d(0, pt); point2d.x = pt.x + 1; point2d.y = pt.y + 1 / (2 * SQRT_3); break;
-     case 18: rotate2d(120, pt); point2d.x = pt.x + 4; point2d.y = pt.y + 1 / (2 * SQRT_3); break;
-     case 19: rotate2d(120, pt); point2d.x = pt.x + 4.5; point2d.y = pt.y + 2 / SQRT_3; break;
-     case 20: rotate2d(300, pt); point2d.x = pt.x + 5; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
+     case  1: rotateZ(-4 / 3 * Math.PI, pt); point2d.x = pt.x + 2; point2d.y = pt.y + 7 / (2 * SQRT_3); break;
+     case  2: rotateZ(-5 / 3 * Math.PI, pt); point2d.x = pt.x + 2; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
+     case  3: point2d.x = pt.x + 2.5; point2d.y = pt.y + 2 / SQRT_3; break;
+     case  4: rotateZ(-1 / 3 * Math.PI, pt); point2d.x = pt.x + 3; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
+     case  5: rotateZ(-Math.PI, pt); point2d.x = pt.x + 2.5; point2d.y = pt.y + 4 * SQRT_3 / 3; break;
+     case  6: rotateZ(-5 / 3 * Math.PI, pt); point2d.x = pt.x + 1.5; point2d.y = pt.y + 4 * SQRT_3 / 3; break;
+     case  7: rotateZ(-5 / 3 * Math.PI, pt); point2d.x = pt.x + 1; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
+     case  8: point2d.x = pt.x + 1.5; point2d.y = pt.y + 2 / SQRT_3; break;
+     case  9: if (lcd > 2) { rotateZ(-5 / 3 * Math.PI, pt); point2d.x = pt.x + 1.5; point2d.y = pt.y + 1 / SQRT_3; }
+              else { point2d.x = pt.x + 2; point2d.y = pt.y + 1 / (2 * SQRT_3); } break;
+     case 10: rotateZ(-1 / 3 * Math.PI, pt); point2d.x = pt.x + 2.5; point2d.y = pt.y + 1 / SQRT_3; break;
+     case 11: rotateZ(-1 / 3 * Math.PI, pt); point2d.x = pt.x + 3.5; point2d.y = pt.y + 1 / SQRT_3; break;
+     case 12: rotateZ(-2 / 3 * Math.PI, pt); point2d.x = pt.x + 3.5; point2d.y = pt.y + 2 / SQRT_3; break;
+     case 13: rotateZ(-1 / 3 * Math.PI, pt); point2d.x = pt.x + 4; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
+     case 14: point2d.x = pt.x + 4; point2d.y = pt.y + 7 / (2 * SQRT_3); break;
+     case 15: point2d.x = pt.x + 5; point2d.y = pt.y + 7 / (2 * SQRT_3); break;
+     case 16: if (lcd < 4) { rotateZ(-1 / 3 * Math.PI, pt); point2d.x = pt.x + 0.5; point2d.y = pt.y + 1 / SQRT_3; }
+              else { point2d.x = pt.x + 5.5; point2d.y = pt.y + 2 / SQRT_3; } break;
+     case 17: point2d.x = pt.x + 1; point2d.y = pt.y + 1 / (2 * SQRT_3); break;
+     case 18: rotateZ(-2 / 3 * Math.PI, pt); point2d.x = pt.x + 4; point2d.y = pt.y + 1 / (2 * SQRT_3); break;
+     case 19: rotateZ(-2 / 3 * Math.PI, pt); point2d.x = pt.x + 4.5; point2d.y = pt.y + 2 / SQRT_3; break;
+     case 20: rotateZ(-5 / 3 * Math.PI, pt); point2d.x = pt.x + 5; point2d.y = pt.y + 5 / (2 * SQRT_3); break;
    }
 
    return [point2d.x, point2d.y];
 }
 
-function rotate2d(angle, point2d) {
-  var ha, hx, hy; // double
-  ha = angle / 180 * Math.PI; // TODO take radians as input
-  hx = point2d.x;
-  hy = point2d.y;
-  point2d.x = hx * Math.cos(ha) - hy * Math.sin(ha);
-  point2d.y = hx * Math.sin(ha) + hy * Math.cos(ha);
-  return point2d;
+function rotateY(θ, point) {
+  var cosθ = Math.cos(θ), sinθ = Math.sin(θ), x = point.x, z = point.z;
+  point.x = x * cosθ - z * sinθ;
+  point.z = x * sinθ + z * cosθ;
 }
 
-function rotate3dy(θ, point3d) {
-  var cosθ = Math.cos(θ), sinθ = Math.sin(θ), a = point3d.x, c = point3d.z;
-  point3d.x = a * cosθ - c * sinθ;
-  point3d.z = a * sinθ + c * cosθ;
-  return point3d;
-}
-
-function rotate3dz(θ, point3d) {
-  var cosθ = Math.cos(θ), sinθ = Math.sin(θ), a = point3d.x, b = point3d.y;
-  point3d.x = a * cosθ + b * sinθ;
-  point3d.y = b * cosθ - a * sinθ;
-  return point3d;
+function rotateZ(θ, point) {
+  var cosθ = Math.cos(θ), sinθ = Math.sin(θ), x = point.x, y = point.y;
+  point.x = x * cosθ + y * sinθ;
+  point.y = y * cosθ - x * sinθ;
 }
 
 d3.geo.dymaxion = function() {

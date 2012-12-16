@@ -916,7 +916,7 @@
   d3.geo.miller = function() { return projection(miller); };
   d3.geo.mollweide = function() { return projection(mollweide); };
   d3.geo.nellHammer = function() { return projection(nellHammer); };
-  d3.geo.peirceQuincuncial = function() { return projection(peirceQuincuncial).rotate([-90, -90, 45]); };
+  d3.geo.peirceQuincuncial = function() { return projection(peirceQuincuncial).rotate([-90, -90, 45]).clipAngle(180 - 1e-6); };
   d3.geo.polyconic = function() { return projection(polyconic); };
   d3.geo.robinson = function() { return projection(robinson); };
   d3.geo.satellite = satelliteProjection;

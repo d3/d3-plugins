@@ -37,26 +37,13 @@ Projections:
 * [d3.geo.robinson](http://bl.ocks.org/3710566) - Robinson
 * [d3.geo.satellite](http://bl.ocks.org/3790444) - Satellite (tilted perpsective)
 * [d3.geo.sinusoidal](http://bl.ocks.org/3712399) - Sinusoidal
+* [d3.geo.sinuMollweide](http://bl.ocks.org/4319903) - Sinu-Mollweide
 * [d3.geo.stereographic](http://bl.ocks.org/3757137) - Stereographic
 * [d3.geo.vanDerGrinten](http://bl.ocks.org/3796831) - Van der Grinten
 * [d3.geo.wagner6](http://bl.ocks.org/3710148) - Wagner VI
 * [d3.geo.winkel3](http://bl.ocks.org/3682676) - Winkel Tripel
 
-Also defines the following utilities:
-
-* [d3.geo.graticule](http://bl.ocks.org/3664049) - generates graticule geometry (similar to d3.geo.greatArc)
-* d3.geo.projection - abstract base class for defining new projections
-
-These projections mostly replace D3 core’s built-in projections:
-
-* d3.geo.albers
-* d3.geo.albersUsa
-* d3.geo.azimuthal
-* d3.geo.bonne
-* d3.geo.equirectangular
-* d3.geo.mercator
-
-At some point in the near future, this plugin will be integrated into D3 core. The popular projections will become part of core, while the more obscure projections will remain in this plugin.
+This plugin requires [D3 3.0](https://github.com/mbostock/d3/wiki/Upgrading-to-3.0) or greater.
 
 ## Defining a New Projection
 

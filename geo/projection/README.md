@@ -47,22 +47,30 @@ This plugin requires [D3 3.0](https://github.com/mbostock/d3/wiki/Upgrading-to-3
 
 ## Defining a New Projection
 
-Todo: Pick a useful projection
+First define your raw projection function:
 
-```javascript
+```js
 function cosinusoidal(λ, φ) {
-    return [
-      λ * Math.sin(φ),
-      φ
-    ];
-  }
+  return [λ * Math.sin(φ), φ];
+}
 
 cosinusoidal.invert = function(x, y) {
-  return [
-    x / Math.sin(y),
-    y
-  ];
+  return [x / Math.sin(y), y];
 };
+```
 
-d3.geo.cosinusoidal = function() { return d3.geo.projection(cosinusoidal) };
+Then create a constructor using d3.geo.projection:
+
+```js
+d3.geo.cosinusoidal = function() {
+  return d3.geo.projection(cosinusoidal);
+};
+```
+
+You can optionally expose the raw projection to facilitate composite projections:
+
+```js
+(d3.geo.cosinusoidal = function() {
+  return d3.geo.projection(cosinusoidal);
+}).raw = cosinusoidal;
 ```

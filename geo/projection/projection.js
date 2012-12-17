@@ -789,7 +789,7 @@
   }
 
   function gringorten(quincuncial) {
-    function forward(λ, φ) {
+    return function(λ, φ) {
       var cosφ = Math.cos(φ),
           x = Math.cos(λ) * cosφ,
           y = Math.sin(λ) * cosφ,
@@ -818,9 +818,7 @@
       }
       if (!quincuncial && nφ) x = 2 - x;
       return quincuncial ? [(x - y) / Math.SQRT2, (x + y) / Math.SQRT2] : [x, y];
-    }
-
-    return forward;
+    };
   }
 
   function gringortenHexadecant(λ, φ) {
@@ -890,38 +888,38 @@
   var projection = d3.geo.projection,
       projectionMutator = d3.geo.projectionMutator;
 
-  d3.geo.aitoff = function() { return projection(aitoff); };
-  d3.geo.august = function() { return projection(august); };
-  d3.geo.bonne = function() { return singleParallelProjection(bonne).parallel(45); };
-  d3.geo.collignon = function() { return projection(collignon); };
-  d3.geo.conicConformal = function() { return doubleParallelProjection(conicConformal); };
-  d3.geo.conicEquidistant = function() { return doubleParallelProjection(conicEquidistant); };
-  d3.geo.cylindricalEqualArea = function() { return singleParallelProjection(cylindricalEqualArea); };
-  d3.geo.eckert1 = function() { return projection(eckert1); };
-  d3.geo.eckert2 = function() { return projection(eckert2); };
-  d3.geo.eckert3 = function() { return projection(eckert3); };
-  d3.geo.eckert4 = function() { return projection(eckert4); };
-  d3.geo.eckert5 = function() { return projection(eckert5); };
-  d3.geo.eckert6 = function() { return projection(eckert6); };
-  d3.geo.eisenlohr = function() { return projection(eisenlohr); };
-  d3.geo.gringorten = gringortenProjection;
-  d3.geo.guyou = function() { return projection(guyou); };
-  d3.geo.hammer = function() { return projection(hammer); };
-  d3.geo.homolosine = function() { return projection(homolosine); };
-  d3.geo.hatano = function() { return projection(hatano); };
-  d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); };
-  d3.geo.lagrange = lagrangeProjection;
-  d3.geo.larrivee = function() { return projection(larrivee); };
-  d3.geo.loximuthal = function() { return singleParallelProjection(loximuthal).parallel(40); };
-  d3.geo.miller = function() { return projection(miller); };
-  d3.geo.mollweide = function() { return projection(mollweide); };
-  d3.geo.nellHammer = function() { return projection(nellHammer); };
-  d3.geo.peirceQuincuncial = function() { return projection(peirceQuincuncial).rotate([-90, -90, 45]).clipAngle(180 - 1e-6); };
-  d3.geo.polyconic = function() { return projection(polyconic); };
-  d3.geo.robinson = function() { return projection(robinson); };
-  d3.geo.satellite = satelliteProjection;
-  d3.geo.sinusoidal = function() { return projection(sinusoidal); };
-  d3.geo.vanDerGrinten = function() { return projection(vanDerGrinten); };
-  d3.geo.wagner6 = function() { return projection(wagner6); };
-  d3.geo.winkel3 = function() { return projection(winkel3); };
+  (d3.geo.aitoff = function() { return projection(aitoff); }).raw = aitoff;
+  (d3.geo.august = function() { return projection(august); }).raw = august;
+  (d3.geo.bonne = function() { return singleParallelProjection(bonne).parallel(45); }).raw = bonne;
+  (d3.geo.collignon = function() { return projection(collignon); }).raw = collignon;
+  (d3.geo.conicConformal = function() { return doubleParallelProjection(conicConformal); }).raw = conicConformal;
+  (d3.geo.conicEquidistant = function() { return doubleParallelProjection(conicEquidistant); }).raw = conicEquidistant;
+  (d3.geo.cylindricalEqualArea = function() { return singleParallelProjection(cylindricalEqualArea); }).raw = cylindricalEqualArea;
+  (d3.geo.eckert1 = function() { return projection(eckert1); }).raw = eckert1;
+  (d3.geo.eckert2 = function() { return projection(eckert2); }).raw = eckert2;
+  (d3.geo.eckert3 = function() { return projection(eckert3); }).raw = eckert3;
+  (d3.geo.eckert4 = function() { return projection(eckert4); }).raw = eckert4;
+  (d3.geo.eckert5 = function() { return projection(eckert5); }).raw = eckert5;
+  (d3.geo.eckert6 = function() { return projection(eckert6); }).raw = eckert6;
+  (d3.geo.eisenlohr = function() { return projection(eisenlohr); }).raw = eisenlohr;
+  (d3.geo.gringorten = gringortenProjection).raw = gringorten;
+  (d3.geo.guyou = function() { return projection(guyou); }).raw = guyou;
+  (d3.geo.hammer = function() { return projection(hammer); }).raw = hammer;
+  (d3.geo.homolosine = function() { return projection(homolosine); }).raw = homolosine;
+  (d3.geo.hatano = function() { return projection(hatano); }).raw = hatano;
+  (d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); }).raw = kavrayskiy7;
+  (d3.geo.lagrange = lagrangeProjection).raw = lagrange;
+  (d3.geo.larrivee = function() { return projection(larrivee); }).raw = larrivee;
+  (d3.geo.loximuthal = function() { return singleParallelProjection(loximuthal).parallel(40); }).raw = loximuthal;
+  (d3.geo.miller = function() { return projection(miller); }).raw = miller;
+  (d3.geo.mollweide = function() { return projection(mollweide); }).raw = mollweide;
+  (d3.geo.nellHammer = function() { return projection(nellHammer); }).raw = nellHammer;
+  (d3.geo.peirceQuincuncial = function() { return projection(peirceQuincuncial).rotate([-90, -90, 45]).clipAngle(180 - 1e-6); }).raw = peirceQuincuncial;
+  (d3.geo.polyconic = function() { return projection(polyconic); }).raw = polyconic;
+  (d3.geo.robinson = function() { return projection(robinson); }).raw = robinson;
+  (d3.geo.satellite = satelliteProjection).raw = satellite;
+  (d3.geo.sinusoidal = function() { return projection(sinusoidal); }).raw = sinusoidal;
+  (d3.geo.vanDerGrinten = function() { return projection(vanDerGrinten); }).raw = vanDerGrinten;
+  (d3.geo.wagner6 = function() { return projection(wagner6); }).raw = wagner6;
+  (d3.geo.winkel3 = function() { return projection(winkel3); }).raw = winkel3;
 })();

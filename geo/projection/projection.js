@@ -1,7 +1,8 @@
 (function() {
   var ε = 1e-6,
       π = Math.PI,
-      sqrtπ = Math.sqrt(π);
+      sqrtπ = Math.sqrt(π),
+      sinumollφ = 0.7109889596207567;
 
   var robinsonConstants = [
     [1.0000, 0.0000],
@@ -318,7 +319,7 @@
   };
 
   function homolosine(λ, φ) {
-    if (Math.abs(φ) > 40.733 * π / 180) {
+    if (Math.abs(φ) > sinumollφ) {
       var coordinates = mollweide(λ, φ);
       coordinates[1] -= φ >= 0 ? .0528 : -.0528;
       return coordinates;
@@ -326,14 +327,14 @@
     return sinusoidal(λ, φ);
   }
 
-  homolosine.invert = function(x, y) {
-    if (Math.abs(y) > 40.733 * π / 180) {
-      var coordinates = mollweide.invert(x, y);
-      coordinates[1] += y >= 0 ? .0528 : -.0528;
+  function sinuMollweide(λ, φ) {
+    if (φ > -sinumollφ) {
+      var coordinates = mollweide(λ, φ);
+      coordinates[1] += .0528;
       return coordinates;
     }
-    return sinusoidal.invert(x, y);
-  };
+    return sinusoidal(λ, φ);
+  }
 
   function hatano(λ, φ) {
     var c = Math.sin(φ) * (φ < 0 ? 2.43763 : 2.67595);
@@ -919,6 +920,7 @@
   (d3.geo.robinson = function() { return projection(robinson); }).raw = robinson;
   (d3.geo.satellite = satelliteProjection).raw = satellite;
   (d3.geo.sinusoidal = function() { return projection(sinusoidal); }).raw = sinusoidal;
+  (d3.geo.sinuMollweide = function() { return projection(sinuMollweide).rotate([-20, -55]); }).raw = sinuMollweide;
   (d3.geo.vanDerGrinten = function() { return projection(vanDerGrinten); }).raw = vanDerGrinten;
   (d3.geo.wagner6 = function() { return projection(wagner6); }).raw = wagner6;
   (d3.geo.winkel3 = function() { return projection(winkel3); }).raw = winkel3;

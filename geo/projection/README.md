@@ -24,7 +24,7 @@ Projections:
 * [d3.geo.gringorten](http://bl.ocks.org/3796882) - Gringorten
 * [d3.geo.guyou](http://bl.ocks.org/3763867) - Guyou hemisphere-in-a-square
 * [d3.geo.hammer](http://bl.ocks.org/3712397) - Hammer
-* [d3.geo.homolosine](http://bl.ocks.org/3734330) - Goode Homolosine
+* [d3.geo.homolosine](http://bl.ocks.org/3734330) - Goode homolosine
 * [d3.geo.kavrayskiy7](http://bl.ocks.org/3710082) - Kavrayskiy VII
 * [d3.geo.lagrange](http://bl.ocks.org/3797591) - Lagrange conformal
 * [d3.geo.larrivee](http://bl.ocks.org/3719042) - Larrivée
@@ -33,6 +33,7 @@ Projections:
 * [d3.geo.mollweide](http://bl.ocks.org/3734336) - Mollweide
 * [d3.geo.nellHammer](http://bl.ocks.org/3734342) - Nell–Hammer
 * [d3.geo.orthographic](http://bl.ocks.org/3757125) - Orthographic
+* [d3.geo.peirceQuincuncial](http://bl.ocks.org/4310087) - Pierce quincuncial
 * [d3.geo.polyconic](http://bl.ocks.org/3734343) - Polyconic
 * [d3.geo.robinson](http://bl.ocks.org/3710566) - Robinson
 * [d3.geo.satellite](http://bl.ocks.org/3790444) - Satellite (tilted perpsective)

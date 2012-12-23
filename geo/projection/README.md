@@ -44,7 +44,14 @@ Projections:
 * [d3.geo.wagner6](http://bl.ocks.org/3710148) - Wagner VI
 * [d3.geo.winkel3](http://bl.ocks.org/3682676) - Winkel Tripel
 
-This plugin requires [D3 3.0](https://github.com/mbostock/d3/wiki/Upgrading-to-3.0) or greater.
+This plugin requires [D3 3.0](https://github.com/mbostock/d3/wiki/Upgrading-to-3.0) or greater. To use the official hosted version, include the projection plugin after including D3:
+
+```html
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
+```
+
+Alternatively, you can clone this repo, [download the zipball](http://github.com/d3/d3-plugins/zipball/master), or right-click [d3.geo.projection.v0.min.js](http://d3js.org/d3.geo.projection.v0.min.js) and save.
 
 ## Defining a New Projection
 

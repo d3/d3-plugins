@@ -88,6 +88,26 @@
     ];
   }
 
+  function armadillo(φ0) {
+    var sinφ0 = Math.sin(φ0),
+        cosφ0 = Math.cos(φ0),
+        tanφ0 = Math.tan(φ0),
+        k = (1 + sinφ0 - cosφ0) / 2
+
+    function forward(λ, φ) {
+      var cosφ = Math.cos(φ),
+          cosλ = Math.cos(λ /= 2),
+          φ1 = -Math.atan2(cosλ, tanφ0);
+      return [
+        (1 + cosφ) * Math.sin(λ),
+        (φ > φ1 - 1e-3 ? 0 : -1) + // TODO hack
+          k + Math.sin(φ) * cosφ0 - (1 + cosφ) * sinφ0 * cosλ
+      ];
+    }
+
+    return forward;
+  }
+
   function winkel3(λ, φ) {
     var coordinates = aitoff(λ, φ);
     return [
@@ -123,6 +143,19 @@
       y
     ];
   };
+
+  function wiechel(λ, φ) {
+    var cosφ = Math.cos(φ),
+        sinφ = Math.cos(λ) * cosφ,
+        sin1_φ = 1 - sinφ,
+        cosλ = Math.cos(λ = Math.atan2(Math.sin(λ) * cosφ, -Math.sin(φ))),
+        sinλ = Math.sin(λ);
+    cosφ = Math.sqrt(Math.max(0, 1 - sinφ * sinφ));
+    return [
+      sinλ * cosφ - cosλ * sin1_φ,
+      -cosλ * cosφ - sinλ * sin1_φ
+    ];
+  }
 
   function robinson(λ, φ) {
     var i = Math.min(18, Math.abs(φ) * 36 / π),
@@ -187,6 +220,56 @@
     coordinates[0] *= 2;
     return coordinates;
   };
+
+  function hammerRetroazimuthal(φ0) {
+    var sinφ0 = Math.sin(φ0),
+        cosφ0 = Math.cos(φ0);
+
+    function forward(λ, φ) {
+      var cosφ = Math.cos(φ),
+          // Cartesian coordinates.
+          x = Math.cos(λ) * cosφ,
+          y = Math.sin(λ) * cosφ,
+          z = Math.sin(φ),
+          // Latitudinal rotation of φ by φ0.
+          sinφ = z * cosφ0 + x * sinφ0,
+          // Latitudinal rotation of λ by φ0 (inline).
+          cosλ = Math.cos(λ = Math.atan2(y, x * cosφ0 - z * sinφ0)),
+          cosφ = Math.cos(φ = Math.asin(Math.max(-1, Math.min(1, sinφ)))),
+          z = Math.acos(Math.max(-1, Math.min(1, sinφ0 * sinφ + cosφ0 * cosφ * cosλ))),
+          sinz = Math.sin(z),
+          K = Math.abs(sinz) > ε ? z / sinz : 1;
+      return [
+        K * cosφ0 * Math.sin(λ),
+        (Math.abs(λ) > π / 2 ? K : -K) // rotate for back hemisphere
+          * (sinφ0 * cosφ - cosφ0 * sinφ * cosλ)
+      ];
+    }
+
+    return forward;
+  }
+
+  function hammerRetroazimuthalProjection() {
+    var φ0 = 0,
+        m = projectionMutator(hammerRetroazimuthal),
+        p = m(φ0),
+        rotate = p.rotate;
+
+    p.parallel = function(_) {
+      if (!arguments.length) return φ0 / π * 180;
+      return m(φ0 = _ * π / 180);
+    };
+
+    // TODO Add a latitudinal rotation so that clipping occurs at the antipode
+    // of the parallel at [180, -φ0].
+    p.rotate = function(_) {
+      if (!arguments.length) return (_ = rotate.call(p), _[1] += φ0 / π * 180, _);
+      rotate.call(p, [_[0], _[1] - φ0 / π * 180]);
+      return p;
+    };
+
+    return p;
+  }
 
   function eckert1(λ, φ) {
     var α = Math.sqrt(8 / (3 * π));
@@ -374,6 +457,41 @@
     ];
   }
 
+  var azimuthalEquidistant = d3.geo.azimuthalEquidistant.raw;
+
+  function berghaus(n) {
+    var k = 2 * π / n;
+
+    function forward(λ, φ) {
+      var p = azimuthalEquidistant(λ, φ);
+      if (Math.abs(λ) > π / 2) { // back hemisphere
+        var θ = Math.atan2(p[1], p[0]),
+            r = Math.sqrt(p[0] * p[0] + p[1] * p[1]),
+            θ0 = k * Math.round((θ - π / 2) / k) + π / 2,
+            α = Math.atan2(Math.sin(θ -= θ0), 2 - Math.cos(θ)); // angle relative to lobe end
+        θ = θ0 + Math.asin(Math.max(-1, Math.min(1, π / r * Math.sin(α)))) - α;
+        p[0] = r * Math.cos(θ);
+        p[1] = r * Math.sin(θ);
+      }
+      return p;
+    }
+
+    return forward;
+  }
+
+  function berghausProjection() {
+    var lobes = 5,
+        m = projectionMutator(berghaus),
+        p = m(lobes);
+
+    p.lobes = function(_) {
+      if (!arguments.length) return lobes;
+      return m(lobes = +_);
+    };
+
+    return p;
+  }
+
   function eisenlohr(λ, φ) {
     var f = 3 + Math.sqrt(8),
         s1 = Math.sin(λ /= 2),
@@ -467,6 +585,13 @@
     }
     return [x < 0 ? -λ : λ, y < 0 ? -φ : φ];
   };
+
+  function littrow(λ, φ) {
+    return [
+      Math.sin(λ) / Math.cos(φ),
+      Math.tan(φ) * Math.cos(λ)
+    ];
+  }
 
   function vanDerGrinten(λ, φ) {
     if (Math.abs(φ) < ε) return [λ, 0];
@@ -577,6 +702,21 @@
     ];
   };
 
+  function quarticAuthalic(λ, φ) {
+    return [
+      λ * Math.cos(φ) / Math.cos(φ /= 2),
+      2 * Math.sin(φ)
+    ];
+  }
+
+  quarticAuthalic.invert = function(x, y) {
+    var φ = 2 * Math.asin(y / 2);
+    return [
+      x * Math.cos(φ / 2) / Math.cos(φ),
+      φ
+    ];
+  };
+
   function miller(λ, φ) {
     return [
       λ,
@@ -640,6 +780,20 @@
 
     return forward;
   }
+
+  function craig(λ, φ) {
+    return [
+      λ,
+      Math.sin(φ) * (λ ? λ / Math.tan(λ) : 1)
+    ];
+  }
+
+  craig.invert = function(x, y) {
+    return [
+      x,
+      Math.asin(Math.max(-1, Math.min(1, y * (x ? Math.tan(x) / x : 1))))
+    ];
+  };
 
   function guyou(λ, φ) {
     return ellipticFi(λ, sgn(φ) * Math.log(Math.tan(.5 * (Math.abs(φ) + π / 2))), .5);
@@ -890,11 +1044,14 @@
       projectionMutator = d3.geo.projectionMutator;
 
   (d3.geo.aitoff = function() { return projection(aitoff); }).raw = aitoff;
+  (d3.geo.armadillo = function() { return singleParallelProjection(armadillo).parallel(20); }).raw = armadillo;
   (d3.geo.august = function() { return projection(august); }).raw = august;
+  (d3.geo.berghaus = berghausProjection).raw = berghaus;
   (d3.geo.bonne = function() { return singleParallelProjection(bonne).parallel(45); }).raw = bonne;
   (d3.geo.collignon = function() { return projection(collignon); }).raw = collignon;
   (d3.geo.conicConformal = function() { return doubleParallelProjection(conicConformal); }).raw = conicConformal;
   (d3.geo.conicEquidistant = function() { return doubleParallelProjection(conicEquidistant); }).raw = conicEquidistant;
+  (d3.geo.craig = function() { return projection(craig); }).raw = craig;
   (d3.geo.cylindricalEqualArea = function() { return singleParallelProjection(cylindricalEqualArea); }).raw = cylindricalEqualArea;
   (d3.geo.eckert1 = function() { return projection(eckert1); }).raw = eckert1;
   (d3.geo.eckert2 = function() { return projection(eckert2); }).raw = eckert2;
@@ -906,22 +1063,26 @@
   (d3.geo.gringorten = gringortenProjection).raw = gringorten;
   (d3.geo.guyou = function() { return projection(guyou); }).raw = guyou;
   (d3.geo.hammer = function() { return projection(hammer); }).raw = hammer;
+  (d3.geo.hammerRetroazimuthal = hammerRetroazimuthalProjection).raw = hammerRetroazimuthal;
   (d3.geo.homolosine = function() { return projection(homolosine); }).raw = homolosine;
   (d3.geo.hatano = function() { return projection(hatano); }).raw = hatano;
   (d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); }).raw = kavrayskiy7;
   (d3.geo.lagrange = lagrangeProjection).raw = lagrange;
   (d3.geo.larrivee = function() { return projection(larrivee); }).raw = larrivee;
+  (d3.geo.littrow = function() { return projection(littrow); }).raw = littrow;
   (d3.geo.loximuthal = function() { return singleParallelProjection(loximuthal).parallel(40); }).raw = loximuthal;
   (d3.geo.miller = function() { return projection(miller); }).raw = miller;
   (d3.geo.mollweide = function() { return projection(mollweide); }).raw = mollweide;
   (d3.geo.nellHammer = function() { return projection(nellHammer); }).raw = nellHammer;
   (d3.geo.peirceQuincuncial = function() { return projection(peirceQuincuncial).rotate([-90, -90, 45]).clipAngle(180 - 1e-6); }).raw = peirceQuincuncial;
   (d3.geo.polyconic = function() { return projection(polyconic); }).raw = polyconic;
+  (d3.geo.quarticAuthalic = function() { return projection(quarticAuthalic); }).raw = quarticAuthalic;
   (d3.geo.robinson = function() { return projection(robinson); }).raw = robinson;
   (d3.geo.satellite = satelliteProjection).raw = satellite;
   (d3.geo.sinusoidal = function() { return projection(sinusoidal); }).raw = sinusoidal;
   (d3.geo.sinuMollweide = function() { return projection(sinuMollweide).rotate([-20, -55]); }).raw = sinuMollweide;
   (d3.geo.vanDerGrinten = function() { return projection(vanDerGrinten); }).raw = vanDerGrinten;
   (d3.geo.wagner6 = function() { return projection(wagner6); }).raw = wagner6;
+  (d3.geo.wiechel = function() { return projection(wiechel); }).raw = wiechel;
   (d3.geo.winkel3 = function() { return projection(winkel3); }).raw = winkel3;
 })();

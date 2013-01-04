@@ -260,8 +260,6 @@
       return m(φ0 = _ * π / 180);
     };
 
-    // TODO Add a latitudinal rotation so that clipping occurs at the antipode
-    // of the parallel at [180, -φ0].
     p.rotate = function(_) {
       if (!arguments.length) return (_ = rotate.call(p), _[1] += φ0 / π * 180, _);
       rotate.call(p, [_[0], _[1] - φ0 / π * 180]);

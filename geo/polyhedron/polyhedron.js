@@ -1,6 +1,7 @@
 (function() {
 
-var π = Math.PI,
+var ε = 1e-6,
+    π = Math.PI,
     radians = π / 180,
     degrees = 180 / π;
 

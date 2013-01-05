@@ -537,7 +537,7 @@
     var n = 5,
         m = projectionMutator(berghaus),
         p = m(n),
-        wrappedStream = p.stream;
+        stream_ = p.stream;
 
     p.lobes = function(_) {
       if (!arguments.length) return n;
@@ -545,23 +545,26 @@
     };
 
     p.stream = function(stream) {
-      stream = wrappedStream(stream);
-      stream.sphere = function() {
-        stream.polygonStart(), stream.lineStart();
+      var rotate = p.rotate(),
+          rotateStream = stream_(stream),
+          sphereStream = (p.rotate([0, 0]), stream_(stream));
+      p.rotate(rotate);
+      rotateStream.sphere = function() {
+        sphereStream.polygonStart(), sphereStream.lineStart();
         var ε = 1e-4;
         for (var i = 0, δ = 360 / n, φ = 90 - 180 / n; i < n; ++i, φ -= δ) {
-          stream.point(180, 0);
+          sphereStream.point(180, 0);
           if (φ < -90) {
-            stream.point(-90, 180 - φ - ε);
-            stream.point(-90, 180 - φ + ε);
+            sphereStream.point(-90, 180 - φ - ε);
+            sphereStream.point(-90, 180 - φ + ε);
           } else {
-            stream.point(90, φ + ε);
-            stream.point(90, φ - ε);
+            sphereStream.point(90, φ + ε);
+            sphereStream.point(90, φ - ε);
           }
         }
-        stream.lineEnd(), stream.polygonEnd();
+        sphereStream.lineEnd(), sphereStream.polygonEnd();
       };
-      return stream;
+      return rotateStream;
     };
 
     return p;

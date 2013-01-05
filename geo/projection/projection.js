@@ -780,19 +780,26 @@
     return forward;
   }
 
-  function craig(λ, φ) {
-    return [
-      λ,
-      Math.sin(φ) * (λ ? λ / Math.tan(λ) : 1)
-    ];
-  }
+  function craig(φ0) {
+    var tanφ0 = Math.tan(φ0);
 
-  craig.invert = function(x, y) {
-    return [
-      x,
-      Math.asin(Math.max(-1, Math.min(1, y * (x ? Math.tan(x) / x : 1))))
-    ];
-  };
+    function forward(λ, φ) {
+      return [
+        λ,
+        (λ ? λ / Math.sin(λ) : 1) * (Math.sin(φ) * Math.cos(λ) - tanφ0 * Math.cos(φ))
+      ];
+    }
+
+    // TODO
+    // forward.invert = function(x, y) {
+    //   return [
+    //     x,
+    //     Math.asin(Math.max(-1, Math.min(1, y * (x ? Math.tan(x) / x : 1))))
+    //   ];
+    // };
+
+    return forward;
+  }
 
   function guyou(λ, φ) {
     return ellipticFi(λ, sgn(φ) * Math.log(Math.tan(.5 * (Math.abs(φ) + π / 2))), .5);
@@ -1050,7 +1057,7 @@
   (d3.geo.collignon = function() { return projection(collignon); }).raw = collignon;
   (d3.geo.conicConformal = function() { return doubleParallelProjection(conicConformal); }).raw = conicConformal;
   (d3.geo.conicEquidistant = function() { return doubleParallelProjection(conicEquidistant); }).raw = conicEquidistant;
-  (d3.geo.craig = function() { return projection(craig); }).raw = craig;
+  (d3.geo.craig = function() { return singleParallelProjection(craig); }).raw = craig;
   (d3.geo.cylindricalEqualArea = function() { return singleParallelProjection(cylindricalEqualArea); }).raw = cylindricalEqualArea;
   (d3.geo.eckert1 = function() { return projection(eckert1); }).raw = eckert1;
   (d3.geo.eckert2 = function() { return projection(eckert2); }).raw = eckert2;

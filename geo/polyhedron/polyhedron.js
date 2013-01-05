@@ -95,18 +95,21 @@ d3.geo.polyhedron = function(root, face) {
   }
 
   var projection = d3.geo.projection(forward),
-      wrappedStream = projection.stream;
+      stream_ = projection.stream;
 
   projection.stream = function(stream) {
-    stream = wrappedStream(stream);
-    stream.sphere = function() {
+    var rotate = projection.rotate(),
+        rotateStream = stream_(stream),
+        sphereStream = (projection.rotate([0, 0]), stream_(stream));
+    projection.rotate(rotate);
+    rotateStream.sphere = function() {
       stream.polygonStart();
       stream.lineStart();
-      outline(stream, root);
+      outline(sphereStream, root);
       stream.lineEnd();
       stream.polygonEnd();
     };
-    return stream;
+    return rotateStream;
   };
 
   return projection;

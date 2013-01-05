@@ -257,7 +257,7 @@
 
     p.parallel = function(_) {
       if (!arguments.length) return φ0 / π * 180;
-      var r = rotate();
+      var r = p.rotate();
       return m(φ0 = _ * π / 180).rotate(r);
     };
 

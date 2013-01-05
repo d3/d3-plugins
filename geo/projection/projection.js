@@ -266,7 +266,7 @@
       return p;
     };
 
-    return p;
+    return p.rotate([0, 0, 0]);
   }
 
   function eckert1(λ, φ) {

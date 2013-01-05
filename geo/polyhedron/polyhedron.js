@@ -66,15 +66,14 @@ d3.geo.polyhedron = function(root, face) {
 
   // Naive inverse!  A faster solution would use bounding boxes, or even a
   // polygonal quadtree.
-  forward.invert = function(x, y) {
+  if (hasInverse(root)) forward.invert = function(x, y) {
     var coordinates = faceInvert(root, [x, -y]);
-    return coordinates
-        ? (coordinates[0] *= radians, coordinates[1] *= radians, coordinates)
-        : [NaN, NaN];
+    return coordinates && (coordinates[0] *= radians, coordinates[1] *= radians, coordinates);
   };
 
   function faceInvert(node, coordinates) {
-    var t = node.transform,
+    var invert = node.project.invert,
+        t = node.transform,
         point = coordinates;
     if (t) {
       t = inverseTransform(t);
@@ -83,7 +82,7 @@ d3.geo.polyhedron = function(root, face) {
         (t[3] * point[0] + t[4] * point[1] + t[5])
       ];
     }
-    if (node === faceDegrees(p = node.project.invert(point))) return p;
+    if (invert && node === faceDegrees(p = invert(point))) return p;
     var p,
         children = node.children;
     for (var i = 0, n = children && children.length; i < n; ++i) {
@@ -410,6 +409,10 @@ function faceEdges(face) {
       edges = [];
   for (var a = face[n - 1], i = 0; i < n; ++i) edges.push([a, a = face[i]]);
   return edges;
+}
+
+function hasInverse(node) {
+  return node.project.invert || node.children && node.children.some(hasInverse);
 }
 
 })();

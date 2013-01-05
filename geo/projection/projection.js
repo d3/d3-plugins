@@ -115,7 +115,7 @@
         tanφ0 = Math.tan(φ0),
         m = projectionMutator(armadillo),
         p = m(φ0),
-        wrappedStream = p.stream;
+        stream_ = p.stream;
 
     p.parallel = function(_) {
       if (!arguments.length) return φ0 / π * 180;
@@ -123,16 +123,19 @@
     };
 
     p.stream = function(stream) {
-      stream = wrappedStream(stream);
-      stream.sphere = function() {
-        stream.polygonStart(), stream.lineStart();
-        for (var λ = -180; λ < 180; λ += 90) stream.point(λ, 90);
+      var rotate = p.rotate(),
+          rotateStream = stream_(stream),
+          sphereStream = (p.rotate([0, 0]), stream_(stream));
+      p.rotate(rotate);
+      rotateStream.sphere = function() {
+        sphereStream.polygonStart(), sphereStream.lineStart();
+        for (var λ = -180; λ < 180; λ += 90) sphereStream.point(λ, 90);
         while (--λ >= -180) { // TODO precision?
-          stream.point(λ, -Math.atan2(Math.cos(λ * radians / 2), tanφ0) * degrees);
+          sphereStream.point(λ, -Math.atan2(Math.cos(λ * radians / 2), tanφ0) * degrees);
         }
-        stream.lineEnd(), stream.polygonEnd();
+        sphereStream.lineEnd(), sphereStream.polygonEnd();
       };
-      return stream;
+      return rotateStream;
     };
 
     return p;
@@ -283,9 +286,9 @@
     var φ0 = 0,
         m = projectionMutator(hammerRetroazimuthal),
         p = m(φ0),
-        wrappedRotate = p.rotate,
-        wrappedStream = p.stream,
-        outlineCircle = d3.geo.circle();
+        rotate_ = p.rotate,
+        stream_ = p.stream,
+        circle = d3.geo.circle();
 
     p.parallel = function(_) {
       if (!arguments.length) return φ0 / π * 180;
@@ -294,25 +297,25 @@
     };
 
     p.rotate = function(_) {
-      if (!arguments.length) return (_ = wrappedRotate.call(p), _[1] += φ0 / π * 180, _);
-      wrappedRotate.call(p, [_[0], _[1] - φ0 / π * 180]);
-      outlineCircle.origin([-_[0], -_[1]]);
+      if (!arguments.length) return (_ = rotate_.call(p), _[1] += φ0 / π * 180, _);
+      rotate_.call(p, [_[0], _[1] - φ0 / π * 180]);
+      circle.origin([-_[0], -_[1]]);
       return p;
     };
 
     p.stream = function(stream) {
-      stream = wrappedStream(stream);
+      stream = stream_(stream);
       stream.sphere = function() {
         stream.polygonStart();
         var ε = 1e-2,
-            ring = outlineCircle.angle(90 - ε)().coordinates[0],
+            ring = circle.angle(90 - ε)().coordinates[0],
             n = ring.length - 1,
             i = -1,
             p;
         stream.lineStart();
         while (++i < n) stream.point((p = ring[i])[0], p[1]);
         stream.lineEnd();
-        ring = outlineCircle.angle(90 + ε)().coordinates[0];
+        ring = circle.angle(90 + ε)().coordinates[0];
         n = ring.length - 1;
         stream.lineStart();
         while (--i >= 0) stream.point((p = ring[i])[0], p[1]);

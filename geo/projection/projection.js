@@ -2,6 +2,8 @@
   var ε = 1e-6,
       π = Math.PI,
       sqrtπ = Math.sqrt(π),
+      radians = π / 180,
+      degrees = 180 / π,
       sinumollφ = 0.7109889596207567;
 
   var robinsonConstants = [
@@ -126,7 +128,7 @@
         stream.polygonStart(), stream.lineStart();
         for (var λ = -180; λ < 180; λ += 90) stream.point(λ, 90);
         while (--λ >= -180) { // TODO precision?
-          stream.point(λ, -Math.atan2(Math.cos(λ * π / 360), tanφ0) * 180 / π);
+          stream.point(λ, -Math.atan2(Math.cos(λ * radians / 2), tanφ0) * degrees);
         }
         stream.lineEnd(), stream.polygonEnd();
       };
@@ -532,13 +534,34 @@
   }
 
   function berghausProjection() {
-    var lobes = 5,
+    var n = 5,
         m = projectionMutator(berghaus),
-        p = m(lobes);
+        p = m(n),
+        wrappedStream = p.stream;
 
     p.lobes = function(_) {
-      if (!arguments.length) return lobes;
-      return m(lobes = +_);
+      if (!arguments.length) return n;
+      return m(n = +_);
+    };
+
+    p.stream = function(stream) {
+      stream = wrappedStream(stream);
+      stream.sphere = function() {
+        stream.polygonStart(), stream.lineStart();
+        var ε = 1e-4;
+        for (var i = 0, δ = 360 / n, φ = 90 - 180 / n; i < n; ++i, φ -= δ) {
+          stream.point(180, 0);
+          if (φ < -90) {
+            stream.point(-90, 180 - φ - ε);
+            stream.point(-90, 180 - φ + ε);
+          } else {
+            stream.point(90, φ + ε);
+            stream.point(90, φ - ε);
+          }
+        }
+        stream.lineEnd(), stream.polygonEnd();
+      };
+      return stream;
     };
 
     return p;

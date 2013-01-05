@@ -253,7 +253,9 @@
     var φ0 = 0,
         m = projectionMutator(hammerRetroazimuthal),
         p = m(φ0),
-        rotate = p.rotate;
+        wrappedRotate = p.rotate,
+        wrappedStream = p.stream,
+        outlineCircle = d3.geo.circle();
 
     p.parallel = function(_) {
       if (!arguments.length) return φ0 / π * 180;
@@ -262,9 +264,32 @@
     };
 
     p.rotate = function(_) {
-      if (!arguments.length) return (_ = rotate.call(p), _[1] += φ0 / π * 180, _);
-      rotate.call(p, [_[0], _[1] - φ0 / π * 180]);
+      if (!arguments.length) return (_ = wrappedRotate.call(p), _[1] += φ0 / π * 180, _);
+      wrappedRotate.call(p, [_[0], _[1] - φ0 / π * 180]);
+      outlineCircle.origin([-_[0], -_[1]]);
       return p;
+    };
+
+    p.stream = function(stream) {
+      stream = wrappedStream(stream);
+      stream.sphere = function() {
+        stream.polygonStart();
+        var ε = 1e-2,
+            ring = outlineCircle.angle(90 - ε)().coordinates[0],
+            n = ring.length - 1,
+            i = -1,
+            p;
+        stream.lineStart();
+        while (++i < n) stream.point((p = ring[i])[0], p[1]);
+        stream.lineEnd();
+        ring = outlineCircle.angle(90 + ε)().coordinates[0];
+        n = ring.length - 1;
+        stream.lineStart();
+        while (--i >= 0) stream.point((p = ring[i])[0], p[1]);
+        stream.lineEnd();
+        stream.polygonEnd();
+      };
+      return stream;
     };
 
     return p;

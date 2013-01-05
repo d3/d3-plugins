@@ -94,12 +94,19 @@ d3.geo.polyhedron = function(root, face) {
     return face(coordinates[0] * radians, coordinates[1] * radians);
   }
 
-  var projection = d3.geo.projection(forward);
+  var projection = d3.geo.projection(forward),
+      wrappedStream = projection.stream;
 
-  projection.outline = function() {
-    var ring = outline(root);
-    ring.push(ring[0]);
-    return {type: "Polygon", coordinates: [ring]};
+  projection.stream = function(stream) {
+    stream = wrappedStream(stream);
+    stream.sphere = function() {
+      stream.polygonStart();
+      stream.lineStart();
+      outline(stream, root);
+      stream.lineEnd();
+      stream.polygonEnd();
+    };
+    return stream;
   };
 
   return projection;
@@ -216,8 +223,8 @@ d3.geo.polyhedron.waterman = function(faceProjection) {
   }
 };
 
-function outline(node, parent) {
-  var result = [],
+function outline(stream, node, parent) {
+  var point,
       edges = node.edges,
       n = edges.length,
       edge,
@@ -233,16 +240,15 @@ function outline(node, parent) {
     edge = edges[(i + j) % n];
     if (Array.isArray(edge)) {
       if (!inside) {
-        result.push(d3.geo.interpolate(edge[0], centroid)(ε));
+        stream.point((point = d3.geo.interpolate(edge[0], centroid)(ε))[0], point[1]);
         inside = true;
       }
-      result.push(d3.geo.interpolate(edge[1], centroid)(ε));
+      stream.point((point = d3.geo.interpolate(edge[1], centroid)(ε))[0], point[1]);
     } else {
       inside = false;
-      if (edge !== parent) result = result.concat(outline(edge, node));
+      if (edge !== parent) outline(stream, edge, node);
     }
   }
-  return result;
 }
 
 // TODO generate on-the-fly to avoid external modification.

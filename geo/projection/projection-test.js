@@ -107,6 +107,22 @@ suite.addBatch({
       assertEqualInverse(loximuthal, [   1,   1], [482.390500, 247.382006]);
     }
   },
+  "d3.geo.mtFlatPolarQuartic": {
+    topic: function() {
+      return d3.geo.mtFlatPolarQuartic();
+    },
+    "projections and inverse projections": function(mtFlatPolarQuartic) {
+      assertEqualInverse(mtFlatPolarQuartic, [   0,   0], [480,        250]);
+      assertEqualInverse(mtFlatPolarQuartic, [   0, -90], [480,        448.8481444213551]);
+      assertEqualInverse(mtFlatPolarQuartic, [   0,  90], [480,         51.151855]);
+      assertEqualInverse(mtFlatPolarQuartic, [   0, -45], [480,        371.001020]);
+      assertEqualInverse(mtFlatPolarQuartic, [   0,  45], [480,        128.998979]);
+      assertEqualInverse(mtFlatPolarQuartic, [-180,   0], [146.783779, 250]);
+      assertEqualInverse(mtFlatPolarQuartic, [ 180,   0], [813.216220, 250]);
+      assertEqualInverse(mtFlatPolarQuartic, [-179,  15], [155.997702, 208.275733]);
+      assertEqualInverse(mtFlatPolarQuartic, [   1,   1], [481.851018, 247.207163]);
+    }
+  },
   "d3.geo.quarticAuthalic": {
     topic: function() {
       return d3.geo.quarticAuthalic();

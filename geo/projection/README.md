@@ -32,6 +32,7 @@ Projections:
 * [d3.geo.mercator](http://bl.ocks.org/3757132) - Mercator
 * [d3.geo.miller](http://bl.ocks.org/3734333) - Miller
 * [d3.geo.mollweide](http://bl.ocks.org/3734336) - Mollweide
+* d3.geo.mtFlatPolarQuartic - McBryde–Thomas Flat-Polar Quartic
 * [d3.geo.nellHammer](http://bl.ocks.org/3734342) - Nell–Hammer
 * [d3.geo.orthographic](http://bl.ocks.org/3757125) - Orthographic
 * [d3.geo.peirceQuincuncial](http://bl.ocks.org/4310087) - Pierce quincuncial

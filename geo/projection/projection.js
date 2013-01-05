@@ -108,6 +108,34 @@
     return forward;
   }
 
+  function armadilloProjection() {
+    var φ0 = π / 9, // 20°
+        tanφ0 = Math.tan(φ0),
+        m = projectionMutator(armadillo),
+        p = m(φ0),
+        wrappedStream = p.stream;
+
+    p.parallel = function(_) {
+      if (!arguments.length) return φ0 / π * 180;
+      return m(φ0 = _ * π / 180);
+    };
+
+    p.stream = function(stream) {
+      stream = wrappedStream(stream);
+      stream.sphere = function() {
+        stream.polygonStart(), stream.lineStart();
+        for (var λ = -180; λ < 180; λ += 90) stream.point(λ, 90);
+        while (--λ >= -180) { // TODO precision?
+          stream.point(λ, -Math.atan2(Math.cos(λ * π / 360), tanφ0) * 180 / π);
+        }
+        stream.lineEnd(), stream.polygonEnd();
+      };
+      return stream;
+    };
+
+    return p;
+  }
+
   function winkel3(λ, φ) {
     var coordinates = aitoff(λ, φ);
     return [
@@ -1075,7 +1103,7 @@
       projectionMutator = d3.geo.projectionMutator;
 
   (d3.geo.aitoff = function() { return projection(aitoff); }).raw = aitoff;
-  (d3.geo.armadillo = function() { return singleParallelProjection(armadillo).parallel(20); }).raw = armadillo;
+  (d3.geo.armadillo = armadilloProjection).raw = armadillo;
   (d3.geo.august = function() { return projection(august); }).raw = august;
   (d3.geo.berghaus = berghausProjection).raw = berghaus;
   (d3.geo.bonne = function() { return singleParallelProjection(bonne).parallel(45); }).raw = bonne;

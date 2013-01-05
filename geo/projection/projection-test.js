@@ -107,6 +107,22 @@ suite.addBatch({
       assertEqualInverse(loximuthal, [   1,   1], [482.390500, 247.382006]);
     }
   },
+  "d3.geo.mtFlatPolarParabolic": {
+    topic: function() {
+      return d3.geo.mtFlatPolarParabolic();
+    },
+    "projections and inverse projections": function(mtFlatPolarParabolic) {
+      assertEqualInverse(mtFlatPolarParabolic, [   0,   0], [480,        250]);
+      assertEqualInverse(mtFlatPolarParabolic, [   0, -90], [480,        458.30952244882417]);
+      assertEqualInverse(mtFlatPolarParabolic, [   0,  90], [480,         41.690477]);
+      assertEqualInverse(mtFlatPolarParabolic, [   0, -45], [480,        374.430617]);
+      assertEqualInverse(mtFlatPolarParabolic, [   0,  45], [480,        125.569382]);
+      assertEqualInverse(mtFlatPolarParabolic, [-180,   0], [ 43.717556, 250]);
+      assertEqualInverse(mtFlatPolarParabolic, [ 180,   0], [916.282443, 250]);
+      assertEqualInverse(mtFlatPolarParabolic, [-179,  15], [ 58.080254, 207.678319]);
+      assertEqualInverse(mtFlatPolarParabolic, [   1,   1], [482.423493, 247.172271]);
+    }
+  },
   "d3.geo.mtFlatPolarQuartic": {
     topic: function() {
       return d3.geo.mtFlatPolarQuartic();

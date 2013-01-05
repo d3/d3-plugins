@@ -803,6 +803,26 @@
     return forward;
   }
 
+  function mtFlatPolarParabolic(λ, φ) {
+    var sqrt6 = Math.sqrt(6),
+        sqrt7 = Math.sqrt(7),
+        θ = Math.asin(7 * Math.sin(φ) / (3 * sqrt6));
+    return [
+      sqrt6 * λ * (2 * Math.cos(2 * θ / 3) - 1) / sqrt7,
+      9 * Math.sin(θ / 3) / sqrt7
+    ];
+  }
+
+  mtFlatPolarParabolic.invert = function(x, y) {
+    var sqrt6 = Math.sqrt(6),
+        sqrt7 = Math.sqrt(7),
+        θ = 3 * Math.asin(Math.max(-1, Math.min(1, y * sqrt7 / 9)));
+    return [
+      x * sqrt7 / (sqrt6 * (2 * Math.cos(2 * θ / 3) - 1)),
+      Math.asin(Math.max(-1, Math.min(1, Math.sin(θ) * 3 * sqrt6 / 7)))
+    ];
+  };
+
   function mtFlatPolarQuartic(λ, φ) {
     var k = (1 + Math.SQRT1_2) * Math.sin(φ),
         θ = φ;
@@ -1245,6 +1265,7 @@
   (d3.geo.larrivee = function() { return projection(larrivee); }).raw = larrivee;
   (d3.geo.littrow = function() { return projection(littrow); }).raw = littrow;
   (d3.geo.loximuthal = function() { return singleParallelProjection(loximuthal).parallel(40); }).raw = loximuthal;
+  (d3.geo.mtFlatPolarParabolic = function() { return projection(mtFlatPolarParabolic); }).raw = mtFlatPolarParabolic;
   (d3.geo.mtFlatPolarQuartic = function() { return projection(mtFlatPolarQuartic); }).raw = mtFlatPolarQuartic;
   (d3.geo.miller = function() { return projection(miller); }).raw = miller;
   (d3.geo.mollweide = function() { return projection(mollweide); }).raw = mollweide;

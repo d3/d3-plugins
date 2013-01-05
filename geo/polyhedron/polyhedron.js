@@ -50,10 +50,10 @@ d3.geo.polyhedron = function(root, face) {
     return node;
   }
 
-  var projection = d3.geo.projection(function(λ, φ) {
+  function forward(λ, φ) {
     var node = face(λ, φ),
-        t,
-        point = node.project([λ * degrees, φ * degrees]);
+        point = node.project([λ * degrees, φ * degrees]),
+        t;
     if (t = node.transform) {
       return [
         t[0] * point[0] + t[1] * point[1] + t[2],
@@ -62,7 +62,40 @@ d3.geo.polyhedron = function(root, face) {
     }
     point[1] = -point[1];
     return point;
-  });
+  }
+
+  // Naive inverse!  A faster solution would use bounding boxes, or even a
+  // polygonal quadtree.
+  forward.invert = function(x, y) {
+    var coordinates = faceInvert(root, [x, -y]);
+    return coordinates
+        ? (coordinates[0] *= radians, coordinates[1] *= radians, coordinates)
+        : [NaN, NaN];
+  };
+
+  function faceInvert(node, coordinates) {
+    var t = node.transform,
+        point = coordinates;
+    if (t) {
+      t = inverseTransform(t);
+      point = [
+        t[0] * point[0] + t[1] * point[1] + t[2],
+        (t[3] * point[0] + t[4] * point[1] + t[5])
+      ];
+    }
+    if (node === faceDegrees(p = node.project.invert(point))) return p;
+    var p,
+        children = node.children;
+    for (var i = 0, n = children && children.length; i < n; ++i) {
+      if (p = faceInvert(children[i], coordinates)) return p;
+    }
+  }
+
+  function faceDegrees(coordinates) {
+    return face(coordinates[0] * radians, coordinates[1] * radians);
+  }
+
+  var projection = d3.geo.projection(forward);
 
   projection.outline = function() {
     var ring = outline(root);
@@ -270,6 +303,11 @@ function sharedEdge(a, b) {
   }
 }
 
+// Note: 6-element arrays are used to denote the 3x3 affine transform matrix:
+// [a, b, c,
+//  d, e, f,
+//  0, 0, 1] - this redundant row is left out.
+
 // Transform matrix for [a0, a1] -> [b0, b1].
 function matrix(a, b) {
   var u = subtract(a[1], a[0]),
@@ -290,6 +328,15 @@ function matrix(a, b) {
     1, 0, -b[0][0],
     0, 1, -b[0][1]
   ])));
+}
+
+// Inverts a transform matrix.
+function inverseTransform(m) {
+  var k = 1 / (m[0] * m[4] - m[1] * m[3]);
+  return [
+    k * m[4], -k * m[1], k * (m[1] * m[5] - m[2] * m[4]),
+    -k * m[3], k * m[0], k * (m[2] * m[3] - m[0] * m[5])
+  ];
 }
 
 // Multiplies two 3x2 matrices.

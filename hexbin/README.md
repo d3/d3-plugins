@@ -36,7 +36,7 @@ Sets or gets the *x*-accessor function for the hexbin layout. If *accessor* is s
 
 Sets or gets the *y*-accessor function for the hexbin layout. If *accessor* is specified, sets the *y*-accessor function and returns the hexbin layout; if *accessor* is not specified, returns the current *y*-accessor function, which defaults to `function(d) { return d[1]; }`.
 
-<a href="hexagon" href="#hexagon">#</a> hexbin.<b>hexagon</b>()
+<a href="hexagon" href="#hexagon">#</a> hexbin.<b>hexagon</b>([<i>radius</i>])
 
 Returns the SVG path string for the hexagon centered at the origin ⟨0,0⟩. The path string is defined with relative coordinates such that you can easily translate the hexagon to the desired position. For example:
 
@@ -50,6 +50,8 @@ Alternatively, use a transform attribute:
 path.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
     .attr("d", hexbin.hexagon);
 ```
+
+If *radius* is not specified, the hexbin’s current radius is used. If *radius* is specified, a hexagon with the specified radius is returned, which is useful for area-encoded bivariate hexbins.
 
 <a href="mesh" href="#mesh">#</a> hexbin.<b>mesh</b>()
 

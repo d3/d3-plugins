@@ -43,6 +43,22 @@ suite.addBatch({
       }
     }
   },
+  "d3.geo.craig": {
+    topic: function() {
+      return d3.geo.craig();
+    },
+    "projections and inverse projections": function(craig) {
+      assertEqualInverse(craig, [   0,   0], [480,          250]);
+      assertEqualInverse(craig, [   0, -90], [480,          400]);
+      assertEqualInverse(craig, [   0,  90], [480,          100]);
+      assertEqualInverse(craig, [   0, -45], [480,          356.066017]);
+      assertEqualInverse(craig, [   0,  45], [480,          143.933982]);
+      assertEqualInverse(craig, [-180,   0], [  8.761101,   250]);
+      assertEqualInverse(craig, [ 180,   0], [951.238898,   250]);
+      assertEqualInverse(craig, [-179,  15], [ 11.3790958, 7198.585721]);
+      assertEqualInverse(craig, [   1,   1], [482.617993,   247.382404]);
+    }
+  },
   "d3.geo.hatano": {
     topic: function() {
       return d3.geo.hatano();
@@ -89,6 +105,22 @@ suite.addBatch({
       assertEqualInverse(loximuthal, [ 180,   0], [911.226440, 250]);
       assertEqualInverse(loximuthal, [-179,  15], [69.4643149, 210.730091]);
       assertEqualInverse(loximuthal, [   1,   1], [482.390500, 247.382006]);
+    }
+  },
+  "d3.geo.quarticAuthalic": {
+    topic: function() {
+      return d3.geo.quarticAuthalic();
+    },
+    "projections and inverse projections": function(quarticAuthalic) {
+      assertEqualInverse(quarticAuthalic, [   0,   0], [480,        250]);
+      assertEqualInverse(quarticAuthalic, [   0, -90], [480,        462.132034]);
+      assertEqualInverse(quarticAuthalic, [   0,  90], [480,         37.867965]);
+      assertEqualInverse(quarticAuthalic, [   0, -45], [480,        364.805029]);
+      assertEqualInverse(quarticAuthalic, [   0,  45], [480,        135.194970]);
+      assertEqualInverse(quarticAuthalic, [-180,   0], [  8.761101, 250]);
+      assertEqualInverse(quarticAuthalic, [ 180,   0], [951.238898, 250]);
+      assertEqualInverse(quarticAuthalic, [-179,  15], [ 23.441040, 210.842142]);
+      assertEqualInverse(quarticAuthalic, [   1,   1], [482.617694, 247.382039]);
     }
   },
   "d3.geo.wagner6": {

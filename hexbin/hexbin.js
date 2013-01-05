@@ -7,8 +7,7 @@ d3.hexbin = function() {
       x = d3_hexbinX,
       y = d3_hexbinY,
       dx,
-      dy,
-      hexagon;
+      dy;
 
   function hexbin(points) {
     var binsById = {};
@@ -50,12 +49,21 @@ d3.hexbin = function() {
     return hexbin;
   };
 
-  hexbin.hexagon = function() {
-    return "m" + hexagon.join("l") + "z";
+  hexbin.hexagon = function(radius) {
+    var x0 = 0, y0 = 0;
+    if (arguments.length < 1) radius = r;
+    return "m" + d3_hexbinAngles.map(function(angle) {
+      var x1 = Math.sin(angle) * radius,
+          y1 = -Math.cos(angle) * radius,
+          dx = x1 - x0,
+          dy = y1 - y0;
+      x0 = x1, y0 = y1;
+      return [dx, dy];
+    }).join("l") + "z";
   };
 
   hexbin.mesh = function() {
-    var path = [], mesh = hexagon.slice(0, 4).join("l");
+    var path = [], mesh = hexbin.hexagon().slice(0, 4).join("l");
     for (var y = 0, odd = false; y < height + r; y += dy, odd = !odd) {
       for (var x = odd ? dx / 2 : 0; x < width; x += dx) {
         path.push("M", x, ",", y, "m", mesh);
@@ -75,14 +83,6 @@ d3.hexbin = function() {
     r = +_;
     dx = r * 2 * Math.sin(Math.PI / 3);
     dy = r * 1.5;
-    var x0 = 0, y0 = 0;
-    hexagon = d3_hexbinAngles.map(function(angle) {
-      var x1 = Math.sin(angle) * r,
-          y1 = -Math.cos(angle) * r,
-          dx = x1 - x0, dy = y1 - y0;
-      x0 = x1, y0 = y1;
-      return [dx, dy];
-    });
     return hexbin;
   };
 

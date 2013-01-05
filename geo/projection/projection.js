@@ -257,7 +257,8 @@
 
     p.parallel = function(_) {
       if (!arguments.length) return φ0 / π * 180;
-      return m(φ0 = _ * π / 180);
+      var r = rotate();
+      return m(φ0 = _ * π / 180).rotate(r);
     };
 
     p.rotate = function(_) {
@@ -266,7 +267,7 @@
       return p;
     };
 
-    return p.rotate([0, 0, 0]);
+    return p;
   }
 
   function eckert1(λ, φ) {

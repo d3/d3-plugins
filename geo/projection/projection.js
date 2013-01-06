@@ -845,6 +845,30 @@
     ];
   };
 
+  function mtFlatPolarSinusoidal(λ, φ) {
+    var A = Math.sqrt(6 / (4 + π)),
+        k = (1 + π / 4) * Math.sin(φ),
+        θ = φ / 2;
+    for (var i = 0, δ; i < 25; i++) {
+      θ -= δ = (θ / 2 + Math.sin(θ) - k) / (.5 + Math.cos(θ));
+      if (Math.abs(δ) < ε) break;
+    }
+    return [
+      A * (.5 + Math.cos(θ)) * λ / 1.5,
+      A * θ
+    ];
+  }
+
+  mtFlatPolarSinusoidal.invert = function(x, y) {
+    var A = Math.sqrt(6 / (4 + π)),
+        θ = y / A;
+    if (Math.abs(Math.abs(θ) - π / 2) < ε) θ = θ < 0 ? -π / 2 : π / 2;
+    return [
+      1.5 * x / (A * (.5 + Math.cos(θ))),
+      Math.asin(Math.max(-1, Math.min(1, (θ / 2 + Math.sin(θ)) / (1 + π / 4))))
+    ];
+  };
+
   function nellHammer(λ, φ) {
     return [
       λ * (1 + Math.cos(φ)) / 2,
@@ -1267,6 +1291,7 @@
   (d3.geo.loximuthal = function() { return singleParallelProjection(loximuthal).parallel(40); }).raw = loximuthal;
   (d3.geo.mtFlatPolarParabolic = function() { return projection(mtFlatPolarParabolic); }).raw = mtFlatPolarParabolic;
   (d3.geo.mtFlatPolarQuartic = function() { return projection(mtFlatPolarQuartic); }).raw = mtFlatPolarQuartic;
+  (d3.geo.mtFlatPolarSinusoidal = function() { return projection(mtFlatPolarSinusoidal); }).raw = mtFlatPolarSinusoidal;
   (d3.geo.miller = function() { return projection(miller); }).raw = miller;
   (d3.geo.mollweide = function() { return projection(mollweide); }).raw = mollweide;
   (d3.geo.nellHammer = function() { return projection(nellHammer); }).raw = nellHammer;

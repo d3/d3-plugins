@@ -40,6 +40,7 @@ Projections:
 * [d3.geo.mollweide](http://bl.ocks.org/3734336) - Mollweide
 * d3.geo.mtFlatPolarParabolic - McBryde–Thomas Flat-Polar Parabolic
 * d3.geo.mtFlatPolarQuartic - McBryde–Thomas Flat-Polar Quartic
+* d3.geo.mtFlatPolarSinusoidal - McBryde–Thomas Flat-Polar Sinusoidal
 * [d3.geo.nellHammer](http://bl.ocks.org/3734342) - Nell–Hammer
 * [d3.geo.orthographic](http://bl.ocks.org/3757125) - Orthographic
 * [d3.geo.peirceQuincuncial](http://bl.ocks.org/4310087) - Pierce quincuncial

@@ -139,6 +139,22 @@ suite.addBatch({
       assertEqualInverse(mtFlatPolarQuartic, [   1,   1], [481.851018, 247.207163]);
     }
   },
+  "d3.geo.mtFlatPolarSinusoidal": {
+    topic: function() {
+      return d3.geo.mtFlatPolarSinusoidal();
+    },
+    "projections and inverse projections": function(mtFlatPolarSinusoidal) {
+      assertEqualInverse(mtFlatPolarSinusoidal, [   0,   0], [480,        250]);
+      assertEqualInverse(mtFlatPolarSinusoidal, [   0, -90], [480,        465.96790915007875]);
+      assertEqualInverse(mtFlatPolarSinusoidal, [   0,  90], [480,         34.032090]);
+      assertEqualInverse(mtFlatPolarSinusoidal, [   0, -45], [480,        377.345812]);
+      assertEqualInverse(mtFlatPolarSinusoidal, [   0,  45], [480,        122.654187]);
+      assertEqualInverse(mtFlatPolarSinusoidal, [-180,   0], [ 48.064181, 250]);
+      assertEqualInverse(mtFlatPolarSinusoidal, [ 180,   0], [911.935818, 250]);
+      assertEqualInverse(mtFlatPolarSinusoidal, [-179,  15], [ 64.236235, 207.185461]);
+      assertEqualInverse(mtFlatPolarSinusoidal, [   1,   1], [482.399298, 247.143795]);
+    }
+  },
   "d3.geo.quarticAuthalic": {
     topic: function() {
       return d3.geo.quarticAuthalic();
@@ -264,11 +280,12 @@ assert.inDelta = function(actual, expected, delta, message) {
   }
 };
 
-function assertEqualInverse(projection, location, point) {
-  assert.inDelta(projection(location), point, 1e-6);
-  assert.inDelta(projection.invert(point), location, 1e-6);
-  assert.inDelta(location, projection.invert(projection(location)), 1e-6);
-  assert.inDelta(point, projection(projection.invert(point)), 1e-6);
+function assertEqualInverse(projection, location, point, delta) {
+  delta = delta || 1e-6;
+  assert.inDelta(projection(location), point, delta);
+  assert.inDelta(projection.invert(point), location, delta);
+  assert.inDelta(location, projection.invert(projection(location)), delta);
+  assert.inDelta(point, projection(projection.invert(point)), delta);
 }
 
 function inDelta(actual, expected, delta) {

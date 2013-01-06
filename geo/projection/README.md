@@ -47,7 +47,7 @@ Projections:
 * [d3.geo.peirceQuincuncial](http://bl.ocks.org/4310087) - Pierce quincuncial
 * [d3.geo.polyconic](http://bl.ocks.org/3734343) - Polyconic
 * [d3.geo.robinson](http://bl.ocks.org/3710566) - Robinson
-* [d3.geo.quarticAuthalic](http://bl.ocks.org/4463175) - quartic quthalic
+* [d3.geo.quarticAuthalic](http://bl.ocks.org/4463175) - quartic authalic
 * [d3.geo.satellite](http://bl.ocks.org/3790444) - satellite (tilted perpsective)
 * [d3.geo.sinusoidal](http://bl.ocks.org/3712399) - sinusoidal
 * [d3.geo.sinuMollweide](http://bl.ocks.org/4319903) - sinu-Mollweide

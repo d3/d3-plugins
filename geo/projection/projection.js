@@ -40,6 +40,14 @@
     return x > 0 ? Math.sqrt(x) : 0;
   }
 
+  function asin(x) {
+    return x > 1 ? π / 2 : x < -1 ? -π / 2 : Math.asin(x);
+  }
+
+  function acos(x) {
+    return x > 1 ? 0 : x < -1 ? π : Math.acos(x);
+  }
+
   // Calculate F(φ+iψ|m).
   // See Abramowitz and Stegun, 17.4.11.
   function ellipticFi(φ, ψ, m) {
@@ -53,7 +61,7 @@
           cotλ2 = .5 * (-b + Math.sqrt(b * b - 4 * (m - 1) * cotφ2));
       return [
         ellipticF(Math.atan(1 / Math.sqrt(cotλ2)), m) * sgn(φ),
-        ellipticF(Math.atan(Math.sqrt(Math.max(0, cotλ2 / cotφ2 - 1) / m)), 1 - m) * sgn(ψ)
+        ellipticF(Math.atan(sqrt(cotλ2 / cotφ2 - 1) / m), 1 - m) * sgn(ψ)
       ];
     }
     return [
@@ -83,7 +91,7 @@
 
   function aitoff(λ, φ) {
     var cosφ = Math.cos(φ),
-        sinciα = sinci(Math.acos(cosφ * Math.cos(λ /= 2)));
+        sinciα = sinci(acos(cosφ * Math.cos(λ /= 2)));
     return [
       2 * cosφ * Math.sin(λ) * sinciα,
       Math.sin(φ) * sinciα
@@ -177,13 +185,34 @@
     ];
   };
 
+  function wagner7(λ, φ) {
+    var s = .90631 * Math.sin(φ),
+        c0 = Math.sqrt(1 - s * s),
+        c1 = Math.sqrt(2 / (1 + c0 * Math.cos(λ /= 3)));
+    return [
+      2.66723 * c0 * c1 * Math.sin(λ),
+      1.24104 * s * c1
+    ];
+  }
+
+  wagner7.invert = function(x, y) {
+    var t1 = x / 2.66723,
+        t2 = y / 1.24104,
+        p = Math.sqrt(t1 * t1 + t2 * t2),
+        c = 2 * asin(p / 2);
+    return [
+      3 * Math.atan2(x * Math.tan(c), 2.66723 * p),
+      p && asin(y * Math.sin(c) / (1.24104 * 0.90631 * p))
+    ];
+  };
+
   function wiechel(λ, φ) {
     var cosφ = Math.cos(φ),
         sinφ = Math.cos(λ) * cosφ,
         sin1_φ = 1 - sinφ,
         cosλ = Math.cos(λ = Math.atan2(Math.sin(λ) * cosφ, -Math.sin(φ))),
         sinλ = Math.sin(λ);
-    cosφ = Math.sqrt(Math.max(0, 1 - sinφ * sinφ));
+    cosφ = asqrt(1 - sinφ * sinφ);
     return [
       sinλ * cosφ - cosλ * sin1_φ,
       -cosλ * cosφ - sinλ * sin1_φ
@@ -219,7 +248,7 @@
     forward.invert = function(x, y) {
       return [
         x / cosφ0,
-        Math.asin(y * cosφ0)
+        asin(y * cosφ0)
       ];
     };
 
@@ -268,8 +297,8 @@
           sinφ = z * cosφ0 + x * sinφ0,
           // Latitudinal rotation of λ by φ0 (inline).
           cosλ = Math.cos(λ = Math.atan2(y, x * cosφ0 - z * sinφ0)),
-          cosφ = Math.cos(φ = Math.asin(Math.max(-1, Math.min(1, sinφ)))),
-          z = Math.acos(Math.max(-1, Math.min(1, sinφ0 * sinφ + cosφ0 * cosφ * cosλ))),
+          cosφ = Math.cos(φ = asin(sinφ)),
+          z = acos(sinφ0 * sinφ + cosφ0 * cosφ * cosλ),
           sinz = Math.sin(z),
           K = Math.abs(sinz) > ε ? z / sinz : 1;
       return [
@@ -357,7 +386,7 @@
     var α = 2 - Math.abs(y) / Math.sqrt(2 * π / 3);
     return [
       x * Math.sqrt(6 * π) / (2 * α),
-      sgn(y) * Math.asin((4 - α * α) / 3)
+      sgn(y) * asin((4 - α * α) / 3)
     ];
   };
 
@@ -372,7 +401,7 @@
   eckert3.invert = function(x, y) {
     var k = Math.sqrt(π * (4 + π)) / 2;
     return [
-      x * k / (1 + Math.sqrt(Math.max(0, 1 - y * y * (4 + π) / (4 * π)))),
+      x * k / (1 + asqrt(1 - y * y * (4 + π) / (4 * π))),
       y * k / 2
     ];
   };
@@ -392,11 +421,11 @@
 
   eckert4.invert = function(x, y) {
     var j = 2 * Math.sqrt(π / (4 + π)),
-        k = Math.asin(y / cy),
+        k = asin(y / cy),
         c = Math.cos(k);
     return [
       x / (2 / Math.sqrt(π * (4 + π)) * (1 + c)),
-      Math.asin((k + y / j * (c + 2)) / (2 + π / 2))
+      asin((k + y / j * (c + 2)) / (2 + π / 2))
     ];
   };
 
@@ -433,7 +462,7 @@
         k = Math.sqrt(j / 2);
     return [
       x * 2 * k / (1 + Math.cos(y *= k)),
-      Math.asin((y + Math.sin(y)) / j)
+      asin((y + Math.sin(y)) / j)
     ];
   };
 
@@ -451,10 +480,10 @@
   }
 
   mollweide.invert = function(x, y) {
-    var θ = Math.asin(y / Math.SQRT2);
+    var θ = asin(y / Math.SQRT2);
     return [
       π * x / (2 * Math.SQRT2 * Math.cos(θ)),
-      Math.asin((2 * θ + Math.sin(2 * θ)) / π)
+      asin((2 * θ + Math.sin(2 * θ)) / π)
     ];
   };
 
@@ -491,12 +520,12 @@
   hatano.invert = function(x, y) {
     var θ = Math.abs(θ = y * (y < 0 ? .51799515156538134803 : .56863737426006061674)) > 1 - ε
         ? θ > 0 ? π / 2 : -π / 2
-        : Math.asin(θ);
+        : asin(θ);
     return [
       1.17647058823529411764 * x / Math.cos(θ),
       Math.abs(θ = ((θ += θ) + Math.sin(θ)) * (y < 0 ? .41023453108141924738 : .37369906014686373063)) > 1 - ε
         ? θ > 0 ? π / 2 : -π / 2
-        : Math.asin(θ)
+        : asin(θ)
     ];
   };
 
@@ -526,7 +555,7 @@
             r = Math.sqrt(p[0] * p[0] + p[1] * p[1]),
             θ0 = k * Math.round((θ - π / 2) / k) + π / 2,
             α = Math.atan2(Math.sin(θ -= θ0), 2 - Math.cos(θ)); // angle relative to lobe end
-        θ = θ0 + Math.asin(Math.max(-1, Math.min(1, π / r * Math.sin(α)))) - α;
+        θ = θ0 + asin(π / r * Math.sin(α)) - α;
         p[0] = r * Math.cos(θ);
         p[1] = r * Math.sin(θ);
       }
@@ -677,7 +706,7 @@
   }
 
   function collignon(λ, φ) {
-    var α = Math.sqrt(Math.max(0, 1 - Math.sin(φ)));
+    var α = asqrt(1 - Math.sin(φ));
     return [
       (2 / sqrtπ) * λ * α,
       sqrtπ * (1 - α)
@@ -688,7 +717,7 @@
     var λ = (λ = y / sqrtπ - 1) * λ;
     return [
       λ > 0 ? x * Math.sqrt(π / λ) / 2 : 0,
-      Math.asin(Math.max(-1, Math.min(1, 1 - λ)))
+      asin(1 - λ)
     ];
   };
 
@@ -706,7 +735,7 @@
         λ = ε,
         φ = π / 2;
     if (y0 < π_sqrt2) φ *= y0 / π_sqrt2;
-    else λ += 6 * Math.acos(π_sqrt2 / y0);
+    else λ += 6 * acos(π_sqrt2 / y0);
     for (var i = 0; i < 25; i++) {
       var sinφ = Math.sin(φ),
           sqrtcosφ = asqrt(Math.cos(φ)),
@@ -740,7 +769,7 @@
   function vanDerGrinten(λ, φ) {
     if (Math.abs(φ) < ε) return [λ, 0];
     var sinθ = Math.abs(2 * φ / π),
-        θ = Math.asin(sinθ);
+        θ = asin(sinθ);
     if (Math.abs(λ) < ε || Math.abs(Math.abs(φ) - π / 2) < ε) return [0, sgn(φ) * π * Math.tan(θ / 2)];
     var cosθ = Math.cos(θ),
         A = Math.abs(π / λ - λ / π) / 2,
@@ -770,7 +799,7 @@
         d = y2 / c3 + (2 * c2 * c2 * c2 / (c3 * c3 * c3) - 9 * c1 * c2 / (c3 * c3)) / 27,
         a1 = (c1 - c2 * c2 / (3 * c3)) / c3,
         m1 = 2 * Math.sqrt(-a1 / 3),
-        θ1 = Math.acos(3 * d / (a1 * m1)) / 3;
+        θ1 = acos(3 * d / (a1 * m1)) / 3;
     return [
       π * (x2_y2 - 1 + Math.sqrt(1 + 2 * (x2 - y2) + z)) / (2 * x),
       sgn(y) * π * (-m1 * Math.cos(θ1 + π / 3) - c2 / (3 * c3))
@@ -816,10 +845,10 @@
   mtFlatPolarParabolic.invert = function(x, y) {
     var sqrt6 = Math.sqrt(6),
         sqrt7 = Math.sqrt(7),
-        θ = 3 * Math.asin(Math.max(-1, Math.min(1, y * sqrt7 / 9)));
+        θ = 3 * asin(y * sqrt7 / 9);
     return [
       x * sqrt7 / (sqrt6 * (2 * Math.cos(2 * θ / 3) - 1)),
-      Math.asin(Math.max(-1, Math.min(1, Math.sin(θ) * 3 * sqrt6 / 7)))
+      asin(Math.sin(θ) * 3 * sqrt6 / 7)
     ];
   };
 
@@ -838,10 +867,10 @@
 
   mtFlatPolarQuartic.invert = function(x, y) {
     var sinθ_2 = y * Math.sqrt(2 + Math.SQRT2) / (2 * Math.sqrt(3)),
-        θ = 2 * Math.asin(Math.max(-1, Math.min(1, sinθ_2)));
+        θ = 2 * asin(sinθ_2);
     return [
       3 * Math.SQRT2 * x / (1 + 2 * Math.cos(θ) / Math.cos(θ / 2)),
-      Math.asin(Math.max(-1, Math.min(1, (sinθ_2 + Math.sin(θ)) / (1 + Math.SQRT1_2))))
+      asin((sinθ_2 + Math.sin(θ)) / (1 + Math.SQRT1_2))
     ];
   };
 
@@ -865,7 +894,7 @@
     if (Math.abs(Math.abs(θ) - π / 2) < ε) θ = θ < 0 ? -π / 2 : π / 2;
     return [
       1.5 * x / (A * (.5 + Math.cos(θ))),
-      Math.asin(Math.max(-1, Math.min(1, (θ / 2 + Math.sin(θ)) / (1 + π / 4))))
+      asin((θ / 2 + Math.sin(θ)) / (1 + π / 4))
     ];
   };
 
@@ -907,7 +936,7 @@
       φ -= δ = (y * (φ * tanφ + 1) - φ - .5 * (φ * φ + k) * tanφ) / ((φ - y) / tanφ - 1);
     }
     return [
-      Math.asin(x * Math.tan(φ)) / Math.sin(φ),
+      asin(x * Math.tan(φ)) / Math.sin(φ),
       φ
     ];
   };
@@ -920,7 +949,7 @@
   }
 
   quarticAuthalic.invert = function(x, y) {
-    var φ = 2 * Math.asin(y / 2);
+    var φ = 2 * asin(y / 2);
     return [
       x * Math.cos(φ / 2) / Math.cos(φ),
       φ
@@ -1005,7 +1034,7 @@
     // forward.invert = function(x, y) {
     //   return [
     //     x,
-    //     Math.asin(Math.max(-1, Math.min(1, y * (x ? Math.tan(x) / x : 1))))
+    //     asin(y * (x ? Math.tan(x) / x : 1))
     //   ];
     // };
 
@@ -1022,7 +1051,7 @@
 
   craster.invert = function(x, y) {
     var sqrt3 = Math.sqrt(3),
-        φ = 3 * Math.asin(Math.max(-1, Math.min(1, y / (sqrt3 * sqrtπ))));
+        φ = 3 * asin(y / (sqrt3 * sqrtπ));
     return [
       sqrtπ * x / (sqrt3 * (2 * Math.cos(2 * φ / 3) - 1)),
       φ
@@ -1060,7 +1089,7 @@
           sinc = (P - Math.sqrt(1 - ρ2 * (P + 1) / (P - 1))) / ((P - 1) / ρ + ρ / (P - 1));
       return [
         Math.atan2(x * sinc, ρ * Math.sqrt(1 - sinc * sinc)),
-        ρ ? Math.asin(y * sinc / ρ) : 0
+        ρ ? asin(y * sinc / ρ) : 0
       ];
     };
 
@@ -1185,10 +1214,10 @@
           z = Math.sin(φ);
       if (quincuncial) {
         λ = Math.atan2(y, -z) - π / 4;
-        φ = Math.asin(Math.max(-1, Math.min(1, x)));
+        φ = asin(x);
       } else {
         λ = Math.atan2(z, x) + π / 2;
-        φ = Math.asin(Math.max(-1, Math.min(1, -y)));
+        φ = asin(-y);
       }
       while (λ < 0) λ += 2 * π;
       var nφ = φ < 0,
@@ -1219,7 +1248,7 @@
         j = 1 + r2,
         k = 1 + 3 * r2,
         q = 1 - r2,
-        z = Math.asin(1 / Math.sqrt(j)),
+        z = asin(1 / Math.sqrt(j)),
         v = q + r * j * z,
         p2 = (1 - sinφ) / v,
         p = Math.sqrt(p2),
@@ -1252,7 +1281,7 @@
       x = .5 * (x0 + x1);
       do {
         var g = Math.sqrt(a2 - x * x),
-            f = (x * (ζ + μ * g) + ν * Math.asin(x / a)) - Λ;
+            f = (x * (ζ + μ * g) + ν * asin(x / a)) - Λ;
         if (!f) break;
         if (f < 0) x0 = x;
         else x1 = x;
@@ -1264,7 +1293,7 @@
         var x2 = x * x,
             g = asqrt(a2 - x2),
             ζμg = ζ + μ * g,
-            f = x * ζμg + ν * Math.asin(x / a) - Λ,
+            f = x * ζμg + ν * asin(x / a) - Λ,
             df = ζμg + (ν - μ * x2) / g,
             dx = g ? -f / df : 0;
         x += dx;
@@ -1322,6 +1351,7 @@
   (d3.geo.sinuMollweide = function() { return projection(sinuMollweide).rotate([-20, -55]); }).raw = sinuMollweide;
   (d3.geo.vanDerGrinten = function() { return projection(vanDerGrinten); }).raw = vanDerGrinten;
   (d3.geo.wagner6 = function() { return projection(wagner6); }).raw = wagner6;
+  (d3.geo.wagner7 = function() { return projection(wagner7); }).raw = wagner7;
   (d3.geo.wiechel = function() { return projection(wiechel); }).raw = wiechel;
   (d3.geo.winkel3 = function() { return projection(winkel3); }).raw = winkel3;
 })();

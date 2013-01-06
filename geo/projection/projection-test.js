@@ -203,6 +203,22 @@ suite.addBatch({
       assertEqualInverse(wagner6, [   1,   1], [482.617872, 247.382006]);
     }
   },
+  "d3.geo.winkel3": {
+    topic: function() {
+      return d3.geo.winkel3();
+    },
+    "projections and inverse projections": function(winkel3) {
+      assertEqualInverse(winkel3, [   0,   0], [480,        250]);
+      assertEqualInverse(winkel3, [   0, -90], [480,        485.619449]);
+      assertEqualInverse(winkel3, [   0,  90], [480,         14.380550]);
+      assertEqualInverse(winkel3, [   0, -45], [480,        367.809724]);
+      assertEqualInverse(winkel3, [   0,  45], [480,        132.190275]);
+      assertEqualInverse(winkel3, [-180,   0], [ 94.380550, 250]);
+      assertEqualInverse(winkel3, [ 180,   0], [865.619449, 250]);
+      assertEqualInverse(winkel3, [-179,  15], [104.464309, 200.036192]);
+      assertEqualInverse(winkel3, [   1,   1], [482.142197, 247.381989]);
+    }
+  },
   // TODO move to D3 core?
   "rotate": {
     "identity": {

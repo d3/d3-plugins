@@ -14,6 +14,7 @@ Projections:
 * [d3.geo.conicConformal](http://bl.ocks.org/3734321) - Lambert conformal conic
 * [d3.geo.conicEquidistant](http://bl.ocks.org/3734317) - Conic equidistant
 * [d3.geo.craig](http://bl.ocks.org/4459466) - Craig Retroazimuthal
+* d3.geo.craster - Craster Parabolic
 * [d3.geo.cylindricalEqualArea](http://bl.ocks.org/3712408) - Cylindrical equal-area
 * [d3.geo.eckert1](http://bl.ocks.org/3734322) - Eckert I
 * [d3.geo.eckert2](http://bl.ocks.org/3734324) - Eckert II

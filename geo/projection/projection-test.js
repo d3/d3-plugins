@@ -59,6 +59,22 @@ suite.addBatch({
       assertEqualInverse(craig, [   1,   1], [482.617993,   247.382404]);
     }
   },
+  "d3.geo.craster": {
+    topic: function() {
+      return d3.geo.craster();
+    },
+    "projections and inverse projections": function(craster) {
+      assertEqualInverse(craster, [   0,   0], [480,        250]);
+      assertEqualInverse(craster, [   0, -90], [480,        480.248509]);
+      assertEqualInverse(craster, [   0,  90], [480,         19.751490]);
+      assertEqualInverse(craster, [   0, -45], [480,        369.185398]);
+      assertEqualInverse(craster, [   0,  45], [480,        130.814601]);
+      assertEqualInverse(craster, [-180,   0], [ 19.502981, 250]);
+      assertEqualInverse(craster, [ 180,   0], [940.497018, 250]);
+      assertEqualInverse(craster, [-179,  15], [ 35.975533, 209.865040]);
+      assertEqualInverse(craster, [   1,   1], [482.557970, 247.320952]);
+    }
+  },
   "d3.geo.hatano": {
     topic: function() {
       return d3.geo.hatano();

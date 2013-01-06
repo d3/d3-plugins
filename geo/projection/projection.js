@@ -1012,6 +1012,23 @@
     return forward;
   }
 
+  function craster(λ, φ) {
+    var sqrt3 = Math.sqrt(3);
+    return [
+      sqrt3 * λ * (2 * Math.cos(2 * φ / 3) - 1) / sqrtπ,
+      sqrt3 * sqrtπ * Math.sin(φ / 3)
+    ];
+  }
+
+  craster.invert = function(x, y) {
+    var sqrt3 = Math.sqrt(3),
+        φ = 3 * Math.asin(Math.max(-1, Math.min(1, y / (sqrt3 * sqrtπ))));
+    return [
+      sqrtπ * x / (sqrt3 * (2 * Math.cos(2 * φ / 3) - 1)),
+      φ
+    ];
+  };
+
   function guyou(λ, φ) {
     return ellipticFi(λ, sgn(φ) * Math.log(Math.tan(.5 * (Math.abs(φ) + π / 2))), .5);
   }
@@ -1269,6 +1286,7 @@
   (d3.geo.conicConformal = function() { return doubleParallelProjection(conicConformal); }).raw = conicConformal;
   (d3.geo.conicEquidistant = function() { return doubleParallelProjection(conicEquidistant); }).raw = conicEquidistant;
   (d3.geo.craig = function() { return singleParallelProjection(craig); }).raw = craig;
+  (d3.geo.craster = function() { return projection(craster); }).raw = craster;
   (d3.geo.cylindricalEqualArea = function() { return singleParallelProjection(cylindricalEqualArea); }).raw = cylindricalEqualArea;
   (d3.geo.eckert1 = function() { return projection(eckert1); }).raw = eckert1;
   (d3.geo.eckert2 = function() { return projection(eckert2); }).raw = eckert2;

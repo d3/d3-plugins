@@ -501,12 +501,15 @@
   };
 
   function sinuMollweide(λ, φ) {
-    if (φ > -sinumollφ) {
-      var coordinates = mollweide(λ, φ);
-      coordinates[1] += sinumolly;
-      return coordinates;
-    }
-    return sinusoidal(λ, φ);
+    return φ > -sinumollφ
+        ? (λ = mollweide(λ, φ), λ[1] += sinumolly, λ)
+        : sinusoidal(λ, φ);
+  }
+
+  sinuMollweide.invert = function(x, y) {
+    return y > -sinumollφ
+        ? mollweide.invert(x, y - sinumolly)
+        : sinusoidal.invert(x, y);
   }
 
   function hatano(λ, φ) {

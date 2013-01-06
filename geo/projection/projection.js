@@ -4,7 +4,8 @@
       sqrtπ = Math.sqrt(π),
       radians = π / 180,
       degrees = 180 / π,
-      sinumollφ = 0.7109889596207567;
+      sinumollφ = .7109889596207567,
+      sinumolly = .0528035274542;
 
   var robinsonConstants = [
     [1.0000, 0.0000],
@@ -488,18 +489,21 @@
   };
 
   function homolosine(λ, φ) {
-    if (Math.abs(φ) > sinumollφ) {
-      var coordinates = mollweide(λ, φ);
-      coordinates[1] -= φ >= 0 ? .0528 : -.0528;
-      return coordinates;
-    }
-    return sinusoidal(λ, φ);
+    return Math.abs(φ) > sinumollφ
+        ? (λ = mollweide(λ, φ), λ[1] -= φ > 0 ? sinumolly : -sinumolly, λ)
+        : sinusoidal(λ, φ);
   }
+
+  homolosine.invert = function(x, y) {
+    return Math.abs(y) > sinumollφ
+        ? mollweide.invert(x, y + (y > 0 ? sinumolly : -sinumolly))
+        : sinusoidal.invert(x, y);
+  };
 
   function sinuMollweide(λ, φ) {
     if (φ > -sinumollφ) {
       var coordinates = mollweide(λ, φ);
-      coordinates[1] += .0528;
+      coordinates[1] += sinumolly;
       return coordinates;
     }
     return sinusoidal(λ, φ);

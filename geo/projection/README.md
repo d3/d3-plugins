@@ -52,6 +52,7 @@ Projections:
 * [d3.geo.sinusoidal](http://bl.ocks.org/3712399) - sinusoidal
 * [d3.geo.sinuMollweide](http://bl.ocks.org/4319903) - sinu-Mollweide
 * [d3.geo.stereographic](http://bl.ocks.org/3757137) - stereographic
+d3.geo.toblerSquare - Tobler world-in-a-square
 * [d3.geo.vanDerGrinten](http://bl.ocks.org/3796831) - Van der Grinten
 * [d3.geo.wagner6](http://bl.ocks.org/3710148) - Wagner VI
 * [d3.geo.wagner7](http://bl.ocks.org/4465109) - Wagner VII

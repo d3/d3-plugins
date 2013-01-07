@@ -8,6 +8,7 @@ Projections:
 * [d3.geo.august](http://bl.ocks.org/3797581) - August conformal
 * [d3.geo.azimuthalEqualArea](http://bl.ocks.org/3757101) - Lambert azimuthal equal-area
 * [d3.geo.azimuthalEquidistant](http://bl.ocks.org/3757110) - azimuthal equidistant
+* d3.geo.baker - Baker Dinomic
 * [d3.geo.berghaus](http://bl.ocks.org/4463049) - Berghaus Star
 * [d3.geo.bonne](http://bl.ocks.org/3734313) - Bonne
 * [d3.geo.collignon](http://bl.ocks.org/3734316) - Collignon

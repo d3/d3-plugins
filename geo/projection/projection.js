@@ -623,6 +623,16 @@
     ];
   }
 
+  function baker(λ, φ) {
+    var φ0 = Math.abs(φ);
+    return φ0 < π / 4
+        ? [λ, Math.log(Math.tan(π / 4 + φ / 2))]
+        : [
+          λ * Math.cos(φ0) * (2 * Math.SQRT2 - 1 / Math.sin(φ0)),
+          sgn(φ) * (2 * Math.SQRT2 * (φ0 - π / 4) - Math.log(Math.tan(φ0 / 2)))
+        ];
+  }
+
   var azimuthalEquidistant = d3.geo.azimuthalEquidistant.raw;
 
   function berghaus(n) {
@@ -1389,6 +1399,7 @@
   (d3.geo.aitoff = function() { return projection(aitoff); }).raw = aitoff;
   (d3.geo.armadillo = armadilloProjection).raw = armadillo;
   (d3.geo.august = function() { return projection(august); }).raw = august;
+  (d3.geo.baker = function() { return projection(baker); }).raw = baker;
   (d3.geo.berghaus = berghausProjection).raw = berghaus;
   (d3.geo.bonne = function() { return singleParallelProjection(bonne).parallel(45); }).raw = bonne;
   (d3.geo.collignon = function() { return projection(collignon); }).raw = collignon;

@@ -30,6 +30,10 @@
     [0.5322, 1.0000]
   ];
 
+  robinsonConstants.forEach(function(d) {
+    d[1] *= 1.0144;
+  });
+
   function sinci(x) {
     return x ? x / Math.sin(x) : 1;
   }

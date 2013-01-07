@@ -779,14 +779,12 @@
 
     forward.invert = function(x, y) {
       var ρ2 = x * x + (y -= ρ0) * y,
-          ρ = Math.sqrt(ρ2),
-          ω = asin(x / ρ),
           cosθ = (1 + L2 - ρ2 / (A * A)) / (2 * L),
           θ = acos(cosθ),
           sinθ = Math.sin(θ),
           β_β1 = β + Math.atan2(sinθ, L - cosθ);
       return [
-        ω * π / β_β1,
+        asin(x / Math.sqrt(ρ2)) * π / β_β1,
         asin(1 - 2 * (θ - K2 * β - L * sinθ + (1 + L2 - 2 * L * cosθ) * β_β1) / B)
       ];
     };

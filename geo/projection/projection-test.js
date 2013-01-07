@@ -9,6 +9,23 @@ var suite = vows.describe("d3.geo.projection");
 var π = Math.PI;
 
 suite.addBatch({
+  "d3.geo.aitoff": {
+    topic: function() {
+      return d3.geo.aitoff();
+    },
+    "projections and inverse projections": function(aitoff) {
+      assertEqualInverse(aitoff, [   0,   0], [480,        250]);
+      assertEqualInverse(aitoff, [   0, -90], [480,        485.619449]);
+      assertEqualInverse(aitoff, [   0,  90], [480,         14.380550]);
+      assertEqualInverse(aitoff, [   0, -45], [480,        367.809724]);
+      assertEqualInverse(aitoff, [   0,  45], [480,        132.190275]);
+      assertEqualInverse(aitoff, [-180,   0], [  8.761101, 250]);
+      assertEqualInverse(aitoff, [ 180,   0], [951.238898, 250]);
+      assertEqualInverse(aitoff, [-179,  15], [ 27.261952, 189.342293]);
+      assertEqualInverse(aitoff, [   1,   1], [482.617728, 247.381972]);
+      assertEqualInverse(aitoff, [  45,  87], [489.158099, 21.6821110]);
+    }
+  },
   "d3.geo.bonne": {
     "40° parallel": {
       topic: function() {
@@ -129,7 +146,7 @@ suite.addBatch({
     },
     "projections and inverse projections": function(mtFlatPolarParabolic) {
       assertEqualInverse(mtFlatPolarParabolic, [   0,   0], [480,        250]);
-      assertEqualInverse(mtFlatPolarParabolic, [   0, -90], [480,        458.30952244882417]);
+      assertEqualInverse(mtFlatPolarParabolic, [   0, -90], [480,        458.309522]);
       assertEqualInverse(mtFlatPolarParabolic, [   0,  90], [480,         41.690477]);
       assertEqualInverse(mtFlatPolarParabolic, [   0, -45], [480,        374.430617]);
       assertEqualInverse(mtFlatPolarParabolic, [   0,  45], [480,        125.569382]);
@@ -145,7 +162,7 @@ suite.addBatch({
     },
     "projections and inverse projections": function(mtFlatPolarQuartic) {
       assertEqualInverse(mtFlatPolarQuartic, [   0,   0], [480,        250]);
-      assertEqualInverse(mtFlatPolarQuartic, [   0, -90], [480,        448.8481444213551]);
+      assertEqualInverse(mtFlatPolarQuartic, [   0, -90], [480,        448.848144]);
       assertEqualInverse(mtFlatPolarQuartic, [   0,  90], [480,         51.151855]);
       assertEqualInverse(mtFlatPolarQuartic, [   0, -45], [480,        371.001020]);
       assertEqualInverse(mtFlatPolarQuartic, [   0,  45], [480,        128.998979]);
@@ -161,7 +178,7 @@ suite.addBatch({
     },
     "projections and inverse projections": function(mtFlatPolarSinusoidal) {
       assertEqualInverse(mtFlatPolarSinusoidal, [   0,   0], [480,        250]);
-      assertEqualInverse(mtFlatPolarSinusoidal, [   0, -90], [480,        465.96790915007875]);
+      assertEqualInverse(mtFlatPolarSinusoidal, [   0, -90], [480,        465.967909]);
       assertEqualInverse(mtFlatPolarSinusoidal, [   0,  90], [480,         34.032090]);
       assertEqualInverse(mtFlatPolarSinusoidal, [   0, -45], [480,        377.345812]);
       assertEqualInverse(mtFlatPolarSinusoidal, [   0,  45], [480,        122.654187]);
@@ -217,6 +234,7 @@ suite.addBatch({
       assertEqualInverse(winkel3, [ 180,   0], [865.619449, 250]);
       assertEqualInverse(winkel3, [-179,  15], [104.464309, 200.036192]);
       assertEqualInverse(winkel3, [   1,   1], [482.142197, 247.381989]);
+      assertEqualInverse(winkel3, [  45,  87], [522.079049,  21.958321]);
     }
   },
   // TODO move to D3 core?
@@ -312,12 +330,11 @@ assert.inDelta = function(actual, expected, delta, message) {
   }
 };
 
-function assertEqualInverse(projection, location, point, delta) {
-  delta = delta || 1e-6;
-  assert.inDelta(projection(location), point, delta);
-  assert.inDelta(projection.invert(point), location, delta);
-  assert.inDelta(location, projection.invert(projection(location)), delta);
-  assert.inDelta(point, projection(projection.invert(point)), delta);
+function assertEqualInverse(projection, location, point) {
+  var projected;
+  assert.inDelta(projected = projection(location), point, 1e-6);
+  assert.inDelta(projection.invert(projected), location, 1e-6);
+  assert.inDelta(projection(projection.invert(point)), point, 1e-6);
 }
 
 function inDelta(actual, expected, delta) {

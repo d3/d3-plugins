@@ -108,6 +108,23 @@ suite.addBatch({
       assertEqualInverse(hatano, [   1,   1], [482.225143, 246.920082]);
     }
   },
+  "d3.geo.hill": {
+    topic: function() {
+      return d3.geo.hill();
+    },
+    "projections and inverse projections": function(hill) {
+      assertEqualInverse(hill, [   0,   0], [480,        250]);
+      assertEqualInverse(hill, [   0, -90], [480,        416.823782]);
+      assertEqualInverse(hill, [   0,  90], [480,         18.873653]);
+      assertEqualInverse(hill, [   0, -45], [480,        364.499449]);
+      assertEqualInverse(hill, [   0,  45], [480,        113.253357]);
+      assertEqualInverse(hill, [-180,   0], [122.993559,  59.760268]);
+      assertEqualInverse(hill, [ 180,   0], [837.006440,  59.760268]);
+      assertEqualInverse(hill, [-179,  15], [154.461200,  25.636205]);
+      assertEqualInverse(hill, [   1,   1], [482.330467, 247.058682]);
+      assertEqualInverse(hill, [  45,  87], [508.223694,  17.762871]);
+    }
+  },
   "d3.geo.larrivee": {
     topic: function() {
       return d3.geo.larrivee();

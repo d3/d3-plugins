@@ -31,6 +31,7 @@ Projections:
 * [d3.geo.hammer](http://bl.ocks.org/3712397) - Hammer
 * [d3.geo.hammerRetroazimuthal](http://bl.ocks.org/4459130) - Hammer retroazimuthal
 * [d3.geo.healpix](http://bl.ocks.org/4463237) - HEALPix
+* d3.geo.hill - Hill Eucyclic (K=1); Maurer SNo. 73 (K=0)
 * [d3.geo.homolosine](http://bl.ocks.org/3734330) - Goode homolosine
 * [d3.geo.kavrayskiy7](http://bl.ocks.org/3710082) - Kavrayskiy VII
 * [d3.geo.lagrange](http://bl.ocks.org/3797591) - Lagrange conformal

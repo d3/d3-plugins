@@ -571,20 +571,6 @@
         : sinusoidal.invert(x, y);
   }
 
-  function toblerSquare(λ, φ) {
-    return [
-      λ / sqrtπ,
-      sqrtπ * Math.sin(φ)
-    ];
-  }
-
-  toblerSquare.invert = function(x, y) {
-    return [
-      x * sqrtπ,
-      asin(y / sqrtπ)
-    ];
-  };
-
   function hatano(λ, φ) {
     var c = Math.sin(φ) * (φ < 0 ? 2.43763 : 2.67595);
     for (var i = 0, δ; i < 20; i++) {
@@ -1440,7 +1426,6 @@
   (d3.geo.satellite = satelliteProjection).raw = satellite;
   (d3.geo.sinusoidal = function() { return projection(sinusoidal); }).raw = sinusoidal;
   (d3.geo.sinuMollweide = function() { return projection(sinuMollweide).rotate([-20, -55]); }).raw = sinuMollweide;
-  (d3.geo.toblerSquare = function() { return projection(toblerSquare); }).raw = toblerSquare;
   (d3.geo.vanDerGrinten = function() { return projection(vanDerGrinten); }).raw = vanDerGrinten;
   (d3.geo.wagner6 = function() { return projection(wagner6); }).raw = wagner6;
   (d3.geo.wagner7 = function() { return projection(wagner7); }).raw = wagner7;

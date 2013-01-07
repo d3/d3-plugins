@@ -8,7 +8,7 @@ Projections:
 * [d3.geo.august](http://bl.ocks.org/3797581) - August conformal
 * [d3.geo.azimuthalEqualArea](http://bl.ocks.org/3757101) - Lambert azimuthal equal-area
 * [d3.geo.azimuthalEquidistant](http://bl.ocks.org/3757110) - azimuthal equidistant
-* d3.geo.baker - Baker Dinomic
+* [d3.geo.baker](http://bl.ocks.org/4476279) - Baker Dinomic
 * [d3.geo.berghaus](http://bl.ocks.org/4463049) - Berghaus Star
 * [d3.geo.bonne](http://bl.ocks.org/3734313) - Bonne
 * [d3.geo.collignon](http://bl.ocks.org/3734316) - Collignon
@@ -16,7 +16,7 @@ Projections:
 * [d3.geo.conicEquidistant](http://bl.ocks.org/3734317) - conic equidistant
 * [d3.geo.craig](http://bl.ocks.org/4459466) - Craig retroazimuthal
 * [d3.geo.craster](http://bl.ocks.org/4465118) - Craster parabolic
-* [d3.geo.cylindricalEqualArea](http://bl.ocks.org/3712408) - cylindrical equal-area
+* [d3.geo.cylindricalEqualArea](http://bl.ocks.org/3712408) - cylindrical equal-area, [Gall–Peters](http://bl.ocks.org/3946824), [Hobo–Dyer](http://bl.ocks.org/4476487), [Tobler world-in-a-square](http://bl.ocks.org/4476496)
 * [d3.geo.eckert1](http://bl.ocks.org/3734322) - Eckert I
 * [d3.geo.eckert2](http://bl.ocks.org/3734324) - Eckert II
 * [d3.geo.eckert3](http://bl.ocks.org/3734325) - Eckert III
@@ -53,7 +53,6 @@ Projections:
 * [d3.geo.sinusoidal](http://bl.ocks.org/3712399) - sinusoidal
 * [d3.geo.sinuMollweide](http://bl.ocks.org/4319903) - sinu-Mollweide
 * [d3.geo.stereographic](http://bl.ocks.org/3757137) - stereographic
-* d3.geo.toblerSquare - Tobler world-in-a-square
 * [d3.geo.vanDerGrinten](http://bl.ocks.org/3796831) - Van der Grinten
 * [d3.geo.wagner6](http://bl.ocks.org/3710148) - Wagner VI
 * [d3.geo.wagner7](http://bl.ocks.org/4465109) - Wagner VII

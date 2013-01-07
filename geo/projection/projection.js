@@ -6,7 +6,8 @@
       radians = π / 180,
       degrees = 180 / π,
       sinumollφ = .7109889596207567,
-      sinumolly = .0528035274542;
+      sinumolly = .0528035274542,
+      bakerφ = Math.log(1 + Math.SQRT2);
 
   var robinsonConstants = [
     [1.0000, 0.0000],
@@ -644,6 +645,21 @@
           sgn(φ) * (2 * Math.SQRT2 * (φ0 - π / 4) - Math.log(Math.tan(φ0 / 2)))
         ];
   }
+
+  baker.invert = function(x, y) {
+    if ((y0 = Math.abs(y)) < bakerφ) return [x, 2 * Math.atan(Math.exp(y)) - π / 2];
+    var sqrt8 = Math.sqrt(8),
+        φ = π / 4, i = 25, δ, y0;
+    do {
+      var cosφ_2 = Math.cos(φ / 2),
+          tanφ_2 = Math.tan(φ / 2);
+      φ -= δ = (sqrt8 * (φ - π / 4) - Math.log(tanφ_2) - y0) / (sqrt8 - .5 * cosφ_2 * cosφ_2 / tanφ_2);
+    } while (Math.abs(δ) > ε2 && --i > 0);
+    return [
+      x / (Math.cos(φ) * (sqrt8 - 1 / Math.sin(φ))),
+      sgn(y) * φ
+    ];
+  };
 
   var azimuthalEquidistant = d3.geo.azimuthalEquidistant.raw;
 

@@ -63,7 +63,7 @@
           cotλ2 = .5 * (-b + Math.sqrt(b * b - 4 * (m - 1) * cotφ2));
       return [
         ellipticF(Math.atan(1 / Math.sqrt(cotλ2)), m) * sgn(φ),
-        ellipticF(Math.atan(sqrt(cotλ2 / cotφ2 - 1) / m), 1 - m) * sgn(ψ)
+        ellipticF(Math.atan(Math.sqrt(cotλ2 / cotφ2 - 1) / m), 1 - m) * sgn(ψ)
       ];
     }
     return [

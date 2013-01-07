@@ -184,7 +184,7 @@
           δφ = (f1 * δf2δλ - f2 * δf1δλ) / denominator,
           δλ = (f2 * δf1δφ - f1 * δf2δφ) / denominator;
       λ -= δλ, φ -= δφ;
-    } while (--i > 0);
+    } while ((Math.abs(δλ) > ε2 || Math.abs(δφ) > ε2) && --i > 0);
     return [λ, φ];
   };
 

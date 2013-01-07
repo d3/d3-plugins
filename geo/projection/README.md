@@ -44,6 +44,7 @@ Projections:
 * [d3.geo.mtFlatPolarParabolic](http://bl.ocks.org/4465130) - McBryde–Thomas flat-polar parabolic
 * [d3.geo.mtFlatPolarQuartic](http://bl.ocks.org/4465137) - McBryde–Thomas flat-polar quartic
 * [d3.geo.mtFlatPolarSinusoidal](http://bl.ocks.org/4465140) - McBryde–Thomas flat-polar sinusoidal
+* d3.geo.naturalEarth - Natural Earth
 * [d3.geo.nellHammer](http://bl.ocks.org/3734342) - Nell–Hammer
 * [d3.geo.orthographic](http://bl.ocks.org/3757125) - orthographic
 * [d3.geo.peirceQuincuncial](http://bl.ocks.org/4310087) - Pierce quincuncial

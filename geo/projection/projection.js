@@ -533,6 +533,34 @@
     ];
   };
 
+  function naturalEarth(λ, φ) {
+    var φ2 = φ * φ,
+        φ4 = φ2 * φ2,
+        φ10 = φ4 * φ4 * φ2;
+    return [
+      λ * ( .870700 - .131979 * φ2 - .013791 * φ4 + .003971 * φ10 - .001529 * φ10 * φ2),
+      φ * (1.007226 + .015085 * φ2 - .044475 * φ4 * φ2 + .028874 * φ4 * φ4 - .005916 * φ10)
+    ];
+  }
+
+  naturalEarth.invert = function(x, y) {
+    var φ = y, i = 25, δ;
+    do {
+      var φ2 = φ * φ,
+          φ4 = φ2 * φ2,
+          φ8 = φ4 * φ4,
+          b2φ2 = .015085 * φ2,
+          b3φ6 = -.044475 * φ4 * φ2,
+          b4φ8 = .028874 * φ8,
+          b5φ10 = -.005916 * φ8 * φ2;
+      φ -= δ = (φ * (1.007226 + b2φ2 + b3φ6 + b4φ8 + b5φ10) - y) / (1.007226 + 3 * b2φ2 + 7 * b3φ6 + 9 * b4φ8 + 11 * b5φ10);
+    } while (Math.abs(δ) > ε && --i > 0);
+    return [
+      x / (.870700 + (φ2 = φ * φ) * (-.131979 + φ2 * (-.013791 + φ2 * φ2 * φ2 * (.003971 - .001529 * φ2)))),
+      φ
+    ];
+  };
+
   function homolosine(λ, φ) {
     return Math.abs(φ) > sinumollφ
         ? (λ = mollweide(λ, φ), λ[1] -= φ > 0 ? sinumolly : -sinumolly, λ)
@@ -1468,6 +1496,7 @@
   (d3.geo.mtFlatPolarSinusoidal = function() { return projection(mtFlatPolarSinusoidal); }).raw = mtFlatPolarSinusoidal;
   (d3.geo.miller = function() { return projection(miller); }).raw = miller;
   (d3.geo.mollweide = function() { return projection(mollweide); }).raw = mollweide;
+  (d3.geo.naturalEarth = function() { return projection(naturalEarth); }).raw = naturalEarth;
   (d3.geo.nellHammer = function() { return projection(nellHammer); }).raw = nellHammer;
   (d3.geo.peirceQuincuncial = function() { return projection(peirceQuincuncial).rotate([-90, -90, 45]).clipAngle(180 - 1e-6); }).raw = peirceQuincuncial;
   (d3.geo.polyconic = function() { return projection(polyconic); }).raw = polyconic;

@@ -205,6 +205,23 @@ suite.addBatch({
       assertEqualInverse(mtFlatPolarSinusoidal, [   1,   1], [482.399298, 247.143795]);
     }
   },
+  "d3.geo.naturalEarth": {
+    topic: function() {
+      return d3.geo.naturalEarth();
+    },
+    "projections and inverse projections": function(naturalEarth) {
+      assertEqualInverse(naturalEarth, [   0,   0], [480,        250]);
+      assertEqualInverse(naturalEarth, [   0, -90], [480,        463.358576]);
+      assertEqualInverse(naturalEarth, [   0,  90], [480,         36.641423]);
+      assertEqualInverse(naturalEarth, [   0, -45], [480,        368.957709]);
+      assertEqualInverse(naturalEarth, [   0,  45], [480,        131.042290]);
+      assertEqualInverse(naturalEarth, [-180,   0], [ 69.692291, 250]);
+      assertEqualInverse(naturalEarth, [ 180,   0], [890.307708, 250]);
+      assertEqualInverse(naturalEarth, [-179,  15], [ 76.241138, 210.406263]);
+      assertEqualInverse(naturalEarth, [   1,   1], [482.279382, 247.363076]);
+      assertEqualInverse(naturalEarth, [  45,  87], [541.511740,  38.772664]);
+    }
+  },
   "d3.geo.quarticAuthalic": {
     topic: function() {
       return d3.geo.quarticAuthalic();

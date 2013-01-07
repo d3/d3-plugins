@@ -9,6 +9,23 @@ var suite = vows.describe("d3.geo.projection");
 var π = Math.PI;
 
 suite.addBatch({
+  "d3.geo.aitoff": {
+    topic: function() {
+      return d3.geo.aitoff();
+    },
+    "projections and inverse projections": function(aitoff) {
+      assertEqualInverse(aitoff, [   0,   0], [480,        250]);
+      assertEqualInverse(aitoff, [   0, -90], [480,        485.619449]);
+      assertEqualInverse(aitoff, [   0,  90], [480,         14.380550]);
+      assertEqualInverse(aitoff, [   0, -45], [480,        367.809724]);
+      assertEqualInverse(aitoff, [   0,  45], [480,        132.190275]);
+      assertEqualInverse(aitoff, [-180,   0], [  8.761101, 250]);
+      assertEqualInverse(aitoff, [ 180,   0], [951.238898, 250]);
+      assertEqualInverse(aitoff, [-179,  15], [ 27.261952, 189.342293]);
+      assertEqualInverse(aitoff, [   1,   1], [482.617728, 247.381972]);
+      assertEqualInverse(aitoff, [  45,  87], [489.158099, 21.6821110]);
+    }
+  },
   "d3.geo.bonne": {
     "40° parallel": {
       topic: function() {
@@ -48,15 +65,31 @@ suite.addBatch({
       return d3.geo.craig();
     },
     "projections and inverse projections": function(craig) {
-      assertEqualInverse(craig, [   0,   0], [480,          250]);
-      assertEqualInverse(craig, [   0, -90], [480,          400]);
-      assertEqualInverse(craig, [   0,  90], [480,          100]);
-      assertEqualInverse(craig, [   0, -45], [480,          356.066017]);
-      assertEqualInverse(craig, [   0,  45], [480,          143.933982]);
-      assertEqualInverse(craig, [-180,   0], [  8.761101,   250]);
-      assertEqualInverse(craig, [ 180,   0], [951.238898,   250]);
-      assertEqualInverse(craig, [-179,  15], [ 11.3790958, 7198.585721]);
-      assertEqualInverse(craig, [   1,   1], [482.617993,   247.382404]);
+      assert.inDelta(craig([   0,   0]), [480,          250], 1e-6);
+      assert.inDelta(craig([   0, -90]), [480,          400], 1e-6);
+      assert.inDelta(craig([   0,  90]), [480,          100], 1e-6);
+      assert.inDelta(craig([   0, -45]), [480,          356.066017], 1e-6);
+      assert.inDelta(craig([   0,  45]), [480,          143.933982], 1e-6);
+      assert.inDelta(craig([-180,   0]), [  8.761101,   250], 1e-6);
+      assert.inDelta(craig([ 180,   0]), [951.238898,   250], 1e-6);
+      assert.inDelta(craig([-179,  15]), [ 11.3790958, 7198.585721], 1e-6);
+      assert.inDelta(craig([   1,   1]), [482.617993,   247.382404], 1e-6);
+    }
+  },
+  "d3.geo.craster": {
+    topic: function() {
+      return d3.geo.craster();
+    },
+    "projections and inverse projections": function(craster) {
+      assertEqualInverse(craster, [   0,   0], [480,        250]);
+      assertEqualInverse(craster, [   0, -90], [480,        480.248509]);
+      assertEqualInverse(craster, [   0,  90], [480,         19.751490]);
+      assertEqualInverse(craster, [   0, -45], [480,        369.185398]);
+      assertEqualInverse(craster, [   0,  45], [480,        130.814601]);
+      assertEqualInverse(craster, [-180,   0], [ 19.502981, 250]);
+      assertEqualInverse(craster, [ 180,   0], [940.497018, 250]);
+      assertEqualInverse(craster, [-179,  15], [ 35.975533, 209.865040]);
+      assertEqualInverse(craster, [   1,   1], [482.557970, 247.320952]);
     }
   },
   "d3.geo.hatano": {
@@ -107,6 +140,54 @@ suite.addBatch({
       assertEqualInverse(loximuthal, [   1,   1], [482.390500, 247.382006]);
     }
   },
+  "d3.geo.mtFlatPolarParabolic": {
+    topic: function() {
+      return d3.geo.mtFlatPolarParabolic();
+    },
+    "projections and inverse projections": function(mtFlatPolarParabolic) {
+      assertEqualInverse(mtFlatPolarParabolic, [   0,   0], [480,        250]);
+      assertEqualInverse(mtFlatPolarParabolic, [   0, -90], [480,        458.309522]);
+      assertEqualInverse(mtFlatPolarParabolic, [   0,  90], [480,         41.690477]);
+      assertEqualInverse(mtFlatPolarParabolic, [   0, -45], [480,        374.430617]);
+      assertEqualInverse(mtFlatPolarParabolic, [   0,  45], [480,        125.569382]);
+      assertEqualInverse(mtFlatPolarParabolic, [-180,   0], [ 43.717556, 250]);
+      assertEqualInverse(mtFlatPolarParabolic, [ 180,   0], [916.282443, 250]);
+      assertEqualInverse(mtFlatPolarParabolic, [-179,  15], [ 58.080254, 207.678319]);
+      assertEqualInverse(mtFlatPolarParabolic, [   1,   1], [482.423493, 247.172271]);
+    }
+  },
+  "d3.geo.mtFlatPolarQuartic": {
+    topic: function() {
+      return d3.geo.mtFlatPolarQuartic();
+    },
+    "projections and inverse projections": function(mtFlatPolarQuartic) {
+      assertEqualInverse(mtFlatPolarQuartic, [   0,   0], [480,        250]);
+      assertEqualInverse(mtFlatPolarQuartic, [   0, -90], [480,        448.848144]);
+      assertEqualInverse(mtFlatPolarQuartic, [   0,  90], [480,         51.151855]);
+      assertEqualInverse(mtFlatPolarQuartic, [   0, -45], [480,        371.001020]);
+      assertEqualInverse(mtFlatPolarQuartic, [   0,  45], [480,        128.998979]);
+      assertEqualInverse(mtFlatPolarQuartic, [-180,   0], [146.783779, 250]);
+      assertEqualInverse(mtFlatPolarQuartic, [ 180,   0], [813.216220, 250]);
+      assertEqualInverse(mtFlatPolarQuartic, [-179,  15], [155.997702, 208.275733]);
+      assertEqualInverse(mtFlatPolarQuartic, [   1,   1], [481.851018, 247.207163]);
+    }
+  },
+  "d3.geo.mtFlatPolarSinusoidal": {
+    topic: function() {
+      return d3.geo.mtFlatPolarSinusoidal();
+    },
+    "projections and inverse projections": function(mtFlatPolarSinusoidal) {
+      assertEqualInverse(mtFlatPolarSinusoidal, [   0,   0], [480,        250]);
+      assertEqualInverse(mtFlatPolarSinusoidal, [   0, -90], [480,        465.967909]);
+      assertEqualInverse(mtFlatPolarSinusoidal, [   0,  90], [480,         34.032090]);
+      assertEqualInverse(mtFlatPolarSinusoidal, [   0, -45], [480,        377.345812]);
+      assertEqualInverse(mtFlatPolarSinusoidal, [   0,  45], [480,        122.654187]);
+      assertEqualInverse(mtFlatPolarSinusoidal, [-180,   0], [ 48.064181, 250]);
+      assertEqualInverse(mtFlatPolarSinusoidal, [ 180,   0], [911.935818, 250]);
+      assertEqualInverse(mtFlatPolarSinusoidal, [-179,  15], [ 64.236235, 207.185461]);
+      assertEqualInverse(mtFlatPolarSinusoidal, [   1,   1], [482.399298, 247.143795]);
+    }
+  },
   "d3.geo.quarticAuthalic": {
     topic: function() {
       return d3.geo.quarticAuthalic();
@@ -137,6 +218,23 @@ suite.addBatch({
       assertEqualInverse(wagner6, [ 180,   0], [951.238898, 250]);
       assertEqualInverse(wagner6, [-179,  15], [16.2862562, 210.730091]);
       assertEqualInverse(wagner6, [   1,   1], [482.617872, 247.382006]);
+    }
+  },
+  "d3.geo.winkel3": {
+    topic: function() {
+      return d3.geo.winkel3();
+    },
+    "projections and inverse projections": function(winkel3) {
+      assertEqualInverse(winkel3, [   0,   0], [480,        250]);
+      assertEqualInverse(winkel3, [   0, -90], [480,        485.619449]);
+      assertEqualInverse(winkel3, [   0,  90], [480,         14.380550]);
+      assertEqualInverse(winkel3, [   0, -45], [480,        367.809724]);
+      assertEqualInverse(winkel3, [   0,  45], [480,        132.190275]);
+      assertEqualInverse(winkel3, [-180,   0], [ 94.380550, 250]);
+      assertEqualInverse(winkel3, [ 180,   0], [865.619449, 250]);
+      assertEqualInverse(winkel3, [-179,  15], [104.464309, 200.036192]);
+      assertEqualInverse(winkel3, [   1,   1], [482.142197, 247.381989]);
+      assertEqualInverse(winkel3, [  45,  87], [522.079049,  21.958321]);
     }
   },
   // TODO move to D3 core?
@@ -233,10 +331,10 @@ assert.inDelta = function(actual, expected, delta, message) {
 };
 
 function assertEqualInverse(projection, location, point) {
-  assert.inDelta(projection(location), point, 1e-6);
-  assert.inDelta(projection.invert(point), location, 1e-6);
-  assert.inDelta(location, projection.invert(projection(location)), 1e-6);
-  assert.inDelta(point, projection(projection.invert(point)), 1e-6);
+  var projected;
+  assert.inDelta(projected = projection(location), point, 1e-6);
+  assert.inDelta(projection.invert(projected), location, 1e-6);
+  assert.inDelta(projection(projection.invert(point)), point, 1e-6);
 }
 
 function inDelta(actual, expected, delta) {

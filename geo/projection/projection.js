@@ -177,7 +177,7 @@
           f1 = .5 * (2 * E * cosφ * sinλ_2 + λ * 2 / π) - x,
           f2 = .5 * (E * sinφ + φ) - y,
           δf1δφ = F * (sinλ * sin_2φ / 4 - E * sinφ * sinλ_2),
-          δf1δλ = .5 * F * (cos2φ * sinλ_2 * sinλ_2 + E * cosφ * cosλ_2 * sin2φ) + .5 * cosφ,
+          δf1δλ = .5 * F * (cos2φ * sinλ_2 * sinλ_2 + E * cosφ * cosλ_2 * sin2φ) + .5 * 2 / π,
           δf2δφ = .5 * F * (sin2φ * cosλ_2 + E * sinλ_2 * sinλ_2 * cosφ) + .5,
           δf2δλ = .125 * F * (sin_2φ * sinλ_2 - E * sinφ * cos2φ * sinλ),
           denominator = δf1δφ * δf2δλ - δf2δφ * δf1δλ,

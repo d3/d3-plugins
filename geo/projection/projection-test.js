@@ -221,6 +221,23 @@ suite.addBatch({
       assertEqualInverse(quarticAuthalic, [   1,   1], [482.617694, 247.382039]);
     }
   },
+  "d3.geo.robinson": {
+    topic: function() {
+      return d3.geo.robinson();
+    },
+    "projections and inverse projections": function(robinson) {
+      assertEqualInverse(robinson, [   0,   0], [480,        250]);
+      assertEqualInverse(robinson, [   0, -90], [480,        457.923866]);
+      assertEqualInverse(robinson, [   0,  90], [480,         42.076133]);
+      assertEqualInverse(robinson, [   0, -45], [480,        362.919394]);
+      assertEqualInverse(robinson, [   0,  45], [480,        137.080605]);
+      assertEqualInverse(robinson, [-180,   0], [ 79.117069, 250]);
+      assertEqualInverse(robinson, [ 180,   0], [880.882930, 250]);
+      assertEqualInverse(robinson, [-179,  15], [ 86.024312, 212.141833]);
+      assertEqualInverse(robinson, [   1,   1], [482.227011, 247.475731]);
+      assertEqualInverse(robinson, [  45,  87], [534.321388,  46.690617]);
+    }
+  },
   "d3.geo.wagner6": {
     topic: function() {
       return d3.geo.wagner6();

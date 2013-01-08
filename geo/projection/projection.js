@@ -533,6 +533,7 @@
   };
 
   function mollweideθ(φ) {
+    if (Math.abs(Math.abs(φ) - π / 2) < ε) return φ;
     var πsinφ = π * Math.sin(φ),
         θ = φ, i = 25, δ;
     do {
@@ -542,7 +543,7 @@
   }
 
   function mollweide(λ, φ) {
-    var θ = Math.abs(φ) !== π / 2 ? mollweideθ(φ) : φ;
+    var θ = mollweideθ(φ);
     return [
       2 * Math.SQRT2 / π * λ * Math.cos(θ),
       Math.SQRT2 * Math.sin(θ)
@@ -581,7 +582,6 @@
   function boggs(λ, φ) {
     var k = 2.00276,
         θ = mollweideθ(φ);
-    if (Math.abs(Math.abs(φ) - π / 2) < ε) return [0, sgn(φ) * (π / 2 + Math.SQRT2) / k];
     return [
       k * λ / (1 / Math.cos(φ) + 1.11072 / Math.cos(θ)),
       (φ + Math.SQRT2 * Math.sin(θ)) / k

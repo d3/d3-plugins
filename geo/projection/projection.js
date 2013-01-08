@@ -575,13 +575,33 @@
   };
 
   function boggs(λ, φ) {
-    var s = sinusoidal(λ, φ),
-        m = mollweide(λ, φ);
+    var k = 2.00276;
+    if (Math.abs(Math.abs(φ) - π / 2) < ε) return [λ, sgn(φ) * (π / 2 + Math.SQRT2) / k];
+    var πsinφ = π * Math.sin(φ),
+        θ = φ, i = 25, δ;
+    do {
+      θ -= δ = (2 * θ + Math.sin(2 * θ) - πsinφ) / (2 + 2 * Math.cos(2 * θ));
+    } while (Math.abs(δ) > ε && --i > 0);
     return [
-      (s[0] + m[0]) / 2,
-      (s[1] + m[1]) / 2
+      k * λ / (1 / Math.cos(φ) + 1.11072 / Math.cos(θ)),
+      (φ + Math.SQRT2 * Math.sin(θ)) / k
     ];
   }
+
+  boggs.invert = function(x, y) {
+    var k = 2.00276,
+        ky = k * y,
+        θ = y < 0 ? -π / 4 : π / 4, i = 25, δ, φ;
+    do {
+      φ = ky - Math.SQRT2 * Math.sin(θ);
+      θ -= δ = (Math.sin(2 * θ) + 2 * θ - π * Math.sin(φ)) / (2 * Math.cos(2 * θ) + 2 + π * Math.cos(φ) * Math.SQRT2 * Math.cos(θ));
+    } while (Math.abs(δ) > ε && --i > 0);
+    φ = 2.00276 * y - Math.SQRT2 * Math.sin(θ);
+    return [
+      x * (1 / Math.cos(φ) + 1.11072 / Math.cos(θ)) / k,
+      φ
+    ];
+  };
 
   function homolosine(λ, φ) {
     return Math.abs(φ) > sinumollφ

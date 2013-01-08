@@ -43,6 +43,23 @@ suite.addBatch({
       assertEqualInverse(baker, [  45,  87], [491.265043, -68.859378]);
     }
   },
+  "d3.geo.boggs": {
+    topic: function() {
+      return d3.geo.boggs();
+    },
+    "projections and inverse projections": function(boggs) {
+      assertEqualInverse(boggs, [   0,   0], [480,        250]);
+      assertEqualInverse(boggs, [   0, -90], [480,        473.567218]);
+      assertEqualInverse(boggs, [   0,  90], [480,         26.432781]);
+      assertEqualInverse(boggs, [   0, -45], [480,        371.532657]);
+      assertEqualInverse(boggs, [   0,  45], [480,        128.467342]);
+      assertEqualInverse(boggs, [-180,   0], [ 32.864228, 250]);
+      assertEqualInverse(boggs, [ 180,   0], [927.135771, 250]);
+      assertEqualInverse(boggs, [-179,  15], [ 47.500957, 208.708722]);
+      assertEqualInverse(boggs, [   1,   1], [482.483785, 247.240908]);
+      assertEqualInverse(boggs, [  45,  87], [488.857270,  31.512628]);
+    }
+  },
   "d3.geo.bonne": {
     "40° parallel": {
       topic: function() {

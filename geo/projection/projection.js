@@ -596,7 +596,7 @@
       φ = ky - Math.SQRT2 * Math.sin(θ);
       θ -= δ = (Math.sin(2 * θ) + 2 * θ - π * Math.sin(φ)) / (2 * Math.cos(2 * θ) + 2 + π * Math.cos(φ) * Math.SQRT2 * Math.cos(θ));
     } while (Math.abs(δ) > ε && --i > 0);
-    φ = 2.00276 * y - Math.SQRT2 * Math.sin(θ);
+    φ = ky - Math.SQRT2 * Math.sin(θ);
     return [
       x * (1 / Math.cos(φ) + 1.11072 / Math.cos(θ)) / k,
       φ

@@ -532,20 +532,21 @@
     ];
   };
 
-  function mollweideBromleyθ(Cx, Cy, Cp) {
+  function mollweideBromleyθ(Cp) {
     return function(φ) {
       if (Math.abs(Math.abs(φ) - π / 2) < ε) return φ;
-      var πsinφ = π * Math.sin(φ),
-          θ = φ, i = 25, δ;
+      var Cpsinφ = Cp * Math.sin(φ),
+          θ = φ,
+          i = 25, δ;
       do {
-        θ -= δ = (2 * θ + Math.sin(2 * θ) - πsinφ) / (2 + 2 * Math.cos(2 * θ));
+        θ -= δ = (2 * θ + Math.sin(2 * θ) - Cpsinφ) / (2 + 2 * Math.cos(2 * θ));
       } while (Math.abs(δ) > ε && --i > 0);
       return θ;
     };
   }
 
   function mollweideBromley(Cx, Cy, Cp) {
-    var θ = mollweideBromleyθ(Cx, Cy, Cp);
+    var θ = mollweideBromleyθ(Cp);
 
     function forward(λ, φ) {
       return [
@@ -566,7 +567,7 @@
   }
 
   var mollweide = mollweideBromley(2 * Math.SQRT2 / π, Math.SQRT2, π),
-      mollweideθ = mollweideBromleyθ(2 * Math.SQRT2 / π, Math.SQRT2, π),
+      mollweideθ = mollweideBromleyθ(π),
       bromley = mollweideBromley(1, 4 / π, π),
       wagner4 = (function() {
         var A = 4 * π + 3 * Math.sqrt(3),

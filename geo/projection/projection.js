@@ -576,7 +576,7 @@
 
   function boggs(λ, φ) {
     var k = 2.00276;
-    if (Math.abs(Math.abs(φ) - π / 2) < ε) return [λ, sgn(φ) * (π / 2 + Math.SQRT2) / k];
+    if (Math.abs(Math.abs(φ) - π / 2) < ε) return [0, sgn(φ) * (π / 2 + Math.SQRT2) / k];
     var πsinφ = π * Math.sin(φ),
         θ = φ, i = 25, δ;
     do {

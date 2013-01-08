@@ -233,9 +233,15 @@ function outline(stream, node, parent) {
       edges = node.edges,
       n = edges.length,
       edge,
-      centroid = d3.geo.centroid({type: "MultiPoint", coordinates: node.face}),
+      multiPoint = {type: "MultiPoint", coordinates: node.face},
+      bounds = d3.geo.bounds(multiPoint),
       inside = false,
-      j = -1;
+      j = -1,
+      dx = bounds[1][0] - bounds[0][0];
+  // TODO
+  var centroid = dx === 180 || dx === 360
+      ? [(bounds[0][0] + bounds[1][0]) / 2, (bounds[0][1] + bounds[1][1]) / 2]
+      : d3.geo.centroid(multiPoint);
   // First find the shared edge…
   if (parent) while (++j < n) {
     if (edges[j] === parent) break;

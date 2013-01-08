@@ -533,15 +533,12 @@
   };
 
   function mollweideBromleyθ(Cp) {
-    return function(φ) {
-      if (Math.abs(Math.abs(φ) - π / 2) < ε) return φ;
-      var Cpsinφ = Cp * Math.sin(φ),
-          θ = φ,
+    return function(θ) {
+      var Cpsinθ = Cp * Math.sin(θ),
           i = 25, δ;
-      do {
-        θ -= δ = (2 * θ + Math.sin(2 * θ) - Cpsinφ) / (2 + 2 * Math.cos(2 * θ));
-      } while (Math.abs(δ) > ε && --i > 0);
-      return θ;
+      do θ -= δ = (θ + Math.sin(θ) - Cpsinθ) / (1 + Math.cos(θ));
+      while (Math.abs(δ) > ε && --i > 0);
+      return θ / 2;
     };
   }
 

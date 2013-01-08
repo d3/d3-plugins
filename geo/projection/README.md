@@ -38,6 +38,7 @@ Projections:
 * d3.geo.kavrayskiy7 - [Kavrayskiy VII](http://bl.ocks.org/3710082)
 * d3.geo.lagrange - [Lagrange conformal](http://bl.ocks.org/3797591)
 * d3.geo.larrivee - [Larrivée](http://bl.ocks.org/3719042)
+* d3.geo.laskowski - Laskowski Tri-Optimal
 * d3.geo.littrow - [Littrow](http://bl.ocks.org/4459071)
 * d3.geo.loximuthal - [loximuthal](http://bl.ocks.org/3867220)
 * d3.geo.mercator - [Mercator](http://bl.ocks.org/3757132)

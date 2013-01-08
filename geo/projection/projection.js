@@ -983,6 +983,14 @@
     return [x < 0 ? -λ : λ, y < 0 ? -φ : φ];
   };
 
+  function laskowski(λ, φ) {
+    var λ2 = λ * λ, φ2 = φ * φ;
+    return [
+      λ * (.975534 + φ2 * (-.119161 + λ2 * -.0143059 + φ2 * -.0547009)),
+      φ * (1.00384 + λ2 * (.0802894 + φ2 * -.02855 + λ2 * .000199025) + φ2 * (0.0998909 + φ2 * -0.0491032))
+    ];
+  }
+
   function littrow(λ, φ) {
     return [
       Math.sin(λ) / Math.cos(φ),
@@ -1562,6 +1570,7 @@
   (d3.geo.kavrayskiy7 = function() { return projection(kavrayskiy7); }).raw = kavrayskiy7;
   (d3.geo.lagrange = lagrangeProjection).raw = lagrange;
   (d3.geo.larrivee = function() { return projection(larrivee); }).raw = larrivee;
+  (d3.geo.laskowski = function() { return projection(laskowski); }).raw = laskowski;
   (d3.geo.littrow = function() { return projection(littrow); }).raw = littrow;
   (d3.geo.loximuthal = function() { return singleParallelProjection(loximuthal).parallel(40); }).raw = loximuthal;
   (d3.geo.mtFlatPolarParabolic = function() { return projection(mtFlatPolarParabolic); }).raw = mtFlatPolarParabolic;

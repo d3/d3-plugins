@@ -10,9 +10,11 @@ var ε = 1e-6,
 //    augmented with a transform matrix.
 //  * face: a function that returns the appropriate node for a given {λ, φ}
 //    point (radians).
-d3.geo.polyhedron = function(root, face) {
+//  * r: rotation angle for final polyhedron net.  Defaults to -π / 6 (for
+//    butterflies).
+d3.geo.polyhedron = function(root, face, r) {
 
-  var r = -π / 6; // TODO automate
+  r = r == null ? -π / 6 : 0; // TODO automate
 
   recurse(root, {transform: [
     Math.cos(r), Math.sin(r), 0,
@@ -103,11 +105,11 @@ d3.geo.polyhedron = function(root, face) {
         sphereStream = (projection.rotate([0, 0]), stream_(stream));
     projection.rotate(rotate);
     rotateStream.sphere = function() {
-      stream.polygonStart();
-      stream.lineStart();
+      sphereStream.polygonStart();
+      sphereStream.lineStart();
       outline(sphereStream, root);
-      stream.lineEnd();
-      stream.polygonEnd();
+      sphereStream.lineEnd();
+      sphereStream.polygonEnd();
     };
     return rotateStream;
   };

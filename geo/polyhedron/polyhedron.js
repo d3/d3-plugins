@@ -14,7 +14,7 @@ var ε = 1e-6,
 //    butterflies).
 d3.geo.polyhedron = function(root, face, r) {
 
-  r = r == null ? -π / 6 : 0; // TODO automate
+  r = r == null ? -π / 6 : r; // TODO automate
 
   recurse(root, {transform: [
     Math.cos(r), Math.sin(r), 0,
@@ -234,7 +234,8 @@ function outline(stream, node, parent) {
       n = edges.length,
       edge,
       multiPoint = {type: "MultiPoint", coordinates: node.face},
-      bounds = d3.geo.bounds(multiPoint),
+      notPoles = node.face.filter(function(d) { return Math.abs(d[1]) !== 90; }),
+      bounds = d3.geo.bounds({type: "MultiPoint", coordinates: notPoles}),
       inside = false,
       j = -1,
       dx = bounds[1][0] - bounds[0][0];

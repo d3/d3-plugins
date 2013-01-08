@@ -191,6 +191,23 @@ suite.addBatch({
       assertEqualInverse(loximuthal, [   1,   1], [482.390500, 247.382006]);
     }
   },
+  "d3.geo.mollweide": {
+    topic: function() {
+      return d3.geo.mollweide();
+    },
+    "projections and inverse projections": function(mollweide) {
+      assertEqualInverse(mollweide, [   0,   0], [480,        250]);
+      assertEqualInverse(mollweide, [   0, -90], [480,        462.132034]);
+      assertEqualInverse(mollweide, [   0,  90], [480,         37.867965]);
+      assertEqualInverse(mollweide, [   0, -45], [480,        375.591020]);
+      assertEqualInverse(mollweide, [   0,  45], [480,        124.408979]);
+      assertEqualInverse(mollweide, [-180,   0], [ 55.735931, 250]);
+      assertEqualInverse(mollweide, [ 180,   0], [904.264068, 250]);
+      assertEqualInverse(mollweide, [-179,  15], [ 67.028260, 206.573390]);
+      assertEqualInverse(mollweide, [   1,   1], [482.356801, 247.092196]);
+      assertEqualInverse(mollweide, [  45,  87], [495.642877,  40.187699]);
+    }
+  },
   "d3.geo.mtFlatPolarParabolic": {
     topic: function() {
       return d3.geo.mtFlatPolarParabolic();

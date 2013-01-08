@@ -10,6 +10,7 @@ Projections:
 * d3.geo.azimuthalEquidistant - [azimuthal equidistant](http://bl.ocks.org/3757110)
 * d3.geo.baker - [Baker Dinomic](http://bl.ocks.org/4476279)
 * d3.geo.berghaus - [Berghaus Star](http://bl.ocks.org/4463049)
+* d3.geo.boggs - [Boggs eumorphic](http://bl.ocks.org/4481220)
 * d3.geo.bonne - [Bonne](http://bl.ocks.org/3734313)
 * d3.geo.collignon - [Collignon](http://bl.ocks.org/3734316)
 * d3.geo.conicConformal - [Lambert conformal conic](http://bl.ocks.org/3734321)

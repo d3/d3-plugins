@@ -532,31 +532,47 @@
     ];
   };
 
-  function mollweideθ(φ) {
-    if (Math.abs(Math.abs(φ) - π / 2) < ε) return φ;
-    var πsinφ = π * Math.sin(φ),
-        θ = φ, i = 25, δ;
-    do {
-      θ -= δ = (2 * θ + Math.sin(2 * θ) - πsinφ) / (2 + 2 * Math.cos(2 * θ));
-    } while (Math.abs(δ) > ε && --i > 0);
-    return θ;
+  function mollweideBromleyθ(Cx, Cy, Cp) {
+    return function(φ) {
+      if (Math.abs(Math.abs(φ) - π / 2) < ε) return φ;
+      var πsinφ = π * Math.sin(φ),
+          θ = φ, i = 25, δ;
+      do {
+        θ -= δ = (2 * θ + Math.sin(2 * θ) - πsinφ) / (2 + 2 * Math.cos(2 * θ));
+      } while (Math.abs(δ) > ε && --i > 0);
+      return θ;
+    };
   }
 
-  function mollweide(λ, φ) {
-    var θ = mollweideθ(φ);
-    return [
-      2 * Math.SQRT2 / π * λ * Math.cos(θ),
-      Math.SQRT2 * Math.sin(θ)
-    ];
+  function mollweideBromley(Cx, Cy, Cp) {
+    var θ = mollweideBromleyθ(Cx, Cy, Cp);
+
+    function forward(λ, φ) {
+      return [
+        Cx * λ * Math.cos(φ = θ(φ)),
+        Cy * Math.sin(φ)
+      ];
+    }
+
+    forward.invert = function(x, y) {
+      var θ = asin(y / Cy);
+      return [
+        x / (Cx * Math.cos(θ)),
+        asin((2 * θ + Math.sin(2 * θ)) / Cp)
+      ];
+    };
+
+    return forward;
   }
 
-  mollweide.invert = function(x, y) {
-    var θ = asin(y / Math.SQRT2);
-    return [
-      π * x / (2 * Math.SQRT2 * Math.cos(θ)),
-      asin((2 * θ + Math.sin(2 * θ)) / π)
-    ];
-  };
+  var mollweide = mollweideBromley(2 * Math.SQRT2 / π, Math.SQRT2, π),
+      mollweideθ = mollweideBromleyθ(2 * Math.SQRT2 / π, Math.SQRT2, π),
+      bromley = mollweideBromley(1, 4 / π, π),
+      wagner4 = (function() {
+        var A = 4 * π + 3 * Math.sqrt(3),
+            B = 2 * Math.sqrt(2 * π * Math.sqrt(3) / A);
+        return mollweideBromley(B * Math.sqrt(3) / π, B, A / 6);
+      })();
 
   function naturalEarth(λ, φ) {
     var φ2 = φ * φ, φ4 = φ2 * φ2;
@@ -1523,6 +1539,7 @@
   (d3.geo.berghaus = berghausProjection).raw = berghaus;
   (d3.geo.boggs = function() { return projection(boggs); }).raw = boggs;
   (d3.geo.bonne = function() { return singleParallelProjection(bonne).parallel(45); }).raw = bonne;
+  (d3.geo.bromley = function() { return projection(bromley); }).raw = bromley;
   (d3.geo.collignon = function() { return projection(collignon); }).raw = collignon;
   (d3.geo.conicConformal = function() { return doubleParallelProjection(conicConformal); }).raw = conicConformal;
   (d3.geo.conicEquidistant = function() { return doubleParallelProjection(conicEquidistant); }).raw = conicEquidistant;
@@ -1564,6 +1581,7 @@
   (d3.geo.sinusoidal = function() { return projection(sinusoidal); }).raw = sinusoidal;
   (d3.geo.sinuMollweide = function() { return projection(sinuMollweide).rotate([-20, -55]); }).raw = sinuMollweide;
   (d3.geo.vanDerGrinten = function() { return projection(vanDerGrinten); }).raw = vanDerGrinten;
+  (d3.geo.wagner4 = function() { return projection(wagner4); }).raw = wagner4;
   (d3.geo.wagner6 = function() { return projection(wagner6); }).raw = wagner6;
   (d3.geo.wagner7 = function() { return projection(wagner7); }).raw = wagner7;
   (d3.geo.wiechel = function() { return projection(wiechel); }).raw = wiechel;

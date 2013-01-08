@@ -12,6 +12,7 @@ Projections:
 * d3.geo.berghaus - [Berghaus Star](http://bl.ocks.org/4463049)
 * d3.geo.boggs - [Boggs eumorphic](http://bl.ocks.org/4481220)
 * d3.geo.bonne - [Bonne](http://bl.ocks.org/3734313)
+* d3.geo.bromley - Bromley
 * d3.geo.collignon - [Collignon](http://bl.ocks.org/3734316)
 * d3.geo.conicConformal - [Lambert conformal conic](http://bl.ocks.org/3734321)
 * d3.geo.conicEquidistant - [conic equidistant](http://bl.ocks.org/3734317)
@@ -57,6 +58,7 @@ Projections:
 * d3.geo.sinuMollweide - [sinu-Mollweide](http://bl.ocks.org/4319903)
 * d3.geo.stereographic - [stereographic](http://bl.ocks.org/3757137)
 * d3.geo.vanDerGrinten - [Van der Grinten](http://bl.ocks.org/3796831)
+* d3.geo.wagner4 - Wagner IV (Putniṇš P2´)
 * d3.geo.wagner6 - [Wagner VI](http://bl.ocks.org/3710148)
 * d3.geo.wagner7 - [Wagner VII](http://bl.ocks.org/4465109)
 * d3.geo.wiechel - [Wiechel](http://bl.ocks.org/4463155)

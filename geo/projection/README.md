@@ -55,7 +55,7 @@ Projections:
 * d3.geo.robinson - [Robinson](http://bl.ocks.org/3710566)
 * d3.geo.satellite - [satellite (tilted perpsective)](http://bl.ocks.org/3790444)
 * d3.geo.sinusoidal - [sinusoidal](http://bl.ocks.org/3712399)
-* d3.geo.sinuMollweide - [sinu-Mollweide](http://bl.ocks.org/4319903)
+* d3.geo.sinuMollweide - [Sinu-Mollweide](http://bl.ocks.org/4319903)
 * d3.geo.stereographic - [stereographic](http://bl.ocks.org/3757137)
 * d3.geo.vanDerGrinten - [Van der Grinten](http://bl.ocks.org/3796831)
 * d3.geo.vanDerGrinten4 - [Van der Grinten IV](http://bl.ocks.org/4489365)
@@ -64,6 +64,8 @@ Projections:
 * d3.geo.wagner7 - [Wagner VII](http://bl.ocks.org/4465109)
 * d3.geo.wiechel - [Wiechel](http://bl.ocks.org/4463155)
 * d3.geo.winkel3 - [Winkel Tripel](http://bl.ocks.org/3682676)
+
+This plugin also provides d3.geo.interrupt, which can be used to create arbitrary interrupted projections from a given raw projection. For example, see [Philbrick’s interrupted Sinu-Mollweide](http://bl.ocks.org/4481520).
 
 This plugin requires [D3 3.0](https://github.com/mbostock/d3/wiki/Upgrading-to-3.0) or greater. To use the official hosted version, include the projection plugin after including D3:
 

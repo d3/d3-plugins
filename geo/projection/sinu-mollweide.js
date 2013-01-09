@@ -14,6 +14,6 @@ sinuMollweide.invert = function(x, y) {
   return y > -sinuMollweideφ
       ? mollweide.invert(x, y - sinuMollweideY)
       : sinusoidal.invert(x, y);
-}
+};
 
 (d3.geo.sinuMollweide = function() { return projection(sinuMollweide).rotate([-20, -55]); }).raw = sinuMollweide;

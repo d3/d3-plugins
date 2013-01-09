@@ -5,6 +5,10 @@ Demo: <http://bl.ocks.org/4494715>
 A plugin for supporting the [JSONP](http://json-p.org/) technique of requesting
 cross-domain JSON data. This plugin is unstable and in development.
 
+Whenever possible, _use [CORS](http://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
+instead of JSONP_. CORS handles errors properly, has better security, and
+supports formats besides JSON.
+
 ```js
 // autogenerate a callback in the form d3.jsonp.foo
 d3.jsonp('foo.jsonp?callback={callback}', function() {

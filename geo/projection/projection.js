@@ -377,17 +377,37 @@
 
   var azimuthalEqualArea = d3.geo.azimuthalEqualArea.raw;
 
-  function hammer(λ, φ) {
-    var coordinates = azimuthalEqualArea(λ / 2, φ);
-    coordinates[0] *= 2;
-    return coordinates;
+  function hammer(B) {
+    if (B === 1) return azimuthalEqualArea;
+    if (B === Infinity) return quarticAuthalic;
+
+    function forward(λ, φ) {
+      var coordinates = azimuthalEqualArea(λ / B, φ);
+      coordinates[0] *= B;
+      return coordinates;
+    }
+
+    forward.invert = function(x, y) {
+      var coordinates = azimuthalEqualArea.invert(x / B, y);
+      coordinates[0] *= B;
+      return coordinates;
+    };
+
+    return forward;
   }
 
-  hammer.invert = function(x, y) {
-    var coordinates = azimuthalEqualArea.invert(x / 2, y);
-    coordinates[0] *= 2;
-    return coordinates;
-  };
+  function hammerProjection() {
+    var B = 2,
+        m = projectionMutator(hammer),
+        p = m(B);
+
+    p.coefficient = function(_) {
+      if (!arguments.length) return B;
+      return m(B = +_);
+    };
+
+    return p;
+  }
 
   function hammerRetroazimuthal(φ0) {
     var sinφ0 = Math.sin(φ0),
@@ -1622,7 +1642,7 @@
   (d3.geo.eisenlohr = function() { return projection(eisenlohr); }).raw = eisenlohr;
   (d3.geo.gringorten = gringortenProjection).raw = gringorten;
   (d3.geo.guyou = function() { return projection(guyou); }).raw = guyou;
-  (d3.geo.hammer = function() { return projection(hammer); }).raw = hammer;
+  (d3.geo.hammer = hammerProjection).raw = hammer;
   (d3.geo.hammerRetroazimuthal = hammerRetroazimuthalProjection).raw = hammerRetroazimuthal;
   (d3.geo.healpix = healpixProjection).raw = healpix;
   (d3.geo.hill = hillProjection).raw = hill;
@@ -1643,7 +1663,6 @@
   (d3.geo.nellHammer = function() { return projection(nellHammer); }).raw = nellHammer;
   (d3.geo.peirceQuincuncial = function() { return projection(peirceQuincuncial).rotate([-90, -90, 45]).clipAngle(180 - 1e-6); }).raw = peirceQuincuncial;
   (d3.geo.polyconic = function() { return projection(polyconic); }).raw = polyconic;
-  (d3.geo.quarticAuthalic = function() { return projection(quarticAuthalic); }).raw = quarticAuthalic;
   (d3.geo.robinson = function() { return projection(robinson); }).raw = robinson;
   (d3.geo.satellite = satelliteProjection).raw = satellite;
   (d3.geo.sinusoidal = function() { return projection(sinusoidal); }).raw = sinusoidal;

@@ -38,7 +38,7 @@ Projections:
 * d3.geo.kavrayskiy7 - [Kavrayskiy VII](http://bl.ocks.org/3710082)
 * d3.geo.lagrange - [Lagrange conformal](http://bl.ocks.org/3797591)
 * d3.geo.larrivee - [Larrivée](http://bl.ocks.org/3719042)
-* d3.geo.laskowski - Laskowski Tri-Optimal
+* d3.geo.laskowski - [Laskowski tri-optimal](http://bl.ocks.org/4489342)
 * d3.geo.littrow - [Littrow](http://bl.ocks.org/4459071)
 * d3.geo.loximuthal - [loximuthal](http://bl.ocks.org/3867220)
 * d3.geo.mercator - [Mercator](http://bl.ocks.org/3757132)
@@ -59,7 +59,7 @@ Projections:
 * d3.geo.sinuMollweide - [sinu-Mollweide](http://bl.ocks.org/4319903)
 * d3.geo.stereographic - [stereographic](http://bl.ocks.org/3757137)
 * d3.geo.vanDerGrinten - [Van der Grinten](http://bl.ocks.org/3796831)
-* d3.geo.vanDerGrinten4 - Van der Grinten IV
+* d3.geo.vanDerGrinten4 - [Van der Grinten IV](http://bl.ocks.org/4489365)
 * d3.geo.wagner4 - [Wagner IV, Putniṇš P2´](http://bl.ocks.org/4487674)
 * d3.geo.wagner6 - [Wagner VI](http://bl.ocks.org/3710148)
 * d3.geo.wagner7 - [Wagner VII](http://bl.ocks.org/4465109)

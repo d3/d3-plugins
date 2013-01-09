@@ -9,7 +9,7 @@
     "url": "http://github.com/d3/d3-plugins.git"
   },
   "dependencies": {
-    "d3": "git://github.com/mbostock/d3.git#3.0"
+    "d3": "3.0.x"
   },
   "devDependencies": {
     "vows": "0.6.x"

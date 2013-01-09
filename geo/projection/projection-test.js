@@ -1,5 +1,5 @@
 require("d3");
-require("./projection");
+require("../../d3.geo.projection");
 
 var vows = require("vows"),
     assert = require("assert");
@@ -275,7 +275,7 @@ suite.addBatch({
   },
   "d3.geo.quarticAuthalic": {
     topic: function() {
-      return d3.geo.quarticAuthalic();
+      return d3.geo.hammer().coefficient(Infinity);
     },
     "projections and inverse projections": function(quarticAuthalic) {
       assertEqualInverse(quarticAuthalic, [   0,   0], [480,        250]);

@@ -10,6 +10,7 @@
       bakerφ = Math.log(1 + Math.SQRT2);
 
   var robinsonConstants = [
+    [0.9986, -0.062],
     [1.0000, 0.0000],
     [0.9986, 0.0620],
     [0.9954, 0.1240],
@@ -289,15 +290,16 @@
     var i = Math.min(18, Math.abs(φ) * 36 / π),
         i0 = Math.floor(i),
         di = i - i0,
-        k0 = robinsonConstants[i0],
-        k1 = robinsonConstants[Math.ceil(i)],
-        ax = k0[0],
-        ay = k0[1],
-        dx = k1[0] - ax,
-        dy = k1[1] - ay;
+        ax = (k = robinsonConstants[i0])[0],
+        ay = k[1],
+        bx = (k = robinsonConstants[++i0])[0],
+        by = k[1],
+        cx = (k = robinsonConstants[Math.min(19, ++i0)])[0],
+        cy = k[1],
+        k;
     return [
-      λ * (ax + dx * di),
-      (φ > 0 ? π : -π) / 2 * (ay + dy * di)
+      λ * (bx + di * (cx - ax) / 2 + di * di * (cx - 2 * bx + ax) / 2),
+      (φ > 0 ? π : -π) / 2 * (by + di * (cy - ay) / 2 + di * di * (cy - 2 * by + ay) / 2)
     ];
   }
 

@@ -1,4 +1,6 @@
+NODE_PATH ?= ./node_modules
 JS_UGLIFY = uglifyjs
+JS_TESTER = $(NODE_PATH)/vows/bin/vows
 
 all: \
 	d3.geo.projection.js \
@@ -66,6 +68,9 @@ d3.geo.projection.js: \
 	geo/projection/wiechel.js \
 	geo/projection/winkel3.js \
 	geo/projection/end.js
+
+test: all
+	@$(JS_TESTER) $(shell find . -name "*-test.js" \! -path "./node_modules/*")
 
 %.min.js: %.js Makefile
 	@rm -f $@

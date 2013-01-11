@@ -10,9 +10,11 @@ var ε = 1e-6,
 //    augmented with a transform matrix.
 //  * face: a function that returns the appropriate node for a given {λ, φ}
 //    point (radians).
-d3.geo.polyhedron = function(root, face) {
+//  * r: rotation angle for final polyhedron net.  Defaults to -π / 6 (for
+//    butterflies).
+d3.geo.polyhedron = function(root, face, r) {
 
-  var r = -π / 6; // TODO automate
+  r = r == null ? -π / 6 : r; // TODO automate
 
   recurse(root, {transform: [
     Math.cos(r), Math.sin(r), 0,
@@ -103,11 +105,11 @@ d3.geo.polyhedron = function(root, face) {
         sphereStream = (projection.rotate([0, 0]), stream_(stream));
     projection.rotate(rotate);
     rotateStream.sphere = function() {
-      stream.polygonStart();
-      stream.lineStart();
+      sphereStream.polygonStart();
+      sphereStream.lineStart();
       outline(sphereStream, root);
-      stream.lineEnd();
-      stream.polygonEnd();
+      sphereStream.lineEnd();
+      sphereStream.polygonEnd();
     };
     return rotateStream;
   };
@@ -231,9 +233,16 @@ function outline(stream, node, parent) {
       edges = node.edges,
       n = edges.length,
       edge,
-      centroid = d3.geo.centroid({type: "MultiPoint", coordinates: node.face}),
+      multiPoint = {type: "MultiPoint", coordinates: node.face},
+      notPoles = node.face.filter(function(d) { return Math.abs(d[1]) !== 90; }),
+      bounds = d3.geo.bounds({type: "MultiPoint", coordinates: notPoles}),
       inside = false,
-      j = -1;
+      j = -1,
+      dx = bounds[1][0] - bounds[0][0];
+  // TODO
+  var centroid = dx === 180 || dx === 360
+      ? [(bounds[0][0] + bounds[1][0]) / 2, (bounds[0][1] + bounds[1][1]) / 2]
+      : d3.geo.centroid(multiPoint);
   // First find the shared edge…
   if (parent) while (++j < n) {
     if (edges[j] === parent) break;

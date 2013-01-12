@@ -40,7 +40,6 @@ d3.geo.projection.js: \
 	geo/projection/gringorten.js \
 	geo/projection/hammer-retroazimuthal.js \
 	geo/projection/hammer.js \
-	geo/projection/briesemeister.js \
 	geo/projection/hatano.js \
 	geo/projection/healpix.js \
 	geo/projection/hill.js \

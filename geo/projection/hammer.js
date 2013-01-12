@@ -1,17 +1,18 @@
 var hammerAzimuthalEqualArea = d3.geo.azimuthalEqualArea.raw;
 
-function hammer(B) {
+function hammer(A, B) {
+  if (arguments.length < 2) B = A;
   if (B === 1) return hammerAzimuthalEqualArea;
   if (B === Infinity) return hammerQuarticAuthalic;
 
   function forward(λ, φ) {
     var coordinates = hammerAzimuthalEqualArea(λ / B, φ);
-    coordinates[0] *= B;
+    coordinates[0] *= A;
     return coordinates;
   }
 
   forward.invert = function(x, y) {
-    var coordinates = hammerAzimuthalEqualArea.invert(x / B, y);
+    var coordinates = hammerAzimuthalEqualArea.invert(x / A, y);
     coordinates[0] *= B;
     return coordinates;
   };

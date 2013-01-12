@@ -12,6 +12,7 @@ Projections:
 * d3.geo.berghaus - [Berghaus Star](http://bl.ocks.org/4463049)
 * d3.geo.boggs - [Boggs eumorphic](http://bl.ocks.org/4481220)
 * d3.geo.bonne - [Bonne](http://bl.ocks.org/3734313)
+* d3.geo.briesemeister - [Briesemeister](http://bl.ocks.org/4519926)
 * d3.geo.bromley - [Bromley](http://bl.ocks.org/4487695)
 * d3.geo.collignon - [Collignon](http://bl.ocks.org/3734316)
 * d3.geo.conicConformal - [Lambert conformal conic](http://bl.ocks.org/3734321)

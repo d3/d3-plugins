@@ -60,6 +60,7 @@ d3.geo.projection.js: \
 	geo/projection/polyconic.js \
 	geo/projection/robinson.js \
 	geo/projection/satellite.js \
+	geo/projection/two-point-equidistant.js \
 	geo/projection/van-der-grinten.js \
 	geo/projection/van-der-grinten4.js \
 	geo/projection/wagner4.js \

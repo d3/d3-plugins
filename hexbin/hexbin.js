@@ -37,7 +37,7 @@ d3.hexbin = function() {
     return d3.values(binsById);
   }
 
-  function hexagon() {
+  function hexagon(radius) {
     var x0 = 0, y0 = 0;
     return d3_hexbinAngles.map(function(angle) {
       var x1 = Math.sin(angle) * radius,
@@ -63,11 +63,11 @@ d3.hexbin = function() {
 
   hexbin.hexagon = function(radius) {
     if (arguments.length < 1) radius = r;
-    return "m" + hexagon().join("l") + "z";
+    return "m" + hexagon(radius).join("l") + "z";
   };
 
   hexbin.mesh = function() {
-    var path = [], mesh = hexagon().slice(0, 4).join("l");
+    var path = [], mesh = hexagon(r).slice(0, 4).join("l");
     for (var y = 0, odd = false; y < height + r; y += dy, odd = !odd) {
       for (var x = odd ? dx / 2 : 0; x < width; x += dx) {
         path.push("M", x, ",", y, "m", mesh);

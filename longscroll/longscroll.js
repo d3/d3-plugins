@@ -20,8 +20,9 @@ d3.longscroll = function() {
     });
 
     scroll(0);
-    current.each(function() {
-      this.scrollIntoView();
+    g.each(function() {
+      var g = d3.select(this);
+      g.property("scrollTop", +g.select(".before").style("height").replace("px", ""));
     });
 
     function scroll(scrollTop) {

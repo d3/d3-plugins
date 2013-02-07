@@ -16,7 +16,7 @@ suite.addBatch({
       assert.equalInverse(loximuthal, [   0,  45], [480,        132.190275]);
       assert.equalInverse(loximuthal, [-180,   0], [ 48.773559, 250]);
       assert.equalInverse(loximuthal, [ 180,   0], [911.226440, 250]);
-      assert.equalInverse(loximuthal, [-179,  15], [69.4643149, 210.730091]);
+      assert.equalInverse(loximuthal, [-179,  15], [ 69.464314, 210.730091]);
       assert.equalInverse(loximuthal, [   1,   1], [482.390500, 247.382006]);
     }
   }

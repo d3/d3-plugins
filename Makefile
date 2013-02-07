@@ -37,6 +37,7 @@ d3.geo.projection.js: \
 	geo/projection/eckert5.js \
 	geo/projection/eckert6.js \
 	geo/projection/eisenlohr.js \
+	geo/projection/fahey.js \
 	geo/projection/gringorten.js \
 	geo/projection/hammer-retroazimuthal.js \
 	geo/projection/hammer.js \

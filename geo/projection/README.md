@@ -27,6 +27,7 @@ Projections:
 * d3.geo.eckert6 - [Eckert VI](http://bl.ocks.org/3734329)
 * d3.geo.eisenlohr - [Eisenlohr conformal](http://bl.ocks.org/3797585)
 * d3.geo.equirectangular - [Equirectangular (Plate Carrée)](http://bl.ocks.org/3757119)
+* d3.geo.fahey - [Fahey](http://bl.ocks.org/4731228)
 * d3.geo.gnomonic - [gnomonic](http://bl.ocks.org/3757349)
 * d3.geo.gringorten - [Gringorten](http://bl.ocks.org/3796882)
 * d3.geo.guyou - [Guyou hemisphere-in-a-square](http://bl.ocks.org/3763867)

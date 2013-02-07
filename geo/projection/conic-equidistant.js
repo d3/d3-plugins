@@ -5,6 +5,8 @@ function conicEquidistant(φ0, φ1) {
       n = φ0 === φ1 ? Math.sin(φ0) : (cosφ0 - Math.cos(φ1)) / (φ1 - φ0),
       G = cosφ0 / n + φ0;
 
+  if (!n) return d3.geo.equirectangular.raw;
+
   function forward(λ, φ) {
     var ρ = G - φ;
     return [

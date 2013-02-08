@@ -53,6 +53,7 @@ Projections:
 * d3.geo.orthographic - [orthographic](http://bl.ocks.org/3757125)
 * d3.geo.peirceQuincuncial - [Pierce quincuncial](http://bl.ocks.org/4310087)
 * d3.geo.polyconic - [Polyconic](http://bl.ocks.org/3734343)
+* d3.geo.rectangularPolyconic - Rectangular Polyconic
 * d3.geo.robinson - [Robinson](http://bl.ocks.org/3710566)
 * d3.geo.satellite - [satellite (tilted perpsective)](http://bl.ocks.org/3790444)
 * d3.geo.sinusoidal - [sinusoidal](http://bl.ocks.org/3712399)

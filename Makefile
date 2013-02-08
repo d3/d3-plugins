@@ -59,6 +59,7 @@ d3.geo.projection.js: \
 	geo/projection/nell-hammer.js \
 	geo/projection/peirce-quincuncial.js \
 	geo/projection/polyconic.js \
+	geo/projection/rectangular-polyconic.js \
 	geo/projection/robinson.js \
 	geo/projection/satellite.js \
 	geo/projection/two-point-equidistant.js \

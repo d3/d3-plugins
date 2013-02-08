@@ -59,6 +59,8 @@ Projections:
 * d3.geo.sinuMollweide - [Sinu-Mollweide](http://bl.ocks.org/4319903)
 * d3.geo.stereographic - [stereographic](http://bl.ocks.org/3757137)
 * d3.geo.vanDerGrinten - [Van der Grinten](http://bl.ocks.org/3796831)
+* d3.geo.vanDerGrinten2 - Van der Grinten II
+* d3.geo.vanDerGrinten3 - Van der Grinten III
 * d3.geo.vanDerGrinten4 - [Van der Grinten IV](http://bl.ocks.org/4489365)
 * d3.geo.wagner4 - [Wagner IV, Putniṇš P2´](http://bl.ocks.org/4487674)
 * d3.geo.wagner6 - [Wagner VI](http://bl.ocks.org/3710148)

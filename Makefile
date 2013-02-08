@@ -63,6 +63,8 @@ d3.geo.projection.js: \
 	geo/projection/satellite.js \
 	geo/projection/two-point-equidistant.js \
 	geo/projection/van-der-grinten.js \
+	geo/projection/van-der-grinten2.js \
+	geo/projection/van-der-grinten3.js \
 	geo/projection/van-der-grinten4.js \
 	geo/projection/wagner4.js \
 	geo/projection/wagner6.js \

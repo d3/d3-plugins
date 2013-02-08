@@ -59,6 +59,7 @@ Projections:
 * d3.geo.sinusoidal - [sinusoidal](http://bl.ocks.org/3712399)
 * d3.geo.sinuMollweide - [Sinu-Mollweide](http://bl.ocks.org/4319903)
 * d3.geo.stereographic - [stereographic](http://bl.ocks.org/3757137)
+* d3.geo.times - Times
 * d3.geo.vanDerGrinten - [Van der Grinten](http://bl.ocks.org/3796831)
 * d3.geo.vanDerGrinten2 - Van der Grinten II
 * d3.geo.vanDerGrinten3 - Van der Grinten III

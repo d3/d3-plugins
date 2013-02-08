@@ -62,6 +62,7 @@ d3.geo.projection.js: \
 	geo/projection/rectangular-polyconic.js \
 	geo/projection/robinson.js \
 	geo/projection/satellite.js \
+	geo/projection/times.js \
 	geo/projection/two-point-equidistant.js \
 	geo/projection/van-der-grinten.js \
 	geo/projection/van-der-grinten2.js \

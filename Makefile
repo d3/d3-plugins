@@ -52,6 +52,7 @@ d3.geo.projection.js: \
 	geo/projection/littrow.js \
 	geo/projection/loximuthal.js \
 	geo/projection/miller.js \
+	geo/projection/modified-stereographic.js \
 	geo/projection/mt-flat-polar-parabolic.js \
 	geo/projection/mt-flat-polar-quartic.js \
 	geo/projection/mt-flat-polar-sinusoidal.js \

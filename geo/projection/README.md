@@ -44,6 +44,7 @@ Projections:
 * d3.geo.loximuthal - [loximuthal](http://bl.ocks.org/3867220)
 * d3.geo.mercator - [Mercator](http://bl.ocks.org/3757132)
 * d3.geo.miller - [Miller](http://bl.ocks.org/3734333)
+* d3.geo.modifiedStereographic - Modified Stereographic
 * d3.geo.mollweide - [Mollweide](http://bl.ocks.org/3734336), [Atlantis](http://bl.ocks.org/4519975)
 * d3.geo.mtFlatPolarParabolic - [McBryde–Thomas flat-polar parabolic](http://bl.ocks.org/4465130)
 * d3.geo.mtFlatPolarQuartic - [McBryde–Thomas flat-polar quartic](http://bl.ocks.org/4465137)

@@ -30,18 +30,14 @@ function modifiedStereographic(C) {
           w = C[j],
           ar = w[0],
           ai = w[1],
-          br = ar,
-          bi = ai,
-          first = true,
+          br = 0,
+          bi = 0,
           t;
 
       while (--j >= 0) {
         w = C[j];
-        if (first) first = false;
-        else {
-          br = ar + zr * (t = br) - zi * bi;
-          bi = ai + zr * bi + zi * t;
-        }
+        br = ar + zr * (t = br) - zi * bi;
+        bi = ai + zr * bi + zi * t;
         ar = w[0] + zr * (t = ar) - zi * ai;
         ai = w[1] + zr * ai + zi * t;
       }

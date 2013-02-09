@@ -9,6 +9,10 @@ function twoPointAzimuthal(d) {
     return coordinates;
   }
 
+  forward.invert = function(x, y) {
+    return d3.geo.gnomonic.raw.invert(x / cosd, y);
+  };
+
   return forward;
 }
 

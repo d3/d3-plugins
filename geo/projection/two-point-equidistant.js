@@ -33,9 +33,10 @@ function twoPointEquidistantProjection() {
     // Compute the origin as the midpoint of the two reference points.
     // Rotate one of the reference points by the origin.
     // Apply the spherical law of sines to compute γ rotation.
-    var origin = d3.geo.interpolate(_[0], _[1])(.5),
+    var interpolate = d3.geo.interpolate(_[0], _[1]),
+        origin = interpolate(.5),
         p = twoPointEquidistant_rotate(-origin[0] * radians, -origin[1] * radians, _[0][0] * radians, _[0][1] * radians),
-        b = acos(Math.cos(p[1]) * Math.cos(p[0])), // |[0, 0] - p|
+        b = interpolate.distance * .5, // |[0, 0] - p|
         c = (p[0] < 0 ? -1 : +1) * p[1], // |[p[0], 0] - p|
         γ = asin(Math.sin(c) / Math.sin(b));
 

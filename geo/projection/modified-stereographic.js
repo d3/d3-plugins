@@ -7,9 +7,9 @@ function modifiedStereographic(C) {
         zr = k * cosφ * Math.sin(λ),
         zi = k * Math.sin(φ),
         i = m,
-        ar = C[i][0],
-        ai = C[i][1],
-        w,
+        w = C[i],
+        ar = w[0],
+        ai = w[1],
         t;
     while (--i >= 0) {
       w = C[i];
@@ -20,6 +20,48 @@ function modifiedStereographic(C) {
     ai = zr * ai + zi * t;
     return [ar, ai];
   }
+
+  forward.invert = function(x, y) {
+    var i = 20,
+        zr = x,
+        zi = y;
+    do {
+      var j = m,
+          w = C[j],
+          ar = w[0],
+          ai = w[1],
+          br = ar,
+          bi = ai,
+          first = true,
+          t;
+
+      while (--j >= 0) {
+        w = C[j];
+        if (first) first = false;
+        else {
+          br = ar + zr * (t = br) - zi * bi;
+          bi = ai + zr * bi + zi * t;
+        }
+        ar = w[0] + zr * (t = ar) - zi * ai;
+        ai = w[1] + zr * ai + zi * t;
+      }
+      br = ar + zr * (t = br) - zi * bi;
+      bi = ai + zr * bi + zi * t;
+      ar = zr * (t = ar) - zi * ai - x;
+      ai = zr * ai + zi * t - y;
+
+      var denominator = br * br + bi * bi, δr, δi;
+      zr -= δr = (ar * br + ai * bi) / denominator;
+      zi -= δi = (ai * br - ar * bi) / denominator;
+    } while (Math.abs(δr) + Math.abs(δi) > ε * ε && --i > 0);
+
+    if (i) {
+      var ρ = Math.sqrt(zr * zr + zi * zi),
+          c = 2 * Math.atan(ρ * .5),
+          sinc = Math.sin(c);
+      return [Math.atan2(zr * sinc, ρ * Math.cos(c)), ρ ? asin(zi * sinc / ρ) : 0];
+    }
+  };
 
   return forward;
 }

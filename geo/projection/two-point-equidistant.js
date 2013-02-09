@@ -45,7 +45,7 @@ function twoPointEquidistantProjection() {
     return m(b * 2);
   };
 
-  return p
+  return p;
 }
 
 function twoPointEquidistant_rotate(δλ, δφ, λ, φ) {

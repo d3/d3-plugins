@@ -36,7 +36,7 @@ function twoPointAzimuthalProjection() {
     return m(b);
   };
 
-  return p
+  return p;
 }
 
 (d3.geo.twoPointAzimuthal = twoPointAzimuthalProjection).raw = twoPointAzimuthal;

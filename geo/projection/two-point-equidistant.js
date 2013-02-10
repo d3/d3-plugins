@@ -5,8 +5,11 @@ function twoPointEquidistant(z0) {
   if (!z0) return d3.geo.azimuthalEquidistant.raw;
   var λa = -z0 / 2,
       λb = -λa,
-      z02 = z0 * z0;
-  return function(λ, φ) {
+      z02 = z0 * z0,
+      tanλ0 = Math.tan(λb),
+      S = .5 / Math.sin(λb);
+
+  function forward(λ, φ) {
     var za = acos(Math.cos(φ) * Math.cos(λ - λa)),
         zb = acos(Math.cos(φ) * Math.cos(λ - λb)),
         ys = φ < 0 ? -1 : 1;
@@ -15,7 +18,21 @@ function twoPointEquidistant(z0) {
       (za - zb) / (2 * z0),
       ys * asqrt(4 * z02 * zb - (z02 - za + zb) * (z02 - za + zb)) / (2 * z0)
     ];
+  }
+
+  forward.invert = function(x, y) {
+    var y2 = y * y,
+        cosza = Math.cos(Math.sqrt(y2 + (t = x + λa) * t)),
+        coszb = Math.cos(Math.sqrt(y2 + (t = x + λb) * t)),
+        t,
+        d;
+    return [
+      Math.atan2(d = cosza - coszb, t = (cosza + coszb) * tanλ0),
+      (y < 0 ? -1 : 1) * acos(Math.sqrt(t * t + d * d) * S)
+    ];
   };
+
+  return forward;
 }
 
 function twoPointEquidistantProjection() {

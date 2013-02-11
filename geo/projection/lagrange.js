@@ -12,17 +12,16 @@ function lagrange(n) {
 
   forward.invert = function(x, y) {
     var y0 = Math.abs(y);
-    if (Math.abs(y0 - 2) < ε) return x ? null : [0, y < 0 ? -π / 2 : π / 2];
+    if (Math.abs(y0 - 2) < ε) return x ? null : [0, sgn(y) * π / 2];
     if (y0 > 2) return null;
     var v = (y + 2) / (2 - y),
         v2n = Math.pow(v, 2 / n),
         c = .5 * (v + 1 / v) + Math.cos(n * x / 2),
-        φ = asin((v2n - 1) / (v2n + 1)),
         λ = asin(c * x / 2) / n,
+        φ = asin((v2n - 1) / (v2n + 1)),
         i = 50;
     do {
       var sinφ = Math.sin(φ),
-          cosφ = Math.cos(φ),
           nλ = n * λ,
           cosnλ = Math.cos(nλ),
           sinnλ = Math.sin(nλ),
@@ -32,7 +31,7 @@ function lagrange(n) {
           v1 = v - 1 / v,
           c = .5 * v0 + cosnλ;
           c2 = c * c,
-          A = (1 + u) * (cosφ / (1 - sinφ)),
+          A = (1 + u) * (Math.cos(φ) / (1 - sinφ)),
           fx = 2 * sinnλ / c - x,
           fy = v1 / c - y,
           δxδλ = 2 * n * (sinnλ * sinnλ / c2 + cosnλ / c),

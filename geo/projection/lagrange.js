@@ -16,13 +16,13 @@ function lagrange(n) {
     if (y0 > 2) return null;
 
     x /= 2, y /= 2;
-    var y2 = y * y,
-        nλ = Math.atan2(2 * x, 1 - x * x - y2),
-        cosnλ = Math.cos(nλ),
-        v2n = Math.pow((Math.sqrt(y2 * (cosnλ * cosnλ - 1) + 1) + cosnλ * y) / (1 - y), 2 / n);
+    var x2 = x * x,
+        y2 = y * y,
+        t = 2 * y / (1 + x2 + y2); // tanh(nφ)
+    t = Math.pow((1 + t) / (1 - t), 1 / n);
     return [
-      nλ / n,
-      asin((v2n - 1) / (v2n + 1))
+      Math.atan2(2 * x, 1 - x2 - y2) / n,
+      asin((t - 1) / (t + 1))
     ];
   };
 

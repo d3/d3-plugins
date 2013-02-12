@@ -14,37 +14,17 @@ function lagrange(n) {
     var y0 = Math.abs(y);
     if (Math.abs(y0 - 2) < ε) return x ? null : [0, sgn(y) * π / 2];
     if (y0 > 2) return null;
-    var v = (y + 2) / (2 - y),
-        v2n = Math.pow(v, 2 / n),
-        c = .5 * (v + 1 / v) + Math.cos(n * x / 2),
-        λ = asin(c * x / 2) / n,
-        φ = asin((v2n - 1) / (v2n + 1)),
-        i = 50;
-    do {
-      var sinφ = Math.sin(φ),
-          nλ = n * λ,
-          cosnλ = Math.cos(nλ),
-          sinnλ = Math.sin(nλ),
-          u = (1 + sinφ) / (1 - sinφ),
-          v = Math.pow(u, n / 2),
-          v0 = v + 1 / v,
-          v1 = v - 1 / v,
-          c = .5 * v0 + cosnλ;
-          c2 = c * c,
-          A = (1 + u) * (Math.cos(φ) / (1 - sinφ)),
-          fx = 2 * sinnλ / c - x,
-          fy = v1 / c - y,
-          δxδλ = 2 * n * (sinnλ * sinnλ / c2 + cosnλ / c),
-          δxδφ = -sinnλ * n * A * v1 / (2 * u * c2),
-          δyδλ = n * sinnλ * v1 / c2,
-          δyδφ = n * A / (2 * u * c) * (v0 - .5 * v1 * v1 / c),
-          denominator = δxδφ * δyδλ - δyδφ * δxδλ;
-      if (!denominator) break;
-      var δλ = (fy * δxδφ - fx * δyδφ) / denominator,
-          δφ = (fx * δyδλ - fy * δxδλ) / denominator;
-      λ -= δλ, φ -= δφ;
-    } while ((Math.abs(δλ) > ε || Math.abs(δφ) > ε) && --i > 0);
-    return [λ, φ];
+
+    x /= 2, y /= 2;
+    var x2 = x * x, y2 = y * y,
+        nλ = Math.atan2(2 * x, 1 - x2 - y2),
+        cosnλ = Math.cos(nλ),
+        v = (Math.sqrt(y2 * (cosnλ * cosnλ - 1) + 1) + cosnλ * y) / (1 - y),
+        v2n = Math.pow(v, 2 / n);
+    return [
+      nλ / n,
+      asin((v2n - 1) / (v2n + 1))
+    ];
   };
 
   return forward;

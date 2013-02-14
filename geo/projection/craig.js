@@ -10,13 +10,19 @@ function craig(φ0) {
     ];
   }
 
-  // TODO
-  // forward.invert = function(x, y) {
-  //   return [
-  //     x,
-  //     asin(y * (x ? Math.tan(x) / x : 1))
-  //   ];
-  // };
+  forward.invert = tanφ0 ? function(x, y) {
+    if (x) y *= Math.sin(x) / x;
+    var cosλ = Math.cos(x);
+    return [
+      x,
+      2 * Math.atan2(Math.sqrt(cosλ * cosλ + tanφ0 * tanφ0 - y * y) - cosλ, tanφ0 - y)
+    ];
+  } : function(x, y) {
+    return [
+      x,
+      asin(y * (x ? Math.tan(x) / x : 1))
+    ];
+  };
 
   return forward;
 }

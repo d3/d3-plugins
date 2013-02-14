@@ -1,13 +1,13 @@
 function vanDerGrinten3(λ, φ) {
   if (Math.abs(φ) < ε) return [λ, 0];
-  var sinθ = Math.abs(2 * φ / π),
+  var sinθ = 2 * φ / π,
       θ = asin(sinθ);
-  if (Math.abs(λ) < ε || Math.abs(Math.abs(φ) - π / 2) < ε) return [0, sgn(φ) * π * Math.tan(θ / 2)];
-  var A = Math.abs(π / λ - λ / π) / 2,
+  if (Math.abs(λ) < ε || Math.abs(Math.abs(φ) - π / 2) < ε) return [0, π * Math.tan(θ / 2)];
+  var A = (π / λ - λ / π) / 2,
       y1 = sinθ / (1 + Math.cos(θ));
   return [
-    sgn(λ) * π * (asqrt(A * A + 1 - y1 * y1) - A),
-    sgn(φ) * π * y1
+    π * (sgn(λ) * asqrt(A * A + 1 - y1 * y1) - A),
+    π * y1
   ];
 }
 

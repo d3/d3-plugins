@@ -13,4 +13,16 @@ function vanDerGrinten2(λ, φ) {
   ];
 }
 
+vanDerGrinten2.invert = function(x, y) {
+  if (!x) return [0, π / 2 * Math.sin(2 * Math.atan(y / π))];
+  var x1 = Math.abs(x / π),
+      A = (1 - x1 * x1 - (y /= π) * y) / (2 * x1),
+      A2 = A * A,
+      B = Math.sqrt(A2 + 1);
+  return [
+    sgn(x) * π * (B - A),
+    sgn(y) * π / 2 * Math.sin(2 * Math.atan2(Math.sqrt((1 - 2 * A * x1) * (A + B) - x1), Math.sqrt(B + A + x1)))
+  ];
+};
+
 (d3.geo.vanDerGrinten2 = function() { return projection(vanDerGrinten2); }).raw = vanDerGrinten2;

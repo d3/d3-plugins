@@ -1,18 +1,15 @@
 function hammerRetroazimuthal(φ0) {
   var sinφ0 = Math.sin(φ0),
-      cosφ0 = Math.cos(φ0);
+      cosφ0 = Math.cos(φ0),
+      rotate = hammerRetroazimuthalRotation(φ0);
+  rotate.invert = hammerRetroazimuthalRotation(-φ0);
 
   function forward(λ, φ) {
-    var cosφ = Math.cos(φ),
-        // Cartesian coordinates.
-        x = Math.cos(λ) * cosφ,
-        y = Math.sin(λ) * cosφ,
-        z = Math.sin(φ),
-        // Latitudinal rotation of φ by φ0.
-        sinφ = z * cosφ0 + x * sinφ0,
-        // Latitudinal rotation of λ by φ0 (inline).
-        cosλ = Math.cos(λ = Math.atan2(y, x * cosφ0 - z * sinφ0)),
-        cosφ = Math.cos(φ = asin(sinφ)),
+    var p = rotate(λ, φ);
+    λ = p[0], φ = p[1];
+    var sinφ = Math.sin(φ),
+        cosφ = Math.cos(φ),
+        cosλ = Math.cos(λ),
         z = acos(sinφ0 * sinφ + cosφ0 * cosφ * cosλ),
         sinz = Math.sin(z),
         K = Math.abs(sinz) > ε ? z / sinz : 1;
@@ -23,7 +20,38 @@ function hammerRetroazimuthal(φ0) {
     ];
   }
 
+  forward.invert = function(x, y) {
+    var ρ = Math.sqrt(x * x + y * y),
+        sinz = -Math.sin(ρ),
+        cosz = Math.cos(ρ),
+        a = ρ * cosz,
+        b = -y * sinz,
+        c = ρ * sinφ0,
+        d = asqrt(a * a + b * b - c * c),
+        φ = Math.atan2(a * c + b * d, b * c - a * d),
+        λ = (ρ > π / 2 ? -1 : 1) * Math.atan2(x * sinz, ρ * Math.cos(φ) * cosz + y * Math.sin(φ) * sinz);
+    return rotate.invert(λ, φ);
+  };
+
   return forward;
+}
+
+// Latitudinal rotation by φ0.
+// Temporary hack until D3 supports arbitrary small-circle clipping origins.
+function hammerRetroazimuthalRotation(φ0) {
+  var sinφ0 = Math.sin(φ0),
+      cosφ0 = Math.cos(φ0);
+
+  return function(λ, φ) {
+    var cosφ = Math.cos(φ),
+        x = Math.cos(λ) * cosφ,
+        y = Math.sin(λ) * cosφ,
+        z = Math.sin(φ);
+    return [
+      Math.atan2(y, x * cosφ0 - z * sinφ0),
+      asin(z * cosφ0 + x * sinφ0)
+    ];
+  };
 }
 
 function hammerRetroazimuthalProjection() {
@@ -40,6 +68,7 @@ function hammerRetroazimuthalProjection() {
     return m(φ0 = _ * π / 180).rotate(r);
   };
 
+  // Temporary hack; see hammerRetroazimuthalRotation.
   p.rotate = function(_) {
     if (!arguments.length) return (_ = rotate_.call(p), _[1] += φ0 / π * 180, _);
     rotate_.call(p, [_[0], _[1] - φ0 / π * 180]);

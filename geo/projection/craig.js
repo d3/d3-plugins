@@ -20,7 +20,7 @@ function craig(φ0) {
   } : function(x, y) {
     return [
       x,
-      asin(y * (x ? Math.tan(x) / x : 1))
+      asin(x ? y * Math.tan(x) / x : y)
     ];
   };
 

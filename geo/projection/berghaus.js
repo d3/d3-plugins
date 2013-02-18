@@ -17,6 +17,19 @@ function berghaus(n) {
     return p;
   }
 
+  forward.invert = function(x, y) {
+    var r = Math.sqrt(x * x + y * y);
+    if (r > π / 2) {
+      var θ = Math.atan2(y, x),
+          θ0 = k * Math.round((θ - π / 2) / k) + π / 2,
+          s = θ > θ0 ? -1 : 1,
+          cotα = 1 / Math.tan(s * Math.acos((r * Math.cos(θ0 - θ) - π) / Math.sqrt(π * π + r * r - 2 * π * r * Math.cos(θ0 - θ))));
+      θ = θ0 + 2 * Math.atan((cotα + s * Math.sqrt(cotα * cotα - 3)) / 3);
+      x = r * Math.cos(θ), y = r * Math.sin(θ);
+    }
+    return berghausAzimuthalEquidistant.invert(x, y);
+  };
+
   return forward;
 }
 

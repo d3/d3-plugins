@@ -23,7 +23,8 @@ function berghaus(n) {
       var θ = Math.atan2(y, x),
           θ0 = k * Math.round((θ - π / 2) / k) + π / 2,
           s = θ > θ0 ? -1 : 1,
-          cotα = 1 / Math.tan(s * Math.acos((r * Math.cos(θ0 - θ) - π) / Math.sqrt(π * π + r * r - 2 * π * r * Math.cos(θ0 - θ))));
+          A = r * Math.cos(θ0 - θ)
+          cotα = 1 / Math.tan(s * Math.acos((A - π) / Math.sqrt(π * (π - 2 * A) + r * r)));
       θ = θ0 + 2 * Math.atan((cotα + s * Math.sqrt(cotα * cotα - 3)) / 3);
       x = r * Math.cos(θ), y = r * Math.sin(θ);
     }

@@ -21,6 +21,7 @@ suite.addBatch({
         assert.equalInverse(rectangularPolyconic, [120,  45], [623.475113,  25.949753]);
         assert.equalInverse(rectangularPolyconic, [150,   5], [866.178341, 192.852256]);
         assert.equalInverse(rectangularPolyconic, [179,   5], [938.342281, 174.509780]);
+        assert.equalInverse(rectangularPolyconic, [179,  85], [491.937069,   8.894941]);
       }
     },
     "30° parallel": {

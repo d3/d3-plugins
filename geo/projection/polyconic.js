@@ -11,13 +11,17 @@ function polyconic(λ, φ) {
 polyconic.invert = function(x, y) {
   if (Math.abs(y) < ε) return [x, 0];
   var k = x * x + y * y,
-      φ = y;
-  for (var i = 0, δ = Infinity; i < 10 && Math.abs(δ) > ε; i++) {
-    var tanφ = Math.tan(φ);
-    φ -= δ = (y * (φ * tanφ + 1) - φ - .5 * (φ * φ + k) * tanφ) / ((φ - y) / tanφ - 1);
-  }
+      φ = y * .5,
+      i = 10, δ;
+  do {
+    var tanφ = Math.tan(φ),
+        secφ = 1 / Math.cos(φ),
+        j = k - 2 * y * φ + φ * φ;
+    φ -= δ = (tanφ * j + 2 * (φ - y)) / (2 + j * secφ * secφ + 2 * (φ - y) * tanφ);
+  } while (Math.abs(δ) > ε && --i > 0);
+  tanφ = Math.tan(φ);
   return [
-    asin(x * Math.tan(φ)) / Math.sin(φ),
+    (Math.abs(y) < Math.abs(φ + 1 / tanφ) ? asin(x * tanφ) : sgn(x) * (acos(Math.abs(x * tanφ)) + π / 2)) / Math.sin(φ),
     φ
   ];
 };

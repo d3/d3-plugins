@@ -18,7 +18,7 @@ function rectangularPolyconic(φ0) {
   forward.invert = function(x, y) {
     if (Math.abs(y += φ0) < ε) return [sinφ0 ? 2 * Math.atan(sinφ0 * x / 2) / sinφ0 : x, 0];
     var k = x * x + y * y,
-        φ = y / 2,
+        φ = y * .5,
         i = 10, δ;
     do {
       var tanφ = Math.tan(φ),
@@ -26,7 +26,8 @@ function rectangularPolyconic(φ0) {
           j = k - 2 * y * φ + φ * φ;
       φ -= δ = (tanφ * j + 2 * (φ - y)) / (2 + j * secφ * secφ + 2 * (φ - y) * tanφ);
     } while (Math.abs(δ) > ε && --i > 0);
-    var A = Math.tan(asin(x * Math.tan(φ)) * .5) / Math.sin(φ);
+    var E = x * (tanφ = Math.tan(φ)),
+        A = Math.tan(Math.abs(y) < Math.abs(φ + 1 / tanφ) ? asin(E) * .5 : acos(E) * .5 + π / 4) / Math.sin(φ);
     return [
       sinφ0 ? 2 * Math.atan(sinφ0 * A) / sinφ0 : 2 * A,
       φ

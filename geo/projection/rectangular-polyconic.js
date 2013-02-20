@@ -18,7 +18,7 @@ function rectangularPolyconic(φ0) {
   forward.invert = function(x, y) {
     if (Math.abs(y += φ0) < ε) return [sinφ0 ? 2 * Math.atan(sinφ0 * x / 2) / sinφ0 : x, 0];
     var k = x * x + y * y,
-        φ = y * .5,
+        φ = 0,
         i = 10, δ;
     do {
       var tanφ = Math.tan(φ),

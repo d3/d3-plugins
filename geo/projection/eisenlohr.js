@@ -36,10 +36,13 @@ eisenlohr.invert = function(x, y) {
         c = Math.sqrt(2 / (1 + t2)),
         v0 = (Math.SQRT2 * c1 + (c0 + s0) * k),
         v1 = (Math.SQRT2 * c1 + (c0 - s0) * k),
-        v = Math.sqrt(v0 / v1),
+        v2 = v0 / v1,
+        v = Math.sqrt(v2),
+        vm1v = v - 1 / v,
+        vp1v = v + 1 / v,
 
-        fx = c * (v - 1 / v) - 2 * Math.log(v) - x,
-        fy = c * t * (v + 1 / v) - 2 * Math.atan(t) - y,
+        fx = c * vm1v - 2 * Math.log(v) - x,
+        fy = c * t * vp1v - 2 * Math.atan(t) - y,
 
         δtδλ = s1 && Math.SQRT1_2 * k * s0 * t2 / s1,
         δtδφ = (Math.SQRT2 * c0 * c1 + k) / (2 * (c1 + Math.SQRT2 * c0 * k) * (c1 + Math.SQRT2 * c0 * k) * k),
@@ -52,10 +55,10 @@ eisenlohr.invert = function(x, y) {
         δvδλ = (Math.SQRT2 * c0 * c1 * k + cos1) / A,
         δvδφ = -(Math.SQRT2 * s0 * s1) / (k * A),
 
-        δxδλ = (v - 1 / v) * δcδλ - 2 * δvδλ / v + c * (δvδλ + δvδλ / (v * v)),
-        δxδφ = (v - 1 / v) * δcδφ - 2 * δvδφ / v + c * (δvδφ + δvδφ / (v * v)),
-        δyδλ = t * (1 / v + v) * δcδλ - 2 * δtδλ / (1 + t * t) + c * (1 / v + v) * δtδλ + c * t * (δvδλ - δvδλ / (v * v)),
-        δyδφ = t * (1 / v + v) * δcδφ - 2 * δtδφ / (1 + t * t) + c * (1 / v + v) * δtδφ + c * t * (δvδφ - δvδφ / (v * v)),
+        δxδλ = vm1v * δcδλ - 2 * δvδλ / v + c * (δvδλ + δvδλ / v2),
+        δxδφ = vm1v * δcδφ - 2 * δvδφ / v + c * (δvδφ + δvδφ / v2),
+        δyδλ = t * vp1v * δcδλ - 2 * δtδλ / (1 + t2) + c * vp1v * δtδλ + c * t * (δvδλ - δvδλ / v2),
+        δyδφ = t * vp1v * δcδφ - 2 * δtδφ / (1 + t2) + c * vp1v * δtδφ + c * t * (δvδφ - δvδφ / v2),
 
         denominator = δxδφ * δyδλ - δyδφ * δxδλ;
     if (!denominator) break;

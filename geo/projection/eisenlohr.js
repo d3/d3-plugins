@@ -15,13 +15,11 @@ function eisenlohr(λ, φ) {
 }
 
 eisenlohr.invert = function(x, y) {
-  var p = d3.geo.august.raw.invert(x, y);
+  var p = d3.geo.august.raw.invert(x / 1.2, y * 1.065);
   if (!p) return null;
   var λ = p[0],
       φ = p[1],
-      i = 50,
-      sqrt2 = Math.SQRT2;
-  if (Math.abs(φ) > 89 * radians) λ = sgn(λ) * π;
+      i = 20;
   x /= eisenlohrK, y /= eisenlohrK;
   do {
     var _0 = λ / 2,
@@ -33,7 +31,7 @@ eisenlohr.invert = function(x, y) {
         cos1 = Math.cos(φ),
 
         k = Math.sqrt(cos1),
-        t = s1 / (c1 + sqrt2 * c0 * k),
+        t = s1 / (c1 + Math.SQRT2 * c0 * k),
         t2 = t * t,
         c = Math.sqrt(2 / (1 + t2)),
         v0 = (Math.SQRT2 * c1 + (c0 + s0) * k),
@@ -44,7 +42,7 @@ eisenlohr.invert = function(x, y) {
         fy = c * t * (v + 1 / v) - 2 * Math.atan(t) - y,
 
         δtδλ = s1 && Math.SQRT1_2 * k * s0 * t2 / s1,
-        δtδφ = (Math.SQRT2 * c0 * c1 + k) / (2 * (c1 + sqrt2 * c0 * k) * (c1 + sqrt2 * c0 * k) * k),
+        δtδφ = (Math.SQRT2 * c0 * c1 + k) / (2 * (c1 + Math.SQRT2 * c0 * k) * (c1 + Math.SQRT2 * c0 * k) * k),
 
         δcδt = -.5 * t * c * c * c,
         δcδλ = δcδt * δtδλ,
@@ -59,12 +57,13 @@ eisenlohr.invert = function(x, y) {
         δyδλ = t * (1 / v + v) * δcδλ - 2 * δtδλ / (1 + t * t) + c * (1 / v + v) * δtδλ + c * t * (δvδλ - δvδλ / (v * v)),
         δyδφ = t * (1 / v + v) * δcδφ - 2 * δtδφ / (1 + t * t) + c * (1 / v + v) * δtδφ + c * t * (δvδφ - δvδφ / (v * v)),
 
-        denominator = δxδφ * δyδλ - δyδφ * δxδλ,
-        δλ = (fy * δxδφ - fx * δyδφ) / denominator,
+        denominator = δxδφ * δyδλ - δyδφ * δxδλ;
+    if (!denominator) break;
+    var δλ = (fy * δxδφ - fx * δyδφ) / denominator,
         δφ = (fx * δyδλ - fy * δxδλ) / denominator;
-    λ = Math.max(-π, Math.min(π, λ - δλ));
+    λ -= δλ;
     φ = Math.max(-π / 2, Math.min(π / 2, φ - δφ));
-  } while ((Math.abs(δλ) > ε || Math.abs(δφ) > ε2) && --i > 0);
+  } while ((Math.abs(δλ) > ε || Math.abs(δφ) > ε) && --i > 0);
   return Math.abs(Math.abs(φ) - π / 2) < ε
       ? [0, φ]
       : i && [λ, φ];

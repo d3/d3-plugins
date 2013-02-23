@@ -7,8 +7,8 @@ function laskowski(λ, φ) {
 }
 
 laskowski.invert = function(x, y) {
-  var λ = x,
-      φ = y,
+  var λ = sgn(x) * π,
+      φ = y / 2,
       i = 50;
   do {
     var λ2 = λ * λ,
@@ -25,7 +25,7 @@ laskowski.invert = function(x, y) {
         δφ = (fx * δyδλ - fy * δxδλ) / denominator;
     λ -= δλ, φ -= δφ;
   } while ((Math.abs(δλ) > ε || Math.abs(δφ) > ε) && --i > 0);
-  return [λ, φ];
+  return i && [λ, φ];
 };
 
 (d3.geo.laskowski = function() { return projection(laskowski); }).raw = laskowski;

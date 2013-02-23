@@ -1,5 +1,5 @@
 function lagrange(n) {
-  return function(λ, φ) {
+  function forward(λ, φ) {
     if (Math.abs(Math.abs(φ) - π / 2) < ε) return [0, φ < 0 ? -2 : 2];
     var sinφ = Math.sin(φ),
         v = Math.pow((1 + sinφ) / (1 - sinφ), n / 2),
@@ -8,7 +8,25 @@ function lagrange(n) {
       2 * Math.sin(λ) / c,
       (v - 1 / v) / c
     ];
+  }
+
+  forward.invert = function(x, y) {
+    var y0 = Math.abs(y);
+    if (Math.abs(y0 - 2) < ε) return x ? null : [0, sgn(y) * π / 2];
+    if (y0 > 2) return null;
+
+    x /= 2, y /= 2;
+    var x2 = x * x,
+        y2 = y * y,
+        t = 2 * y / (1 + x2 + y2); // tanh(nφ)
+    t = Math.pow((1 + t) / (1 - t), 1 / n);
+    return [
+      Math.atan2(2 * x, 1 - x2 - y2) / n,
+      asin((t - 1) / (t + 1))
+    ];
   };
+
+  return forward;
 }
 
 function lagrangeProjection() {

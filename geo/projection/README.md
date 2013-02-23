@@ -27,6 +27,7 @@ Projections:
 * d3.geo.eckert6 - [Eckert VI](http://bl.ocks.org/3734329)
 * d3.geo.eisenlohr - [Eisenlohr conformal](http://bl.ocks.org/3797585)
 * d3.geo.equirectangular - [Equirectangular (Plate Carrée)](http://bl.ocks.org/3757119)
+* d3.geo.fahey - [Fahey](http://bl.ocks.org/4731228)
 * d3.geo.gnomonic - [gnomonic](http://bl.ocks.org/3757349)
 * d3.geo.gringorten - [Gringorten](http://bl.ocks.org/3796882)
 * d3.geo.guyou - [Guyou hemisphere-in-a-square](http://bl.ocks.org/3763867)
@@ -43,6 +44,7 @@ Projections:
 * d3.geo.loximuthal - [loximuthal](http://bl.ocks.org/3867220)
 * d3.geo.mercator - [Mercator](http://bl.ocks.org/3757132)
 * d3.geo.miller - [Miller](http://bl.ocks.org/3734333)
+* d3.geo.modifiedStereographic - Modified Stereographic
 * d3.geo.mollweide - [Mollweide](http://bl.ocks.org/3734336), [Atlantis](http://bl.ocks.org/4519975)
 * d3.geo.mtFlatPolarParabolic - [McBryde–Thomas flat-polar parabolic](http://bl.ocks.org/4465130)
 * d3.geo.mtFlatPolarQuartic - [McBryde–Thomas flat-polar quartic](http://bl.ocks.org/4465137)
@@ -52,12 +54,18 @@ Projections:
 * d3.geo.orthographic - [orthographic](http://bl.ocks.org/3757125)
 * d3.geo.peirceQuincuncial - [Pierce quincuncial](http://bl.ocks.org/4310087)
 * d3.geo.polyconic - [Polyconic](http://bl.ocks.org/3734343)
+* d3.geo.rectangularPolyconic - Rectangular Polyconic
 * d3.geo.robinson - [Robinson](http://bl.ocks.org/3710566)
 * d3.geo.satellite - [satellite (tilted perpsective)](http://bl.ocks.org/3790444)
 * d3.geo.sinusoidal - [sinusoidal](http://bl.ocks.org/3712399)
 * d3.geo.sinuMollweide - [Sinu-Mollweide](http://bl.ocks.org/4319903)
 * d3.geo.stereographic - [stereographic](http://bl.ocks.org/3757137)
+* d3.geo.times - Times
+* d3.geo.twoPointAzimuthal - Two-Point Azimuthal
+* d3.geo.twoPointEquidistant - Two-Point Equidistant
 * d3.geo.vanDerGrinten - [Van der Grinten](http://bl.ocks.org/3796831)
+* d3.geo.vanDerGrinten2 - Van der Grinten II
+* d3.geo.vanDerGrinten3 - Van der Grinten III
 * d3.geo.vanDerGrinten4 - [Van der Grinten IV](http://bl.ocks.org/4489365)
 * d3.geo.wagner4 - [Wagner IV, Putniṇš P2´](http://bl.ocks.org/4487674)
 * d3.geo.wagner6 - [Wagner VI](http://bl.ocks.org/3710148)

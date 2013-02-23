@@ -37,6 +37,7 @@ d3.geo.projection.js: \
 	geo/projection/eckert5.js \
 	geo/projection/eckert6.js \
 	geo/projection/eisenlohr.js \
+	geo/projection/fahey.js \
 	geo/projection/gringorten.js \
 	geo/projection/hammer-retroazimuthal.js \
 	geo/projection/hammer.js \
@@ -51,6 +52,7 @@ d3.geo.projection.js: \
 	geo/projection/littrow.js \
 	geo/projection/loximuthal.js \
 	geo/projection/miller.js \
+	geo/projection/modified-stereographic.js \
 	geo/projection/mt-flat-polar-parabolic.js \
 	geo/projection/mt-flat-polar-quartic.js \
 	geo/projection/mt-flat-polar-sinusoidal.js \
@@ -58,9 +60,15 @@ d3.geo.projection.js: \
 	geo/projection/nell-hammer.js \
 	geo/projection/peirce-quincuncial.js \
 	geo/projection/polyconic.js \
+	geo/projection/rectangular-polyconic.js \
 	geo/projection/robinson.js \
 	geo/projection/satellite.js \
+	geo/projection/times.js \
+	geo/projection/two-point-azimuthal.js \
+	geo/projection/two-point-equidistant.js \
 	geo/projection/van-der-grinten.js \
+	geo/projection/van-der-grinten2.js \
+	geo/projection/van-der-grinten3.js \
 	geo/projection/van-der-grinten4.js \
 	geo/projection/wagner4.js \
 	geo/projection/wagner6.js \

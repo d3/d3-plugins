@@ -11,4 +11,16 @@ function wiechel(λ, φ) {
   ];
 }
 
+wiechel.invert = function(x, y) {
+  var w = -.5 * (x * x + y * y),
+      k = Math.sqrt(-w * (2 + w)),
+      b = y * w + x * k,
+      a = x * w - y * k,
+      D = Math.sqrt(a * a + b * b);
+  return [
+    Math.atan2(k * b, D * (1 + w)),
+    D ? -asin(k * a / D) : 0
+  ];
+};
+
 (d3.geo.wiechel = function() { return projection(wiechel); }).raw = wiechel;

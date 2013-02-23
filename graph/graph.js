@@ -27,39 +27,6 @@
       return this;
     };
 
-    graph.traverse = function() {
-      var traversal = {},
-          selected = {},            // selected entities
-          selected_type;
-
-      traversal.filter = function(f) {
-        // only works on nodes
-        if (!arguments.length) return this;
-        selected = nodes.filter(f);
-        return this;
-      };
-
-      traversal.value = function(x) {
-        if (!arguments.length) {
-          // reset selection
-          var result = selected;
-          selected_type = false;
-          selected = {};
-          return result;
-        }
-        selected = x;
-        return this;
-      };
-
-      traversal.selected_type = function(x) {
-        if (!arguments.length) return selected_type;
-        selected_type = x;
-        return this;
-      };
-
-      return traversal;
-    };
-
     return graph;
   };
 

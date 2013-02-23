@@ -27,7 +27,6 @@
   console.log('nodes', g.nodes() );
   console.log('links', g.links() );
   console.log('matrix', g.matrix() );
-  console.log('traversal', g.traverse().filter(function(d) { return d.indexOf('urp') > -1 }).value());
 
   var m = d3.graph.matrix([
     [1,1,0],

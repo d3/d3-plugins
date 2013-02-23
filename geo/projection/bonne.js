@@ -7,7 +7,7 @@ function bonne(φ0) {
 
   function forward(λ, φ) {
     var ρ = cotφ0 + φ0 - φ,
-        E = λ * Math.cos(φ) / ρ;
+        E = ρ ? λ * Math.cos(φ) / ρ : ρ;
     return [
       ρ * Math.sin(E),
       cotφ0 - ρ * Math.cos(E)

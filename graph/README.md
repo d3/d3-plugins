@@ -1,6 +1,11 @@
 # d3.graph
 
-A plugin for manipulating [graph data structures](http://opendatastructures.org/ods-cpp/12_Graphs.html). This plugin is unstable and in development.
+This plugin is not currently in active development.
+
+For a more complete set of graph analysis tools, see the work of [Elijah Meeks and Maya Krishnan](http://dhs.stanford.edu/dh/networks/).
+
+A plugin for manipulating [graph data structures](http://opendatastructures.org/ods-cpp/12_Graphs.html).
+
 
 ## Todo
 
@@ -139,10 +144,4 @@ Get a description of the graph
 ```js
 graph.description();
 // "d3.graph with 3 nodes and 9 links"
-```
-
-Basic node filters. These currently filter the original node set, so subsequent filters won't stack. See [Gremlin](https://github.com/tinkerpop/gremlin/wiki/Basic-Graph-Traversals).
-
-```js
-graph.traverse().filter(function(d) { return d.indexOf('urp') > -1 }).value();
 ```

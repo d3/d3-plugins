@@ -9,11 +9,12 @@ assert.inDelta = function(actual, expected, delta, message) {
   }
 };
 
-assert.equalInverse = function(projection, location, point) {
+assert.equalInverse = function(projection, location, point, delta) {
+  delta = delta || 1e-6;
   var projected;
-  assert.inDelta(projected = projection(location), point, 1e-6);
-  assert.inDelta(projection.invert(projected), location, 1e-6);
-  assert.inDelta(projection(projection.invert(point)), point, 1e-6);
+  assert.inDelta(projected = projection(location), point, delta);
+  assert.inDelta(projection.invert(projected), location, delta);
+  assert.inDelta(projection(projection.invert(point)), point, delta);
 };
 
 function inDelta(actual, expected, delta) {

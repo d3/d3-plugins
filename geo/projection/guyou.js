@@ -1,46 +1,57 @@
+// @import elliptic
+
+// √k' tn(½K - w) = exp(-ζ).
 function guyou(λ, φ) {
-  return guyouEllipticFi(λ, sgn(φ) * Math.log(Math.tan(.5 * (Math.abs(φ) + π / 2))), .5);
+
+  var k_ = (Math.SQRT2 - 1) / (Math.SQRT2 + 1),
+      k = Math.sqrt(1 - k_ * k_),
+      K = ellipticF(π / 2, k * k),
+      f = -1;
+
+  var s = λ > 0 ? -1 : 1;
+  λ += s * π / 2;
+
+  var ψ = Math.log(Math.tan(π / 4 + Math.abs(φ) / 2)),
+      r = Math.exp(f * ψ) / Math.sqrt(k_),
+      at = guyouComplexAtan(r * Math.cos(f * λ), r * Math.sin(f * λ)),
+      t = ellipticFi(at[0], at[1], k * k);
+
+  return [-s * .5 * K - t[1], sgn(φ) * (.5 * K - t[0])];
 }
 
-// Calculate F(φ+iψ|m).
-// See Abramowitz and Stegun, 17.4.11.
-function guyouEllipticFi(φ, ψ, m) {
-  var r = Math.abs(φ),
-      i = Math.abs(ψ),
-      sinhψ = .5 * ((sinhψ = Math.exp(i)) - 1 / sinhψ);
-  if (r) {
-    var cscφ = 1 / Math.sin(r),
-        cotφ2 = (cotφ2 = Math.cos(r) * cscφ) * cotφ2,
-        b = -(cotφ2 + m * (sinhψ * sinhψ * cscφ * cscφ + 1) - 1),
-        cotλ2 = .5 * (-b + Math.sqrt(b * b - 4 * (m - 1) * cotφ2));
-    return [
-      guyouEllipticF(Math.atan(1 / Math.sqrt(cotλ2)), m) * sgn(φ),
-      guyouEllipticF(Math.atan(Math.sqrt(cotλ2 / cotφ2 - 1) / m), 1 - m) * sgn(ψ)
-    ];
-  }
+function guyouComplexAtan(x, y) {
+  var x2 = x * x,
+      y_1 = y + 1,
+      t = 1 - x2 - y * y;
   return [
-    0,
-    guyouEllipticF(Math.atan(sinhψ), 1 - m) * sgn(ψ)
+    sgn(x) * π / 4 - .5 * Math.atan2(t, 2 * x),
+    -.25 * Math.log(t * t + 4 * x2) + .5 * Math.log(y_1 * y_1 + x2)
   ];
 }
 
-// Calculate F(φ|m) where m = k² = sin²α.
-// See Abramowitz and Stegun, 17.6.7.
-function guyouEllipticF(φ, m) {
-  var a = 1,
-      b = Math.sqrt(1 - m),
-      c = Math.sqrt(m);
-  for (var i = 0; Math.abs(c) > ε; i++) {
-    if (φ % π) {
-      var dφ = Math.atan(b * Math.tan(φ) / a);
-      if (dφ < 0) dφ += π;
-      φ += dφ + ~~(φ / π) * π;
-    } else φ += φ;
-    c = (a + b) / 2;
-    b = Math.sqrt(a * b);
-    c = ((a = c) - b) / 2;
-  }
-  return φ / (Math.pow(2, i) * a);
+function guyouComplexDivide(a, b) {
+  var denominator = b[0] * b[0] + b[1] * b[1];
+  return [
+    (a[0] * b[0] + a[1] * b[1]) / denominator,
+    (a[1] * b[0] - a[0] * b[1]) / denominator
+  ];
 }
+
+guyou.invert = function(x, y) {
+  var k_ = (Math.SQRT2 - 1) / (Math.SQRT2 + 1),
+      k = Math.sqrt(1 - k_ * k_),
+      K = ellipticF(π / 2, k * k),
+      f = -1;
+
+  var s = x > 0 ? -1 : 1;
+
+  var j = ellipticJi(.5 * K - y, -s * .5 * K - x, k * k),
+      tn = guyouComplexDivide(j[0], j[1]);
+
+  return [
+    Math.atan2(tn[1], tn[0]) / f - s * π / 2,
+    2 * Math.atan(Math.exp(.5 / f * Math.log(k_ * tn[0] * tn[0] + k_ * tn[1] * tn[1]))) - π / 2
+  ];
+};
 
 (d3.geo.guyou = function() { return projection(guyou); }).raw = guyou;

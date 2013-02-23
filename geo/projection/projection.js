@@ -28,6 +28,11 @@ function acos(x) {
   return x > 1 ? 0 : x < -1 ? π : Math.acos(x);
 }
 
+function tanh(x) {
+  x = Math.exp(2 * x);
+  return (x - 1) / (x + 1);
+}
+
 function sinh(x) {
   return .5 * (Math.exp(x) - Math.exp(-x));
 }

@@ -46,10 +46,13 @@ guyou.invert = function(x, y) {
   var s = x > 0 ? -1 : 1;
 
   var j = ellipticJi(.5 * K - y, -s * .5 * K - x, k * k),
-      tn = guyouComplexDivide(j[0], j[1]);
+      tn = guyouComplexDivide(j[0], j[1]),
+      λ = Math.atan2(tn[1], tn[0]) / f - s * π / 2;
+  if (λ < -π) λ += 2 * π;
+  else if (λ > π) λ -= 2 * π;
 
   return [
-    Math.atan2(tn[1], tn[0]) / f - s * π / 2,
+    λ,
     2 * Math.atan(Math.exp(.5 / f * Math.log(k_ * tn[0] * tn[0] + k_ * tn[1] * tn[1]))) - π / 2
   ];
 };

@@ -12,6 +12,7 @@ d3.geo.projection.js: \
 	geo/projection/parallel1.js \
 	geo/projection/parallel2.js \
 	geo/projection/interrupt.js \
+	geo/projection/elliptic.js \
 	geo/projection/aitoff.js \
 	geo/projection/guyou.js \
 	geo/projection/mollweide.js \

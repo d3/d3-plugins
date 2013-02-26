@@ -1,47 +1,25 @@
-function gringortenProjection() {
-  var quincuncial = false,
-      m = projectionMutator(gringorten),
-      p = m(quincuncial);
+// @import quincuncial
 
-  p.quincuncial = function(_) {
-    if (!arguments.length) return quincuncial;
-    return m(quincuncial = !!_);
-  };
+function gringorten(λ, φ) {
+  var sλ = sgn(λ),
+      sφ = sgn(φ),
+      cosφ = Math.cos(φ),
+      x = Math.cos(λ) * cosφ,
+      y = Math.sin(λ) * cosφ,
+      z = Math.sin(sφ * φ);
 
-  return p;
-}
+  λ = Math.abs(Math.atan2(y, z));
+  φ = asin(-x);
+  if (Math.abs(λ - π / 2) > ε) λ %= π / 2;
 
-function gringorten(quincuncial) {
-  return function(λ, φ) {
-    var cosφ = Math.cos(φ),
-        x = Math.cos(λ) * cosφ,
-        y = Math.sin(λ) * cosφ,
-        z = Math.sin(φ);
-    if (quincuncial) {
-      λ = Math.atan2(y, -z) - π / 4;
-      φ = asin(x);
-    } else {
-      λ = Math.atan2(z, x) + π / 2;
-      φ = asin(-y);
-    }
-    while (λ < 0) λ += 2 * π;
-    var nφ = φ < 0,
-        df = ~~(λ / (π / 4));
-    λ %= π / 2;
-    var point = gringortenHexadecant(df & 1 ? π / 2 - λ : λ, Math.abs(φ)),
-        x = point[0],
-        y = point[1],
-        t;
-    if (quincuncial && nφ) y = -2 - y;
-    if (df > 3) x = -x, y = -y;
-    switch (df % 4) {
-      case 1: x = -x; // fall through
-      case 2: t = x; x = -y; y = t; break;
-      case 3: y = -y; break;
-    }
-    if (!quincuncial && nφ) x = 2 - x;
-    return quincuncial ? [(x - y) / Math.SQRT2, (x + y) / Math.SQRT2] : [x, y];
-  };
+  var point = gringortenHexadecant(λ > π / 4 ? π / 2 - λ : λ, Math.abs(φ)),
+      t;
+  x = point[0];
+  y = point[1];
+
+  if (λ > π / 4) t = x, x = -y, y = -t;
+
+  return [sλ * x, -sφ * y];
 }
 
 function gringortenHexadecant(λ, φ) {
@@ -82,7 +60,7 @@ function gringortenHexadecant(λ, φ) {
 
     var x1 = x,
         x0 = .5 * x,
-        i = -1;
+        i = 50;
     x = .5 * (x0 + x1);
     do {
       var g = Math.sqrt(a2 - x * x),
@@ -91,21 +69,20 @@ function gringortenHexadecant(λ, φ) {
       if (f < 0) x0 = x;
       else x1 = x;
       x = .5 * (x0 + x1);
-    } while (++i < 50 && Math.abs(x1 - x0) > ε);
+    } while (Math.abs(x1 - x0) > ε && --i > 0);
   } else {
     // Newton-Raphson.
-    for (var x = ε, i = 0; i < 25; i++) {
+    var x = ε, i = 25, δ;
+    do {
       var x2 = x * x,
           g = asqrt(a2 - x2),
           ζμg = ζ + μ * g,
           f = x * ζμg + ν * asin(x / a) - Λ,
-          df = ζμg + (ν - μ * x2) / g,
-          dx = g ? -f / df : 0;
-      x += dx;
-      if (Math.abs(dx) < ε) break;
-    }
+          df = ζμg + (ν - μ * x2) / g;
+      x -= δ = g ? f / df : 0;
+    } while (Math.abs(δ) > ε && --i > 0);
   }
   return [x, -h - r * asqrt(a2 - x * x)];
 }
 
-(d3.geo.gringorten = gringortenProjection).raw = gringorten;
+d3.geo.gringorten = quincuncialProjection(gringorten);

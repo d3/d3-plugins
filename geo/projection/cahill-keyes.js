@@ -18,37 +18,37 @@
         p73a, lF, lT, lM, l, pointV,
         k = Math.sqrt(3);
 
-    CK.lengthMA = 940 / 10000 * CK.lengthMG; //*
-    CK.lengthParallel0to73At0  = CK.lengthMG / 100; //*
+    CK.lengthMA = 940 / 10000 * CK.lengthMG; //->GLOBAL
+    CK.lengthParallel0to73At0  = CK.lengthMG / 100; //->GLOBAL
     CK.lengthParallel73to90At0 = ((CK.lengthMG - CK.lengthMA) -
-                                  (CK.lengthParallel0to73At0 * 73)) / (90 - 73); //*
-    CK.sin60 = 0.866025403784439; // √3/2  //*
-    CK.cos60 = 0.5; //*
-    CK.yTranslate = CK.lengthMG * CK.sin60; //*
-    CK.pointM = [0, 0]; //*
-    CK.pointG = [CK.lengthMG, 0]; //*
+                                  (CK.lengthParallel0to73At0 * 73)) / (90 - 73); //->GLOBAL
+    CK.sin60 = 0.866025403784439; // √3/2  //->GLOBAL
+    CK.cos60 = 0.5; //->GLOBAL
+    CK.yTranslate = CK.lengthMG * CK.sin60; //->GLOBAL
+    CK.pointM = [0, 0]; //->GLOBAL
+    CK.pointG = [CK.lengthMG, 0]; //->GLOBAL
     pointN    = [CK.lengthMG, CK.lengthMG * Math.tan(30 * d3_geo_radians)];
-    CK.pointA = [CK.lengthMA, 0]; //*
-    CK.pointB = lineIntersection (CK.pointM, 30, CK.pointA, 45); //*
-    CK.lengthAG = distance(CK.pointA, CK.pointG);//*
-    CK.lengthAB = distance(CK.pointA, CK.pointB);//*
+    CK.pointA = [CK.lengthMA, 0]; //->GLOBAL
+    CK.pointB = lineIntersection (CK.pointM, 30, CK.pointA, 45); //->GLOBAL
+    CK.lengthAG = distance(CK.pointA, CK.pointG);//->GLOBAL
+    CK.lengthAB = distance(CK.pointA, CK.pointB);//->GLOBAL
     lengthMB = distance(CK.pointM, CK.pointB);
     lengthMN = distance(CK.pointM, pointN);
     lengthNG = distance(pointN, CK.pointG);
-    CK.pointD =  interpolate(lengthMB, lengthMN, pointN, CK.pointM); //*
-    CK.pointF = [CK.lengthMG, lengthNG - lengthMB]; //*
+    CK.pointD =  interpolate(lengthMB, lengthMN, pointN, CK.pointM); //->GLOBAL
+    CK.pointF = [CK.lengthMG, lengthNG - lengthMB]; //->GLOBAL
     CK.pointE = [pointN[0] - CK.lengthMA * Math.sin(30 * d3_geo_radians),
-                 pointN[1] - CK.lengthMA * Math.cos(30 * d3_geo_radians)]; //*
-    CK.lengthGF = distance(CK.pointG, CK.pointF);//*
-    CK.lengthBD = distance(CK.pointB, CK.pointD);//*
-    CK.lengthBDE = CK.lengthBD + CK.lengthAB; // lengthAB = lengthDE  //*
-    CK.lengthGFE = CK.lengthGF + CK.lengthAB; // lengthAB = lengthFE  //*
-    CK.deltaMEq = CK.lengthGFE / 45; //*
-    CK.lengthAP75 = (90 - 75) * CK.lengthParallel73to90At0; //*
-    CK.lengthAP73 = CK.lengthMG - CK.lengthMA - CK.lengthParallel0to73At0 * 73; //*
+                 pointN[1] - CK.lengthMA * Math.cos(30 * d3_geo_radians)]; //->GLOBAL
+    CK.lengthGF = distance(CK.pointG, CK.pointF);//->GLOBAL
+    CK.lengthBD = distance(CK.pointB, CK.pointD);//->GLOBAL
+    CK.lengthBDE = CK.lengthBD + CK.lengthAB; // lengthAB = lengthDE  //->GLOBAL
+    CK.lengthGFE = CK.lengthGF + CK.lengthAB; // lengthAB = lengthFE  //->GLOBAL
+    CK.deltaMEq = CK.lengthGFE / 45; //->GLOBAL
+    CK.lengthAP75 = (90 - 75) * CK.lengthParallel73to90At0; //->GLOBAL
+    CK.lengthAP73 = CK.lengthMG - CK.lengthMA - CK.lengthParallel0to73At0 * 73; //->GLOBAL
     pointU = [CK.pointA[0] + CK.lengthAP73 * Math.cos(30 * d3_geo_radians),
               CK.pointA[1] + CK.lengthAP73 * Math.sin(30 * d3_geo_radians)];
-    CK.pointT = lineIntersection(pointU, -60, CK.pointB, 30);//*
+    CK.pointT = lineIntersection(pointU, -60, CK.pointB, 30); //->GLOBAL
 
     p73a = parallel73(m);
     lF  = p73a.lengthParallel73;
@@ -56,8 +56,8 @@
     lM = lengthMiddleSegment(m);
     l = p * (lT + lM + lF) / 73;
     pointV = [0, 0];
-    CK.pointC = [0, 0];
-    CK.radius = 0;
+    CK.pointC = [0, 0]; //->GLOBAL
+    CK.radius = 0; //->GLOBAL
 
     l = l - lT;
     pointV = interpolate(l, lM, jointT(m), jointF(m));
@@ -70,8 +70,7 @@
     return CK;
   }
 
-
-  /////// helper functions ///////
+  //**** helper functions ****//
 
   // distance between two 2D coordinates
   function distance(p1, p2) {
@@ -83,12 +82,8 @@
   // return 2D point at position length/totallength of the line
   // defined by two 2D points, start and end.
   function interpolate(length, totalLength, start, end) {
-    assert(start).not().equals(end);
     var xy = [start[0] + (end[0] - start[0]) * length / totalLength,
               start[1] + (end[1] - start[1]) * length / totalLength];
-    if (isNaN(xy[0]) || isNaN(xy[1])) {
-      console.log('interpolate:'+ length + ';' + totalLength + ';' +
-                  start + ';' + end + '; x=' + xy[0] + '; y=' + xy[1]);}
     return xy;
   }
 
@@ -96,18 +91,11 @@
   // by one 2D point and a slope each.
   function lineIntersection(point1, slope1, point2, slope2) {
     // s1/s2 = slope in degrees
-    assert(point1).not().equals(point2);
-    assert(slope1).not().equals(slope2);
     var m1 = Math.tan(slope1 * d3_geo_radians),
         m2 = Math.tan(slope2 * d3_geo_radians),
         p = [0, 0];
     p[0] = (m1 * point1[0] - m2 * point2[0] - point1[1] + point2[1]) / (m1 - m2);
     p[1] = m1 * (p[0] - point1[0]) + point1[1];
-    if (isNaN(p[0]) || isNaN(p[1])) {
-      console.log('lineIntersection,IN:'+ point1 + ';' + slope1 + ';' +
-                  point2 + ';' + slope2);
-      console.log('lineIntersection,OUT:'+ p);
-    }
     return p;
   }
 
@@ -154,7 +142,6 @@
   // [original CKOG uses clockwise rotation]
   function rotate(xy, angle) {
     var xynew = [0, 0];
-    if (isNaN(xy[0]) || isNaN(xy[1])) {console.log('rotate: xy='+ xy + '; angle=' + angle);}
 
     if ( angle === -60 ) {
 	   xynew[0] =  xy[0] * CK.cos60 + xy[1] * CK.sin60;
@@ -173,9 +160,6 @@
 
     }
 
-    if (isNaN(xynew[0]) || isNaN(xynew[1])) {
-      console.log('rotate: xy=' + xy + '; angle=' + angle + '; xynew=' + xynew);
-    }
     return xynew;
   }
 
@@ -203,9 +187,6 @@
                            CK.pointF,
                            CK.pointE);
     }
-    if (isNaN(jointE[0]) || isNaN(jointE[1])) {
-      console.log('equator: m=' + m +
-                  '; jEx=' + jointE[0] + 'jEy=' + jointE[1]);}
     return jointE;
   }
 
@@ -214,7 +195,6 @@
   }
 
   function jointT(m) {
-    if (m === 0) { console.log('jointT: m=' + m + '!'); }
     return lineIntersection(CK.pointM, 2 * m / 3,
                             jointE(m), m / 3);
   }
@@ -225,21 +205,14 @@
     }
     var xy = lineIntersection(CK.pointA, m,
                               CK.pointM, 2 * m / 3);
-
-    if (isNaN(xy[0]) || isNaN(xy[1])) {
-      console.log('jointF: m=' + m +
-                  '; x=' + xy[0] + '; y=' + xy[1]);
-    }
     return xy;
   }
 
   function lengthTorridSegment(m) {
-    if (m === 0) { console.log('lengthTorridSegment: m=' + m + '!'); }
     return distance(jointE(m), jointT(m));
   }
 
   function lengthMiddleSegment(m) {
-    if (m === 0) { console.log('lengthMiddleSegment: m=' + m + '!'); }
     return distance(jointT(m), jointF(m));
   }
 
@@ -278,7 +251,6 @@
 
   // special functions to transform lon/lat to x/y
   function ll2mp(lon, lat) {
-    if (isNaN(lon) || isNaN(lat)) {console.log('ll2mp: lon='+ lon + '; lat=' + lat);}
     var south = [0, 6, 7, 8, 5],
         o = truncate(((lon + 180) / 90) + 1),
         p,                                     // parallel
@@ -289,56 +261,45 @@
     if (o === 5) o = 1;
     if (lat < 0) o = south[o];
     p = Math.abs(lat);
-    if (isNaN(m) || isNaN(p) || isNaN(s) || isNaN(o)) {
-      console.log('ll2mp:'+ m + ';' + p + ';' + s + ';' + o);
-    }
     return [m, p, s, o];
   }
 
   function zoneA(m, p) {
-    if (isNaN(m) || isNaN(p)) {console.log('zoneA: m='+ m + '; p=' + p);}
     return [CK.pointA[0] + (90 - p) * 104, 0];
   }
 
   function zoneB(m, p) {
-    if (isNaN(m) || isNaN(p)) {console.log('zoneB: m='+ m + '; p=' + p);}
     return [CK.pointG[0] - p * 100, 0];
   }
 
   function zoneC(m, p) {
-    if (isNaN(m) || isNaN(p)) {console.log('zoneC: m='+ m + '; p=' + p);}
     var l = 104 * (90 - p);
     return [CK.pointA[0] + l * Math.cos(m * d3_geo_radians),
             CK.pointA[1] + l * Math.sin(m * d3_geo_radians)];
   }
 
   function zoneD(m, p) {
-    if (isNaN(m) || isNaN(p)) {console.log('zoneD: m='+ m + '; p=' + p);}
     return equator(m);
   }
 
   function zoneE(m, p) {
-    if (isNaN(m) || isNaN(p)) {console.log('zoneE: m='+ m + '; p=' + p);}
     var l = 1560 + (75 - p) * 100;
     return [CK.pointA[0] + l * Math.cos(m * d3_geo_radians),
             CK.pointA[1] + l * Math.sin(m * d3_geo_radians)];
   }
 
   function zoneF(m, p) {
-    if (isNaN(m) || isNaN(p)) {console.log('zoneF: m='+ m + '; p=' + p);}
     return interpolate(p, 15,
                        CK.pointE,
                        CK.pointD);
   }
 
   function zoneG(m, p) {
-    if (isNaN(m) || isNaN(p)) {console.log('zoneG: m='+ m + '; p=' + p);}
     var l = p - 15;
     return interpolate(l, 58, CK.pointD, CK.pointT);
   }
 
   function zoneH(m, p) {
-    if (isNaN(m) || isNaN(p)) {console.log('zoneH: m='+ m + '; p=' + p);}
     var p75 = parallel75(45),
         p73a = parallel73(m),
         p73 = p73a.parallel73,
@@ -346,28 +307,21 @@
         lF75 = distance(CK.pointB, p75),
         l = (75 - p) * (lF75 + lF) / 2,
         xy = [0, 0];
-    // console.log('zoneH,l:'+ l);
     if (l <= lF75) {
       xy = interpolate(l, lF75, p75, CK.pointB);
     } else {
       l = l - lF75;
       xy = interpolate(l, lF, CK.pointB, p73);
     }
-    if (isNaN(xy[0]) || isNaN(xy[1])) {
-      console.log('zoneH: m=' + m + '; p=' + p +
-                  '; x=' + xy[0] + '; y=' + xy[1]);
-    }
     return xy;
   }
 
   function zoneI(m, p) {
-    if (isNaN(m) || isNaN(p)) {console.log('zoneI: m='+ m + '; p=' + p);}
     var p73a = parallel73(m),
         lT = lengthTorridSegment(m),
         lM = lengthMiddleSegment(m),
         l = p * (lT + lM + p73a.lengthParallel73) / 73,
         xy;
-    if (m === 0) { console.log('zoneI: m=' + m + '!'); }
     if (l <= lT) {
       xy = interpolate(l, lT, jointE(m), jointT(m));
     } else if (l <= (lT + lM)) {
@@ -377,15 +331,10 @@
       l = l - lT - lM;
       xy = interpolate(l, p73a.lengthParallel73, jointF(m), p73a.parallel73);
     }
-    if (isNaN(xy[0]) || isNaN(xy[1])) {
-      console.log('zoneI: m=' + m + '; p=' + p +
-                  '; x=' + xy[0] + '; y=' + xy[1]);
-    }
     return xy;
   }
 
   function zoneJ(m, p) {
-    if (isNaN(m) || isNaN(p)) {console.log('zoneJ: m='+ m + '; p=' + p);}
     var p75 = parallel75(m),
 		  lF75 = distance(jointF(m), p75),
         p73a= parallel73(m),
@@ -400,41 +349,24 @@
 	   l = l - lF75;
 	   xy = interpolate(l, -lF, jointF(m), p73);
     }
-    if (isNaN(xy[0]) || isNaN(xy[1])) {
-      console.log('zoneJ: m=' + m + '; p=' + p +
-                  '; x=' + xy[0] + '; y=' + xy[1]);
-    }
     return xy;
   }
 
   function zoneK(m, p, l15) {
-    if (isNaN(m) || isNaN(p) || isNaN(l15)) {console.log('zoneK: m='+ m + '; p=' + p +
-                                                         '; l15=' + l15);}
     var l = p * l15 / 15,
         lT = lengthTorridSegment(m),
         lM = lengthMiddleSegment(m),
         xy = [0, 0];
-    if (isNaN(lT) || isNaN(lM)) {
-      console.log('zoneK: l15=' + l15 + '; l=' + l + '; lT=' + lT + '; lM=' + lM);
-    }
-    if (m === 0) { console.log('zoneK: m=' + m + '!'); }
     if (l <= lT) { // point is in torrid segment
 	   xy = interpolate (l, lT, jointE(m), jointT(m));
     } else { // point is in middle segment
 	   l = l - lT;
 	   xy = interpolate (l, lM, jointT(m), jointF(m));
     }
-    if (isNaN(xy[0]) || isNaN(xy[1])) {
-      console.log('zoneK: m=' + m + '; p=' + p + '; l15=' + l15 +
-                  '; x=' + xy[0] + '; y=' + xy[1]);
-    }
     return xy;
   }
 
   function zoneL(m, p, l15) {
-    if (isNaN(m) || isNaN(p) || isNaN(l15)) {
-      console.log('zoneL: m='+ m + '; p=' + p + '; l15=' + l15);
-    }
     var p73a = parallel73(m),
         p73 = p73a.parallel73,
         lT = lengthTorridSegment(m),
@@ -442,10 +374,6 @@
         xy,
         lF = p73a.lengthParallel73,
         l = l15 + (p - 15) * ((lT + lM + lF) - l15) / 58;
-    if (isNaN(lT) || isNaN(lM)) {
-      console.log('zoneK: l15=' + l15 + '; l=' + l + '; lT=' + lT + '; lM=' + lM);
-    }
-    if (m === 0) { console.log('zoneL: m=' + m + '!'); }
     if (l <= lT) { //on torrid segment
       xy = interpolate(l, lT, jointE(m), jointF(m));
     } else if (l <= lT + lM) { //on middle segment
@@ -454,10 +382,6 @@
     } else { //on frigid segment
       l = l - lT - lM;
       xy = interpolate(l, lF, jointF(m), p73);
-    }
-    if (isNaN(xy[0]) || isNaN(xy[1])) {
-      console.log('zoneL: m=' + m + '; p=' + p + '; l15=' + l15 +
-                  '; x=' + xy[0] + '; y=' + xy[1]);
     }
     return xy;
   }
@@ -531,18 +455,11 @@
         }
       }
     }
-    if (isNaN(xy[0]) || isNaN(xy[1])) {
-      console.log('mp2xy: m=' + m + '; p=' + p +
-                  '; x=' + xy[0] + '; y=' + xy[1]);
-    }
     return xy;
   }
 
   // from half-octant to megamap (single rotated octant)
   function mj2g(xy, octant) {
-    if (isNaN(xy[0]) || isNaN(xy[1]) || isNaN(octant)) {
-      console.log('mj2g: xy='+ xy + '; o=' + octant);
-    }
     var xynew = [0, 0];
 
     if (octant === 0) {
@@ -578,14 +495,8 @@
       console.log('mj2g: something weird happened!');
 	   return xynew;
     }
-    if (isNaN(xynew[0]) || isNaN(xynew[1])) {
-      console.log('mj2g before translation: xynew[0]=' + xynew[0] + '; xynew[1]=' + xynew[1]);
-    }
     xynew[1] += CK.yTranslate;
 
-    if (isNaN(xynew[0]) || isNaN(xynew[1])) {
-      console.log('mj2g: xynew[0]=' + xynew[0] + '; xynew[1]=' + xynew[1]);
-    }
     return xynew;
   }
 
@@ -630,9 +541,6 @@
         xy = mp2xy(m, p),
         mm = mj2g([xy[0], s*xy[1]], o);
 
-    if (isNaN(mm[0]) || isNaN(mm[1])) {
-      console.log('cahill-keyes: mm[0]='+ mm[0] + '; mm[1]=' + mm[1]);
-    }
     return mm;
   }
 
@@ -667,6 +575,6 @@
 
   var projection = d3.geo.projection;
   (d3.geo.cahillKeyes = function() { return d3.geo.projection(cahillKeyes); }).raw = cahillKeyes;
-//  (d3.geo.cahillKeyes1o = function() { return d3.geo.projection(cahillKeyesOneOctant); }).raw = cahillKeyesOneOctant;
+  (d3.geo.cahillKeyes1o = function() { return d3.geo.projection(cahillKeyesOneOctant); }).raw = cahillKeyesOneOctant;
 
 })();

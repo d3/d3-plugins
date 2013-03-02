@@ -8,8 +8,10 @@ var suite = vows.describe("d3.geo.vanDerGrinten4");
 suite.addBatch({
   "vanDerGrinten4": {
     topic: d3.geo.vanDerGrinten4,
-    "doesn't generate NaN": function(vanDerGrinten4) {
+    "doesn't generate NaNs": function(vanDerGrinten4) {
       assert.inDelta(vanDerGrinten4([20, 1e-7]), [532.359877, 250], 1e-6);
+      assert.inDelta(vanDerGrinten4([180.0000000000001, -90.00000000000003]), [480, 485.619449], 1e-6);
+      assert.inDelta(vanDerGrinten4([-180, -90.00000000000003]), [480, 485.619449], 1e-6);
     },
     "projections and inverse projections": function(vanDerGrinten4) {
       assert.equalInverse(vanDerGrinten4, [  0,   0], [480,        250]);

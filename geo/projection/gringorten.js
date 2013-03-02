@@ -1,47 +1,42 @@
-function gringortenProjection() {
-  var quincuncial = false,
-      m = projectionMutator(gringorten),
-      p = m(quincuncial);
+// @import quincuncial
 
-  p.quincuncial = function(_) {
-    if (!arguments.length) return quincuncial;
-    return m(quincuncial = !!_);
-  };
+function gringorten(λ, φ) {
+  var sλ = sgn(λ),
+      sφ = sgn(φ),
+      cosφ = Math.cos(φ),
+      x = Math.cos(λ) * cosφ,
+      y = Math.sin(λ) * cosφ,
+      z = Math.sin(sφ * φ);
 
-  return p;
+  λ = Math.abs(Math.atan2(y, z));
+  φ = asin(x);
+
+  if (Math.abs(λ - π / 2) > ε) λ %= π / 2;
+  var point = gringortenHexadecant(λ > π / 4 ? π / 2 - λ : λ, φ);
+
+  if (λ > π / 4) z = point[0], point[0] = -point[1], point[1] = -z;
+
+  return (point[0] *= sλ, point[1] *= -sφ, point);
 }
 
-function gringorten(quincuncial) {
-  return function(λ, φ) {
-    var cosφ = Math.cos(φ),
-        x = Math.cos(λ) * cosφ,
-        y = Math.sin(λ) * cosφ,
-        z = Math.sin(φ);
-    if (quincuncial) {
-      λ = Math.atan2(y, -z) - π / 4;
-      φ = asin(x);
-    } else {
-      λ = Math.atan2(z, x) + π / 2;
-      φ = asin(-y);
-    }
-    while (λ < 0) λ += 2 * π;
-    var nφ = φ < 0,
-        df = ~~(λ / (π / 4));
-    λ %= π / 2;
-    var point = gringortenHexadecant(df & 1 ? π / 2 - λ : λ, Math.abs(φ)),
-        x = point[0],
-        y = point[1],
-        t;
-    if (quincuncial && nφ) y = -2 - y;
-    if (df > 3) x = -x, y = -y;
-    switch (df % 4) {
-      case 1: x = -x; // fall through
-      case 2: t = x; x = -y; y = t; break;
-      case 3: y = -y; break;
-    }
-    if (!quincuncial && nφ) x = 2 - x;
-    return quincuncial ? [(x - y) / Math.SQRT2, (x + y) / Math.SQRT2] : [x, y];
-  };
+gringorten.invert = function(x, y) {
+  var sx = sgn(x),
+      sy = sgn(y),
+      x0 = -sx * x,
+      y0 = -sy * y,
+      t = y0 / x0 < 1,
+      p = gringortenHexadecantInvert(t ? y0 : x0, t ? x0 : y0),
+      λ = p[0],
+      φ = p[1];
+
+  if (t) λ = -π / 2 - λ;
+
+  var cosφ = Math.cos(φ),
+      x = Math.cos(λ) * cosφ,
+      y = Math.sin(λ) * cosφ,
+      z = Math.sin(φ);
+
+  return [sx * (Math.atan2(y, -z) + π), sy * asin(x)];
 }
 
 function gringortenHexadecant(λ, φ) {
@@ -82,7 +77,7 @@ function gringortenHexadecant(λ, φ) {
 
     var x1 = x,
         x0 = .5 * x,
-        i = -1;
+        i = 50;
     x = .5 * (x0 + x1);
     do {
       var g = Math.sqrt(a2 - x * x),
@@ -91,21 +86,64 @@ function gringortenHexadecant(λ, φ) {
       if (f < 0) x0 = x;
       else x1 = x;
       x = .5 * (x0 + x1);
-    } while (++i < 50 && Math.abs(x1 - x0) > ε);
+    } while (Math.abs(x1 - x0) > ε && --i > 0);
   } else {
     // Newton-Raphson.
-    for (var x = ε, i = 0; i < 25; i++) {
+    var x = ε, i = 25, δ;
+    do {
       var x2 = x * x,
           g = asqrt(a2 - x2),
           ζμg = ζ + μ * g,
           f = x * ζμg + ν * asin(x / a) - Λ,
-          df = ζμg + (ν - μ * x2) / g,
-          dx = g ? -f / df : 0;
-      x += dx;
-      if (Math.abs(dx) < ε) break;
-    }
+          df = ζμg + (ν - μ * x2) / g;
+      x -= δ = g ? f / df : 0;
+    } while (Math.abs(δ) > ε && --i > 0);
   }
   return [x, -h - r * asqrt(a2 - x * x)];
 }
 
-(d3.geo.gringorten = gringortenProjection).raw = gringorten;
+function gringortenHexadecantInvert(x, y) {
+  var x0 = 0,
+      x1 = 1,
+      r = .5,
+      i = 50;
+
+  while (true) {
+    var r2 = r * r,
+        sinφ = Math.sqrt(r),
+        z = Math.asin(1 / Math.sqrt(1 + r2)),
+        v = (1 - r2) + r * (1 + r2) * z,
+        p2 = (1 - sinφ) / v,
+        p = Math.sqrt(p2),
+        a2 = p2 * (1 + r2),
+        h = p * (1 - r2),
+        g2 = a2 - x * x,
+        g = Math.sqrt(g2),
+        y0 = y + h + r * g;
+
+    if (Math.abs(x1 - x0) < ε2 || --i === 0 || y0 === 0) break;
+
+    if (y0 > 0) x0 = r;
+    else x1 = r;
+
+    r = .5 * (x0 + x1);
+  }
+
+  if (!i) return null;
+
+  var φ = Math.asin(sinφ),
+      cosφ = Math.cos(φ),
+      secφ = 1 / cosφ,
+      drdφ = 2 * sinφ * cosφ,
+      dvdφ = (-3 * r + z * (1 + 3 * r2)) * drdφ,
+      dp2dφ = (-v * cosφ - (1 - sinφ) * dvdφ) / (v * v),
+      dpdφ = .5 * dp2dφ / p,
+      dhdφ = (1 - r2) * dpdφ - 2 * r * p * drdφ,
+      ζ = -2 * secφ * dhdφ,
+      μ = -secφ * drdφ,
+      ν = -secφ * (r * (1 + r2) * dp2dφ + p2 * (1 + 3 * r2) * drdφ);
+
+  return [π / 4 * (x * (ζ + μ * g) + ν * Math.asin(x / Math.sqrt(a2))), φ];
+}
+
+d3.geo.gringorten = quincuncialProjection(gringorten);

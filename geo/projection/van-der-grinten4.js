@@ -14,7 +14,7 @@ function vanDerGrinten4(λ, φ) {
       D = sgn(Math.abs(λ) - π / 2) * Math.sqrt(λ1 * λ1 - 4),
       D2 = D * D,
       F = B_C2 * (B2 + C2 * D2 - 1) + (1 - B2) * (B2 * (B_3C * B_3C + 4 * C2) + 12 * BC * C2 + 4 * C2 * C2),
-      x1 = (D * (B_C2 + C2 - 1) + 2 * Math.sqrt(F)) / (4 * B_C2 + D2);
+      x1 = (D * (B_C2 + C2 - 1) + 2 * asqrt(F)) / (4 * B_C2 + D2);
   return [
     sgn(λ) * π * x1 / 2,
     sgn(φ) * π / 2 * asqrt(1 + D * Math.abs(x1) - x1 * x1)

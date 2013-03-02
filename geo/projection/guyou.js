@@ -1,4 +1,5 @@
 // @import elliptic
+// @import quincuncial
 
 // √k' tn(½K - w) = exp(-ζ).
 function guyou(λ, φ) {
@@ -8,15 +9,12 @@ function guyou(λ, φ) {
       K = ellipticF(π / 2, k * k),
       f = -1;
 
-  var s = λ > 0 ? -1 : 1;
-  λ += s * π / 2;
-
   var ψ = Math.log(Math.tan(π / 4 + Math.abs(φ) / 2)),
       r = Math.exp(f * ψ) / Math.sqrt(k_),
       at = guyouComplexAtan(r * Math.cos(f * λ), r * Math.sin(f * λ)),
       t = ellipticFi(at[0], at[1], k * k);
 
-  return [-s * .5 * K - t[1], sgn(φ) * (.5 * K - t[0])];
+  return [-t[1], sgn(φ) * (.5 * K - t[0])];
 }
 
 function guyouComplexAtan(x, y) {
@@ -43,13 +41,9 @@ guyou.invert = function(x, y) {
       K = ellipticF(π / 2, k * k),
       f = -1;
 
-  var s = x > 0 ? -1 : 1;
-
-  var j = ellipticJi(.5 * K - y, -s * .5 * K - x, k * k),
+  var j = ellipticJi(.5 * K - y, -x, k * k),
       tn = guyouComplexDivide(j[0], j[1]),
-      λ = Math.atan2(tn[1], tn[0]) / f - s * π / 2;
-  if (λ < -π) λ += 2 * π;
-  else if (λ > π) λ -= 2 * π;
+      λ = Math.atan2(tn[1], tn[0]) / f;
 
   return [
     λ,
@@ -57,4 +51,4 @@ guyou.invert = function(x, y) {
   ];
 };
 
-(d3.geo.guyou = function() { return projection(guyou); }).raw = guyou;
+d3.geo.guyou = quincuncialProjection(guyou);

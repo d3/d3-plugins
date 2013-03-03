@@ -8,6 +8,9 @@ all: \
 
 d3.geo.projection.js: \
 	geo/projection/start.js \
+	geo/projection/auxiliary-latitude.js \
+	geo/projection/auxiliary.js \
+	geo/projection/datum.js \
 	geo/projection/projection.js \
 	geo/projection/parallel1.js \
 	geo/projection/parallel2.js \

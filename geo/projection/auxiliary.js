@@ -5,21 +5,16 @@ d3.geo.auxiliary = function() {
       aux = auxiliaryLatitude[type],
       auxφ = aux(e);
 
-  function auxiliary(projection) {
+  function auxiliary(stream) {
     return {
-      stream: function(stream) {
-        stream = projection.stream(stream);
-        return {
-          point: function(x, y) {
-            stream.point(x, auxφ(y * radians) * degrees);
-          },
-          sphere: function() { stream.sphere(); },
-          lineStart: function() { stream.lineStart(); },
-          lineEnd: function() { stream.lineEnd(); },
-          polygonStart: function() { stream.polygonStart(); },
-          polygonEnd: function() { stream.polygonEnd(); }
-        };
-      }
+      point: function(x, y) {
+        stream.point(x, auxφ(y * radians) * degrees);
+      },
+      sphere: function() { stream.sphere(); },
+      lineStart: function() { stream.lineStart(); },
+      lineEnd: function() { stream.lineEnd(); },
+      polygonStart: function() { stream.polygonStart(); },
+      polygonEnd: function() { stream.polygonEnd(); }
     };
   }
 

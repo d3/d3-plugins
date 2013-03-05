@@ -500,16 +500,11 @@
     return xynew;
   }
 
-  // coordinate transformation FOR 1 octant, rotated -90 degrees,
+  // coordinate transformation FOR 1 octant,
   // normalised on largest half-octant side, traslated
   // up on y axis.
-  // v = tan(30º) - 940/10000 * cos*(30º)
-  //  -v < x < v; 0 <= y < 1 - 940/10000.
   function cahillKeyesOneOctant(λ, φ) {
     // λ, φ are in radians.
-//    console.log("λ = " + λ + "; φ = " + φ + ".");
-//    assert(λ).lessThanOrEqual(π/4);
-//    var lon = (λ > π/4 ? π/4 : λ) * d3_geo_degrees,
     var lon = λ * d3_geo_degrees,
         lat = φ * d3_geo_degrees,
         res = ll2mp(lon, lat),
@@ -518,9 +513,11 @@
         s = res[2],
         o = res[3],
         xy = mp2xy(m, p),
-        mm = [s*xy[1] / CK.lengthMG,
-               -xy[0] / CK.lengthMG]; //rotated, ~normalized ...
-    mm[1] += 1;                       //...and translated
+        mm;
+
+    mm = [s*xy[1] / CK.lengthMG,
+	   -xy[0] / CK.lengthMG]; // ~normalized ...
+    mm[1] += 1;                   // ...and translated
 
     if (isNaN(mm[0]) || isNaN(mm[1])) {
       console.log('cahill-keyes: mm[0]='+ mm[0] + '; mm[1]=' + mm[1]);

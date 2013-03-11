@@ -66,6 +66,7 @@ d3.geo.projection.js: \
 	geo/projection/robinson.js \
 	geo/projection/satellite.js \
 	geo/projection/times.js \
+	geo/projection/transverse-mercator.js \
 	geo/projection/two-point-azimuthal.js \
 	geo/projection/two-point-equidistant.js \
 	geo/projection/van-der-grinten.js \

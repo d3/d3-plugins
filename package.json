@@ -12,7 +12,7 @@
     "d3": "3.0.x"
   },
   "devDependencies": {
-    "vows": "0.6.x"
+    "vows": "0.7.x"
   },
   "scripts": {
     "test": "./node_modules/vows/bin/vows `find . -name \"*-test.js\" \\! -path \"./node_modules/*\"`"

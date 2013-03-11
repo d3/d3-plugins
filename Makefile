@@ -1,7 +1,3 @@
-NODE_PATH ?= ./node_modules
-JS_UGLIFY = uglifyjs
-JS_TESTER = $(NODE_PATH)/vows/bin/vows
-
 all: \
 	d3.geo.projection.js \
 	d3.geo.projection.min.js
@@ -81,16 +77,16 @@ d3.geo.projection.js: \
 	geo/projection/end.js
 
 test: all
-	@$(JS_TESTER) $(shell find . -name "*-test.js" \! -path "./node_modules/*")
+	@node_modules/.bin/vows $(shell find . -name "*-test.js" \! -path "./node_modules/*")
 
 %.min.js: %.js Makefile
 	@rm -f $@
-	$(JS_UGLIFY) $< -c -m -o $@
+	node_modules/.bin/uglifyjs $< -c -m -o $@
 
 d3%js: Makefile
 	@rm -f $@
 	@cat $(filter %.js,$^) > $@.tmp
-	$(JS_UGLIFY) $@.tmp -b indent-level=2 -o $@
+	node_modules/.bin/uglifyjs $@.tmp -b indent-level=2 -o $@
 	@rm $@.tmp
 	@chmod a-w $@
 

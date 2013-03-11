@@ -61,6 +61,7 @@ Projections:
 * d3.geo.sinuMollweide - [Sinu-Mollweide](http://bl.ocks.org/mbostock/4319903)
 * d3.geo.stereographic - [stereographic](http://bl.ocks.org/mbostock/3757137)
 * d3.geo.times - Times
+* d3.geo.transverseMercator - Transverse Mercator
 * d3.geo.twoPointAzimuthal - Two-Point Azimuthal
 * d3.geo.twoPointEquidistant - Two-Point Equidistant
 * d3.geo.vanDerGrinten - [Van der Grinten](http://bl.ocks.org/mbostock/3796831)

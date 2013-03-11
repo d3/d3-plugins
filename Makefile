@@ -24,6 +24,7 @@ d3.geo.projection.js: \
 	geo/projection/bromley.js \
 	geo/projection/collignon.js \
 	geo/projection/conic-conformal.js \
+	geo/projection/conic-equal-area.js \
 	geo/projection/conic-equidistant.js \
 	geo/projection/craig.js \
 	geo/projection/craster.js \

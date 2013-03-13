@@ -1,4 +1,5 @@
 import "projection";
+import "hyperbolic";
 
 function transverseMercator(λ, φ) {
   var B = Math.cos(φ) * Math.sin(λ);

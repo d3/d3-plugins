@@ -1,4 +1,5 @@
 import "projection";
+import "hyperbolic";
 
 function august(λ, φ) {
   var tanφ = Math.tan(φ / 2),

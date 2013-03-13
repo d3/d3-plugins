@@ -1,4 +1,5 @@
-// @import aitoff
+import "projection";
+import "aitoff";
 
 function winkel3(λ, φ) {
   var coordinates = aitoff(λ, φ);

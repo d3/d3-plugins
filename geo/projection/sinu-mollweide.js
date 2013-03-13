@@ -1,5 +1,6 @@
-// @import mollweide
-// @import sinusoidal
+import "projection";
+import "mollweide";
+import "sinusoidal";
 
 var sinuMollweideφ = .7109889596207567,
     sinuMollweideY = .0528035274542;

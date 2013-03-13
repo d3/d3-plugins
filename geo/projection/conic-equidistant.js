@@ -1,4 +1,5 @@
-// @import parallel2
+import "projection";
+import "parallel2";
 
 function conicEquidistant(φ0, φ1) {
   var cosφ0 = Math.cos(φ0),

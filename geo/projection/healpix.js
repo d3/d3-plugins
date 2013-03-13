@@ -1,3 +1,5 @@
+import "projection";
+
 var healpixParallel = 41 + 48 / 36 + 37 / 3600; // TODO automate
 
 function healpix(h) {

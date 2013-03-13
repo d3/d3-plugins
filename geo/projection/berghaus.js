@@ -1,3 +1,5 @@
+import "projection";
+
 var berghausAzimuthalEquidistant = d3.geo.azimuthalEquidistant.raw;
 
 function berghaus(n) {

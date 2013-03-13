@@ -1,4 +1,5 @@
-// @import parallel2
+import "projection";
+import "parallel2";
 
 function conicEqualArea(φ0, φ1) {
   var sinφ0 = Math.sin(φ0),

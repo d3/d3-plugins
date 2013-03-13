@@ -1,5 +1,6 @@
-// @import guyou
-// @import quincuncial
+import "projection";
+import "guyou";
+import "quincuncial";
 
 var peirceQuincuncialProjection = quincuncialProjection(guyou);
 

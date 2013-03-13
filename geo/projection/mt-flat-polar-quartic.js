@@ -1,3 +1,5 @@
+import "projection";
+
 function mtFlatPolarQuartic(λ, φ) {
   var k = (1 + Math.SQRT1_2) * Math.sin(φ),
       θ = φ;

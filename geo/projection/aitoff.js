@@ -1,3 +1,5 @@
+import "projection";
+
 function aitoff(λ, φ) {
   var cosφ = Math.cos(φ),
       sinciα = sinci(acos(cosφ * Math.cos(λ /= 2)));

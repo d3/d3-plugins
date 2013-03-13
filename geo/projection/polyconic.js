@@ -1,3 +1,5 @@
+import "projection";
+
 function polyconic(λ, φ) {
   if (Math.abs(φ) < ε) return [λ, 0];
   var tanφ = Math.tan(φ),

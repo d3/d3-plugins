@@ -1,3 +1,5 @@
+import "projection";
+
 function parallel2Projection(projectAt) {
   var φ0 = 0,
       φ1 = π / 3,

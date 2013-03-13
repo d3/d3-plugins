@@ -1,3 +1,5 @@
+import "projection";
+
 function satelliteVertical(P) {
   function forward(λ, φ) {
     var cosφ = Math.cos(φ),

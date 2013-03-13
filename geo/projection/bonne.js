@@ -1,5 +1,6 @@
-// @import parallel1
-// @import sinusoidal
+import "projection";
+import "parallel1";
+import "sinusoidal";
 
 function bonne(φ0) {
   if (!φ0) return sinusoidal;

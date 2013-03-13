@@ -1,3 +1,5 @@
+import "projection";
+
 function wagner7(λ, φ) {
   var s = .90631 * Math.sin(φ),
       c0 = Math.sqrt(1 - s * s),

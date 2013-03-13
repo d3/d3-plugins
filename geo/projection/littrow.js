@@ -1,3 +1,5 @@
+import "projection";
+
 function littrow(λ, φ) {
   return [
     Math.sin(λ) / Math.cos(φ),

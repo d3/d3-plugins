@@ -1,3 +1,5 @@
+import "projection";
+
 function hill(K) {
   var L = 1 + K,
       sinβ = Math.sin(1 / L),

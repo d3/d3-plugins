@@ -1,3 +1,5 @@
+import "projection";
+
 function kavrayskiy7(λ, φ) {
   return [
     3 * λ / (2 * π) * Math.sqrt(π * π / 3 - φ * φ),

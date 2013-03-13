@@ -1,4 +1,5 @@
-// @import mollweide
+import "projection";
+import "mollweide";
 
 var bromley = mollweideBromley(1, 4 / π, π);
 

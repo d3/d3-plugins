@@ -1,4 +1,5 @@
-// @import quincuncial
+import "projection";
+import "quincuncial";
 
 function gringorten(λ, φ) {
   var sλ = sgn(λ),

@@ -1,3 +1,5 @@
+import "projection";
+
 function mollweideBromleyθ(Cp) {
   return function(θ) {
     var Cpsinθ = Cp * Math.sin(θ),

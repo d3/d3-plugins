@@ -1,3 +1,5 @@
+import "projection";
+
 function transverseMercator(λ, φ) {
   var B = Math.cos(φ) * Math.sin(λ);
   return [

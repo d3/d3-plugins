@@ -1,3 +1,5 @@
+import "projection";
+
 function mtFlatPolarSinusoidal(λ, φ) {
   var A = Math.sqrt(6 / (4 + π)),
       k = (1 + π / 4) * Math.sin(φ),

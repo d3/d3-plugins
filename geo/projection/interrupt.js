@@ -1,3 +1,5 @@
+import "projection";
+
 d3.geo.interrupt = function(project) {
   var lobes = [
     [[[-π, 0], [0,  π / 2], [π, 0]]],

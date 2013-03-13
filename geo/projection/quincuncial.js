@@ -1,3 +1,5 @@
+import "projection";
+
 function quincuncialProjection(projectHemisphere) {
   var dx = projectHemisphere(π / 2, 0)[0] - projectHemisphere(-π / 2, 0)[0];
 

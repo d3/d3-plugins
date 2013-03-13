@@ -1,4 +1,5 @@
-// @import parallel1
+import "projection";
+import "parallel1";
 
 function rectangularPolyconic(φ0) {
   var sinφ0 = Math.sin(φ0);

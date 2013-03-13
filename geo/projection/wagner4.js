@@ -1,4 +1,5 @@
-// @import mollweide
+import "projection";
+import "mollweide";
 
 var wagner4 = (function() {
   var A = 4 * π + 3 * Math.sqrt(3),

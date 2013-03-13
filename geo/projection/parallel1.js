@@ -1,3 +1,5 @@
+import "projection";
+
 function parallel1Projection(projectAt) {
   var φ0 = 0,
       m = projectionMutator(projectAt),

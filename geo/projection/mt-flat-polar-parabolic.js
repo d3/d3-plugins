@@ -1,3 +1,5 @@
+import "projection";
+
 function mtFlatPolarParabolic(λ, φ) {
   var sqrt6 = Math.sqrt(6),
       sqrt7 = Math.sqrt(7),

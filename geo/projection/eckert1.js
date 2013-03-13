@@ -1,3 +1,5 @@
+import "projection";
+
 function eckert1(λ, φ) {
   var α = Math.sqrt(8 / (3 * π));
   return [

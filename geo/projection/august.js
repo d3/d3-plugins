@@ -1,3 +1,5 @@
+import "projection";
+
 function august(λ, φ) {
   var tanφ = Math.tan(φ / 2),
       k = asqrt(1 - tanφ * tanφ),

@@ -1,3 +1,5 @@
+import "projection";
+
 function eckert2(λ, φ) {
   var α = Math.sqrt(4 - 3 * Math.sin(Math.abs(φ)));
   return [

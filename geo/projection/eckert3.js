@@ -1,3 +1,5 @@
+import "projection";
+
 function eckert3(λ, φ) {
   var k = Math.sqrt(π * (4 + π));
   return [

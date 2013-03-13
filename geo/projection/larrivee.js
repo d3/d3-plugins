@@ -1,3 +1,5 @@
+import "projection";
+
 function larrivee(λ, φ) {
   return [
     λ * (1 + Math.sqrt(Math.cos(φ))) / 2,

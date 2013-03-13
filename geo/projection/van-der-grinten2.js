@@ -1,3 +1,5 @@
+import "projection";
+
 function vanDerGrinten2(λ, φ) {
   if (Math.abs(φ) < ε) return [λ, 0];
   var sinθ = Math.abs(2 * φ / π),

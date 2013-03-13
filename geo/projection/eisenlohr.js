@@ -1,4 +1,5 @@
-// @import august
+import "projection";
+import "august";
 
 function eisenlohr(λ, φ) {
   var s0 = Math.sin(λ /= 2),

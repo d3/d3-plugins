@@ -1,3 +1,5 @@
+import "projection";
+
 function naturalEarth(λ, φ) {
   var φ2 = φ * φ, φ4 = φ2 * φ2;
   return [

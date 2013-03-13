@@ -1,3 +1,5 @@
+import "projection";
+
 function wiechel(λ, φ) {
   var cosφ = Math.cos(φ),
       sinφ = Math.cos(λ) * cosφ,

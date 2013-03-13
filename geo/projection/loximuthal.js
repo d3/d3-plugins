@@ -1,4 +1,5 @@
-// @import parallel1
+import "projection";
+import "parallel1";
 
 function loximuthal(φ0) {
   var cosφ0 = Math.cos(φ0),

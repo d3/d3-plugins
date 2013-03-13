@@ -1,3 +1,5 @@
+import "projection";
+
 function hatano(λ, φ) {
   var c = Math.sin(φ) * (φ < 0 ? 2.43763 : 2.67595);
   for (var i = 0, δ; i < 20; i++) {

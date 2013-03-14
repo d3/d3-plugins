@@ -1,15 +1,15 @@
-require("./env");
-
 var vows = require("vows"),
-    assert = require("assert");
+    assert = require("./assert"),
+    load = require("./load");
 
 var suite = vows.describe("d3.geo.hammer");
 
 suite.addBatch({
   "hammer": {
+    topic: load("hammer"),
     "quarticAuthalic": {
-      topic: function() {
-        return d3.geo.hammer().coefficient(Infinity);
+      topic: function(geo) {
+        return geo.hammer().coefficient(Infinity);
       },
       "projections and inverse projections": function(quarticAuthalic) {
         assert.equalInverse(quarticAuthalic, [   0,   0], [480,        250]);

@@ -1,14 +1,14 @@
-require("./env");
-
 var vows = require("vows"),
-    assert = require("assert");
+    assert = require("./assert"),
+    load = require("./load");
 
 var suite = vows.describe("d3.geo.lagrange");
 
 suite.addBatch({
   "lagrange": {
+    topic: load("lagrange"),
     "spacing(.5)": {
-      topic: d3.geo.lagrange,
+      topic: function(geo) { return geo.lagrange(); },
       "projections and inverse projections": function(lagrange) {
         assert.equalInverse(lagrange, [  0,   0], [480,        250]);
         assert.equalInverse(lagrange, [  0, -45], [480,        315.053600]);
@@ -30,8 +30,8 @@ suite.addBatch({
       }
     },
     "spacing(.25)": {
-      topic: function() {
-        return d3.geo.lagrange().spacing(.25);
+      topic: function(geo) {
+        return geo.lagrange().spacing(.25);
       },
       "projections and inverse projections": function(lagrange) {
         assert.equalInverse(lagrange, [  0,   0], [480,        250]);

@@ -1,14 +1,14 @@
-require("./env");
-
 var vows = require("vows"),
-    assert = require("assert");
+    assert = require("./assert"),
+    load = require("./load");
 
 var suite = vows.describe("d3.geo.rectangularPolyconic");
 
 suite.addBatch({
   "rectangularPolyconic": {
+    topic: load("rectangular-polyconic"),
     "0° parallel": {
-      topic: d3.geo.rectangularPolyconic,
+      topic: function(geo) { return geo.rectangularPolyconic(); },
       "projections and inverse projections": function(rectangularPolyconic) {
         assert.equalInverse(rectangularPolyconic, [  0,   0], [480,        250]);
         assert.equalInverse(rectangularPolyconic, [  0, -45], [480,        367.809724]);
@@ -25,8 +25,8 @@ suite.addBatch({
       }
     },
     "30° parallel": {
-      topic: function() {
-        return d3.geo.rectangularPolyconic().parallel(30);
+      topic: function(geo) {
+        return geo.rectangularPolyconic().parallel(30);
       },
       "projections and inverse projections": function(rectangularPolyconic) {
         assert.equalInverse(rectangularPolyconic, [  0,   0], [480,        250]);

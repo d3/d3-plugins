@@ -1,4 +1,4 @@
-require("d3");
+global.d3 = require("d3");
 require("./simplify");
 
 var vows = require("vows"),

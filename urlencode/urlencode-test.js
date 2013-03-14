@@ -1,4 +1,4 @@
-require("d3");
+global.d3 = require("d3");
 require("./urlencode");
 
 var vows = require("vows"),

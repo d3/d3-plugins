@@ -4,9 +4,7 @@ all: \
 
 d3.geo.projection.js: $(shell node_modules/.bin/smash --list geo/projection/index.js)
 	@rm -f $@
-	node_modules/.bin/smash geo/projection/index.js > $@.tmp
-	node_modules/.bin/uglifyjs $@.tmp -b indent-level=2 -o $@
-	@rm $@.tmp
+	node_modules/.bin/smash geo/projection/index.js | node_modules/.bin/uglifyjs - -b indent-level=2 -o $@
 	@chmod a-w $@
 
 d3.geo.projection.min.js: d3.geo.projection.js

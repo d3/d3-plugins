@@ -54,7 +54,7 @@ function berghausProjection() {
     p.rotate(rotate);
     rotateStream.sphere = function() {
       sphereStream.polygonStart(), sphereStream.lineStart();
-      var ε = 1e-4;
+      var ε = 1e-2;
       for (var i = 0, δ = 360 / n, φ = 90 - 180 / n; i < n; ++i, φ -= δ) {
         sphereStream.point(180, 0);
         if (φ < -90) {

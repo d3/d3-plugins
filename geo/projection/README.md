@@ -44,7 +44,7 @@ Projections:
 * d3.geo.loximuthal - [loximuthal](http://bl.ocks.org/mbostock/3867220)
 * d3.geo.mercator - [Mercator](http://bl.ocks.org/mbostock/3757132)
 * d3.geo.miller - [Miller](http://bl.ocks.org/mbostock/3734333)
-* d3.geo.modifiedStereographic - Modified Stereographic
+* d3.geo.modifiedStereographic - [modified stereographic](http://www.jasondavies.com/maps/modified-stereographic/)
 * d3.geo.mollweide - [Mollweide](http://bl.ocks.org/mbostock/3734336), [Atlantis](http://bl.ocks.org/mbostock/4519975)
 * d3.geo.mtFlatPolarParabolic - [McBryde–Thomas flat-polar parabolic](http://bl.ocks.org/mbostock/4465130)
 * d3.geo.mtFlatPolarQuartic - [McBryde–Thomas flat-polar quartic](http://bl.ocks.org/mbostock/4465137)
@@ -60,13 +60,13 @@ Projections:
 * d3.geo.sinusoidal - [sinusoidal](http://bl.ocks.org/mbostock/3712399)
 * d3.geo.sinuMollweide - [Sinu-Mollweide](http://bl.ocks.org/mbostock/4319903)
 * d3.geo.stereographic - [stereographic](http://bl.ocks.org/mbostock/3757137)
-* d3.geo.times - Times
-* d3.geo.transverseMercator - transverse Mercator
-* d3.geo.twoPointAzimuthal - two-point azimuthal
-* d3.geo.twoPointEquidistant - two-point equidistant
+* d3.geo.times - [Times](http://bl.ocks.org/mbostock/5230564)
+* d3.geo.transverseMercator - [transverse Mercator](http://bl.ocks.org/mbostock/5126418)
+* d3.geo.twoPointAzimuthal - [two-point azimuthal](https://www.jasondavies.com/maps/two-point-azimuthal/)
+* d3.geo.twoPointEquidistant - [two-point equidistant](https://www.jasondavies.com/maps/two-point-equidistant/)
 * d3.geo.vanDerGrinten - [Van der Grinten](http://bl.ocks.org/mbostock/3796831)
-* d3.geo.vanDerGrinten2 - Van der Grinten II
-* d3.geo.vanDerGrinten3 - Van der Grinten III
+* d3.geo.vanDerGrinten2 - [Van der Grinten II](http://bl.ocks.org/mbostock/5230571)
+* d3.geo.vanDerGrinten3 - [Van der Grinten III](http://bl.ocks.org/mbostock/5230580)
 * d3.geo.vanDerGrinten4 - [Van der Grinten IV](http://bl.ocks.org/mbostock/4489365)
 * d3.geo.wagner4 - [Wagner IV, Putniṇš P2´](http://bl.ocks.org/mbostock/4487674)
 * d3.geo.wagner6 - [Wagner VI](http://bl.ocks.org/mbostock/3710148)

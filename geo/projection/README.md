@@ -53,17 +53,17 @@ Projections:
 * d3.geo.nellHammer - [Nell–Hammer](http://bl.ocks.org/mbostock/3734342)
 * d3.geo.orthographic - [orthographic](http://bl.ocks.org/mbostock/3757125)
 * d3.geo.peirceQuincuncial - [Pierce quincuncial](http://bl.ocks.org/mbostock/4310087)
-* d3.geo.polyconic - [Polyconic](http://bl.ocks.org/mbostock/3734343)
-* d3.geo.rectangularPolyconic - Rectangular Polyconic
+* d3.geo.polyconic - [polyconic](http://bl.ocks.org/mbostock/3734343)
+* d3.geo.rectangularPolyconic - [rectangular polyconic](http://bl.ocks.org/mbostock/5230202)
 * d3.geo.robinson - [Robinson](http://bl.ocks.org/mbostock/3710566)
 * d3.geo.satellite - [satellite (tilted perpsective)](http://bl.ocks.org/mbostock/3790444)
 * d3.geo.sinusoidal - [sinusoidal](http://bl.ocks.org/mbostock/3712399)
 * d3.geo.sinuMollweide - [Sinu-Mollweide](http://bl.ocks.org/mbostock/4319903)
 * d3.geo.stereographic - [stereographic](http://bl.ocks.org/mbostock/3757137)
 * d3.geo.times - Times
-* d3.geo.transverseMercator - Transverse Mercator
-* d3.geo.twoPointAzimuthal - Two-Point Azimuthal
-* d3.geo.twoPointEquidistant - Two-Point Equidistant
+* d3.geo.transverseMercator - transverse Mercator
+* d3.geo.twoPointAzimuthal - two-point azimuthal
+* d3.geo.twoPointEquidistant - two-point equidistant
 * d3.geo.vanDerGrinten - [Van der Grinten](http://bl.ocks.org/mbostock/3796831)
 * d3.geo.vanDerGrinten2 - Van der Grinten II
 * d3.geo.vanDerGrinten3 - Van der Grinten III
@@ -72,7 +72,7 @@ Projections:
 * d3.geo.wagner6 - [Wagner VI](http://bl.ocks.org/mbostock/3710148)
 * d3.geo.wagner7 - [Wagner VII](http://bl.ocks.org/mbostock/4465109)
 * d3.geo.wiechel - [Wiechel](http://bl.ocks.org/mbostock/4463155)
-* d3.geo.winkel3 - [Winkel Tripel](http://bl.ocks.org/mbostock/3682676)
+* d3.geo.winkel3 - [Winkel tripel](http://bl.ocks.org/mbostock/3682676)
 
 This plugin also provides d3.geo.interrupt, which can be used to create arbitrary interrupted projections from a given raw projection. For example, see [Philbrick’s interrupted Sinu-Mollweide](http://bl.ocks.org/4481520).
 

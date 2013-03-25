@@ -20,6 +20,7 @@ import "eckert5";
 import "eckert6";
 import "eisenlohr";
 import "fahey";
+import "gall-stereographic";
 import "gringorten";
 import "guyou";
 import "hammer-retroazimuthal";

@@ -51,7 +51,6 @@ import "satellite";
 import "sinusoidal";
 import "sinu-mollweide";
 import "times";
-import "transverse-mercator";
 import "two-point-azimuthal";
 import "two-point-equidistant";
 import "van-der-grinten";

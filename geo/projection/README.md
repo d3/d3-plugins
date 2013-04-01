@@ -29,6 +29,11 @@ Projections:
 * d3.geo.equirectangular - [Equirectangular (Plate Carrée)](http://bl.ocks.org/mbostock/3757119)
 * d3.geo.fahey - [Fahey](http://bl.ocks.org/mbostock/4731228)
 * d3.geo.gallStereographic - [Gall’s stereographic](http://bl.ocks.org/mbostock/5234763)
+* d3.geo.ginzburg4 - Ginzburg IV
+* d3.geo.ginzburg5 - Ginzburg V
+* d3.geo.ginzburg6 - Ginzburg VI
+* d3.geo.ginzburg8 - Ginzburg VIII
+* d3.geo.ginzburg9 - Ginzburg IX
 * d3.geo.gnomonic - [gnomonic](http://bl.ocks.org/mbostock/3757349)
 * d3.geo.gringorten - [Gringorten](http://bl.ocks.org/mbostock/4362031)
 * d3.geo.guyou - [Guyou hemisphere-in-a-square](http://bl.ocks.org/mbostock/3763867)

@@ -1,15 +1,15 @@
-require("./env");
-
 var vows = require("vows"),
-    assert = require("assert");
+    assert = require("./assert"),
+    load = require("./load");
 
 var suite = vows.describe("d3.geo.bonne");
 
 suite.addBatch({
   "bonne": {
+    topic: load("bonne"),
     "40° parallel": {
-      topic: function() {
-        return d3.geo.bonne().parallel(40);
+      topic: function(geo) {
+        return geo.bonne().parallel(40);
       },
       "projections and inverse projections": function(bonne) {
         assert.equalInverse(bonne, [   0,   0], [480,         250]);
@@ -24,16 +24,16 @@ suite.addBatch({
       }
     },
     "90° parallel (Werner)": {
-      topic: function() {
-        return d3.geo.bonne().parallel(90);
+      topic: function(geo) {
+        return geo.bonne().parallel(90);
       },
       "projections and inverse projections": function(bonne) {
         assert.equalInverse(bonne, [0, 0], [480, 250]);
       }
     },
     "0° parallel (sinusoidal)": {
-      topic: function() {
-        return d3.geo.bonne().parallel(0);
+      topic: function(geo) {
+        return geo.bonne().parallel(0);
       },
       "projections and inverse projections": function(bonne) {
         assert.equalInverse(bonne, [0, 0], [480, 250]);

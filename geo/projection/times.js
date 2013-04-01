@@ -1,3 +1,5 @@
+import "projection";
+
 function times(λ, φ) {
   var t = Math.tan(φ / 2),
       s = Math.sin(π / 4 * t);

@@ -1,4 +1,5 @@
-// @import mollweide
+import "projection";
+import "mollweide";
 
 function boggs(λ, φ) {
   var k = 2.00276,

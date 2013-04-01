@@ -1,3 +1,5 @@
+import "projection";
+
 function armadillo(φ0) {
   var sinφ0 = Math.sin(φ0),
       cosφ0 = Math.cos(φ0),

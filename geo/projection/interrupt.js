@@ -1,3 +1,5 @@
+import "projection";
+
 d3.geo.interrupt = function(project) {
   var lobes = [
     [[[-π, 0], [0,  π / 2], [π, 0]]],
@@ -30,7 +32,7 @@ d3.geo.interrupt = function(project) {
         return [
           [lobe[0][0] * 180 / π, lobe[0][1] * 180 / π],
           [lobe[1][0] * 180 / π, lobe[1][1] * 180 / π],
-          [lobe[2][0] * 180 / π, lobe[2][1] * 180 / π],
+          [lobe[2][0] * 180 / π, lobe[2][1] * 180 / π]
         ];
       });
     });

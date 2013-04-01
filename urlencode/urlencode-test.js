@@ -1,4 +1,4 @@
-require("d3");
+global.d3 = require("d3");
 require("./urlencode");
 
 var vows = require("vows"),
@@ -24,7 +24,7 @@ suite.addBatch({
     "can be modified via array methods, albeit unsafely": function(urlencode) {
       var u = urlencode("foo", 1).and("bar", 2).and("baz", 3);
       u.splice(1, 1);
-      u.push("unsafe=true")
+      u.push("unsafe=true");
       u.sort();
       assert.strictEqual(u + "", "baz=3&foo=1&unsafe=true");
     },

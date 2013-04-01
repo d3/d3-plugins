@@ -1,3 +1,5 @@
+import "projection";
+
 function eckert5(λ, φ) {
   return [
     λ * (1 + Math.cos(φ)) / Math.sqrt(2 + π),

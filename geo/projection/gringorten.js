@@ -1,4 +1,5 @@
-// @import quincuncial
+import "projection";
+import "quincuncial";
 
 function gringorten(λ, φ) {
   var sλ = sgn(λ),
@@ -37,7 +38,7 @@ gringorten.invert = function(x, y) {
       z = Math.sin(φ);
 
   return [sx * (Math.atan2(y, -z) + π), sy * asin(x)];
-}
+};
 
 function gringortenHexadecant(λ, φ) {
   if (φ === π / 2) return [0, 0];

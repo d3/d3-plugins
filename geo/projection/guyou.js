@@ -1,5 +1,6 @@
-// @import elliptic
-// @import quincuncial
+import "projection";
+import "elliptic";
+import "quincuncial";
 
 // √k' tn(½K - w) = exp(-ζ).
 function guyou(λ, φ) {

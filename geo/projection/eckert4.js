@@ -1,3 +1,5 @@
+import "projection";
+
 function eckert4(λ, φ) {
   var k = (2 + π / 2) * Math.sin(φ);
   φ /= 2;

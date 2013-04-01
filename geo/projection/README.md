@@ -28,6 +28,7 @@ Projections:
 * d3.geo.eisenlohr - [Eisenlohr conformal](http://bl.ocks.org/mbostock/3797585)
 * d3.geo.equirectangular - [Equirectangular (Plate Carrée)](http://bl.ocks.org/mbostock/3757119)
 * d3.geo.fahey - [Fahey](http://bl.ocks.org/mbostock/4731228)
+* d3.geo.gallStereographic - [Gall’s stereographic](http://bl.ocks.org/mbostock/5234763)
 * d3.geo.gnomonic - [gnomonic](http://bl.ocks.org/mbostock/3757349)
 * d3.geo.gringorten - [Gringorten](http://bl.ocks.org/mbostock/4362031)
 * d3.geo.guyou - [Guyou hemisphere-in-a-square](http://bl.ocks.org/mbostock/3763867)
@@ -44,7 +45,7 @@ Projections:
 * d3.geo.loximuthal - [loximuthal](http://bl.ocks.org/mbostock/3867220)
 * d3.geo.mercator - [Mercator](http://bl.ocks.org/mbostock/3757132)
 * d3.geo.miller - [Miller](http://bl.ocks.org/mbostock/3734333)
-* d3.geo.modifiedStereographic - Modified Stereographic
+* d3.geo.modifiedStereographic - [modified stereographic](http://www.jasondavies.com/maps/modified-stereographic/)
 * d3.geo.mollweide - [Mollweide](http://bl.ocks.org/mbostock/3734336), [Atlantis](http://bl.ocks.org/mbostock/4519975)
 * d3.geo.mtFlatPolarParabolic - [McBryde–Thomas flat-polar parabolic](http://bl.ocks.org/mbostock/4465130)
 * d3.geo.mtFlatPolarQuartic - [McBryde–Thomas flat-polar quartic](http://bl.ocks.org/mbostock/4465137)
@@ -53,25 +54,26 @@ Projections:
 * d3.geo.nellHammer - [Nell–Hammer](http://bl.ocks.org/mbostock/3734342)
 * d3.geo.orthographic - [orthographic](http://bl.ocks.org/mbostock/3757125)
 * d3.geo.peirceQuincuncial - [Pierce quincuncial](http://bl.ocks.org/mbostock/4310087)
-* d3.geo.polyconic - [Polyconic](http://bl.ocks.org/mbostock/3734343)
-* d3.geo.rectangularPolyconic - Rectangular Polyconic
+* d3.geo.polyconic - [polyconic](http://bl.ocks.org/mbostock/3734343)
+* d3.geo.rectangularPolyconic - [rectangular polyconic](http://bl.ocks.org/mbostock/5230202)
 * d3.geo.robinson - [Robinson](http://bl.ocks.org/mbostock/3710566)
 * d3.geo.satellite - [satellite (tilted perpsective)](http://bl.ocks.org/mbostock/3790444)
 * d3.geo.sinusoidal - [sinusoidal](http://bl.ocks.org/mbostock/3712399)
 * d3.geo.sinuMollweide - [Sinu-Mollweide](http://bl.ocks.org/mbostock/4319903)
 * d3.geo.stereographic - [stereographic](http://bl.ocks.org/mbostock/3757137)
-* d3.geo.times - Times
-* d3.geo.twoPointAzimuthal - Two-Point Azimuthal
-* d3.geo.twoPointEquidistant - Two-Point Equidistant
+* d3.geo.times - [Times](http://bl.ocks.org/mbostock/5230564)
+* d3.geo.transverseMercator - [transverse Mercator](http://bl.ocks.org/mbostock/5126418)
+* d3.geo.twoPointAzimuthal - [two-point azimuthal](https://www.jasondavies.com/maps/two-point-azimuthal/)
+* d3.geo.twoPointEquidistant - [two-point equidistant](https://www.jasondavies.com/maps/two-point-equidistant/)
 * d3.geo.vanDerGrinten - [Van der Grinten](http://bl.ocks.org/mbostock/3796831)
-* d3.geo.vanDerGrinten2 - Van der Grinten II
-* d3.geo.vanDerGrinten3 - Van der Grinten III
+* d3.geo.vanDerGrinten2 - [Van der Grinten II](http://bl.ocks.org/mbostock/5230571)
+* d3.geo.vanDerGrinten3 - [Van der Grinten III](http://bl.ocks.org/mbostock/5230580)
 * d3.geo.vanDerGrinten4 - [Van der Grinten IV](http://bl.ocks.org/mbostock/4489365)
 * d3.geo.wagner4 - [Wagner IV, Putniṇš P2´](http://bl.ocks.org/mbostock/4487674)
 * d3.geo.wagner6 - [Wagner VI](http://bl.ocks.org/mbostock/3710148)
 * d3.geo.wagner7 - [Wagner VII](http://bl.ocks.org/mbostock/4465109)
 * d3.geo.wiechel - [Wiechel](http://bl.ocks.org/mbostock/4463155)
-* d3.geo.winkel3 - [Winkel Tripel](http://bl.ocks.org/mbostock/3682676)
+* d3.geo.winkel3 - [Winkel tripel](http://bl.ocks.org/mbostock/3682676)
 
 This plugin also provides d3.geo.interrupt, which can be used to create arbitrary interrupted projections from a given raw projection. For example, see [Philbrick’s interrupted Sinu-Mollweide](http://bl.ocks.org/4481520).
 

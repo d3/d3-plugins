@@ -1,14 +1,14 @@
-require("./env");
-
 var vows = require("vows"),
-    assert = require("assert");
+    assert = require("./assert"),
+    load = require("./load");
 
 var suite = vows.describe("d3.geo.hammerRetroazimuthal");
 
 suite.addBatch({
   "hammerRetroazimuthal": {
+    topic: load("hammer-retroazimuthal"),
     "0° parallel": {
-      topic: d3.geo.hammerRetroazimuthal,
+      topic: function(geo) { return geo.hammerRetroazimuthal(); },
       "projections and inverse projections": function(hammerRetroazimuthal) {
         assert.equalInverse(hammerRetroazimuthal, [  0,   0], [480,        250]);
         assert.equalInverse(hammerRetroazimuthal, [  0, -45], [480,        367.809724]);
@@ -20,8 +20,8 @@ suite.addBatch({
       }
     },
     "30° parallel": {
-      topic: function() {
-        return d3.geo.hammerRetroazimuthal().parallel(30);
+      topic: function(geo) {
+        return geo.hammerRetroazimuthal().parallel(30);
       },
       "projections and inverse projections": function(hammerRetroazimuthal) {
         assert.equalInverse(hammerRetroazimuthal, [  0,   0], [480,        328.539816]);

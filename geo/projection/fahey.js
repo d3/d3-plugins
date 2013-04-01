@@ -1,3 +1,5 @@
+import "projection";
+
 function fahey(λ, φ) {
   var t = Math.tan(φ / 2);
   return [

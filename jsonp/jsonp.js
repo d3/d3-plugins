@@ -21,5 +21,5 @@ d3.jsonp = function (url, callback) {
     script = d3.select('head')
     .append('script')
     .attr('type', 'text/javascript')
-    .attr('src', url.replace(/(\{|%7B)callback(\{|%7D)/, cb));
+    .attr('src', url.replace(/(\{|%7B)callback(\}|%7D)/, cb));
 };

@@ -1,3 +1,5 @@
+import "projection";
+
 // TODO clip to ellipse
 // TODO expose d3.geo.rotation?
 

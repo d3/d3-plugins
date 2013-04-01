@@ -66,14 +66,19 @@ d3.hexbin = function() {
     return "m" + hexagon(radius).join("l") + "z";
   };
 
-  hexbin.mesh = function() {
-    var path = [], mesh = hexagon(r).slice(0, 4).join("l");
+  hexbin.centers = function() {
+    var centers = [];
     for (var y = 0, odd = false; y < height + r; y += dy, odd = !odd) {
       for (var x = odd ? dx / 2 : 0; x < width; x += dx) {
-        path.push("M", x, ",", y, "m", mesh);
+        centers.push([x, y]);
       }
     }
-    return path.join("");
+    return centers;
+  };
+
+  hexbin.mesh = function() {
+    var fragment = hexagon(r).slice(0, 4).join("l");
+    return hexbin.centers().map(function(p) { return "M" + p + "m" + fragment; }).join("");
   };
 
   hexbin.size = function(_) {

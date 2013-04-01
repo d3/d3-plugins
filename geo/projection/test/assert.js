@@ -1,7 +1,6 @@
-require("d3");
-require("../../../d3.geo.projection");
-
 var assert = require("assert");
+
+assert = module.exports = Object.create(assert);
 
 assert.inDelta = function(actual, expected, delta, message) {
   if (!inDelta(actual, expected, delta)) {

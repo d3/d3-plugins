@@ -1,3 +1,5 @@
+import "projection";
+
 function modifiedStereographic(C) {
   var m = C.length - 1;
 

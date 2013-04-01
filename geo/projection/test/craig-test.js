@@ -1,14 +1,14 @@
-require("./env");
-
 var vows = require("vows"),
-    assert = require("assert");
+    assert = require("./assert"),
+    load = require("./load");
 
 var suite = vows.describe("d3.geo.craig");
 
 suite.addBatch({
   "craig": {
+    topic: load("craig"),
     "0° parallel": {
-      topic: d3.geo.craig,
+      topic: function(geo) { return geo.craig(); },
       "projections and inverse projections": function(craig) {
         assert.equalInverse(craig, [   0,   0], [480,          250]);
         assert.equalInverse(craig, [   0, -90], [480,          400]);
@@ -22,8 +22,8 @@ suite.addBatch({
       }
     },
     "30° parallel": {
-      topic: function() {
-        return d3.geo.craig().parallel(30);
+      topic: function(geo) {
+        return geo.craig().parallel(30);
       },
       "projections and inverse projections": function(craig) {
         assert.equalInverse(craig, [   0,   0], [480,        250]);

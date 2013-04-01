@@ -1,3 +1,5 @@
+import "projection";
+
 function lagrange(n) {
   function forward(λ, φ) {
     if (Math.abs(Math.abs(φ) - π / 2) < ε) return [0, φ < 0 ? -2 : 2];

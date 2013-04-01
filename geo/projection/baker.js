@@ -1,3 +1,5 @@
+import "projection";
+
 var bakerφ = Math.log(1 + Math.SQRT2);
 
 function baker(λ, φ) {

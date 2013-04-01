@@ -1,4 +1,5 @@
-// @import two-point-equidistant
+import "projection";
+import "two-point-equidistant";
 
 function twoPointAzimuthal(d) {
   var cosd = Math.cos(d);

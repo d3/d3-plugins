@@ -1,4 +1,5 @@
-// @import parallel1
+import "projection";
+import "parallel1";
 
 function craig(φ0) {
   var tanφ0 = Math.tan(φ0);

@@ -1,3 +1,5 @@
+import "projection";
+
 function sinusoidal(λ, φ) {
   return [
     λ * Math.cos(φ),

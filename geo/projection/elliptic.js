@@ -1,3 +1,6 @@
+import "math";
+import "hyperbolic";
+
 // Returns [sn, cn, dn](u + iv|m).
 function ellipticJi(u, v, m) {
   if (!u) {

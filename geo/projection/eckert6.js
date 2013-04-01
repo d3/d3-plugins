@@ -1,3 +1,5 @@
+import "projection";
+
 function eckert6(λ, φ) {
   var k = (1 + π / 2) * Math.sin(φ);
   for (var i = 0, δ = Infinity; i < 10 && Math.abs(δ) > ε; i++) {

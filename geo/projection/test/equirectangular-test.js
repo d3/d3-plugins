@@ -1,7 +1,6 @@
-require("./env");
-
 var vows = require("vows"),
-    assert = require("assert");
+    assert = require("./assert"),
+    d3 = require("d3");
 
 var suite = vows.describe("d3.geo.equirectangular");
 

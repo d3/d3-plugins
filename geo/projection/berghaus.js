@@ -1,3 +1,5 @@
+import "projection";
+
 var berghausAzimuthalEquidistant = d3.geo.azimuthalEquidistant.raw;
 
 function berghaus(n) {
@@ -23,7 +25,7 @@ function berghaus(n) {
       var θ = Math.atan2(y, x),
           θ0 = k * Math.round((θ - π / 2) / k) + π / 2,
           s = θ > θ0 ? -1 : 1,
-          A = r * Math.cos(θ0 - θ)
+          A = r * Math.cos(θ0 - θ),
           cotα = 1 / Math.tan(s * Math.acos((A - π) / Math.sqrt(π * (π - 2 * A) + r * r)));
       θ = θ0 + 2 * Math.atan((cotα + s * Math.sqrt(cotα * cotα - 3)) / 3);
       x = r * Math.cos(θ), y = r * Math.sin(θ);
@@ -52,7 +54,7 @@ function berghausProjection() {
     p.rotate(rotate);
     rotateStream.sphere = function() {
       sphereStream.polygonStart(), sphereStream.lineStart();
-      var ε = 1e-4;
+      var ε = 1e-2;
       for (var i = 0, δ = 360 / n, φ = 90 - 180 / n; i < n; ++i, φ -= δ) {
         sphereStream.point(180, 0);
         if (φ < -90) {

@@ -1,3 +1,5 @@
+import "projection";
+
 function wagner6(λ, φ) {
   return [
     λ * Math.sqrt(1 - 3 * φ * φ / (π * π)),

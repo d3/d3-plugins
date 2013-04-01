@@ -1,6 +1,7 @@
-// @import mollweide
-// @import sinusoidal
-// @import sinu-mollweide
+import "projection";
+import "mollweide";
+import "sinusoidal";
+import "sinu-mollweide";
 
 function homolosine(λ, φ) {
   return Math.abs(φ) > sinuMollweideφ

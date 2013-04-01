@@ -1,3 +1,5 @@
+import "projection";
+
 var hammerAzimuthalEqualArea = d3.geo.azimuthalEqualArea.raw;
 
 function hammer(A, B) {

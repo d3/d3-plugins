@@ -14,12 +14,12 @@ function eckert4(λ, φ) {
 }
 
 eckert4.invert = function(x, y) {
-  var j = 2 * Math.sqrt(π / (4 + π)),
-      k = asin((y / 2) * Math.sqrt((4 + π) / π)),
+  var A = .5 * y * Math.sqrt((4 + π) / π),
+      k = asin(A),
       c = Math.cos(k);
   return [
     x / (2 / Math.sqrt(π * (4 + π)) * (1 + c)),
-    asin((k + y / j * (c + 2)) / (2 + π / 2))
+    asin((k + A * (c + 2)) / (2 + π / 2))
   ];
 };
 

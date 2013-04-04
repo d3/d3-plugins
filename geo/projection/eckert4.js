@@ -15,7 +15,7 @@ function eckert4(λ, φ) {
 
 eckert4.invert = function(x, y) {
   var j = 2 * Math.sqrt(π / (4 + π)),
-      k = asin(y / cy),
+      k = asin((y / 2) * Math.sqrt((4 + π) / π)),
       c = Math.cos(k);
   return [
     x / (2 / Math.sqrt(π * (4 + π)) * (1 + c)),

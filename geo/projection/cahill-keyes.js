@@ -500,16 +500,9 @@
     return xynew;
   }
 
-  // coordinate transformation FOR 1 octant, rotated -90 degrees,
-  // normalised on largest half-octant side, traslated
-  // up on y axis.
-  // v = tan(30º) - 940/10000 * cos*(30º)
-  //  -v < x < v; 0 <= y < 1 - 940/10000.
+  // coordinate transformation on 1 octant, rotated -90 degrees,
+  // traslated  up on y axis.
   function cahillKeyesOneOctant(λ, φ) {
-    // λ, φ are in radians.
-//    console.log("λ = " + λ + "; φ = " + φ + ".");
-//    assert(λ).lessThanOrEqual(π/4);
-//    var lon = (λ > π/4 ? π/4 : λ) * d3_geo_degrees,
     var lon = λ * d3_geo_degrees,
         lat = φ * d3_geo_degrees,
         res = ll2mp(lon, lat),
@@ -518,9 +511,9 @@
         s = res[2],
         o = res[3],
         xy = mp2xy(m, p),
-        mm = [s*xy[1] / CK.lengthMG,
-               -xy[0] / CK.lengthMG]; //rotated, ~normalized ...
-    mm[1] += 1;                       //...and translated
+        mm = [s*xy[1],
+               -xy[0]];   // rotated
+    mm[1] += CK.lengthMG; // ...and translated
 
     if (isNaN(mm[0]) || isNaN(mm[1])) {
       console.log('cahill-keyes: mm[0]='+ mm[0] + '; mm[1]=' + mm[1]);
@@ -544,34 +537,6 @@
     return mm;
   }
 
-
-  // d3.geo.polyhedron.cahillkeyes = function(faceProjection) {
-
-  //   // projection for the reference face: centered at G, M up
-  //   faceProjection = faceProjection || function(face) {
-  //     var centroid = face.length === 6 ? d3.geo.centroid({type: "MultiPoint", coordinates: face}) : face[0];
-  //     return d3.geo.gnomonic().scale(1).translate([0, 0]).rotate([-centroid[0], -centroid[1]]);
-  //   };
-
-  //   var faces = d3.geo.polyhedron.octahedron.map(function(face) {
-  //     return {face: face, project: faceProjection(face)};
-  //   });
-
-  //   [-1, 0, 0, 1, 0, 1, 4, 5].forEach(function(d, i) {
-  //     var node = faces[d];
-  //     node && (node.children || (node.children = [])).push(faces[i]);
-  //   });
-
-  //   return d3.geo.polyhedron(faces[0], function (λ, φ) {
-  //     // mape lon/lat to relevant octant
-  //     var lon = λ * d3_geo_degrees,
-  //         south = [0, 6, 7, 8, 5],
-  //         o = truncate(((lon + 180) / 90) + 1);
-  //     if (o === 5)  o = 1;
-  //     if (φ < 0)    o = south[o];
-  //     return faces[o];
-  //   });
-  // };
 
   var projection = d3.geo.projection;
   (d3.geo.cahillKeyes = function() { return d3.geo.projection(cahillKeyes); }).raw = cahillKeyes;

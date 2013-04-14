@@ -2,10 +2,9 @@
 // or zones, A-L, are detailed fully in Gene Keyes'
 // web site http://www.genekeyes.com/CKOG-OOo/7-CKOG-illus-&-coastline.html
 (function() {
-  var π = Math.PI,
-      sqrtπ = Math.sqrt(π),
-      d3_geo_degrees = 180 / Math.PI,
-      d3_geo_radians = Math.PI / 180,
+  var τ = 2 * Math.PI,
+      degrees = 360 / τ,
+      radians = τ / 360,
       CK = { "lengthMG" : 10000 // magic scaling length
            };
 
@@ -27,7 +26,7 @@
     CK.yTranslate = CK.lengthMG * CK.sin60; //->GLOBAL
     CK.pointM = [0, 0]; //->GLOBAL
     CK.pointG = [CK.lengthMG, 0]; //->GLOBAL
-    pointN    = [CK.lengthMG, CK.lengthMG * Math.tan(30 * d3_geo_radians)];
+    pointN    = [CK.lengthMG, CK.lengthMG * Math.tan(30 * radians)];
     CK.pointA = [CK.lengthMA, 0]; //->GLOBAL
     CK.pointB = lineIntersection (CK.pointM, 30, CK.pointA, 45); //->GLOBAL
     CK.lengthAG = distance(CK.pointA, CK.pointG);//->GLOBAL
@@ -37,8 +36,8 @@
     lengthNG = distance(pointN, CK.pointG);
     CK.pointD =  interpolate(lengthMB, lengthMN, pointN, CK.pointM); //->GLOBAL
     CK.pointF = [CK.lengthMG, lengthNG - lengthMB]; //->GLOBAL
-    CK.pointE = [pointN[0] - CK.lengthMA * Math.sin(30 * d3_geo_radians),
-                 pointN[1] - CK.lengthMA * Math.cos(30 * d3_geo_radians)]; //->GLOBAL
+    CK.pointE = [pointN[0] - CK.lengthMA * Math.sin(30 * radians),
+                 pointN[1] - CK.lengthMA * Math.cos(30 * radians)]; //->GLOBAL
     CK.lengthGF = distance(CK.pointG, CK.pointF);//->GLOBAL
     CK.lengthBD = distance(CK.pointB, CK.pointD);//->GLOBAL
     CK.lengthBDE = CK.lengthBD + CK.lengthAB; // lengthAB = lengthDE  //->GLOBAL
@@ -46,8 +45,8 @@
     CK.deltaMEq = CK.lengthGFE / 45; //->GLOBAL
     CK.lengthAP75 = (90 - 75) * CK.lengthParallel73to90At0; //->GLOBAL
     CK.lengthAP73 = CK.lengthMG - CK.lengthMA - CK.lengthParallel0to73At0 * 73; //->GLOBAL
-    pointU = [CK.pointA[0] + CK.lengthAP73 * Math.cos(30 * d3_geo_radians),
-              CK.pointA[1] + CK.lengthAP73 * Math.sin(30 * d3_geo_radians)];
+    pointU = [CK.pointA[0] + CK.lengthAP73 * Math.cos(30 * radians),
+              CK.pointA[1] + CK.lengthAP73 * Math.sin(30 * radians)];
     CK.pointT = lineIntersection(pointU, -60, CK.pointB, 30); //->GLOBAL
 
     p73a = parallel73(m);
@@ -91,8 +90,8 @@
   // by one 2D point and a slope each.
   function lineIntersection(point1, slope1, point2, slope2) {
     // s1/s2 = slope in degrees
-    var m1 = Math.tan(slope1 * d3_geo_radians),
-        m2 = Math.tan(slope2 * d3_geo_radians),
+    var m1 = Math.tan(slope1 * radians),
+        m2 = Math.tan(slope2 * radians),
         p = [0, 0];
     p[0] = (m1 * point1[0] - m2 * point2[0] - point1[1] + point2[1]) / (m1 - m2);
     p[1] = m1 * (p[0] - point1[0]) + point1[1];
@@ -152,11 +151,11 @@
     } else {
       // !!!!! This should not happen for this projection!!!!
       // the general algorith: cos(angle) * xy + sin(angle) * perpendicular(xy)
-      // return cos(angle * d3_geo_radians) * xy + sin(angle * d3_geo_radians) * perpendicular(xy);
+      // return cos(angle * radians) * xy + sin(angle * radians) * perpendicular(xy);
       console.log('rotate: angle ' + angle + ' different than -60 or -120!');
       // counterclockwise
-      xynew[0] = xy[0] * Math.cos(angle * d3_geo_radians) - xy[1] * Math.sin(angle * d3_geo_radians);
-	   xynew[1] = xy[0] * Math.sin(angle * d3_geo_radians) + xy[1] * Math.cos(angle * d3_geo_radians);
+      xynew[0] = xy[0] * Math.cos(angle * radians) - xy[1] * Math.sin(angle * radians);
+	   xynew[1] = xy[0] * Math.sin(angle * radians) + xy[1] * Math.cos(angle * radians);
 
     }
 
@@ -223,9 +222,9 @@
         xy = [0, 0];
     if (m <= 30) {
       p73[0] = CK.pointA[0] +
-        CK.lengthAP73 * Math.cos(m * d3_geo_radians);
+        CK.lengthAP73 * Math.cos(m * radians);
       p73[1] = CK.pointA[1] +
-        CK.lengthAP73 * Math.sin(m * d3_geo_radians);
+        CK.lengthAP73 * Math.sin(m * radians);
       lF = distance(jF, p73);
     } else {
       p73 = lineIntersection(CK.pointT, -60, jF, m);
@@ -244,9 +243,9 @@
 
   function parallel75(m) {
     return [CK.pointA[0] +
-            CK.lengthAP75 * Math.cos(m * d3_geo_radians),
+            CK.lengthAP75 * Math.cos(m * radians),
             CK.pointA[1] +
-            CK.lengthAP75 * Math.sin(m * d3_geo_radians)];
+            CK.lengthAP75 * Math.sin(m * radians)];
   }
 
   // special functions to transform lon/lat to x/y
@@ -274,8 +273,8 @@
 
   function zoneC(m, p) {
     var l = 104 * (90 - p);
-    return [CK.pointA[0] + l * Math.cos(m * d3_geo_radians),
-            CK.pointA[1] + l * Math.sin(m * d3_geo_radians)];
+    return [CK.pointA[0] + l * Math.cos(m * radians),
+            CK.pointA[1] + l * Math.sin(m * radians)];
   }
 
   function zoneD(m, p) {
@@ -284,8 +283,8 @@
 
   function zoneE(m, p) {
     var l = 1560 + (75 - p) * 100;
-    return [CK.pointA[0] + l * Math.cos(m * d3_geo_radians),
-            CK.pointA[1] + l * Math.sin(m * d3_geo_radians)];
+    return [CK.pointA[0] + l * Math.cos(m * radians),
+            CK.pointA[1] + l * Math.sin(m * radians)];
   }
 
   function zoneF(m, p) {
@@ -503,7 +502,7 @@
   // coordinate transformation on 1 octant, rotated -90 degrees,
   // traslated  up on y axis.
   function cahillKeyesOneOctant(λ, φ) {
-    var lon = λ * d3_geo_degrees,
+    var lon = λ * degrees,
         lat = φ * d3_geo_degrees,
         res = ll2mp(lon, lat),
         m = res[0],
@@ -524,8 +523,8 @@
   // general CK map projection
   function cahillKeyes(λ, φ) {
     // λ, φ are in radians.
-    var lon = λ * d3_geo_degrees,
-        lat = φ * d3_geo_degrees,
+    var lon = λ * degrees,
+        lat = φ * degrees,
         res = ll2mp(lon, lat),
         m = res[0],
         p = res[1],
@@ -536,6 +535,33 @@
 
     return mm;
   }
+
+
+  d3.geo.polyhedron.cahillkeyes = function(faceProjection) {
+    faceProjection = faceProjection || function(face) {
+      return cahillKeyes().scale(1).translate([0, 0]);
+    };
+
+    var faces = d3.geo.polyhedron.octahedron.map(function(face) {
+      return {face: face,
+              project: faceProjection(face)};
+    });
+
+    [2, 3, -1, 2, 0, 1, 4, 5].forEach(function(d, i) {
+      var node = faces[d];
+      node && (node.children || (node.children = [])).push(faces[i]);
+    });
+
+    return d3.geo.polyhedron(faces[2], function(λ, φ) {
+      λ *= degrees;
+      φ *= degrees;
+      return faces[ λ < -90 ? (φ > 0 ? 4 : 6)
+                  : λ <   0 ? (φ > 0 ? 0 : 2)
+                  : λ <  90 ? (φ > 0 ? 1 : 3)
+                  :           (φ > 0 ? 5 : 7)
+      ];
+    });
+  };
 
 
   var projection = d3.geo.projection;

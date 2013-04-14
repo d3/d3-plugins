@@ -537,6 +537,13 @@
   }
 
 
+
+
+  var projection = d3.geo.projection;
+  (d3.geo.cahillKeyes = function() { return d3.geo.projection(cahillKeyes); }).raw = cahillKeyes;
+  (d3.geo.cahillKeyes1o = function() { return d3.geo.projection(cahillKeyesOneOctant); }).raw = cahillKeyesOneOctant;
+
+
   d3.geo.polyhedron.cahillkeyes = function(faceProjection) {
 
     faceProjection = faceProjection || function(face) {
@@ -563,10 +570,5 @@
       ];
     });
   };
-
-
-  var projection = d3.geo.projection;
-  (d3.geo.cahillKeyes = function() { return d3.geo.projection(cahillKeyes); }).raw = cahillKeyes;
-  (d3.geo.cahillKeyes1o = function() { return d3.geo.projection(cahillKeyesOneOctant); }).raw = cahillKeyesOneOctant;
 
 })();

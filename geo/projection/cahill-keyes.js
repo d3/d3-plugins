@@ -538,8 +538,9 @@
 
 
   d3.geo.polyhedron.cahillkeyes = function(faceProjection) {
+
     faceProjection = faceProjection || function(face) {
-      return cahillKeyes().scale(1).translate([0, 0]);
+      return d3.geo.cahillKeyes().scale(1).translate([0, 0]);
     };
 
     var faces = d3.geo.polyhedron.octahedron.map(function(face) {

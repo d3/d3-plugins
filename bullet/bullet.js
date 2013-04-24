@@ -7,7 +7,6 @@ d3.bullet = function() {
   var orient = "left",
       reverse = false,
       vertical = false,
-      duration = 0,
       ranges = bulletRanges,
       markers = bulletMarkers,
       measures = bulletMeasures,
@@ -62,13 +61,8 @@ d3.bullet = function() {
           .attr("width", w0)
           .attr("height", extentY)
           .attr("x", reverse ? x0 : 0)
-        .transition()
-          .duration(duration)
-          .attr("width", w1)
-          .attr("x", reverse ? x1 : 0);
 
-      range.transition()
-          .duration(duration)
+      d3.transition(range)
           .attr("x", reverse ? x1 : 0)
           .attr("width", w1)
           .attr("height", extentY);
@@ -82,14 +76,9 @@ d3.bullet = function() {
           .attr("width", w0)
           .attr("height", extentY / 3)
           .attr("x", reverse ? x0 : 0)
-          .attr("y", extentY / 3)
-        .transition()
-          .duration(duration)
-          .attr("width", w1)
-          .attr("x", reverse ? x1 : 0);
+          .attr("y", extentY / 3);
 
-      measure.transition()
-          .duration(duration)
+      d3.transition(measure)
           .attr("width", w1)
           .attr("height", extentY / 3)
           .attr("x", reverse ? x1 : 0)
@@ -104,14 +93,9 @@ d3.bullet = function() {
           .attr("x1", x0)
           .attr("x2", x0)
           .attr("y1", extentY / 6)
-          .attr("y2", extentY * 5 / 6)
-        .transition()
-          .duration(duration)
-          .attr("x1", x1)
-          .attr("x2", x1);
+          .attr("y2", extentY * 5 / 6);
 
-      marker.transition()
-          .duration(duration)
+      d3.transition(marker)
           .attr("x1", x1)
           .attr("x2", x1)
           .attr("y1", extentY / 6)
@@ -119,9 +103,7 @@ d3.bullet = function() {
 
       var axis = g.selectAll("g.axis").data([0]);
       axis.enter().append("g").attr("class", "axis");
-      axis.transition()
-          .duration(duration)
-          .call(xAxis.scale(x1));
+      axis.call(xAxis.scale(x1));
     });
     d3.timer.flush();
   }
@@ -168,12 +150,6 @@ d3.bullet = function() {
     return bullet;
   };
 
-  bullet.duration = function(_) {
-    if (!arguments.length) return duration;
-    duration = +_;
-    return bullet;
-  };
-
   return d3.rebind(bullet, xAxis, "tickFormat");
 };
 
@@ -187,12 +163,6 @@ function bulletMarkers(d) {
 
 function bulletMeasures(d) {
   return d.measures;
-}
-
-function bulletTranslate(x) {
-  return function(d) {
-    return "translate(" + x(d) + ",0)";
-  };
 }
 
 function bulletWidth(x) {

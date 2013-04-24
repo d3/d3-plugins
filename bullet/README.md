@@ -1,6 +1,6 @@
 # Bullet Chart
 
-Demo: http://bl.ocks.org/4061961
+[Demo](http://bl.ocks.org/mbostock/4061961) and [vertical version](http://bl.ocks.org/jasondavies/5452290).
 
 Designed by Stephen Few, a bullet chart “provides a rich display of data in a
 small space.” A variation on a bar chart, bullet charts compare a given

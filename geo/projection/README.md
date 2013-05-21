@@ -3,7 +3,7 @@
 
 <table class="highlight">
   <tr height="146" valign="top">
-    <td>d3.geo.airy<br><a href="http://bl.ocks.org/mbostock/mbostock/5620807"><img src="https://raw.github.com/gist/5620807/thumbnail.png" width="202"></a></td>
+    <td>d3.geo.airy<br><a href="http://bl.ocks.org/mbostock/5620807"><img src="https://raw.github.com/gist/5620807/thumbnail.png" width="202"></a></td>
     <td>d3.geo.aitoff<br><a href="http://bl.ocks.org/mbostock/3682698"><img src="https://raw.github.com/gist/3682698/thumbnail.png" width="202"></a></td>
     <td class="gi">d3.geo.albers *<br><a href="http://bl.ocks.org/mbostock/3734308"><img src="https://raw.github.com/gist/3734308/thumbnail.png" width="202"></a></td>
     <td class="gi">d3.geo.albersUsa *<br><a href="http://bl.ocks.org/mbostock/4090848"><img src="https://raw.github.com/gist/4090848/thumbnail.png" width="202"></a></td>

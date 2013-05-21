@@ -131,7 +131,7 @@
 Projections:
 
 * d3.geo.aitoff - [Aitoff](http://bl.ocks.org/mbostock/3682698)
-* d3.geo.airy - Airy’s minimum-error azimuthal
+* d3.geo.airy - [Airy’s minimum-error azimuthal](http://bl.ocks.org/mbostock/5620807)
 * d3.geo.albers - [Albers equal-area conic](http://bl.ocks.org/mbostock/3734308)
 * d3.geo.armadillo - [Armadillo](http://bl.ocks.org/mbostock/4463127)
 * d3.geo.august - [August conformal](http://bl.ocks.org/mbostock/3797581)

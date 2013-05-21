@@ -9,6 +9,7 @@ import "berghaus";
 import "boggs";
 import "bonne";
 import "bromley";
+import "chamberlin";
 import "collignon";
 import "craig";
 import "craster";

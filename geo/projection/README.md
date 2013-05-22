@@ -215,8 +215,8 @@ This plugin also provides d3.geo.interrupt, which can be used to create arbitrar
 This plugin requires [D3 3.0](https://github.com/mbostock/d3/wiki/Upgrading-to-3.0) or greater. To use the official hosted version, include the projection plugin after including D3:
 
 ```html
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="http://d3js.org/d3.geo.projection.v0.min.js" charset="utf-8"></script>
 ```
 
 Alternatively, you can clone this repo, [download the zipball](http://github.com/d3/d3-plugins/zipball/master), or right-click [d3.geo.projection.v0.min.js](http://d3js.org/d3.geo.projection.v0.min.js) and save.

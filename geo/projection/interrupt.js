@@ -6,16 +6,47 @@ d3.geo.interrupt = function(project) {
     [[[-π, 0], [0, -π / 2], [π, 0]]]
   ];
 
-  var projection = d3.geo.projection(function(λ, φ) {
+  var bounds;
+
+  function forward(λ, φ) {
     var sign = φ < 0 ? -1 : +1,
         hemilobes = lobes[+(φ < 0)];
     for (var i = 0, n = hemilobes.length - 1; i < n && λ > hemilobes[i][2][0]; ++i);
     var coordinates = project(λ - hemilobes[i][1][0], φ);
     coordinates[0] += project(hemilobes[i][1][0], sign * φ > sign * hemilobes[i][0][1] ? hemilobes[i][0][1] : φ)[0];
     return coordinates;
-  });
+  }
 
-  var stream_ = projection.stream;
+  function reset() {
+    bounds = lobes.map(function(hemilobes) {
+      return hemilobes.map(function(lobe) {
+        var x0 = project(lobe[0][0], lobe[0][1])[0],
+            x1 = project(lobe[2][0], lobe[2][1])[0],
+            y0 = project(lobe[1][0], lobe[0][1])[1],
+            y1 = project(lobe[1][0], lobe[1][1])[1],
+            t;
+        if (y0 > y1) t = y0, y0 = y1, y1 = t;
+        return [[x0, y0], [x1, y1]];
+      });
+    });
+  }
+
+  // Assumes mutually exclusive bounding boxes for lobes.
+  if (project.invert) forward.invert = function(x, y) {
+    var hemibounds = bounds[+(y < 0)],
+        hemilobes = lobes[+(y < 0)];
+    for (var i = 0, n = hemibounds.length; i < n; ++i) {
+      var b = hemibounds[i];
+      if (b[0][0] <= x && x < b[1][0] && b[0][1] <= y && y < b[1][1]) {
+        var coordinates = project.invert(x - project(hemilobes[i][1][0], 0)[0], y);
+        coordinates[0] += hemilobes[i][1][0];
+        return pointEqual(forward(coordinates[0], coordinates[1]), [x, y]) ? coordinates : null;
+      }
+    }
+  };
+
+  var projection = d3.geo.projection(forward),
+      stream_ = projection.stream;
 
   projection.stream = function(stream) {
     var rotate = projection.rotate(),
@@ -45,6 +76,7 @@ d3.geo.interrupt = function(project) {
         ];
       });
     });
+    reset();
     return projection;
   };
 
@@ -107,6 +139,10 @@ d3.geo.interrupt = function(project) {
     }
     resampled.push(p1);
     return resampled;
+  }
+
+  function pointEqual(a, b) {
+    return Math.abs(a[0] - b[0]) < 1e-6 && Math.abs(a[1] - b[1]) < 1e-6;
   }
 
   return projection;

@@ -1,4 +1,5 @@
 import "projection";
+import "math";
 
 d3.geo.interrupt = function(project) {
   var lobes = [
@@ -142,7 +143,7 @@ d3.geo.interrupt = function(project) {
   }
 
   function pointEqual(a, b) {
-    return Math.abs(a[0] - b[0]) < 1e-6 && Math.abs(a[1] - b[1]) < 1e-6;
+    return Math.abs(a[0] - b[0]) < ε && Math.abs(a[1] - b[1]) < ε;
   }
 
   return projection;

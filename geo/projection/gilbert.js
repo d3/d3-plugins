@@ -8,6 +8,7 @@ gilbert.invert = function(x, y) {
   var coordinates = d3.geo.orthographic.raw.invert(x, y);
   coordinates[0] *= 2;
   coordinates[1] = 2 * Math.atan(Math.sin(coordinates[1]));
+  return coordinates;
 };
 
 function gilbertProjection() {

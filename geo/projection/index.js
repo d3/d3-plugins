@@ -23,6 +23,7 @@ import "eckert6";
 import "eisenlohr";
 import "fahey";
 import "gall-stereographic";
+import "gilbert";
 import "ginzburg4";
 import "ginzburg5";
 import "ginzburg6";

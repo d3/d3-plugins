@@ -159,7 +159,7 @@ Projections:
 * equirectangular - [Equirectangular (Plate Carrée)](http://bl.ocks.org/mbostock/3757119)
 * fahey - [Fahey](http://bl.ocks.org/mbostock/4731228)
 * gallStereographic - [Gall’s stereographic](http://bl.ocks.org/mbostock/5234763)
-* gilbert - Gilbert’s two-world perspective
+* gilbert - [Gilbert’s two-world perspective](http://www.jasondavies.com/maps/gilbert/)
 * ginzburg4 - [Ginzburg IV](http://bl.ocks.org/mbostock/5288565)
 * ginzburg5 - [Ginzburg V](http://bl.ocks.org/mbostock/5288571)
 * ginzburg6 - [Ginzburg VI](http://bl.ocks.org/mbostock/5288577)

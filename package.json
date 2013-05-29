@@ -12,8 +12,8 @@
     "d3": "3.1.x"
   },
   "devDependencies": {
-    "smash": "~0.0.8",
-    "uglify-js": "git://github.com/mishoo/UglifyJS2.git#3bd7ca9961125b39dcd54d2182cb72bd1ca6006e",
+    "smash": "~0.0.11",
+    "uglify-js": "2.3.6",
     "vows": "0.7.x"
   },
   "scripts": {

@@ -157,7 +157,7 @@ Projections:
 * eckert5 - [Eckert V](http://bl.ocks.org/mbostock/3734328)
 * eckert6 - [Eckert VI](http://bl.ocks.org/mbostock/3734329)
 * eisenlohr - [Eisenlohr conformal](http://bl.ocks.org/mbostock/3797585)
-* equirectangular - [Equirectangular (Plate Carrée)](http://bl.ocks.org/mbostock/3757119)
+* equirectangular - [Equirectangular (Plate Carrée)](http://bl.ocks.org/mbostock/3757119), [Cassini](http://bl.ocks.org/mbostock/5695142)
 * fahey - [Fahey](http://bl.ocks.org/mbostock/4731228)
 * gallStereographic - [Gall’s stereographic](http://bl.ocks.org/mbostock/5234763)
 * gilbert - [Gilbert’s two-world perspective](http://www.jasondavies.com/maps/gilbert/) (Note: this wraps a projection such as d3.geo.orthographic.)

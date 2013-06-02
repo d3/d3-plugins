@@ -14,7 +14,10 @@ gilbert.invert = function(x, y) {
 function gilbertProjection() {
   var p = projection(gilbert),
       e = d3.geo.equirectangular().scale(degrees).translate([0, 0]),
-      o = d3.geo.orthographic();
+      o = d3.geo.orthographic(),
+      translate = p.translate,
+      scale = p.scale,
+      rotate = p.rotate;
 
   p.stream = function(stream) {
     stream = o.stream(stream);
@@ -31,7 +34,22 @@ function gilbertProjection() {
     return s;
   };
 
-  return d3.rebind(p, o, "rotate", "scale", "translate", "clipAngle", "precision");
+  p.translate = function() {
+    o.translate.apply(o, arguments);
+    return translate.apply(this, arguments);
+  };
+
+  p.scale = function() {
+    o.scale.apply(o, arguments);
+    return scale.apply(this, arguments);
+  };
+
+  p.rotate = function() {
+    o.rotate.apply(o, arguments);
+    return rotate.apply(this, arguments);
+  };
+
+  return d3.rebind(p, o, "clipAngle", "precision");
 }
 
 (d3.geo.gilbert = gilbertProjection).raw = gilbert;

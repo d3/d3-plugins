@@ -503,7 +503,7 @@
   // traslated  up on y axis.
   function cahillKeyesOneOctant(λ, φ) {
     var lon = λ * degrees,
-        lat = φ * d3_geo_degrees,
+        lat = φ * degrees,
         res = ll2mp(lon, lat),
         m = res[0],
         p = res[1],

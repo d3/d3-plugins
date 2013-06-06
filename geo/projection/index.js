@@ -22,6 +22,7 @@ import "eckert5";
 import "eckert6";
 import "eisenlohr";
 import "fahey";
+import "foucaut";
 import "gall-stereographic";
 import "gilbert";
 import "ginzburg4";

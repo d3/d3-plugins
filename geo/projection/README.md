@@ -159,6 +159,7 @@ Projections:
 * eisenlohr - [Eisenlohr conformal](http://bl.ocks.org/mbostock/3797585)
 * equirectangular - [Equirectangular (Plate Carrée)](http://bl.ocks.org/mbostock/3757119), [Cassini](http://bl.ocks.org/mbostock/5695142)
 * fahey - [Fahey](http://bl.ocks.org/mbostock/4731228)
+* foucaut - Foucaut
 * gallStereographic - [Gall’s stereographic](http://bl.ocks.org/mbostock/5234763)
 * gilbert - [Gilbert’s two-world perspective](http://www.jasondavies.com/maps/gilbert/) (Note: this wraps a projection such as d3.geo.orthographic.)
 * ginzburg4 - [Ginzburg IV](http://bl.ocks.org/mbostock/5288565)

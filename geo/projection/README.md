@@ -150,6 +150,7 @@ Projections:
 * craig - [Craig retroazimuthal](http://bl.ocks.org/mbostock/4459466)
 * craster - [Craster parabolic](http://bl.ocks.org/mbostock/4465118)
 * cylindricalEqualArea - [cylindrical equal-area](http://bl.ocks.org/mbostock/3712408), [Gall–Peters](http://bl.ocks.org/mbostock/3946824), [Hobo–Dyer](http://bl.ocks.org/mbostock/4476487), [Tobler world-in-a-square](http://bl.ocks.org/mbostock/4476496)
+* cylindricalStereographic - cylindrical stereographic, [Gall’s stereographic](http://bl.ocks.org/mbostock/5234763)
 * eckert1 - [Eckert I](http://bl.ocks.org/mbostock/3734322)
 * eckert2 - [Eckert II](http://bl.ocks.org/mbostock/3734324)
 * eckert3 - [Eckert III](http://bl.ocks.org/mbostock/3734325)
@@ -160,7 +161,6 @@ Projections:
 * equirectangular - [Equirectangular (Plate Carrée)](http://bl.ocks.org/mbostock/3757119), [Cassini](http://bl.ocks.org/mbostock/5695142)
 * fahey - [Fahey](http://bl.ocks.org/mbostock/4731228)
 * foucaut - Foucaut
-* gallStereographic - [Gall’s stereographic](http://bl.ocks.org/mbostock/5234763)
 * gilbert - [Gilbert’s two-world perspective](http://www.jasondavies.com/maps/gilbert/) (Note: this wraps a projection such as d3.geo.orthographic.)
 * ginzburg4 - [Ginzburg IV](http://bl.ocks.org/mbostock/5288565)
 * ginzburg5 - [Ginzburg V](http://bl.ocks.org/mbostock/5288571)

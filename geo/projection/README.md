@@ -33,20 +33,20 @@
   </tr>
   <tr height="146" valign="top">
     <td>cylindricalEqualArea<br><a href="http://bl.ocks.org/mbostock/3712408"><img src="https://raw.github.com/gist/3712408/thumbnail.png" width="202"></a></td>
+    <td>cylindricalStereographic<br><a href="http://bl.ocks.org/mbostock/5234763"><img src="https://raw.github.com/gist/5234763/thumbnail.png" width="202"></a></td>
     <td>eckert1<br><a href="http://bl.ocks.org/mbostock/3734322"><img src="https://raw.github.com/gist/3734322/thumbnail.png" width="202"></a></td>
     <td>eckert2<br><a href="http://bl.ocks.org/mbostock/3734324"><img src="https://raw.github.com/gist/3734324/thumbnail.png" width="202"></a></td>
-    <td>eckert3<br><a href="http://bl.ocks.org/mbostock/3734325"><img src="https://raw.github.com/gist/3734325/thumbnail.png" width="202"></a></td>
   </tr>
   <tr height="146" valign="top">
+    <td>eckert3<br><a href="http://bl.ocks.org/mbostock/3734325"><img src="https://raw.github.com/gist/3734325/thumbnail.png" width="202"></a></td>
     <td>eckert4<br><a href="http://bl.ocks.org/mbostock/3734327"><img src="https://raw.github.com/gist/3734327/thumbnail.png" width="202"></a></td>
     <td>eckert5<br><a href="http://bl.ocks.org/mbostock/3734328"><img src="https://raw.github.com/gist/3734328/thumbnail.png" width="202"></a></td>
     <td>eckert6<br><a href="http://bl.ocks.org/mbostock/3734329"><img src="https://raw.github.com/gist/3734329/thumbnail.png" width="202"></a></td>
-    <td>eisenlohr<br><a href="http://bl.ocks.org/mbostock/3797585"><img src="https://raw.github.com/gist/3797585/thumbnail.png" width="202"></a></td>
   </tr>
   <tr height="146" valign="top">
+    <td>eisenlohr<br><a href="http://bl.ocks.org/mbostock/3797585"><img src="https://raw.github.com/gist/3797585/thumbnail.png" width="202"></a></td>
     <td class="gi">equirectangular *<br><a href="http://bl.ocks.org/mbostock/3757119"><img src="https://raw.github.com/gist/3757119/thumbnail.png" width="202"></a></td>
     <td>fahey<br><a href="http://bl.ocks.org/mbostock/4731228"><img src="https://raw.github.com/gist/4731228/thumbnail.png" width="202"></a></td>
-    <td>gallStereographic<br><a href="http://bl.ocks.org/mbostock/5234763"><img src="https://raw.github.com/gist/5234763/thumbnail.png" width="202"></a></td>
     <td>gilbert<br><a href="http://www.jasondavies.com/maps/gilbert/"><img src="http://www.jasondavies.com/maps/gilbert/thumb.d3.png" width="202"></a></td>
   </tr>
   <tr height="146" valign="top">

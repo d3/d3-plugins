@@ -1,7 +1,6 @@
 import "projection";
 
 // TODO clip to ellipse
-// TODO expose d3.geo.rotation?
 
 function twoPointEquidistant(z0) {
   if (!z0) return d3.geo.azimuthalEquidistant.raw;
@@ -54,9 +53,9 @@ function twoPointEquidistantProjection() {
     // Apply the spherical law of sines to compute γ rotation.
     var interpolate = d3.geo.interpolate(_[0], _[1]),
         origin = interpolate(.5),
-        p = twoPointEquidistant_rotate(-origin[0] * radians, -origin[1] * radians, _[0][0] * radians, _[0][1] * radians),
+        p = d3.geo.rotation([-origin[0], -origin[1]])(_[0]),
         b = interpolate.distance * .5, // |[0, 0] - p|
-        c = (p[0] < 0 ? -1 : +1) * p[1], // |[p[0], 0] - p|
+        c = (p[0] < 0 ? -1 : +1) * p[1] * radians, // |[p[0], 0] - p|
         γ = asin(Math.sin(c) / Math.sin(b));
 
     rotate.call(p, [-origin[0], -origin[1], -γ * degrees]);
@@ -65,19 +64,6 @@ function twoPointEquidistantProjection() {
   };
 
   return p;
-}
-
-function twoPointEquidistant_rotate(δλ, δφ, λ, φ) {
-  var cosδφ = Math.cos(δφ),
-      sinδφ = Math.sin(δφ),
-      cosφ = Math.cos(φ),
-      x = Math.cos(λ += δλ) * cosφ,
-      y = Math.sin(λ) * cosφ,
-      z = Math.sin(φ);
-  return [
-    Math.atan2(y, x * cosδφ - z * sinδφ),
-    asin(z * cosδφ + x * sinδφ)
-  ];
 }
 
 (d3.geo.twoPointEquidistant = twoPointEquidistantProjection).raw = twoPointEquidistant;

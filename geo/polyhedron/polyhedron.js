@@ -1,6 +1,6 @@
 (function() {
 
-var ε = 1e-6,
+var ε = 1e-5, // 1e-6 gives incorrect clipping for cahillKeyes
     π = Math.PI,
     radians = π / 180,
     degrees = 180 / π;
@@ -16,6 +16,8 @@ d3.geo.polyhedron = function(root, face, r) {
 
   r = r == null ? -π / 6 : r; // TODO automate
 
+  var mesh = [];
+
   recurse(root, {transform: [
     Math.cos(r), Math.sin(r), 0,
     -Math.sin(r), Math.cos(r), 0
@@ -27,7 +29,11 @@ d3.geo.polyhedron = function(root, face, r) {
       // Find shared edge.
       if (parent.face) {
         var shared = node.shared = sharedEdge(node.face, parent.face),
-            m = matrix(shared.map(parent.project), shared.map(node.project));
+            m = matrix(shared.map(parent.project), shared.map(node.project)),
+            ring = node.face.slice();
+        ring.push(ring[0]);
+        var centroid = d3.geo.centroid({type: "Polygon", coordinates: [ring]});
+        mesh.push(shared.map(function(d) { return d3.geo.interpolate(d, centroid)(ε); }));
         node.transform = parent.transform ? multiply(parent.transform, m) : m;
         // Replace shared edge in parent edges array.
         var edges = parent.edges;
@@ -96,23 +102,29 @@ d3.geo.polyhedron = function(root, face, r) {
     return face(coordinates[0] * radians, coordinates[1] * radians);
   }
 
-  var projection = d3.geo.projection(forward),
-      stream_ = projection.stream;
+  var clipPolygon = [];
+  outline({point: function(λ, φ) { clipPolygon.push([λ, φ]); }}, root);
+  clipPolygon.push(clipPolygon[0]);
 
-  projection.stream = function(stream) {
-    var rotate = projection.rotate(),
-        rotateStream = stream_(stream),
-        sphereStream = (projection.rotate([0, 0]), stream_(stream));
-    projection.rotate(rotate);
-    rotateStream.sphere = function() {
-      sphereStream.polygonStart();
-      sphereStream.lineStart();
-      outline(sphereStream, root);
-      sphereStream.lineEnd();
-      sphereStream.polygonEnd();
-    };
-    return rotateStream;
-  };
+  var projection = d3.geo.projection(forward).clipPolygon([clipPolygon]);
+  projection.mesh = mesh;
+
+// this messes up cahillKeyes: is it necessary for the rest of polyhedra?
+  // var stream_ = projection.stream;
+  // projection.stream = function(stream) {
+  //   var rotate = projection.rotate(),
+  //       rotateStream = stream_(stream),
+  //       sphereStream = (projection.rotate([0, 0]), stream_(stream));
+  //   projection.rotate(rotate);
+  //   rotateStream.sphere = function() {
+  //     sphereStream.polygonStart();
+  //     sphereStream.lineStart();
+  //     outline(sphereStream, root);
+  //     sphereStream.lineEnd();
+  //     sphereStream.polygonEnd();
+  //   };
+  //   return rotateStream;
+  // };
 
   return projection;
 };
@@ -228,21 +240,110 @@ d3.geo.polyhedron.waterman = function(faceProjection) {
   }
 };
 
+
+d3.geo.polyhedron.cahillKeyes = function(faceProjection) {
+
+  faceProjection = faceProjection || function(face) {
+    var centroid = face.length === 6 ? d3.geo.centroid({type: "MultiPoint", coordinates: face}) : face[0];
+    return d3.geo.cahillKeyes().scale(1);
+  };
+
+  var octahedron = d3.geo.polyhedron.octahedron;
+
+  var ck = octahedron.map(function(face) {
+    var xyz = face.map(cartesian),
+        n = xyz.length,
+        a = xyz[n - 1],
+        b,
+        θ = 17,
+        cosθ = Math.cos(θ*radians),
+        sinθ = Math.sin(θ*radians),
+        hexagon = [];
+    for (var i = 0; i < n; ++i) {
+      b = xyz[i];
+      hexagon.push(spherical([
+        a[0] * cosθ + b[0] * sinθ,
+        a[1] * cosθ + b[1] * sinθ,
+        a[2] * cosθ + b[2] * sinθ
+      ]), spherical([
+        b[0] * cosθ + a[0] * sinθ,
+        b[1] * cosθ + a[1] * sinθ,
+        b[2] * cosθ + a[2] * sinθ
+      ]));
+      a = b;
+    }
+    return hexagon;
+  });
+
+  var cornerNormals = [];
+
+  var parents = [-1, 3, 0, 2, 0, 1, 4, 5];
+
+  ck.forEach(function(hexagon, j) {
+    var face = octahedron[j],
+        n = face.length,
+        normals = cornerNormals[j] = [];
+    for (var i = 0; i < n; ++i) {
+      ck.push([
+        face[i],
+        hexagon[(i * 2 + 2) % (2 * n)],
+        hexagon[(i * 2 + 1) % (2 * n)]
+      ]);
+      parents.push(j);
+      normals.push(cross(
+        cartesian(hexagon[(i * 2 + 2) % (2 * n)]),
+        cartesian(hexagon[(i * 2 + 1) % (2 * n)])
+      ));
+    }
+  });
+
+  var faces = ck.map(function(face) {
+    return {
+      project: faceProjection(face),
+      face: face
+    };
+  });
+
+  parents.forEach(function(d, i) {
+    var parent = faces[d];
+    parent && (parent.children || (parent.children = [])).push(faces[i]);
+  });
+  return d3.geo.polyhedron(faces[0], face, 0).center([0, 45]);
+
+  function face(λ, φ) {
+    var cosφ = Math.cos(φ),
+        p = [cosφ * Math.cos(λ), cosφ * Math.sin(λ), Math.sin(φ)];
+
+    var hexagon = λ < -π / 2 ? φ < 0 ? 6 : 4
+        : λ < 0 ? φ < 0 ? 2 : 0
+        : λ < π / 2 ? φ < 0 ? 3 : 1
+        : φ < 0 ? 7 : 5;
+
+    var n = cornerNormals[hexagon];
+
+    return faces[
+        dot(n[0], p) < 0 ? 8 + 3 * hexagon
+      : dot(n[1], p) < 0 ? 8 + 3 * hexagon + 1
+      : dot(n[2], p) < 0 ? 8 + 3 * hexagon + 2
+      : hexagon];
+  }
+};
+
+
+
 function outline(stream, node, parent) {
   var point,
       edges = node.edges,
       n = edges.length,
       edge,
       multiPoint = {type: "MultiPoint", coordinates: node.face},
-      notPoles = node.face.filter(function(d) { return Math.abs(d[1]) !== 90; }),
+      notPoles = node.face.filter(function(d) { return Math.abs(Math.abs(d[1]) - 90) > ε; }),
       bounds = d3.geo.bounds({type: "MultiPoint", coordinates: notPoles}),
       inside = false,
       j = -1,
-      dx = bounds[1][0] - bounds[0][0];
-  // TODO
-  var centroid = dx === 180 || dx === 360
-      ? [(bounds[0][0] + bounds[1][0]) / 2, (bounds[0][1] + bounds[1][1]) / 2]
-      : d3.geo.centroid(multiPoint);
+      ring = node.face.slice();
+  ring.push(ring[0]);
+  var centroid = node.centroid || d3.geo.centroid({type: "Polygon", coordinates: [ring]});
   // First find the shared edge…
   if (parent) while (++j < n) {
     if (edges[j] === parent) break;

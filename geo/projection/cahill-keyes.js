@@ -1,11 +1,11 @@
+import "projection";
+
+
 // all names of reference points, A, B, D, ... , G, P75
 // or zones, A-L, are detailed fully in Gene Keyes'
 // web site http://www.genekeyes.com/CKOG-OOo/7-CKOG-illus-&-coastline.html
-(function() {
-  var τ = 2 * Math.PI,
-      degrees = 360 / τ,
-      radians = τ / 360,
-      CK = { "lengthMG" : 10000 // magic scaling length
+function cahillKeyes(mg) {
+  var CK = { "lengthMG" : mg // magic scaling length
            };
 
   preliminaries();
@@ -162,10 +162,6 @@
     return xynew;
   }
 
-  function perpendicular(xy) {
-    return [-xy[1], xy[0]];
-  }
-
   function sgn(x) {
     return x >= 0 ? 1 : -1;
   }
@@ -278,6 +274,7 @@
   }
 
   function zoneD(m, p) {
+    p = p; // just keep it for symmetry in signature
     return equator(m);
   }
 
@@ -389,10 +386,6 @@
   // arguments are meridian, parallel
   function mp2xy(m, p) {
     var xy = [0, 0],
-        l,
-        p73a,
-        p75,
-        lF, lF75,
         lT,
         p15a,
         p15,
@@ -499,29 +492,9 @@
     return xynew;
   }
 
-  // coordinate transformation on 1 octant, rotated -90 degrees,
-  // traslated  up on y axis.
-  function cahillKeyesOneOctant(λ, φ) {
-    var lon = λ * degrees,
-        lat = φ * degrees,
-        res = ll2mp(lon, lat),
-        m = res[0],
-        p = res[1],
-        s = res[2],
-        o = res[3],
-        xy = mp2xy(m, p),
-        mm = [s*xy[1],
-               -xy[0]];   // rotated
-    mm[1] += CK.lengthMG; // ...and translated
-
-    if (isNaN(mm[0]) || isNaN(mm[1])) {
-      console.log('cahill-keyes: mm[0]='+ mm[0] + '; mm[1]=' + mm[1]);
-    }
-    return mm;
-  }
 
   // general CK map projection
-  function cahillKeyes(λ, φ) {
+  function forward(λ, φ) {
     // λ, φ are in radians.
     var lon = λ * degrees,
         lat = φ * degrees,
@@ -536,39 +509,15 @@
     return mm;
   }
 
+  return forward;
+}
 
+function cahillKeyesProjection() {
+  var mg = 10000,
+      m = projectionMutator(cahillKeyes),
+      p = m(mg);
 
+  return p;
+}
 
-  var projection = d3.geo.projection;
-  (d3.geo.cahillKeyes = function() { return d3.geo.projection(cahillKeyes); }).raw = cahillKeyes;
-  (d3.geo.cahillKeyes1o = function() { return d3.geo.projection(cahillKeyesOneOctant); }).raw = cahillKeyesOneOctant;
-
-
-  d3.geo.polyhedron.cahillkeyes = function(faceProjection) {
-
-    faceProjection = faceProjection || function(face) {
-      return d3.geo.cahillKeyes().scale(1).translate([0, 0]);
-    };
-
-    var faces = d3.geo.polyhedron.octahedron.map(function(face) {
-      return {face: face,
-              project: faceProjection(face)};
-    });
-
-    [2, 3, -1, 2, 0, 1, 4, 5].forEach(function(d, i) {
-      var node = faces[d];
-      node && (node.children || (node.children = [])).push(faces[i]);
-    });
-
-    return d3.geo.polyhedron(faces[2], function(λ, φ) {
-      λ *= degrees;
-      φ *= degrees;
-      return faces[ λ < -90 ? (φ > 0 ? 4 : 6)
-                  : λ <   0 ? (φ > 0 ? 0 : 2)
-                  : λ <  90 ? (φ > 0 ? 1 : 3)
-                  :           (φ > 0 ? 5 : 7)
-      ];
-    });
-  };
-
-})();
+(d3.geo.cahillKeyes = cahillKeyesProjection).raw = cahillKeyes;

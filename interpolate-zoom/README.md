@@ -4,6 +4,14 @@ An interpolator for zooming and panning between two views of a two-dimensional p
 
 Demo: <http://bl.ocks.org/3828981>
 
+To include this script in the page:
+
+```html
+<script charset="utf-8" src="http://d3js.org/d3.interpolate-zoom.v0.min.js"></script>
+```
+
+Note that since this script uses UTF-8 characters, the `charset` attribute is required if the page does not have a `<meta charset="utf-8">` in the head. There’s also a [d3.interpolate-zoom.v0.js](http://d3js.org/d3.interpolate-zoom.v0.js) for development, or you can clone this repository.
+
 <a name="interpolateZoom" href="#interpolateZoom">#</a> d3.<b>interpolateZoom</b>(<i>start</i>, <i>end</i>)
 
 Returns an [interpolator](https://github.com/mbostock/d3/wiki/Transitions#wiki-_interpolate) between the two points *start* and *end*. Each point should be defined as an array of three numbers in world coordinates: *ux*, *uy* and *w*. The first two coordinates *ux*, *uy* are the center of the viewport. The last coordinate *w* is the size of the viewport.

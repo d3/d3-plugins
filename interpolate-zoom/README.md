@@ -7,8 +7,8 @@ Demo: <http://bl.ocks.org/3828981>
 To use this plugin:
 
 ```html
-<script charset="utf-8" src="http://d3js.org/d3.v3.min.js"></script>
-<script charset="utf-8" src="http://d3js.org/d3.interpolate-zoom.v0.min.js"></script>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="http://d3js.org/d3.interpolate-zoom.v0.min.js" charset="utf-8"></script>
 ```
 
 Note that since this script uses UTF-8 characters, the `charset` attribute is required if the page does not have a `<meta charset="utf-8">` in the head. There’s also a [d3.interpolate-zoom.v0.js](http://d3js.org/d3.interpolate-zoom.v0.js) for development, or you can clone this repository.

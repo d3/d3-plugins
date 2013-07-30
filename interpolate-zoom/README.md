@@ -4,9 +4,10 @@ An interpolator for zooming and panning between two views of a two-dimensional p
 
 Demo: <http://bl.ocks.org/3828981>
 
-To include this script in the page:
+To use this plugin:
 
 ```html
+<script charset="utf-8" src="http://d3js.org/d3.v3.min.js"></script>
 <script charset="utf-8" src="http://d3js.org/d3.interpolate-zoom.v0.min.js"></script>
 ```
 

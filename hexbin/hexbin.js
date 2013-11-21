@@ -69,7 +69,7 @@ d3.hexbin = function() {
   hexbin.centers = function() {
     var centers = [];
     for (var y = 0, odd = false; y < height + r; y += dy, odd = !odd) {
-      for (var x = odd ? dx / 2 : 0; x < width + dx; x += dx) {
+      for (var x = odd ? dx / 2 : 0; x < width + dx / 2; x += dx) {
         centers.push([x, y]);
       }
     }

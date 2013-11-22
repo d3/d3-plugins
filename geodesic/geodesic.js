@@ -26,7 +26,9 @@
         coordinates: subdivideFaces(~~n).map(function(face) {
           face = face.map(project);
           face.push(face[0]);
-          return [face];
+          face = [face];
+          if (d3.geo.area({type: "Polygon", coordinates: face}) > Math.PI) face[0].reverse();
+          return face;
         })
       };
     },

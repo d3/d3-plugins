@@ -29,6 +29,8 @@ d3.hexbin = function() {
       var id = pi + "-" + pj, bin = binsById[id];
       if (bin) bin.push(point); else {
         bin = binsById[id] = [point];
+        bin.i = pi;
+        bin.j = pj;
         bin.x = (pi + (pj & 1 ? 1 / 2 : 0)) * dx;
         bin.y = pj * dy;
       }
@@ -68,9 +70,12 @@ d3.hexbin = function() {
 
   hexbin.centers = function() {
     var centers = [];
-    for (var y = 0, odd = false; y < height + r; y += dy, odd = !odd) {
-      for (var x = odd ? dx / 2 : 0; x < width + dx / 2; x += dx) {
-        centers.push([x, y]);
+    for (var y = 0, odd = false, j = 0; y < height + r; y += dy, odd = !odd, ++j) {
+      for (var x = odd ? dx / 2 : 0, i = 0; x < width + dx / 2; x += dx, ++i) {
+        var center = [x, y];
+        center.i = i;
+        center.j = j;
+        centers.push(center);
       }
     }
     return centers;

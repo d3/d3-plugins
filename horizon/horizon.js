@@ -8,6 +8,7 @@
         w = 960,
         h = 40,
         duration = 0;
+        ease = "cubic-in-out";
 
     var color = d3.scale.linear()
         .domain([-1, 0, 1])
@@ -67,6 +68,7 @@
 
         defs.select("rect").transition()
             .duration(duration)
+            .ease(ease)
             .attr("width", w)
             .attr("height", h);
 
@@ -99,12 +101,14 @@
 
         path.transition()
             .duration(duration)
+            .ease(ease)
             .style("fill", color)
             .attr("transform", t1)
             .attr("d", d1);
 
         path.exit().transition()
             .duration(duration)
+            .ease(ease)
             .attr("transform", t1)
             .attr("d", d1)
             .remove();
@@ -120,6 +124,12 @@
       duration = +x;
       return horizon;
     };
+
+    horizon.ease = function(x) {
+      if (!arguments.length) return ease;
+      ease = x + "";
+      return horizon;
+    }
 
     horizon.bands = function(x) {
       if (!arguments.length) return bands;

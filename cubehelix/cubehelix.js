@@ -3,7 +3,7 @@
 
   d3.scale.cubehelix = function() {
     return d3.scale.linear()
-        .range([d3.hsl(300, .6, 0), d3.hsl(-240, .6, 1)])
+        .range([d3.hsl(300, .5, 0), d3.hsl(-240, .5, 1)])
         .interpolate(d3.interpolateCubehelix);
   };
 

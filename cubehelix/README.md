@@ -33,11 +33,11 @@ These correspond to the following start and end colors:
    * hsl(300, 60%, 0%)
    * hsl(-240, 60%, 100%)
 
-While the original cubehelix color scheme always uses the full range of lightness from 0% to 100%, note that it is possible in this interpolator to use a subset of this range, by specifying start and end colors with different lightnesses.
+While the original cubehelix color scheme always uses the full range of lightness from 0% to 100%, note that it is possible in this interpolator to use a subset of this range by specifying start and end colors with different lightnesses.
 
 <a href="#interpolateCubehelix_gamma" name="interpolateCubehelix_gamma">#</a> d3.interpolateCubehelix.<b>gamma</b>(<i>gamma</i>)
 
-Returns a cubehelix interpolator factory with the specified <i>gamma</i> correction value of 1. For example, to create the default cubehelix color scheme with a gamma correction value of 1.2:
+Returns a cubehelix interpolator factory with the specified <i>gamma</i> correction value. For example, to create the default cubehelix color scheme with a gamma correction value of 1.2:
 
 ```js
 var cubehelix = d3.interpolateCubehelix.gamma(1.2)("hsl(300,60%,0%)", "hsl(-240,60%,100%)");
@@ -45,4 +45,4 @@ var cubehelix = d3.interpolateCubehelix.gamma(1.2)("hsl(300,60%,0%)", "hsl(-240,
 
 <a href="#cubehelix" name="cubehelix">#</a> d3.scale.<b>cubehelix</b>
 
-Constructs a new [linear scale](https://github.com/mbostock/d3/wiki/Quantitative-Scales) with the interpolator [d3.interpolateCubehelix](#interpolateCubehelix), the domain [0, 1] and the range [hsl(300°, 60%, 0%), hsl(-240°, 60%, 100%)].
+Constructs a new [linear scale](https://github.com/mbostock/d3/wiki/Quantitative-Scales) with the interpolator [d3.interpolateCubehelix](#interpolateCubehelix), the domain [0, 1] and the range [hsl(300°, 60%, 0%), hsl(-240°, 60%, 100%)]. This is merely a convenience function.

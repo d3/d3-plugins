@@ -8,11 +8,11 @@ Constructs a new linear cubehelix scale with the default domain [0, 1] and range
 
 <a href="#startHue" name="startHue">#</a> cubehelix.<b>startHue</b>([<i>startHue</i>])
 
-Specifies the starting hue of the range in degrees. The smallest value in the domain is mapped to this hue. If no argument is specified, returns the scale’s current starting hue, which defaults to 420°. To convert from the original color scheme’s <i>START</i> parameter, use the following equality: <i>startHue</i> = <i>(START / 3 + 1) * 360</i>.
+Specifies the starting hue angle of the range in degrees. The first value in the domain is mapped to this hue angle. If no argument is specified, returns the scale’s current starting hue angle, which defaults to 420°. To convert from the original color scheme’s <i>START</i> parameter, use the following equality: <i>startHue</i> = <i>(START / 3 + 1) * 360</i>.
 
 <a href="#endHue" name="endHue">#</a> cubehelix.<b>endHue</b>([<i>endHue</i>])
 
-Specifies the ending hue of the range in degrees. The smallest value in the domain is mapped to this hue. If no argument is specified, returns the scale’s current ending hue, which defaults to -120°. To convert from the original color scheme’s <i>START</i> and <i>ROTS</i> parameters, use the following equality: <i>endHue</i> = <i>(START / 3 + 1 + ROTS) * 360</i>.
+Specifies the ending hue angle of the range in degrees. The last value in the domain is mapped to this hue angle. If no argument is specified, returns the scale’s current ending hue angle, which defaults to -120°. To convert from the original color scheme’s <i>START</i> and <i>ROTS</i> parameters, use the following equality: <i>endHue</i> = <i>(START / 3 + 1 + ROTS) * 360</i>.
 
 <a href="#saturation" name="saturation">#</a> cubehelix.<b>saturation</b>([<i>saturation</i>])
 

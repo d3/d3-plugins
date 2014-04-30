@@ -1,6 +1,6 @@
 A D3 linear scale that provides an implementation of Dave Green’s [cubehelix color scheme](http://www.mrao.cam.ac.uk/~dag/CUBEHELIX/).
 
-See [bl.ocks.org/11413789](http://bl.ocks.org/mbostock/11413789) for an example.
+See [bl.ocks.org/11413789](http://bl.ocks.org/mbostock/11413789) and [bl.ocks.org/11415064](http://bl.ocks.org/mbostock/11415064) for examples.
 
 <a href="#cubehelix" name="cubehelix">#</a> d3.scale.<b>cubehelix</b>
 

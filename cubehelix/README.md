@@ -1,4 +1,4 @@
-A D3 linear scale that provides an implementation of Dave Green’s [cubehelix color scheme](http://www.mrao.cam.ac.uk/~dag/CUBEHELIX/).
+An interpolator that implements Dave Green’s [cubehelix color scheme](http://www.mrao.cam.ac.uk/~dag/CUBEHELIX/).
 
 See [bl.ocks.org/11415064](http://bl.ocks.org/mbostock/11415064) for examples.
 

@@ -22,13 +22,13 @@ To convert from the original color scheme’s <i>START</i>, <i>ROTS</i> and <i>H
    * ending hue angle = (<i>START</i> - 1) * 120 + <i>ROTS</i> * 360
    * saturation = <i>HUE</i> / 2
 
-For example, the default color scheme’s settings:
+For example, the default color scheme’s settings are:
 
    * <i>START</i> = .5
    * <i>ROTS</i> = -1.5
    * <i>HUE</i> = 1.2
 
-Corresponds to the following start and end colors:
+These correspond to the following start and end colors:
 
    * hsl(300, 60%, 0%)
    * hsl(-240, 60%, 100%)

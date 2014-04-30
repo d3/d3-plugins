@@ -5,9 +5,8 @@
         interpolate = "linear", // or basis, monotone, step-before, etc.
         x = d3_horizonX,
         y = d3_horizonY,
-        w = 960,
-        h = 40,
-        duration = 0;
+        width = 960,
+        height = 40;
 
     var color = d3.scale.linear()
         .domain([-1, 0, 1])
@@ -37,9 +36,9 @@
         });
 
         // Compute the new x- and y-scales, and transform.
-        var x1 = d3.scale.linear().domain([xMin, xMax]).range([0, w]),
-            y1 = d3.scale.linear().domain([0, yMax]).range([0, h * bands]),
-            t1 = d3_horizonTransform(bands, h, mode);
+        var x1 = d3.scale.linear().domain([xMin, xMax]).range([0, width]),
+            y1 = d3.scale.linear().domain([0, yMax]).range([0, height * bands]),
+            t1 = d3_horizonTransform(bands, height, mode);
 
         // Retrieve the old scales, if this is an update.
         if (this.__chart__) {
@@ -62,13 +61,12 @@
         defs.enter().append("defs").append("clipPath")
             .attr("id", "d3_horizon_clip" + id)
           .append("rect")
-            .attr("width", w)
-            .attr("height", h);
+            .attr("width", width)
+            .attr("height", height);
 
-        defs.select("rect").transition()
-            .duration(duration)
-            .attr("width", w)
-            .attr("height", h);
+        d3.transition(defs.select("rect"))
+            .attr("width", width)
+            .attr("height", height);
 
         // We'll use a container to clip all horizon layers at once.
         g.selectAll("g")
@@ -83,13 +81,13 @@
         var d0 = d3_horizonArea
             .interpolate(interpolate)
             .x(function(d) { return x0(d[0]); })
-            .y0(h * bands)
-            .y1(function(d) { return h * bands - y0(d[1]); })
+            .y0(height * bands)
+            .y1(function(d) { return height * bands - y0(d[1]); })
             (data);
 
         var d1 = d3_horizonArea
             .x(function(d) { return x1(d[0]); })
-            .y1(function(d) { return h * bands - y1(d[1]); })
+            .y1(function(d) { return height * bands - y1(d[1]); })
             (data);
 
         path.enter().append("path")
@@ -97,14 +95,12 @@
             .attr("transform", t0)
             .attr("d", d0);
 
-        path.transition()
-            .duration(duration)
+        d3.transition(path)
             .style("fill", color)
             .attr("transform", t1)
             .attr("d", d1);
 
-        path.exit().transition()
-            .duration(duration)
+        d3.transition(path.exit())
             .attr("transform", t1)
             .attr("d", d1)
             .remove();
@@ -112,61 +108,54 @@
         // Stash the new scales.
         this.__chart__ = {x: x1, y: y1, t: t1, id: id};
       });
-      d3.timer.flush();
     }
 
-    horizon.duration = function(x) {
-      if (!arguments.length) return duration;
-      duration = +x;
-      return horizon;
-    };
-
-    horizon.bands = function(x) {
+    horizon.bands = function(_) {
       if (!arguments.length) return bands;
-      bands = +x;
+      bands = +_;
       color.domain([-bands, 0, bands]);
       return horizon;
     };
 
-    horizon.mode = function(x) {
+    horizon.mode = function(_) {
       if (!arguments.length) return mode;
-      mode = x + "";
+      mode = _ + "";
       return horizon;
     };
 
-    horizon.colors = function(x) {
+    horizon.colors = function(_) {
       if (!arguments.length) return color.range();
-      color.range(x);
+      color.range(_);
       return horizon;
     };
 
-    horizon.interpolate = function(x) {
+    horizon.interpolate = function(_) {
       if (!arguments.length) return interpolate;
-      interpolate = x + "";
+      interpolate = _ + "";
       return horizon;
     };
 
-    horizon.x = function(z) {
+    horizon.x = function(_) {
       if (!arguments.length) return x;
-      x = z;
+      x = _;
       return horizon;
     };
 
-    horizon.y = function(z) {
+    horizon.y = function(_) {
       if (!arguments.length) return y;
-      y = z;
+      y = _;
       return horizon;
     };
 
-    horizon.width = function(x) {
-      if (!arguments.length) return w;
-      w = +x;
+    horizon.width = function(_) {
+      if (!arguments.length) return width;
+      width = +_;
       return horizon;
     };
 
-    horizon.height = function(x) {
-      if (!arguments.length) return h;
-      h = +x;
+    horizon.height = function(_) {
+      if (!arguments.length) return height;
+      height = +_;
       return horizon;
     };
 
@@ -176,13 +165,8 @@
   var d3_horizonArea = d3.svg.area(),
       d3_horizonId = 0;
 
-  function d3_horizonX(d) {
-    return d[0];
-  }
-
-  function d3_horizonY(d) {
-    return d[1];
-  }
+  function d3_horizonX(d) { return d[0]; }
+  function d3_horizonY(d) { return d[1]; }
 
   function d3_horizonTransform(bands, h, mode) {
     return mode == "offset"

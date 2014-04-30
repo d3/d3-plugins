@@ -10,7 +10,7 @@ Returns a cubehelix <a href="https://github.com/mbostock/d3/wiki/Transitions#_in
 var cubehelix = d3.interpolateCubehelix("hsl(300,60%,0%)", "hsl(-240,60%,100%)");
 ```
 
-The hue of color <i>a</i> determines the starting hue angle in degrees, while the hue of color <i>b</i> determines the ending hue angle in degrees; the hue angle is interpolated linearly in-between. Likewise for saturation and lightness, which are specified in percentages. (The [d3.hsl](https://github.com/mbostock/d3/wiki/Colors#d3_hsl) constructor can also be used.)
+The hue of color <i>a</i> determines the starting hue angle in degrees, while the hue of color <i>b</i> determines the ending hue angle in degrees; the hue angle is interpolated linearly for intermediate values. Likewise for saturation and lightness, which are specified in percentages. (The [d3.hsl](https://github.com/mbostock/d3/wiki/Colors#d3_hsl) constructor can also be used.)
 
 If either color <i>a</i> or <i>b</i> is not an HSL color, the colors are converted to HSL color space first. However, it is recommended that you specify each color’s hue, saturation and lightness explicitly: cubehelix interpolation does not actually use the HSL color space, and thus the terms <i>hue</i>, <i>saturation</i> and <i>lightness</i> here are similar but slightly different to their meaning in HSL color space.
 

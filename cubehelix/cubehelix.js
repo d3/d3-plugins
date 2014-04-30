@@ -1,42 +1,44 @@
-d3.scale.cubehelix = function() {
-  var linear = d3.scale.linear(),
-      π = Math.PI,
-      φ0 = 14 / 6 * π,
-      φ1 = -2 / 3 * π,
-      s = .6,
-      γ = 1;
+(function() {
+  var radians = Math.PI / 180;
 
-  function scale(x) {
-    var λ = linear(x),
-        φ = φ0 + λ * (φ1 - φ0),
-        a = s * (λ = Math.pow(λ, γ)) * (1 - λ),
-        r = λ + a * (-0.14861 * Math.cos(φ) + 1.78277 * Math.sin(φ)),
-        g = λ + a * (-0.29227 * Math.cos(φ) - 0.90649 * Math.sin(φ)),
-        b = λ + a * (+1.97294 * Math.cos(φ));
-    return d3.rgb(
-      (r <= 0 ? 0 : r >= 1 ? 1 : r) * 255 | 0,
-      (g <= 0 ? 0 : g >= 1 ? 1 : g) * 255 | 0,
-      (b <= 0 ? 0 : b >= 1 ? 1 : b) * 255 | 0
-    );
+  d3.scale.cubehelix = function() {
+    return d3.scale.linear()
+        .range([d3.hsl(300, .6, 0), d3.hsl(-240, .6, 1)])
+        .interpolate(d3.interpolateCubehelix);
+  };
+
+  d3.interpolateCubehelix = d3_interpolateCubehelix(1);
+  d3.interpolateCubehelix.gamma = d3_interpolateCubehelix;
+
+  function d3_interpolateCubehelix(γ) {
+    return function(a, b) {
+      a = d3.hsl(a);
+      b = d3.hsl(b);
+
+      var ah = (a.h + 120) * radians,
+          bh = (b.h + 120) * radians - ah,
+          as = a.s,
+          bs = b.s - as,
+          al = a.l,
+          bl = b.l - al;
+
+      if (isNaN(bs)) bs = 0, as = isNaN(as) ? b.s : as;
+      if (isNaN(bh)) bh = 0, ah = isNaN(ah) ? b.h : ah;
+
+      return function(t) {
+        var h = ah + bh * t,
+            l = Math.pow(al + bl * t, γ),
+            a = (as + bs * t) * l * (1 - l);
+        return "#"
+            + hex(l + a * (-0.14861 * Math.cos(h) + 1.78277 * Math.sin(h)))
+            + hex(l + a * (-0.29227 * Math.cos(h) - 0.90649 * Math.sin(h)))
+            + hex(l + a * (+1.97294 * Math.cos(h)));
+      };
+    };
   }
 
-  scale.startHue = function(_) { // start color hue in degrees; defaults to 420°
-    return arguments.length ? (φ0 = _ * π / 180, scale) : φ0 * 180 / π;
-  };
-
-  scale.endHue = function(_) { // end color hue in degrees; defaults to -120°
-    return arguments.length ? (φ1 = _ * π / 180, scale) : φ1 * 180 / π;
-  };
-
-  scale.saturation = function(_) { // mean saturation in [0, 1]; defaults to .6
-    return arguments.length ? (s = +_, scale) : s;
-  };
-
-  scale.gamma = function(_) { // gamma correction value; defaults to 1
-    return arguments.length ? (γ = +_, scale) : γ;
-  };
-
-  d3.rebind(scale, linear, "domain", "clamp", "nice");
-
-  return scale;
-};
+  function hex(v) {
+    var s = (v = v <= 0 ? 0 : v >= 1 ? 255 : v * 255 | 0).toString(16);
+    return v < 0x10 ? "0" + s : s;
+  }
+})();

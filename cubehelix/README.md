@@ -16,7 +16,7 @@ Specifies the ending hue angle of the range in degrees. The last value in the do
 
 <a href="#saturation" name="saturation">#</a> cubehelix.<b>saturation</b>([<i>saturation</i>])
 
-Specifies the average saturation of colors in the output range. If no argument is specified, returns the scale’s current average saturation, which defaults to 0.6. To convert from the original color scheme’s <i>HUE</i> parameter, use the following equality: <i>saturation</i> = <i>HUE</i> / 2.
+Specifies the average saturation of colors in the output range. If no argument is specified, returns the scale’s current average saturation, which defaults to 0.6. Higher values increase the likelihood of out-of-gamut colors, so beware! To convert from the original color scheme’s <i>HUE</i> parameter, use the following equality: <i>saturation</i> = <i>HUE</i> / 2.
 
 <a href="#gamma" name="gamma">#</a> cubehelix.<b>gamma</b>([<i>gamma</i>])
 

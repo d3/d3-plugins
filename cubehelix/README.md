@@ -1,6 +1,6 @@
 An interpolator that implements Dave Green’s [cubehelix color scheme](http://www.mrao.cam.ac.uk/~dag/CUBEHELIX/).
 
-See [bl.ocks.org/11415064](http://bl.ocks.org/mbostock/11415064) for examples.
+See [bl.ocks.org/11413789](http://bl.ocks.org/mbostock/11413789) and [bl.ocks.org/11415064](http://bl.ocks.org/mbostock/11415064) for examples.
 
 <a href="#interpolateCubehelix" name="interpolateCubehelix">#</a> d3.<b>interpolateCubehelix</b>(<i>a</i>, <i>b</i>)
 

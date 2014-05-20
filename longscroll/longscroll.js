@@ -47,27 +47,19 @@ d3.longscroll = function() {
   }
 
   longscroll.render = function(_) {
-    if (!arguments.length) return render;
-    render = _;
-    return longscroll;
+    return arguments.length ? (render = _, longscroll) : render;
   };
 
   longscroll.rowHeight = function(_) {
-    if (!arguments.length) return rowHeight;
-    rowHeight = +_;
-    return longscroll;
+    return arguments.length ? (rowHeight = +_, longscroll) : rowHeight;
   };
 
   longscroll.position = function(_) {
-    if (!arguments.length) return position;
-    position = +_;
-    return longscroll;
+    return arguments.length ? (position = +_, longscroll) : position;
   };
 
   longscroll.size = function(_) {
-    if (!arguments.length) return size;
-    size = +_;
-    return longscroll;
+    return arguments.length ? (size = +_, longscroll) : size;
   };
 
   return longscroll;

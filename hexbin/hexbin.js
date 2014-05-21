@@ -39,7 +39,7 @@ d3.hexbin = function() {
     return d3.values(binsById);
   }
 
-  function hexagon(radius) {
+  hexbin.hexagonCoords = function (radius) {
     var x0 = 0, y0 = 0;
     return d3_hexbinAngles.map(function(angle) {
       var x1 = Math.sin(angle) * radius,
@@ -65,7 +65,7 @@ d3.hexbin = function() {
 
   hexbin.hexagon = function(radius) {
     if (arguments.length < 1) radius = r;
-    return "m" + hexagon(radius).join("l") + "z";
+    return "m" + hexbin.hexagonCoords(radius).join("l") + "z";
   };
 
   hexbin.centers = function() {
@@ -82,7 +82,7 @@ d3.hexbin = function() {
   };
 
   hexbin.mesh = function() {
-    var fragment = hexagon(r).slice(0, 4).join("l");
+    var fragment = hexbin.hexagonCoords(r).slice(0, 4).join("l");
     return hexbin.centers().map(function(p) { return "M" + p + "m" + fragment; }).join("");
   };
 

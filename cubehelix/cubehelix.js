@@ -28,11 +28,13 @@
       return function(t) {
         var h = ah + bh * t,
             l = Math.pow(al + bl * t, γ),
-            a = (as + bs * t) * l * (1 - l);
+            a = (as + bs * t) * l * (1 - l),
+            cosh = Math.cos(h),
+            sinh = Math.sin(h);
         return "#"
-            + hex(l + a * (-0.14861 * Math.cos(h) + 1.78277 * Math.sin(h)))
-            + hex(l + a * (-0.29227 * Math.cos(h) - 0.90649 * Math.sin(h)))
-            + hex(l + a * (+1.97294 * Math.cos(h)));
+            + hex(l + a * (-0.14861 * cosh + 1.78277 * sinh))
+            + hex(l + a * (-0.29227 * cosh - 0.90649 * sinh))
+            + hex(l + a * (+1.97294 * cosh));
       };
     };
   }

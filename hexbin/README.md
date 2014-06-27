@@ -53,6 +53,10 @@ path.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"
 
 If *radius* is not specified, the hexbin’s current radius is used. If *radius* is specified, a hexagon with the specified radius is returned, which is useful for area-encoded bivariate hexbins.
 
+<a href="centers" href="#centers">#</a> hexbin.<b>centers</b>()
+
+Returns an array of [*x*, *y*] points representing the centers of each hexagon. Each point also has properties *i* and *j* representing the grid column and row, respectively, of the hexagon.
+
 <a href="mesh" href="#mesh">#</a> hexbin.<b>mesh</b>()
 
 Returns the SVG path string for a hexagonal mesh that covers the area of the layout (as determined by the layout size). The returned mesh is designed to be stroked. The mesh may extend slightly beyond the layout’s defined area, and thus may need to be clipped.

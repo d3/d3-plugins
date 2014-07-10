@@ -48,7 +48,7 @@ Alternatively, use a transform attribute:
 
 ```js
 path.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
-    .attr("d", hexbin.hexagon);
+    .attr("d", hexbin.hexagon());
 ```
 
 If *radius* is not specified, the hexbin’s current radius is used. If *radius* is specified, a hexagon with the specified radius is returned, which is useful for area-encoded bivariate hexbins.

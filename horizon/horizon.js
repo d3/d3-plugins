@@ -2,7 +2,7 @@
   d3.horizon = function() {
     var bands = 1, // between 1 and 5, typically
         mode = "offset", // or mirror
-        interpolate = "linear", // or basis, monotone, step-before, etc.
+        area = d3.svg.area(),
         x = d3_horizonX,
         y = d3_horizonY,
         width = 960,
@@ -78,14 +78,13 @@
         var path = g.select("g").selectAll("path")
             .data(d3.range(-1, -bands - 1, -1).concat(d3.range(1, bands + 1)), Number);
 
-        var d0 = d3_horizonArea
-            .interpolate(interpolate)
+        var d0 = area
             .x(function(d) { return x0(d[0]); })
             .y0(height * bands)
             .y1(function(d) { return height * bands - y0(d[1]); })
             (data);
 
-        var d1 = d3_horizonArea
+        var d1 = area
             .x(function(d) { return x1(d[0]); })
             .y1(function(d) { return height * bands - y1(d[1]); })
             (data);
@@ -129,12 +128,6 @@
       return horizon;
     };
 
-    horizon.interpolate = function(_) {
-      if (!arguments.length) return interpolate;
-      interpolate = _ + "";
-      return horizon;
-    };
-
     horizon.x = function(_) {
       if (!arguments.length) return x;
       x = _;
@@ -159,11 +152,10 @@
       return horizon;
     };
 
-    return horizon;
+    return d3.rebind(horizon, area, "interpolate", "defined", "tension");
   };
 
-  var d3_horizonArea = d3.svg.area(),
-      d3_horizonId = 0;
+  var d3_horizonId = 0;
 
   function d3_horizonX(d) { return d[0]; }
   function d3_horizonY(d) { return d[1]; }

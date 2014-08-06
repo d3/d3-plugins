@@ -3,6 +3,7 @@
     var bands = 1, // between 1 and 5, typically
         mode = "offset", // or mirror
         area = d3.svg.area(),
+        defined,
         x = d3_horizonX,
         y = d3_horizonY,
         width = 960,
@@ -78,6 +79,8 @@
         var path = g.select("g").selectAll("path")
             .data(d3.range(-1, -bands - 1, -1).concat(d3.range(1, bands + 1)), Number);
 
+        if (defined) area.defined(function(_, i) { return defined.call(this, d[i], i); });
+
         var d0 = area
             .x(function(d) { return x0(d[0]); })
             .y0(height * bands)
@@ -152,7 +155,13 @@
       return horizon;
     };
 
-    return d3.rebind(horizon, area, "interpolate", "defined", "tension");
+    horizon.defined = function(_) {
+      if (!arguments.length) return defined;
+      defined = _;
+      return horizon;
+    };
+
+    return d3.rebind(horizon, area, "interpolate", "tension");
   };
 
   var d3_horizonId = 0;

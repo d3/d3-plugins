@@ -2,7 +2,9 @@ d3.geo.tile = function() {
   var size = [960, 500],
       scale = 256,
       translate = [size[0] / 2, size[1] / 2],
-      zoomDelta = 0;
+      zoomDelta = 0,
+      X = clamp,
+      Y = clamp;
 
   function tile() {
     var z = Math.max(Math.log(scale) / Math.LN2 - 8, 0),
@@ -10,14 +12,17 @@ d3.geo.tile = function() {
         k = Math.pow(2, z - z0 + 8),
         origin = [(translate[0] - scale / 2) / k, (translate[1] - scale / 2) / k],
         tiles = [],
-        cols = d3.range(Math.max(0, Math.floor(-origin[0])), Math.max(0, Math.ceil(size[0] / k - origin[0]))),
-        rows = d3.range(Math.max(0, Math.floor(-origin[1])), Math.max(0, Math.ceil(size[1] / k - origin[1])));
+        w = 1 << z0,
+        x0 = X(Math.floor(-origin[0]), w),
+        y0 = Y(Math.floor(-origin[1]), w),
+        x1 = X(Math.ceil(size[0] / k - origin[0]), w),
+        y1 = Y(Math.ceil(size[1] / k - origin[1]), w);
 
-    rows.forEach(function(y) {
-      cols.forEach(function(x) {
+    for (var y = y0; y < y1; ++y) {
+      for (var x = x0; x < x1; ++x) {
         tiles.push([x, y, z0]);
-      });
-    });
+      }
+    }
 
     tiles.translate = origin;
     tiles.scale = k;
@@ -49,5 +54,15 @@ d3.geo.tile = function() {
     return tile;
   };
 
+  tile.overflow = function(_) {
+    if (!arguments.length) return [X === identity, Y === identity];
+    X = _[0] ? identity : clamp;
+    Y = _[1] ? identity : clamp;
+    return tile;
+  };
+
   return tile;
+
+  function identity(x) { return x; }
+  function clamp(x, max) { return Math.max(0, Math.min(max, x)); }
 };

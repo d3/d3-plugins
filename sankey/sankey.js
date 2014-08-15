@@ -107,25 +107,45 @@ d3.sankey = function() {
   // Nodes are assigned the maximum breadth of incoming neighbors plus one;
   // nodes with no incoming links are assigned breadth zero, while
   // nodes with no outgoing links are assigned the maximum breadth.
+  //
+  // Throws an error in case the graph has any cycles by constantly checking
+  // the invariant that at every time a level is completed there are fewer
+  // nodes left to display.
   function computeNodeBreadths() {
     var remainingNodes = nodes,
+        previousLength = nodes.length,
         nextNodes,
+        enqueued,  
         x = 0;
 
     while (remainingNodes.length) {
       nextNodes = [];
+      enqueued = {};
+
       remainingNodes.forEach(function(node) {
         node.x = x;
         node.dx = nodeWidth;
-        node.sourceLinks.forEach(function(link) {
-          nextNodes.push(link.target);
-        });
+        node.sourceLinks
+          .filter(function(link) {
+            return !enqueued[link.target.name];
+          })
+          .forEach(function(link) {
+            enqueued[link.target.name] = true;
+            nextNodes.push(link.target);
+          });
       });
+
+      newLength = nextNodes.length;
+      if (newLength >= previousLength) {
+        throw new Error("d3-sankey: cannot render sankey diagram because the graph has cycles.");
+      }
+
+      previousLength = newLength;
       remainingNodes = nextNodes;
+
       ++x;
     }
 
-    //
     moveSinksRight(x);
     scaleNodeBreadths((size[0] - nodeWidth) / (x - 1));
   }

@@ -117,8 +117,10 @@ d3.sankey = function() {
       remainingNodes.forEach(function(node) {
         node.x = x;
         node.dx = nodeWidth;
-        node.sourceLinks.forEach(function(link) {
-          nextNodes.push(link.target);
+        node.sourceLinks.forEach(function (link) {
+          if (nextNodes.indexOf(link.target) == -1) {
+            nextNodes.push(link.target);
+          }
         });
       });
       remainingNodes = nextNodes;

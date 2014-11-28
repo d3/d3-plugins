@@ -27,7 +27,6 @@
           face = face.map(project);
           face.push(face[0]);
           face = [face];
-          if (d3.geo.area({type: "Polygon", coordinates: face}) > Math.PI) face[0].reverse();
           return face;
         })
       };
@@ -72,8 +71,8 @@
         for (var j = 0; j < i; ++j) {
           faces.push([
             i1(j / i),
-            i1((j + 1) / i),
-            i2((j + 1) / (i + 1))
+            i2((j + 1) / (i + 1)),
+            i1((j + 1) / i)
           ]);
         }
       }

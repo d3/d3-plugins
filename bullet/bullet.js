@@ -1,4 +1,8 @@
-(function() {
+(function(d3) {
+
+    if(!d3) {
+        return;
+    }
 
 // Chart design based on the recommendations of Stephen Few. Implementation
 // based on the work of Clint Ivy, Jamie Love, and Jason Davies.
@@ -172,4 +176,4 @@ function bulletWidth(x) {
   };
 }
 
-})();
+})(window.d3);

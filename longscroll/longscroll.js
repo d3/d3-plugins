@@ -1,4 +1,8 @@
-(function() {
+(function(d3) {
+
+  if(!d3) {
+    return;
+  }
 
 // Virtual rendering for rows taking up to 1e7px of vertical space.
 // By Jason Davies, http://www.jasondavies.com/
@@ -65,4 +69,4 @@ d3.longscroll = function() {
   return longscroll;
 };
 
-})();
+})(window.d3);

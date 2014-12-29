@@ -1,4 +1,9 @@
-(function() {
+(function(d3) {
+
+  if(!d3) {
+    return;
+  }
+
   var _symbol = d3.svg.symbol(),
       _line = d3.svg.line();
 
@@ -95,4 +100,4 @@
   };
 
   d3.superformulaTypes = d3.keys(_superformulaTypes);
-})();
+})(window.d3);

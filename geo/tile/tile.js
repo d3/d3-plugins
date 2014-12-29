@@ -1,3 +1,8 @@
+(function(d3){
+
+if(d3 && d3.geo){
+
+
 d3.geo.tile = function() {
   var size = [960, 500],
       scale = 256,
@@ -51,3 +56,7 @@ d3.geo.tile = function() {
 
   return tile;
 };
+
+}
+
+})(window.d3);

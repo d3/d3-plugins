@@ -1,3 +1,9 @@
+(function(d3) {
+
+  if(!d3) {
+    return;
+  }
+
 d3.rollup = function() {
   var directed = true,
       x_ = rollupX,
@@ -129,3 +135,5 @@ d3.rollup = function() {
   function rollupLinkSource(d) { return d.source; }
   function rollupLinkTarget(d) { return d.target; }
 };
+
+})(window.d3);

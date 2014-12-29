@@ -1,3 +1,9 @@
+(function(){
+
+  if(!d3) {
+    return;
+  }
+  
 d3.jsonp = function (url, callback) {
   function rand() {
     var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
@@ -23,3 +29,5 @@ d3.jsonp = function (url, callback) {
     .attr('type', 'text/javascript')
     .attr('src', url.replace(/(\{|%7B)callback(\}|%7D)/, cb));
 };
+
+})(window.d3);

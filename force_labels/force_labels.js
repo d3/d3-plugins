@@ -1,5 +1,10 @@
-(function() {
-  d3.force_labels = function force_labels() {    
+(function(d3) {
+
+  if(!d3) {
+    return;
+  }
+
+  d3.force_labels = function force_labels() {
     var labels = d3.layout.force();
       
     // Update the position of the anchor based on the center of bounding box
@@ -54,4 +59,4 @@
     };
     return labels;
   };
-})();
+})(window.d3);

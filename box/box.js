@@ -1,4 +1,8 @@
-(function() {
+(function(d3) {
+
+    if(!d3) {
+        return;
+    }
 
 // Inspired by http://informationandvisualization.de/blog/box-plot
 d3.box = function() {
@@ -298,4 +302,4 @@ function boxQuartiles(d) {
   ];
 }
 
-})();
+})(window.d3);

@@ -1,4 +1,9 @@
-(function() {
+(function(d3) {
+
+  if(!d3) {
+    return;
+  }
+
 
 var ε = 1e-6,
     π = Math.PI,
@@ -433,4 +438,4 @@ function hasInverse(node) {
   return node.project.invert || node.children && node.children.some(hasInverse);
 }
 
-})();
+})(window.d3);

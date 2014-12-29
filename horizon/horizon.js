@@ -1,4 +1,9 @@
-(function() {
+(function(d3) {
+
+  if(!d3) {
+    return;
+  }
+
   d3.horizon = function() {
     var bands = 1, // between 1 and 5, typically
         mode = "offset", // or mirror
@@ -174,4 +179,4 @@
         ? function(d) { return "translate(0," + (d + (d < 0) - bands) * h + ")"; }
         : function(d) { return (d < 0 ? "scale(1,-1)" : "") + "translate(0," + (d - bands) * h + ")"; };
   }
-})();
+})(window.d3);

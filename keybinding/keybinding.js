@@ -1,3 +1,9 @@
+(function(d3){
+
+if(!d3) {
+    return;
+}
+
 /*
  * This code is licensed under the MIT license.
  *
@@ -195,3 +201,5 @@ d3.keybinding = function(namespace) {
         d3.keybinding.keyCodes[String.fromCharCode(i).toLowerCase()] = i;
     }
 })();
+
+})(window.d3);

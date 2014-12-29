@@ -1,3 +1,9 @@
+(function(d3){
+
+if(!d3) {
+  return;
+}
+
 d3.hive = {};
 
 d3.hive.link = function() {
@@ -78,3 +84,5 @@ d3.hive.link = function() {
 
   return link;
 };
+
+})(window.d3);

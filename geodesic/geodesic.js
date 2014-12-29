@@ -1,4 +1,9 @@
-(function() {
+(function(d3) {
+
+  if(!d3) {
+    return;
+  }
+
   var φ = 1.618033988749895,
       ρ = 180 / Math.PI;
 
@@ -128,4 +133,4 @@
       Math.acos(z / Math.sqrt(x * x + y * y + z * z)) * ρ - 90
     ];
   }
-})();
+})(window.d3);

@@ -5,7 +5,6 @@ d3.lasso = function() {
 		closePathSelect = true,
 		isPathClosed = false,
 		hoverSelect = true,
-		points = [],
 		area = null,
 		on = {start:function(){}, draw: function(){}, end: function(){}};
 
@@ -49,7 +48,7 @@ d3.lasso = function() {
 					edges: {top:0,right:0,bottom:0,left:0},
 					close_edges: {left: 0, right: 0}
 			  	};
-			})
+			});
 
 			// if hover is on, add hover function
 			if(hoverSelect==true) {
@@ -104,7 +103,7 @@ d3.lasso = function() {
 			  	close_path.attr("display","none");
 			}
 
-			isPathClosed = distance<=closePathDistance ? true : false;
+			isPathClosed = distance<=closePathDistance;
 
 	  		// create complete path
 	  		var complete_path_d = d3.select("path")[0][0].attributes.d.value + "Z";
@@ -119,12 +118,12 @@ d3.lasso = function() {
 		  		var cur_pos = path_node.getPointAtLength(i);
 		  		var cur_pos_obj = {
 			  		x:Math.round(cur_pos.x*100)/100,
-			  		y:Math.round(cur_pos.y*100)/100,
+			  		y:Math.round(cur_pos.y*100)/100
 			  	};
 			  	var prior_pos = path_node.getPointAtLength(i-1);
 			  	var prior_pos_obj = {
 			  		x:Math.round(prior_pos.x*100)/100,
-			  		y:Math.round(prior_pos.y*100)/100,
+			  		y:Math.round(prior_pos.y*100)/100
 			  	};
 
 		  		items[0].filter(function(d) {
@@ -188,7 +187,7 @@ d3.lasso = function() {
 	  				else {
 	  					a.loopSelected = false;
 	  				}
-	  			});	
+	  			});
 			}
 			else {
 				items[0].forEach(function(d) {
@@ -229,7 +228,7 @@ d3.lasso = function() {
 			origin_node.attr("display","none");
 
 			// Run user defined end function
-			on.end();	
+			on.end();
 	  		
 		}
 	}
@@ -246,7 +245,7 @@ d3.lasso = function() {
     		else {
     			item.attr("d",function(e) {e.possible = false; e.selected = false; return e;});
     		}
-    	})
+    	});
     	return lasso;
 	};
 
@@ -258,19 +257,19 @@ d3.lasso = function() {
 
 	lasso.closePathSelect = function(_) {
 		if (!arguments.length) return closePathSelect;
-    	closePathSelect = _==true ? true : false;
+    	closePathSelect = _==true;
     	return lasso;
 	};
 
 	lasso.isPathClosed = function(_) {
 		if (!arguments.length) return isPathClosed;
-    	isPathClosed = _==true ? true : false;
+    	isPathClosed = _==true;
     	return lasso;
 	};
 
 	lasso.hoverSelect = function(_) {
 		if (!arguments.length) return hoverSelect;
-    	hoverSelect = _==true ? true : false;
+    	hoverSelect = _==true;
     	return lasso;
 	};
 
@@ -280,15 +279,15 @@ d3.lasso = function() {
 		var types = ["start","draw","end"];
 		if(types.indexOf(type)>-1) {
 			on[type] = _;
-		};
+		}
 		return lasso;
-	}
+	};
 
 	lasso.area = function(_) {
 		if(!arguments.length) return area;
 		area=_;
 		return lasso;
-	}
+	};
 
 	function sign(x) {
 		return x?x<0?-1:1:0;

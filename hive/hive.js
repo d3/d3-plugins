@@ -6,7 +6,7 @@ d3.hive.link = function() {
       angle = function(d) { return d.angle; },
       startRadius = function(d) { return d.radius; },
       endRadius = startRadius,
-      arcOffset = -Math.PI / 2;
+      arcOffset = 0;
 
   function link(d, i) {
     var s = node(source, this, d, i),

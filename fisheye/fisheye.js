@@ -11,10 +11,14 @@
           focus = [0, 0];
 
       function fisheye(d) {
+        if(d.x === focus[0] && d.y === focus[1]) {
+          focus[ 0 ] -= 0.00001;
+          focus[ 1 ] -= 0.00001;
+        }
         var dx = d.x - focus[0],
             dy = d.y - focus[1],
             dd = Math.sqrt(dx * dx + dy * dy);
-        if (!dd || dd >= radius) return {x: d.x, y: d.y, z: 1};
+        if (dd >= radius) return {x: d.x, y: d.y, z: 1};
         var k = k0 * (1 - Math.exp(-dd * k1)) / dd * .75 + .25;
         return {x: focus[0] + dx * k, y: focus[1] + dy * k, z: Math.min(k, 10)};
       }
@@ -83,3 +87,4 @@
     return d3.rebind(fisheye, scale, "domain", "range");
   }
 })();
+

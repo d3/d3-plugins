@@ -7,9 +7,9 @@ d3.bullet = function() {
   var orient = "left",
       reverse = false,
       vertical = false,
-      ranges = bulletRanges,
-      markers = bulletMarkers,
-      measures = bulletMeasures,
+      ranges = function(d){return d.ranges},
+      markers = function(d){return d.markers},
+      measures = function(d){return d.measures},
       width = 380,
       height = 30,
       xAxis = d3.svg.axis();
@@ -17,12 +17,16 @@ d3.bullet = function() {
   // For each small multiple…
   function bullet(g) {
     g.each(function(d, i) {
-      var rangez = ranges.call(this, d, i).slice().sort(d3.descending),
-          markerz = markers.call(this, d, i).slice().sort(d3.descending),
-          measurez = measures.call(this, d, i).slice().sort(d3.descending),
+      var rangez = typeof ranges === "function" ? ranges.call(this, d, i) : ranges,
+          markerz = typeof markers === "function" ? markers.call(this, d, i) : markers,
+          measurez = typeof measures === "function" ? measures.call(this, d, i) : measures,
           g = d3.select(this),
           extentX,
           extentY;
+
+      rangez = rangez.slice().sort(d3.descending);
+      markerz = markerz.slice();
+      measurez = measurez.slice();
 
       var wrap = g.select("g.wrap");
       if (wrap.empty()) wrap = g.append("g").attr("class", "wrap");
@@ -32,12 +36,12 @@ d3.bullet = function() {
         wrap.attr("transform", "rotate(90)translate(0," + -width + ")");
       } else {
         extentX = width, extentY = height;
-        wrap.attr("transform", "translate(0)");
+        wrap.attr("transform", null);
       }
 
       // Compute the new x-scale.
       var x1 = d3.scale.linear()
-          .domain([0, Math.max(rangez[0], markerz[0], measurez[0])])
+          .domain([0, Math.max(rangez[0], d3.max(markerz), d3.max(measurez))])
           .range(reverse ? [extentX, 0] : [0, extentX]);
 
       // Retrieve the old x-scale, if this is an update.
@@ -57,7 +61,7 @@ d3.bullet = function() {
           .data(rangez);
 
       range.enter().append("rect")
-          .attr("class", function(d, i) { return "range s" + i; })
+          .attr("class", function(d, i) { return "range s"+i+" t"+range.size(); })
           .attr("width", w0)
           .attr("height", extentY)
           .attr("x", reverse ? x0 : 0)
@@ -67,29 +71,12 @@ d3.bullet = function() {
           .attr("width", w1)
           .attr("height", extentY);
 
-      // Update the measure rects.
-      var measure = wrap.selectAll("rect.measure")
-          .data(measurez);
-
-      measure.enter().append("rect")
-          .attr("class", function(d, i) { return "measure s" + i; })
-          .attr("width", w0)
-          .attr("height", extentY / 3)
-          .attr("x", reverse ? x0 : 0)
-          .attr("y", extentY / 3);
-
-      d3.transition(measure)
-          .attr("width", w1)
-          .attr("height", extentY / 3)
-          .attr("x", reverse ? x1 : 0)
-          .attr("y", extentY / 3);
-
       // Update the marker lines.
       var marker = wrap.selectAll("line.marker")
           .data(markerz);
 
       marker.enter().append("line")
-          .attr("class", "marker")
+          .attr("class", function(d, i) { return "marker s"+i; })
           .attr("x1", x0)
           .attr("x2", x0)
           .attr("y1", extentY / 6)
@@ -101,8 +88,27 @@ d3.bullet = function() {
           .attr("y1", extentY / 6)
           .attr("y2", extentY * 5 / 6);
 
+      // Update the measure rects.
+      var measure = wrap.selectAll("rect.measure")
+          .data(measurez);
+
+      measure.enter().append("rect")
+          .attr("class", function(d, i) { return "measure s"+i; })
+          .sort(d3.descending)
+          .attr("width", w0)
+          .attr("height", extentY / 3)
+          .attr("x", reverse ? x0 : 0)
+          .attr("y", extentY / 3);
+
+      d3.transition(measure)
+          .attr("width", w1)
+          .attr("height", extentY / 3)
+          .attr("x", reverse ? x1 : 0)
+          .attr("y", extentY / 3);
+
       var axis = g.selectAll("g.axis").data([0]);
       axis.enter().append("g").attr("class", "axis");
+      if (!vertical) axis.attr("transform", "translate(0,"+extentY+")")
       axis.call(xAxis.scale(x1));
     });
     d3.timer.flush();
@@ -152,18 +158,6 @@ d3.bullet = function() {
 
   return d3.rebind(bullet, xAxis, "tickFormat");
 };
-
-function bulletRanges(d) {
-  return d.ranges;
-}
-
-function bulletMarkers(d) {
-  return d.markers;
-}
-
-function bulletMeasures(d) {
-  return d.measures;
-}
 
 function bulletWidth(x) {
   var x0 = x(0);

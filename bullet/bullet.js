@@ -32,7 +32,7 @@ d3.bullet = function() {
         wrap.attr("transform", "rotate(90)translate(0," + -width + ")");
       } else {
         extentX = width, extentY = height;
-        wrap.attr("transform", "translate(0)");
+        wrap.attr("transform", null);
       }
 
       // Compute the new x-scale.
@@ -103,7 +103,8 @@ d3.bullet = function() {
 
       var axis = g.selectAll("g.axis").data([0]);
       axis.enter().append("g").attr("class", "axis");
-      axis.call(xAxis.scale(x1));
+      axis.attr("transform", vertical ? null : "translate(0," + extentY + ")")
+          .call(xAxis.scale(x1));
     });
     d3.timer.flush();
   }

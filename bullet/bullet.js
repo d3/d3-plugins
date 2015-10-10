@@ -103,6 +103,11 @@ d3.bullet = function() {
 
       var axis = g.selectAll("g.axis").data([0]);
       axis.enter().append("g").attr("class", "axis");
+
+      if (!vertical) {
+        axis.attr("transform", "translate(0," + height + ")");
+      }
+
       axis.call(xAxis.scale(x1));
     });
     d3.timer.flush();

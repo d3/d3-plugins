@@ -9,6 +9,9 @@ var sankey = d3.sankey()
     .nodePadding(10)
     .nodes(energy.nodes)
     .links(energy.links)
+    .overlapLinksAtSources(false)
+    .overlapLinksAtTargets(false)
+    .minValue(1)
     .layout(32);
 ```
 

@@ -4,7 +4,8 @@ d3.sankey = function() {
       nodePadding = 8,
       size = [1, 1],
       nodes = [],
-      links = [];
+      links = [],
+      sourceDepthSortWeight = 3;
 
   sankey.nodeWidth = function(_) {
     if (!arguments.length) return nodeWidth;
@@ -274,7 +275,7 @@ d3.sankey = function() {
     });
 
     function ascendingSourceDepth(a, b) {
-      return a.source.y - b.source.y;
+       return -(Math.atan((a.target.y - a.source.y) / Math.pow(a.target.x - a.source.x, sourceDepthSortWeight)) - Math.atan((b.target.y - b.source.y) / Math.pow(b.target.x - b.source.x, sourceDepthSortWeight)));
     }
 
     function ascendingTargetDepth(a, b) {

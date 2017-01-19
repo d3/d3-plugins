@@ -114,14 +114,24 @@
 
     horizon.bands = function(_) {
       if (!arguments.length) return bands;
+      // Get original unscaled color scale domain.
+      domain = color.domain().map(function(d) { return d / bands; });
+      // Update bands and color scale domain.
       bands = +_;
-      color.domain([-bands, 0, bands]);
-      return horizon;
+      color.domain(domain.map(function(d) { return d * bands; }));
     };
 
     horizon.mode = function(_) {
       if (!arguments.length) return mode;
       mode = _ + "";
+      return horizon;
+    };
+
+    horizon.colorDomain = function(_) {
+      if (!arguments.length) return color.domain();
+      // Rescale domain to bands.
+      _ = _.map(function(d) { return d * bands; });
+      color.domain(_);
       return horizon;
     };
 

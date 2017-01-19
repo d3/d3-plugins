@@ -19,6 +19,9 @@ d3.sankey = function() {
   };
 
   sankey.nodes = function(_) {
+	// nodes are a list of objects, with a name parameter identifying a label
+	// and, optionally, an xpos parameter, identifying the horizontal position 
+	// of the node.  E.g.: {name:'foo', xpos:3}	
     if (!arguments.length) return nodes;
     nodes = _;
     return sankey;
@@ -107,16 +110,24 @@ d3.sankey = function() {
   // Nodes are assigned the maximum breadth of incoming neighbors plus one;
   // nodes with no incoming links are assigned breadth zero, while
   // nodes with no outgoing links are assigned the maximum breadth.
+  // nodes with xpos defined override the above rules
   function computeNodeBreadths() {
     var remainingNodes = nodes,
         nextNodes,
-        x = 0;
-
+        x = 0,
+		maxx = 0;
+	
     while (remainingNodes.length) {
       nextNodes = [];
       remainingNodes.forEach(function(node) {
-        node.x = x;
         node.dx = nodeWidth;
+		if(node.xpos != null) {
+			node.x = node.xpos;
+			if(node.x+1 > maxx)
+				maxx = node.x+1;
+			return;
+		}
+        node.x = x;
         node.sourceLinks.forEach(function(link) {
           if (nextNodes.indexOf(link.target) < 0) {
             nextNodes.push(link.target);
@@ -127,14 +138,15 @@ d3.sankey = function() {
       ++x;
     }
 
-    //
-    moveSinksRight(x);
-    scaleNodeBreadths((size[0] - nodeWidth) / (x - 1));
+    if(x > maxx)
+		maxx = x;
+    moveSinksRight(maxx);
+    scaleNodeBreadths((size[0] - nodeWidth) / (maxx - 1));
   }
 
   function moveSourcesRight() {
     nodes.forEach(function(node) {
-      if (!node.targetLinks.length) {
+      if (!node.targetLinks.length && node.xpos == null) {
         node.x = d3.min(node.sourceLinks, function(d) { return d.target.x; }) - 1;
       }
     });
@@ -142,7 +154,7 @@ d3.sankey = function() {
 
   function moveSinksRight(x) {
     nodes.forEach(function(node) {
-      if (!node.sourceLinks.length) {
+      if (!node.sourceLinks.length && node.xpos == null) {
         node.x = x - 1;
       }
     });

@@ -71,12 +71,16 @@ d3.box = function() {
       center.transition()
           .duration(duration)
           .style("opacity", 1)
+          .attr("x1", width / 2)
+          .attr("x2", width / 2)
           .attr("y1", function(d) { return x1(d[0]); })
           .attr("y2", function(d) { return x1(d[1]); });
 
       center.exit().transition()
           .duration(duration)
           .style("opacity", 1e-6)
+          .attr("x1", width / 2)
+          .attr("x2", width / 2)
           .attr("y1", function(d) { return x1(d[0]); })
           .attr("y2", function(d) { return x1(d[1]); })
           .remove();
@@ -99,7 +103,10 @@ d3.box = function() {
       box.transition()
           .duration(duration)
           .attr("y", function(d) { return x1(d[2]); })
+          .attr("width", width)
           .attr("height", function(d) { return x1(d[0]) - x1(d[2]); });
+
+
 
       // Update median line.
       var medianLine = g.selectAll("line.median")
@@ -118,6 +125,8 @@ d3.box = function() {
 
       medianLine.transition()
           .duration(duration)
+          .attr("x1", 0)
+          .attr("x2", width)
           .attr("y1", x1)
           .attr("y2", x1);
 
@@ -140,6 +149,8 @@ d3.box = function() {
 
       whisker.transition()
           .duration(duration)
+          .attr("x1", 0)
+          .attr("x2", width)
           .attr("y1", x1)
           .attr("y2", x1)
           .style("opacity", 1);
@@ -168,6 +179,7 @@ d3.box = function() {
 
       outlier.transition()
           .duration(duration)
+          .attr("cx", width / 2)
           .attr("cy", function(i) { return x1(d[i]); })
           .style("opacity", 1);
 
@@ -199,6 +211,8 @@ d3.box = function() {
       boxTick.transition()
           .duration(duration)
           .text(format)
+          .attr("dx", function(d, i) { return i & 1 ? 6 : -6; })
+          .attr("x", function(d, i) { return i & 1 ? width : 0; })
           .attr("y", x1);
 
       // Update whisker ticks. These are handled separately from the box
@@ -223,6 +237,8 @@ d3.box = function() {
       whiskerTick.transition()
           .duration(duration)
           .text(format)
+          .attr("dx", 6)
+          .attr("x", width)
           .attr("y", x1)
           .style("opacity", 1);
 

@@ -4,7 +4,8 @@ d3.sankey = function() {
       nodePadding = 8,
       size = [1, 1],
       nodes = [],
-      links = [];
+      links = [],
+      sinksRight = true;
 
   sankey.nodeWidth = function(_) {
     if (!arguments.length) return nodeWidth;
@@ -35,6 +36,12 @@ d3.sankey = function() {
     size = _;
     return sankey;
   };
+
+ sankey.sinksRight = function (_) {
+    if (!arguments.length) return sinksRight;
+    sinksRight = _;
+    return sankey;
+ };
 
   sankey.layout = function(iterations) {
     computeNodeLinks();
@@ -128,7 +135,7 @@ d3.sankey = function() {
     }
 
     //
-    moveSinksRight(x);
+    if (sinksRight) moveSinksRight(x);
     scaleNodeBreadths((size[0] - nodeWidth) / (x - 1));
   }
 

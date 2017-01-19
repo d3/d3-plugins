@@ -1,3 +1,15 @@
+
+;(function() {
+var has_require = typeof require !== 'undefined';
+
+  var d3 = this.d3;
+if( typeof d3 === 'undefined' ) {
+  if( has_require ) {
+    d3 = require('d3');
+  }
+  else throw new Error('d3 plugins require d3');
+}
+
 d3.sankey = function() {
   var sankey = {},
       nodeWidth = 24,
@@ -292,3 +304,4 @@ d3.sankey = function() {
 
   return sankey;
 };
+}).call(this);

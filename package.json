@@ -1,0 +1,10 @@
+{
+    "name": "d3-plugins",
+    "version": "0.1.0",
+
+    "peerDependencies": {
+        "d3": "^3.5.0"
+    },
+
+    "main": "pluginloader.js"
+}

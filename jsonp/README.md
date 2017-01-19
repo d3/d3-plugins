@@ -11,13 +11,8 @@ supports formats besides JSON. See [enable-cors.org](http://enable-cors.org/) fo
 information.
 
 ```js
-// autogenerate a callback in the form d3.jsonp.foo
-d3.jsonp('foo.jsonp?callback={callback}', function() {
-  console.log(arguments);
-});
-
-// specify a callback
-d3.jsonp('foo.jsonp?callback=d3.jsonp.foo', function() {
+// autogenerate a callback in the form fiFThTeENchaRS()
+d3.jsonp('foo.jsonp', function() {
   console.log(arguments);
 });
 ```

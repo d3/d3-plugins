@@ -50,6 +50,40 @@ d3.sankey = function() {
     return sankey;
   };
 
+  sankey.linkAdjusted = function() {
+    var curvature = .5;
+
+    function link(d, adjustment, segmentOffset) {
+      var x0 = d.source.x + d.source.dx,
+          x1 = d.target.x,
+          xi = d3.interpolateNumber(x0, x1),
+          x2 = xi(curvature),
+          x3 = xi(1 - curvature),
+          y0 = d.source.y + d.sy + segmentOffset,
+          y1 = d.target.y + d.ty + segmentOffset,
+          y2 = d.target.y + d.ty + (d.dy * adjustment) + segmentOffset,
+          y3 = d.source.y + d.sy + (d.dy * adjustment) + segmentOffset;
+
+      return "M" + x0 + "," + y0
+           + "C" + x2 + "," + y0
+           + " " + x3 + "," + y1
+           + " " + x1 + "," + y1
+           + "L" + x1 + "," + y2
+           + "C" + x3 + "," + y2
+           + " " + x2 + "," + y3
+           + " " + x0 + "," + y3
+           + "Z";
+    }
+
+    link.curvature = function(_) {
+      if (!arguments.length) return curvature;
+      curvature = +_;
+      return link;
+    };
+
+    return link;
+  };
+
   sankey.link = function() {
     var curvature = .5;
 
@@ -59,12 +93,38 @@ d3.sankey = function() {
           xi = d3.interpolateNumber(x0, x1),
           x2 = xi(curvature),
           x3 = xi(1 - curvature),
-          y0 = d.source.y + d.sy + d.dy / 2,
-          y1 = d.target.y + d.ty + d.dy / 2;
+          y0 = d.source.y + d.sy,
+          y1 = d.target.y + d.ty,
+          y2 = d.target.y + d.ty + d.dy,
+          y3 = d.source.y + d.sy + d.dy;
+
+      if (y3 - y0 < 30000) {
+
       return "M" + x0 + "," + y0
            + "C" + x2 + "," + y0
            + " " + x3 + "," + y1
-           + " " + x1 + "," + y1;
+           + " " + x1 + "," + y1
+           + "L" + x1 + "," + y2
+           + "C" + x3 + "," + y2
+           + " " + x2 + "," + y3
+           + " " + x0 + "," + y3
+           + "Z";
+         }
+         else {
+
+          var offset = (x1 - x0) /4;
+      return "M" + x0 + "," + y0
+           + "C" + x2 + "," + y0
+           + " " + x3 + "," + (y1)
+           + " " + (x1 - offset) + "," + (y1 + 0)
+           + "L" + (x1 - 6) + "," + ((y2 + y1)/2)
+           + "L" + (x1 - offset) + "," + (y2 + 0)
+           + "C" + x3 + "," + (y2)
+           + " " + x2 + "," + y3
+           + " " + x0 + "," + y3
+           + "Z";
+
+         }
     }
 
     link.curvature = function(_) {
@@ -108,6 +168,7 @@ d3.sankey = function() {
   // nodes with no incoming links are assigned breadth zero, while
   // nodes with no outgoing links are assigned the maximum breadth.
   function computeNodeBreadths() {
+
     var remainingNodes = nodes,
         nextNodes,
         x = 0;
@@ -127,7 +188,6 @@ d3.sankey = function() {
       ++x;
     }
 
-    //
     moveSinksRight(x);
     scaleNodeBreadths((size[0] - nodeWidth) / (x - 1));
   }

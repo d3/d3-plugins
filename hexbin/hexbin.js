@@ -68,6 +68,11 @@ d3.hexbin = function() {
     return "m" + hexagon(radius).join("l") + "z";
   };
 
+  hexbin.hexagonArray = function(radius) {
+    if (arguments.length < 1) radius = r;
+    return hexagon(radius);
+  };
+
   hexbin.centers = function() {
     var centers = [];
     for (var y = 0, odd = false, j = 0; y < height + r; y += dy, odd = !odd, ++j) {

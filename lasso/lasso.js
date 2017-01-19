@@ -106,7 +106,7 @@ d3.lasso = function() {
 			isPathClosed = distance<=closePathDistance;
 
 	  		// create complete path
-	  		var complete_path_d = d3.select("path")[0][0].attributes.d.value + "Z";
+	  		var complete_path_d = path + "Z";
 	  		complete_path.attr("d",complete_path_d);
 
 			// get path length

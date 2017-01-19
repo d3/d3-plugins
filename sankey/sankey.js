@@ -259,22 +259,31 @@ d3.sankey = function() {
   function computeLinkDepths() {
     nodes.forEach(function(node) {
       node.sourceLinks.sort(ascendingTargetDepth);
-      node.targetLinks.sort(ascendingSourceDepth);
     });
     nodes.forEach(function(node) {
-      var sy = 0, ty = 0;
+      var sy = 0;
       node.sourceLinks.forEach(function(link) {
         link.sy = sy;
         sy += link.dy;
       });
+    });
+    nodes.forEach(function(node) {
+      node.targetLinks.sort(descendingLinkSlope);
+    });
+    nodes.forEach(function(node) {
+      var ty = 0;
       node.targetLinks.forEach(function(link) {
         link.ty = ty;
         ty += link.dy;
       });
     });
 
-    function ascendingSourceDepth(a, b) {
-      return a.source.y - b.source.y;
+    function descendingLinkSlope(a, b) {
+        function slope(l) {
+          return (l.target.y - (l.source.y + l.sy)) /
+              (l.target.x - l.source.x);
+        }
+        return slope(b) - slope(a);
     }
 
     function ascendingTargetDepth(a, b) {

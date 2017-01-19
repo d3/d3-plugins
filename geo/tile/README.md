@@ -1,6 +1,7 @@
 # Zoomable Tiles
 
 * Panning & Zooming: <http://bl.ocks.org/mbostock/4132797>
+* Panning & Zooming (Wrapped): <http://bl.ocks.org/jasondavies/0051a06829e72b423ba9>
 * Clipping: <http://bl.ocks.org/mbostock/4150951>
 * Vector Tiles: <http://bl.ocks.org/mbostock/5593150>
 * Raster Tiles & Vector Overlay: <http://bl.ocks.org/mbostock/5342063>

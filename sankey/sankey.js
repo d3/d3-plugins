@@ -127,7 +127,6 @@ d3.sankey = function() {
       ++x;
     }
 
-    //
     moveSinksRight(x);
     scaleNodeBreadths((size[0] - nodeWidth) / (x - 1));
   }
@@ -161,7 +160,6 @@ d3.sankey = function() {
         .entries(nodes)
         .map(function(d) { return d.values; });
 
-    //
     initializeNodeDepth();
     resolveCollisions();
     for (var alpha = 1; iterations > 0; --iterations) {
@@ -235,7 +233,7 @@ d3.sankey = function() {
           y0 = node.y + node.dy + nodePadding;
         }
 
-        // If the bottommost node goes outside the bounds, push it back up.
+        // If the bottom-most node goes outside the bounds, push it back up.
         dy = y0 - nodePadding - size[1];
         if (dy > 0) {
           y0 = node.y -= dy;

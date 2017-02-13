@@ -1,4 +1,8 @@
-(function() {
+(function(d3) {
+  if(!d3){
+      return;
+  }
+  
   d3.urlencode = function(name, value) {
     var array = [];
     d3_arraySubclass(array, d3_urlencodePrototype);
@@ -34,4 +38,4 @@
   function d3_urlencode(value) {
     return encodeURIComponent(value).replace(/%20/g, "+");
   }
-})();
+})(window.d3);

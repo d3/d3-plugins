@@ -1,4 +1,8 @@
-(function() {
+(function(d3) {
+
+    if(!d3) {
+        return;
+    }
 
 d3.geom.contour = function(grid, start) {
   var s = start || d3_geom_contourStart(grid), // starting point
@@ -69,4 +73,4 @@ function d3_geom_contourStart(grid) {
   }
 }
 
-})();
+})(window.d3);

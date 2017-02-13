@@ -1,4 +1,8 @@
-(function() {
+(function(d3) {
+
+  if(!d3) {
+    return;
+  }
 
 var ρ = Math.SQRT2,
     ρ2 = 2,
@@ -58,4 +62,4 @@ function tanh(x) {
   return sinh(x) / cosh(x);
 }
 
-})();
+})(window.d3);

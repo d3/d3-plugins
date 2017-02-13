@@ -1,4 +1,8 @@
-(function() {
+(function(d3) {
+
+  if(!d3) {
+    return;
+  }
 
 // Based on http://vis.stanford.edu/protovis/ex/qqplot.html
 d3.qq = function() {
@@ -246,4 +250,4 @@ function qqY(d) {
   return d.y;
 }
 
-})();
+})(window.d3);

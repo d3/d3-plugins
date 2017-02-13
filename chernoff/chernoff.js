@@ -1,4 +1,9 @@
-(function() {
+(function(d3) {
+
+    if(!d3) {
+        return;
+    }
+
 function sign(num) {
     if(num > 0) {
         return 1;
@@ -173,4 +178,4 @@ function d3_chernoff() {
 d3.chernoff = function() {
     return d3_chernoff(Object);
 };
-})();
+})(window.d3);

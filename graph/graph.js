@@ -1,4 +1,8 @@
 (function(d3) {
+  if(!d3) {
+    return;
+  }
+
   d3.graph = function (graph) {
     var graph = graph ? graph : {},
         nodes = [],
@@ -125,4 +129,4 @@
   };
 
 
-})(d3);
+})(window.d3);

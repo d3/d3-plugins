@@ -1,4 +1,9 @@
-(function() {
+(function(d3) {
+
+  if(!d3) {
+    return;
+  }
+
   var radians = Math.PI / 180;
 
   d3.scale.cubehelix = function() {
@@ -43,4 +48,4 @@
     var s = (v = v <= 0 ? 0 : v >= 1 ? 255 : v * 255 | 0).toString(16);
     return v < 0x10 ? "0" + s : s;
   }
-})();
+})(window.d3);

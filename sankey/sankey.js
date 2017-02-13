@@ -59,12 +59,22 @@ d3.sankey = function() {
           xi = d3.interpolateNumber(x0, x1),
           x2 = xi(curvature),
           x3 = xi(1 - curvature),
-          y0 = d.source.y + d.sy + d.dy / 2,
-          y1 = d.target.y + d.ty + d.dy / 2;
+          x4 = x3 + ((d.dy < 15) ? ((d.source.y < d.target.y) ? -1 * d.dy : d.dy) : 0),
+          x5 = x2 + ((d.dy < 15) ? ((d.source.y < d.target.y) ? -1 * d.dy : d.dy) : 0),
+          y0 = d.source.y + d.sy,
+          y1 = d.target.y + d.ty,
+          y2 = y1 + d.dy,
+          y3 = y0 + d.dy;
+
       return "M" + x0 + "," + y0
            + "C" + x2 + "," + y0
            + " " + x3 + "," + y1
-           + " " + x1 + "," + y1;
+           + " " + x1 + "," + y1
+           + "v" + d.dy
+           + "C" + x4 + "," + y2
+           + " " + x5 + "," + y3
+           + " " + x0 + "," + y3
+           + "Z";
     }
 
     link.curvature = function(_) {

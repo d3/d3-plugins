@@ -38,14 +38,12 @@ d3.keybinding = function(namespace) {
 
     function keybinding(selection) {
         selection = selection || d3.select(document);
-        selection.on('keydown.capture' + namespace, capture, true);
         selection.on('keydown.bubble' + namespace, bubble, false);
         return keybinding;
     }
 
     keybinding.off = function(selection) {
         selection = selection || d3.select(document);
-        selection.on('keydown.capture' + namespace, null);
         selection.on('keydown.bubble' + namespace, null);
         return keybinding;
     };
